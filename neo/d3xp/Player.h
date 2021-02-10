@@ -826,7 +826,6 @@ private:
 	idAngles				GunTurningOffset();
 	idVec3					GunAcceleratingOffset();
 
-	void					UseObjects();
 	void					CrashLand( const idVec3 &oldOrigin, const idVec3 &oldVelocity );
 	void					BobCycle( const idVec3 &pushVelocity );
 	void					UpdateViewAngles();
@@ -868,7 +867,6 @@ public:
 	void					Event_SelectWeapon( const char *weaponName );
 	void					Event_GetWeaponEntity();
 	void					Event_OpenPDA();
-	void					Event_PDAAvailable();
 	void					Event_InPDA();
 	void					Event_ExitTeleporter();
 	void					Event_HideTip();

@@ -380,6 +380,9 @@
       <Filter>Weapons</Filter>
     </ClCompile>
     <ClCompile Include="d3xp\Game_Precompiled.cpp" />
+    <ClCompile Include="d3xp\gamesys\GameTypeInfo.cpp">
+      <Filter>GameSys</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3xp\ai\AAS.h">

@@ -64,7 +64,7 @@ int main( int argc, char** argv ) {
 	generator = new idTypeInfoGen;
 
 	sourcePath = "d3xp";
-	fileName = "d3xp/gamesys/GameTypeInfo.h";
+	fileName = "d3xp/gamesys/GameTypeInfo";
 
 	generator->AddDefine("__cplusplus");
 	generator->AddDefine("GAME_DLL");

@@ -36,9 +36,6 @@ instancing of objects.
 #define private		public
 #define protected	public
 #define _ALLOW_KEYWORD_MACROS
-
-#pragma warning(disable : 4189)
-#pragma warning(disable : 4505)
 #pragma hdrstop
 #include "../precompiled.h"
 #include "../Game_local.h"
@@ -249,6 +246,15 @@ bool	idClass::initialized	= false;
 int		idClass::typeNumBits	= 0;
 int		idClass::memused		= 0;
 int		idClass::numobjects		= 0;
+
+/*
+================
+idClass::GetTypeNumBits
+================
+*/
+int idClass::GetTypeNumBits() { 
+	return typeNumBits; 
+}
 
 /*
 ================

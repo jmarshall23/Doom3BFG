@@ -37,15 +37,6 @@ Vagary specific AI code
 #include "../precompiled.h"
 #include "../Game_local.h"
 
-class idAI_Vagary : public idAI {
-public:
-	CLASS_PROTOTYPE( idAI_Vagary );
-
-private:
-	void	Event_ChooseObjectToThrow( const idVec3 &mins, const idVec3 &maxs, float speed, float minDist, float offset );
-	void	Event_ThrowObjectAtEnemy( idEntity *ent, float speed );
-};
-
 const idEventDef AI_Vagary_ChooseObjectToThrow( "vagary_ChooseObjectToThrow", "vvfff", 'e' );
 const idEventDef AI_Vagary_ThrowObjectAtEnemy( "vagary_ThrowObjectAtEnemy", "ef" );
 

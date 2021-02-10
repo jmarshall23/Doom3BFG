@@ -236,7 +236,7 @@ public:
 	static void					ListClasses_f( const idCmdArgs &args );
 	static idClass *			CreateInstance( const char *name );
 	static int					GetNumTypes() { return types.Num(); }
-	static int					GetTypeNumBits() { return typeNumBits; }
+	static int					GetTypeNumBits();
 	static idTypeInfo *			GetType( int num );
 
 private:
