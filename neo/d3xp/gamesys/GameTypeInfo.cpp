@@ -69,15 +69,13 @@ intptr_t idPhysics_Static::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		IsAtRest();
-		return 0;
+		return (intptr_t)IsAtRest();
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
 		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		IsPushable();
-		return 0;
+		return (intptr_t)IsPushable();
 	};
 	if(functionNameHash == 112278) { // SaveState
 		SaveState();
@@ -112,8 +110,7 @@ intptr_t idPhysics_Static::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		EvaluateContacts();
-		return 0;
+		return (intptr_t)EvaluateContacts();
 	};
 	if(functionNameHash == 178966) { // GetNumContacts
 		return (intptr_t)GetNumContacts();
@@ -123,8 +120,7 @@ intptr_t idPhysics_Static::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 221187) { // HasGroundContacts
-		HasGroundContacts();
-		return 0;
+		return (intptr_t)HasGroundContacts();
 	};
 	if(functionNameHash == 188391) { // GetBlockingInfo
 		return (intptr_t)GetBlockingInfo();
@@ -159,15 +155,13 @@ intptr_t idPhysics_StaticMulti::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		IsAtRest();
-		return 0;
+		return (intptr_t)IsAtRest();
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
 		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		IsPushable();
-		return 0;
+		return (intptr_t)IsPushable();
 	};
 	if(functionNameHash == 112278) { // SaveState
 		SaveState();
@@ -202,8 +196,7 @@ intptr_t idPhysics_StaticMulti::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		EvaluateContacts();
-		return 0;
+		return (intptr_t)EvaluateContacts();
 	};
 	if(functionNameHash == 178966) { // GetNumContacts
 		return (intptr_t)GetNumContacts();
@@ -213,8 +206,7 @@ intptr_t idPhysics_StaticMulti::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 221187) { // HasGroundContacts
-		HasGroundContacts();
-		return 0;
+		return (intptr_t)HasGroundContacts();
 	};
 	if(functionNameHash == 188391) { // GetBlockingInfo
 		return (intptr_t)GetBlockingInfo();
@@ -249,15 +241,13 @@ intptr_t idPhysics_Base::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		IsAtRest();
-		return 0;
+		return (intptr_t)IsAtRest();
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
 		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		IsPushable();
-		return 0;
+		return (intptr_t)IsPushable();
 	};
 	if(functionNameHash == 112278) { // SaveState
 		SaveState();
@@ -292,8 +282,7 @@ intptr_t idPhysics_Base::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		EvaluateContacts();
-		return 0;
+		return (intptr_t)EvaluateContacts();
 	};
 	if(functionNameHash == 178966) { // GetNumContacts
 		return (intptr_t)GetNumContacts();
@@ -303,8 +292,7 @@ intptr_t idPhysics_Base::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 221187) { // HasGroundContacts
-		HasGroundContacts();
-		return 0;
+		return (intptr_t)HasGroundContacts();
 	};
 	if(functionNameHash == 188391) { // GetBlockingInfo
 		return (intptr_t)GetBlockingInfo();
@@ -327,8 +315,7 @@ intptr_t idPhysics_Base::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 181023) { // IsOutsideWorld
-		IsOutsideWorld();
-		return 0;
+		return (intptr_t)IsOutsideWorld();
 	};
 	return 0;
 
@@ -351,8 +338,7 @@ intptr_t idPhysics_Actor::Invoke(const char *functionName) {
 		return (intptr_t)GetNumClipModels();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		IsPushable();
-		return 0;
+		return (intptr_t)IsPushable();
 	};
 	if(functionNameHash == 180437) { // GetGravityAxis
 		GetGravityAxis();
@@ -375,8 +361,7 @@ intptr_t idPhysics_Actor::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		EvaluateContacts();
-		return 0;
+		return (intptr_t)EvaluateContacts();
 	};
 	return 0;
 
@@ -389,8 +374,7 @@ intptr_t idPhysics_Monster::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 99611) { // OnGround
-		OnGround();
-		return 0;
+		return (intptr_t)OnGround();
 	};
 	if(functionNameHash == 167117) { // GetMoveResult
 		GetMoveResult();
@@ -419,8 +403,7 @@ intptr_t idPhysics_Monster::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		IsAtRest();
-		return 0;
+		return (intptr_t)IsAtRest();
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
 		return (intptr_t)GetRestStartTime();
@@ -455,24 +438,20 @@ intptr_t idPhysics_Player::Invoke(const char *functionName) {
 		return (intptr_t)GetWaterType();
 	};
 	if(functionNameHash == 110484) { // HasJumped
-		HasJumped();
-		return 0;
+		return (intptr_t)HasJumped();
 	};
 	if(functionNameHash == 150305) { // HasSteppedUp
-		HasSteppedUp();
-		return 0;
+		return (intptr_t)HasSteppedUp();
 	};
 	if(functionNameHash == 110457) { // GetStepUp
 		GetStepUp();
 		return 0;
 	};
 	if(functionNameHash == 138844) { // IsCrouching
-		IsCrouching();
-		return 0;
+		return (intptr_t)IsCrouching();
 	};
 	if(functionNameHash == 95320) { // OnLadder
-		OnLadder();
-		return 0;
+		return (intptr_t)OnLadder();
 	};
 	if(functionNameHash == 192322) { // PlayerGetOrigin
 		PlayerGetOrigin();
@@ -482,8 +461,7 @@ intptr_t idPhysics_Player::Invoke(const char *functionName) {
 		return (intptr_t)GetTime();
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		IsAtRest();
-		return 0;
+		return (intptr_t)IsAtRest();
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
 		return (intptr_t)GetRestStartTime();
@@ -557,12 +535,10 @@ intptr_t idPhysics_Player::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 109672) { // CheckJump
-		CheckJump();
-		return 0;
+		return (intptr_t)CheckJump();
 	};
 	if(functionNameHash == 176680) { // CheckWaterJump
-		CheckWaterJump();
-		return 0;
+		return (intptr_t)CheckWaterJump();
 	};
 	if(functionNameHash == 165031) { // SetWaterLevel
 		SetWaterLevel();
@@ -579,8 +555,7 @@ intptr_t idPhysics_Player::Invoke(const char *functionName) {
 intptr_t idPhysics_Parametric::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 100471) { // IsPusher
-		IsPusher();
-		return 0;
+		return (intptr_t)IsPusher();
 	};
 	if(functionNameHash == 355226) { // GetLinearExtrapolationType
 		GetLinearExtrapolationType();
@@ -600,8 +575,7 @@ intptr_t idPhysics_Parametric::Invoke(const char *functionName) {
 		return (intptr_t)GetSplineDeceleration();
 	};
 	if(functionNameHash == 220932) { // UsingSplineAngles
-		UsingSplineAngles();
-		return 0;
+		return (intptr_t)UsingSplineAngles();
 	};
 	if(functionNameHash == 202251) { // GetNumClipModels
 		return (intptr_t)GetNumClipModels();
@@ -614,15 +588,13 @@ intptr_t idPhysics_Parametric::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		IsAtRest();
-		return 0;
+		return (intptr_t)IsAtRest();
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
 		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		IsPushable();
-		return 0;
+		return (intptr_t)IsPushable();
 	};
 	if(functionNameHash == 112278) { // SaveState
 		SaveState();
@@ -701,15 +673,13 @@ intptr_t idPhysics_RigidBody::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		IsAtRest();
-		return 0;
+		return (intptr_t)IsAtRest();
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
 		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		IsPushable();
-		return 0;
+		return (intptr_t)IsPushable();
 	};
 	if(functionNameHash == 112278) { // SaveState
 		SaveState();
@@ -736,16 +706,14 @@ intptr_t idPhysics_RigidBody::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		EvaluateContacts();
-		return 0;
+		return (intptr_t)EvaluateContacts();
 	};
 	if(functionNameHash == 230133) { // DropToFloorAndRest
 		DropToFloorAndRest();
 		return 0;
 	};
 	if(functionNameHash == 147808) { // TestIfAtRest
-		TestIfAtRest();
-		return 0;
+		return (intptr_t)TestIfAtRest();
 	};
 	if(functionNameHash == 49945) { // Rest
 		Rest();
@@ -801,8 +769,7 @@ intptr_t idPhysics_AF::Invoke(const char *functionName) {
 		return (intptr_t)GetTime();
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		IsAtRest();
-		return 0;
+		return (intptr_t)IsAtRest();
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
 		return (intptr_t)GetRestStartTime();
@@ -816,8 +783,7 @@ intptr_t idPhysics_AF::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		IsPushable();
-		return 0;
+		return (intptr_t)IsPushable();
 	};
 	if(functionNameHash == 112278) { // SaveState
 		SaveState();
@@ -844,8 +810,7 @@ intptr_t idPhysics_AF::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		EvaluateContacts();
-		return 0;
+		return (intptr_t)EvaluateContacts();
 	};
 	if(functionNameHash == 168534) { // PrimaryFactor
 		PrimaryFactor();
@@ -1059,8 +1024,7 @@ intptr_t idAFEntity_Base::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 114409) { // IsActiveAF
-		IsActiveAF();
-		return 0;
+		return (intptr_t)IsActiveAF();
 	};
 	if(functionNameHash == 99503) { // GetAFName
 		return (intptr_t)GetAFName();
@@ -1110,8 +1074,7 @@ intptr_t idAFEntity_Gibbable::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 93319) { // IsGibbed
-		IsGibbed();
-		return 0;
+		return (intptr_t)IsGibbed();
 	};
 	if(functionNameHash == 220901) { // InitSkeletonModel
 		InitSkeletonModel();
@@ -1450,8 +1413,7 @@ intptr_t idAnimated::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 153861) { // StartRagdoll
-		StartRagdoll();
-		return 0;
+		return (intptr_t)StartRagdoll();
 	};
 	if(functionNameHash == 150763) { // PlayNextAnim
 		PlayNextAnim();
@@ -1867,8 +1829,7 @@ intptr_t idActor::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 153861) { // StartRagdoll
-		StartRagdoll();
-		return 0;
+		return (intptr_t)StartRagdoll();
 	};
 	if(functionNameHash == 140334) { // StopRagdoll
 		StopRagdoll();
@@ -1883,8 +1844,7 @@ intptr_t idActor::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 122997) { // HasEnemies
-		HasEnemies();
-		return 0;
+		return (intptr_t)HasEnemies();
 	};
 	if(functionNameHash == 248410) { // EnemyWithMostHealth
 		return (intptr_t)EnemyWithMostHealth();
@@ -2003,8 +1963,7 @@ intptr_t idProjectile::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 283804) { // GetLaunchedFromGrabber
-		GetLaunchedFromGrabber();
-		return 0;
+		return (intptr_t)GetLaunchedFromGrabber();
 	};
 	if(functionNameHash == 278761) { // ClientPredictionThink
 		ClientPredictionThink();
@@ -2200,8 +2159,7 @@ intptr_t idWeapon::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 216848) { // IsWorldModelReady
-		IsWorldModelReady();
-		return 0;
+		return (intptr_t)IsWorldModelReady();
 	};
 	if(functionNameHash == 47418) { // Icon
 		return (intptr_t)Icon();
@@ -2220,12 +2178,10 @@ intptr_t idWeapon::Invoke(const char *functionName) {
 		return (intptr_t)Description();
 	};
 	if(functionNameHash == 125553) { // UpdateSkin
-		UpdateSkin();
-		return 0;
+		return (intptr_t)UpdateSkin();
 	};
 	if(functionNameHash == 97537) { // IsFiring
-		IsFiring();
-		return 0;
+		return (intptr_t)IsFiring();
 	};
 	if(functionNameHash == 61762) { // Think
 		Think();
@@ -2280,24 +2236,19 @@ intptr_t idWeapon::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 84187) { // IsReady
-		IsReady();
-		return 0;
+		return (intptr_t)IsReady();
 	};
 	if(functionNameHash == 137206) { // IsReloading
-		IsReloading();
-		return 0;
+		return (intptr_t)IsReloading();
 	};
 	if(functionNameHash == 139817) { // IsHolstered
-		IsHolstered();
-		return 0;
+		return (intptr_t)IsHolstered();
 	};
 	if(functionNameHash == 170062) { // ShowCrosshair
-		ShowCrosshair();
-		return 0;
+		return (intptr_t)ShowCrosshair();
 	};
 	if(functionNameHash == 83005) { // CanDrop
-		CanDrop();
-		return 0;
+		return (intptr_t)CanDrop();
 	};
 	if(functionNameHash == 155408) { // WeaponStolen
 		WeaponStolen();
@@ -2446,8 +2397,7 @@ intptr_t idWeapon::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 219964) { // Event_IsInvisible
-		Event_IsInvisible();
-		return 0;
+		return (intptr_t)Event_IsInvisible();
 	};
 	if(functionNameHash == 227297) { // Event_NetEndReload
 		Event_NetEndReload();
@@ -2466,8 +2416,7 @@ intptr_t idWeapon::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 96516) { // IsLinked
-		IsLinked();
-		return 0;
+		return (intptr_t)IsLinked();
 	};
 	if(functionNameHash == 170742) { // AlertMonsters
 		AlertMonsters();
@@ -2898,8 +2847,7 @@ intptr_t idPlayer::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 291879) { // CanShowWeaponViewmodel
-		CanShowWeaponViewmodel();
-		return 0;
+		return (intptr_t)CanShowWeaponViewmodel();
 	};
 	if(functionNameHash == 98493) { // AddAIKill
 		AddAIKill();
@@ -2921,8 +2869,7 @@ intptr_t idPlayer::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 110505) { // GuiActive
-		GuiActive();
-		return 0;
+		return (intptr_t)GuiActive();
 	};
 	if(functionNameHash == 100976) { // TogglePDA
 		TogglePDA();
@@ -2936,8 +2883,7 @@ intptr_t idPlayer::Invoke(const char *functionName) {
 		return (intptr_t)GetPDA();
 	};
 	if(functionNameHash == 111683) { // GetPDAOpen
-		GetPDAOpen();
-		return 0;
+		return (intptr_t)GetPDAOpen();
 	};
 	if(functionNameHash == 217835) { // GetInfluenceLevel
 		return (intptr_t)GetInfluenceLevel();
@@ -2958,20 +2904,17 @@ intptr_t idPlayer::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 150457) { // IsTipVisible
-		IsTipVisible();
-		return 0;
+		return (intptr_t)IsTipVisible();
 	};
 	if(functionNameHash == 162972) { // HideObjective
 		HideObjective();
 		return 0;
 	};
 	if(functionNameHash == 154873) { // IsRespawning
-		IsRespawning();
-		return 0;
+		return (intptr_t)IsRespawning();
 	};
 	if(functionNameHash == 152040) { // IsInTeleport
-		IsInTeleport();
-		return 0;
+		return (intptr_t)IsInTeleport();
 	};
 	if(functionNameHash == 149259) { // GetSkinIndex
 		return (intptr_t)GetSkinIndex();
@@ -2990,16 +2933,14 @@ intptr_t idPlayer::Invoke(const char *functionName) {
 		return (intptr_t)GetPlayerPhysics();
 	};
 	if(functionNameHash == 95325) { // IsLeader
-		IsLeader();
-		return 0;
+		return (intptr_t)IsLeader();
 	};
 	if(functionNameHash == 194926) { // UpdateSkinSetup
 		UpdateSkinSetup();
 		return 0;
 	};
 	if(functionNameHash == 95320) { // OnLadder
-		OnLadder();
-		return 0;
+		return (intptr_t)OnLadder();
 	};
 	if(functionNameHash == 221204) { // UpdatePlayerIcons
 		UpdatePlayerIcons();
@@ -3014,8 +2955,7 @@ intptr_t idPlayer::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 109351) { // NeedsIcon
-		NeedsIcon();
-		return 0;
+		return (intptr_t)NeedsIcon();
 	};
 	if(functionNameHash == 232272) { // StopHealthRecharge
 		StopHealthRecharge();
@@ -3052,8 +2992,7 @@ intptr_t idPlayer::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 127139) { // SelfSmooth
-		SelfSmooth();
-		return 0;
+		return (intptr_t)SelfSmooth();
 	};
 	if(functionNameHash == 199645) { // GetViewBobAngles
 		GetViewBobAngles();
@@ -3090,8 +3029,7 @@ intptr_t idPlayer::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 250595) { // IsLocallyControlled
-		IsLocallyControlled();
-		return 0;
+		return (intptr_t)IsLocallyControlled();
 	};
 	if(functionNameHash == 209726) { // GetExpansionType
 		GetExpansionType();
@@ -3204,8 +3142,7 @@ intptr_t idPlayer::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 293094) { // AllowClientAuthPhysics
-		AllowClientAuthPhysics();
-		return 0;
+		return (intptr_t)AllowClientAuthPhysics();
 	};
 	if(functionNameHash == 234606) { // GetPhysicsTimeStep
 		GetPhysicsTimeStep();
@@ -3469,8 +3406,7 @@ intptr_t idMover_Binary::Invoke(const char *functionName) {
 		return (intptr_t)GetMoveMaster();
 	};
 	if(functionNameHash == 108379) { // IsBlocked
-		IsBlocked();
-		return 0;
+		return (intptr_t)IsBlocked();
 	};
 	if(functionNameHash == 153395) { // GetActivator
 		return (intptr_t)GetActivator();
@@ -3550,12 +3486,10 @@ intptr_t idDoor::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 71773) { // IsOpen
-		IsOpen();
-		return 0;
+		return (intptr_t)IsOpen();
 	};
 	if(functionNameHash == 109870) { // IsNoTouch
-		IsNoTouch();
-		return 0;
+		return (intptr_t)IsNoTouch();
 	};
 	if(functionNameHash == 95895) { // IsLocked
 		return (intptr_t)IsLocked();
@@ -3767,8 +3701,7 @@ intptr_t idMoveable::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 113684) { // AllowStep
-		AllowStep();
-		return 0;
+		return (intptr_t)AllowStep();
 	};
 	if(functionNameHash == 137009) { // GetAttacker
 		return (intptr_t)GetAttacker();
@@ -3781,8 +3714,7 @@ intptr_t idMoveable::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 306497) { // FollowInitialSplinePath
-		FollowInitialSplinePath();
-		return 0;
+		return (intptr_t)FollowInitialSplinePath();
 	};
 	if(functionNameHash == 257488) { // Event_BecomeNonSolid
 		Event_BecomeNonSolid();
@@ -3825,8 +3757,7 @@ intptr_t idExplodingBarrel::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 96991) { // IsStable
-		IsStable();
-		return 0;
+		return (intptr_t)IsStable();
 	};
 	if(functionNameHash == 155873) { // StartBurning
 		StartBurning();
@@ -4343,8 +4274,7 @@ intptr_t idSecurityCamera::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 147260) { // CanSeePlayer
-		CanSeePlayer();
-		return 0;
+		return (intptr_t)CanSeePlayer();
 	};
 	if(functionNameHash == 85151) { // DrawFov
 		DrawFov();
@@ -4397,8 +4327,7 @@ intptr_t idBrittleFracture::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 97787) { // IsBroken
-		IsBroken();
-		return 0;
+		return (intptr_t)IsBroken();
 	};
 	if(functionNameHash == 278761) { // ClientPredictionThink
 		ClientPredictionThink();
@@ -4510,32 +4439,26 @@ intptr_t idAI::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 97687) { // MoveDone
-		MoveDone();
-		return 0;
+		return (intptr_t)MoveDone();
 	};
 	if(functionNameHash == 183413) { // BlockedFailSafe
 		BlockedFailSafe();
 		return 0;
 	};
 	if(functionNameHash == 108124) { // FaceEnemy
-		FaceEnemy();
-		return 0;
+		return (intptr_t)FaceEnemy();
 	};
 	if(functionNameHash == 217798) { // MoveToEnemyHeight
-		MoveToEnemyHeight();
-		return 0;
+		return (intptr_t)MoveToEnemyHeight();
 	};
 	if(functionNameHash == 138052) { // MoveToEnemy
-		MoveToEnemy();
-		return 0;
+		return (intptr_t)MoveToEnemy();
 	};
 	if(functionNameHash == 152814) { // WanderAround
-		WanderAround();
-		return 0;
+		return (intptr_t)WanderAround();
 	};
 	if(functionNameHash == 131961) { // FacingIdeal
-		FacingIdeal();
-		return 0;
+		return (intptr_t)FacingIdeal();
 	};
 	if(functionNameHash == 51250) { // Turn
 		Turn();
@@ -4546,8 +4469,7 @@ intptr_t idAI::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 237166) { // EnemyPositionValid
-		EnemyPositionValid();
-		return 0;
+		return (intptr_t)EnemyPositionValid();
 	};
 	if(functionNameHash == 210788) { // SetEnemyPosition
 		SetEnemyPosition();
@@ -4566,8 +4488,7 @@ intptr_t idAI::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 111231) { // TestMelee
-		TestMelee();
-		return 0;
+		return (intptr_t)TestMelee();
 	};
 	if(functionNameHash == 108281) { // EndAttack
 		EndAttack();
@@ -4860,8 +4781,7 @@ intptr_t idCombatNode::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 121183) { // IsDisabled
-		IsDisabled();
-		return 0;
+		return (intptr_t)IsDisabled();
 	};
 	if(functionNameHash == 176427) { // Event_MarkUsed
 		Event_MarkUsed();
@@ -5294,20 +5214,17 @@ intptr_t idThread::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 206780) { // IsDoneProcessing
-		IsDoneProcessing();
-		return 0;
+		return (intptr_t)IsDoneProcessing();
 	};
 	if(functionNameHash == 84907) { // IsDying
-		IsDying();
-		return 0;
+		return (intptr_t)IsDying();
 	};
 	if(functionNameHash == 33511) { // End
 		End();
 		return 0;
 	};
 	if(functionNameHash == 88310) { // Execute
-		Execute();
-		return 0;
+		return (intptr_t)Execute();
 	};
 	if(functionNameHash == 168173) { // ManualControl
 		ManualControl();
@@ -5322,24 +5239,21 @@ intptr_t idThread::Invoke(const char *functionName) {
 		return 0;
 	};
 	if(functionNameHash == 137371) { // ThreadDying
-		ThreadDying();
-		return 0;
+		return (intptr_t)ThreadDying();
 	};
 	if(functionNameHash == 108234) { // EndThread
 		EndThread();
 		return 0;
 	};
 	if(functionNameHash == 112213) { // IsWaiting
-		IsWaiting();
-		return 0;
+		return (intptr_t)IsWaiting();
 	};
 	if(functionNameHash == 147984) { // ClearWaitFor
 		ClearWaitFor();
 		return 0;
 	};
 	if(functionNameHash == 63710) { // Start
-		Start();
-		return 0;
+		return (intptr_t)Start();
 	};
 	if(functionNameHash == 190527) { // WaitingOnThread
 		return (intptr_t)WaitingOnThread();
