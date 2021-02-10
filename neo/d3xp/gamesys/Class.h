@@ -247,7 +247,7 @@ public:
 	const char* 				GetSuperclass() const;
 	void						FindUninitializedMemory();
 
-	virtual intptr_t Invoke(const char* functionName);
+	virtual intptr_t Invoke( const char* functionName );
 
 	void						Save( idSaveGame* savefile ) const {};
 	void						Restore( idRestoreGame* savefile ) {};

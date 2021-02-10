@@ -5,7 +5,7 @@
 #include "precompiled.h"
 #include "../Game_local.h"
 
-CLASS_DECLARATION(rvmWeaponObject, rvmWeaponChainGun)
+CLASS_DECLARATION( rvmWeaponObject, rvmWeaponChainGun )
 END_CLASS
 
 #define CHAINGUN_FIRE_SKIPFRAMES	7		// 6 shots per second
@@ -31,12 +31,13 @@ END_CLASS
 rvmWeaponChainGun::Init
 ===============
 */
-void rvmWeaponChainGun::Init(idWeapon *weapon) {
-	rvmWeaponObject::Init(weapon);
+void rvmWeaponChainGun::Init( idWeapon* weapon )
+{
+	rvmWeaponObject::Init( weapon );
 
-	world_model = (idAnimatedEntity *)owner->GetWorldModel();
-	world_barrel_joint = owner->GetAnimator()->GetJointHandle("toob");
-	barrel_joint = owner->GetAnimator()->GetJointHandle("spinner");
+	world_model = ( idAnimatedEntity* )owner->GetWorldModel();
+	world_barrel_joint = owner->GetAnimator()->GetJointHandle( "toob" );
+	barrel_joint = owner->GetAnimator()->GetJointHandle( "spinner" );
 	barrel_angle = 0;
 	current_rate = 0;
 	start_rate = 0;
@@ -44,11 +45,11 @@ void rvmWeaponChainGun::Init(idWeapon *weapon) {
 	spin_start = 0;
 	numSkipFrames = 0;
 	spin_end = 0;
-	spread = weapon->GetFloat("spread"); // weapon->GetFloat("spread")
-	weapon->WeaponState(WP_RISING, 0);
+	spread = weapon->GetFloat( "spread" ); // weapon->GetFloat("spread")
+	weapon->WeaponState( WP_RISING, 0 );
 
-	snd_windup = FindSound("snd_windup");
-	snd_winddown = FindSound("snd_winddown");
+	snd_windup = FindSound( "snd_windup" );
+	snd_winddown = FindSound( "snd_winddown" );
 }
 
 /*
@@ -56,7 +57,8 @@ void rvmWeaponChainGun::Init(idWeapon *weapon) {
 rvmWeaponChainGun::UpdateBarrel
 ===============
 */
-void rvmWeaponChainGun::UpdateBarrel() {
+void rvmWeaponChainGun::UpdateBarrel()
+{
 	float currentTime;
 	//float t;
 	idAngles ang;
@@ -67,20 +69,21 @@ void rvmWeaponChainGun::UpdateBarrel() {
 	//	current_rate = start_rate + t * (end_rate - start_rate);
 	//}
 	//else {
-		current_rate = end_rate;
+	current_rate = end_rate;
 	//}
 
-	if (current_rate) {
+	if( current_rate )
+	{
 		barrel_angle = barrel_angle + current_rate * GAME_FRAMETIME;
 
 		ang.pitch = 0;
 		ang.yaw = 0;
 		ang.roll = barrel_angle;
-		owner->Event_SetJointAngle(barrel_joint, JOINTMOD_LOCAL, ang);
+		owner->Event_SetJointAngle( barrel_joint, JOINTMOD_LOCAL, ang );
 
 		ang.yaw = barrel_angle;
 		ang.roll = 0;
-		world_model->Event_SetJointAngle(world_barrel_joint, JOINTMOD_LOCAL, ang);
+		world_model->Event_SetJointAngle( world_barrel_joint, JOINTMOD_LOCAL, ang );
 	}
 }
 
@@ -89,12 +92,13 @@ void rvmWeaponChainGun::UpdateBarrel() {
 rvmWeaponChainGun::SpinUp
 ===============
 */
-void rvmWeaponChainGun::SpinUp() {
+void rvmWeaponChainGun::SpinUp()
+{
 	start_rate = current_rate;
 	end_rate = CHAINGUN_BARREL_SPEED;
 	spin_start = gameLocal.time;
-	spin_end = spin_start + (end_rate - current_rate) / CHAINGUN_BARREL_ACCEL;
-	owner->Event_StartSound("snd_windup", SND_CHANNEL_BODY3, false);
+	spin_end = spin_start + ( end_rate - current_rate ) / CHAINGUN_BARREL_ACCEL;
+	owner->Event_StartSound( "snd_windup", SND_CHANNEL_BODY3, false );
 }
 
 /*
@@ -102,12 +106,13 @@ void rvmWeaponChainGun::SpinUp() {
 rvmWeaponChainGun::SpinDown
 ===============
 */
-void rvmWeaponChainGun::SpinDown() {
+void rvmWeaponChainGun::SpinDown()
+{
 	start_rate = current_rate;
 	end_rate = 0;
 	spin_start = gameLocal.time;
-	spin_end = spin_start + (current_rate - end_rate) / CHAINGUN_BARREL_DECCEL;
-	owner->Event_StartSound("snd_winddown", SND_CHANNEL_BODY3, false);
+	spin_end = spin_start + ( current_rate - end_rate ) / CHAINGUN_BARREL_DECCEL;
+	owner->Event_StartSound( "snd_winddown", SND_CHANNEL_BODY3, false );
 }
 
 /*
@@ -115,29 +120,30 @@ void rvmWeaponChainGun::SpinDown() {
 rvmWeaponChainGun::Raise
 ===============
 */
-void rvmWeaponChainGun::Raise() {
+void rvmWeaponChainGun::Raise()
+{
 	enum RisingState
 	{
 		RISING_NOTSET = 0,
 		RISING_WAIT
 	};
 
-	switch (risingState)
+	switch( risingState )
 	{
-	case RISING_NOTSET:
-		owner->Event_WeaponRising();
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
-		risingState = RISING_WAIT;
-		break;
+		case RISING_NOTSET:
+			owner->Event_WeaponRising();
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
+			risingState = RISING_WAIT;
+			break;
 
-	case RISING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, CHAINGUN_RAISE_TO_IDLE))
-		{
-			owner->WeaponState(WP_IDLE, CHAINGUN_RAISE_TO_IDLE);
-			risingState = RISING_NOTSET;
-			isRisen = true;
-		}
-		break;
+		case RISING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, CHAINGUN_RAISE_TO_IDLE ) )
+			{
+				owner->WeaponState( WP_IDLE, CHAINGUN_RAISE_TO_IDLE );
+				risingState = RISING_NOTSET;
+				isRisen = true;
+			}
+			break;
 	}
 }
 
@@ -147,29 +153,30 @@ void rvmWeaponChainGun::Raise() {
 rvmWeaponChainGun::Lower
 ===============
 */
-void rvmWeaponChainGun::Lower() {
+void rvmWeaponChainGun::Lower()
+{
 	enum LoweringState
 	{
 		LOWERING_NOTSET = 0,
 		LOWERING_WAIT
 	};
 
-	switch (loweringState)
+	switch( loweringState )
 	{
-	case LOWERING_NOTSET:
-		owner->Event_WeaponLowering();
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
-		loweringState = LOWERING_WAIT;
-		break;
+		case LOWERING_NOTSET:
+			owner->Event_WeaponLowering();
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
+			loweringState = LOWERING_WAIT;
+			break;
 
-	case LOWERING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			owner->Event_WeaponHolstered();
-			loweringState = LOWERING_NOTSET;
-			isHolstered = true;
-		}
-		break;
+		case LOWERING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				owner->Event_WeaponHolstered();
+				loweringState = LOWERING_NOTSET;
+				isHolstered = true;
+			}
+			break;
 	}
 }
 
@@ -178,7 +185,8 @@ void rvmWeaponChainGun::Lower() {
 rvmWeaponChainGun::Idle
 ===============
 */
-void rvmWeaponChainGun::Idle() {
+void rvmWeaponChainGun::Idle()
+{
 	//float currentTime;
 	float clip_size;
 
@@ -192,26 +200,26 @@ void rvmWeaponChainGun::Idle() {
 
 	UpdateBarrel();
 
-	switch (idleState)
+	switch( idleState )
 	{
-	case IDLE_NOTSET:
-		owner->Event_WeaponReady();
-		if (!owner->AmmoInClip())
-		{
-			owner->Event_WeaponOutOfAmmo();
-		}
-		else
-		{
+		case IDLE_NOTSET:
 			owner->Event_WeaponReady();
-		}
+			if( !owner->AmmoInClip() )
+			{
+				owner->Event_WeaponOutOfAmmo();
+			}
+			else
+			{
+				owner->Event_WeaponReady();
+			}
 
-		owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle");
-		idleState = IDLE_WAIT;
-		break;
+			owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
+			idleState = IDLE_WAIT;
+			break;
 
-	case IDLE_WAIT:
-		// Do nothing.
-		break;
+		case IDLE_WAIT:
+			// Do nothing.
+			break;
 	}
 }
 
@@ -220,11 +228,12 @@ void rvmWeaponChainGun::Idle() {
 rvmWeaponChainGun::Fire
 ===============
 */
-void rvmWeaponChainGun::Fire() {
+void rvmWeaponChainGun::Fire()
+{
 	float ammoClip;
 //	float currentTime;
 //	float skip;
-	
+
 	ammoClip = owner->AmmoInClip();
 
 	enum FireState
@@ -235,58 +244,59 @@ void rvmWeaponChainGun::Fire() {
 		FIRE_SKIPFRAMES
 	};
 
-	switch (firingState)
+	switch( firingState )
 	{
-	case FIRE_NOTSET:
-		SpinUp();
-		UpdateBarrel();
-		if(current_rate >= end_rate)
-		{
-			if(ammoClip > 0)
+		case FIRE_NOTSET:
+			SpinUp();
+			UpdateBarrel();
+			if( current_rate >= end_rate )
 			{
-				firingState = FIRE_SPIN1;
+				if( ammoClip > 0 )
+				{
+					firingState = FIRE_SPIN1;
+				}
+				else
+				{
+					firingState = 0;
+					owner->WeaponState( WP_IDLE, 0 );
+				}
 			}
-			else
-			{
-				firingState = 0;
-				owner->WeaponState(WP_IDLE, 0);
-			}
-		}
-		break;
+			break;
 
-	case FIRE_SPIN1:
-		owner->Event_StartSound("snd_spin", SND_CHANNEL_BODY3, false);
-		firingState = FIRE_FIRE;
-		break;
+		case FIRE_SPIN1:
+			owner->Event_StartSound( "snd_spin", SND_CHANNEL_BODY3, false );
+			firingState = FIRE_FIRE;
+			break;
 
-	case FIRE_FIRE:
-		owner->Event_LaunchProjectiles(CHAINGUN_NUMPROJECTILES, spread, 0, 1, 1);
-		owner->Event_StartSound("snd_fire", SND_CHANNEL_BODY3, false);
-		if (ammoClip == CHAINGUN_LOWAMMO) {
-			owner->Event_StartSound("snd_lowammo", SND_CHANNEL_ITEM, false);
-		}
-		numSkipFrames = 0;
-		firingState = FIRE_SKIPFRAMES;
-		break;
+		case FIRE_FIRE:
+			owner->Event_LaunchProjectiles( CHAINGUN_NUMPROJECTILES, spread, 0, 1, 1 );
+			owner->Event_StartSound( "snd_fire", SND_CHANNEL_BODY3, false );
+			if( ammoClip == CHAINGUN_LOWAMMO )
+			{
+				owner->Event_StartSound( "snd_lowammo", SND_CHANNEL_ITEM, false );
+			}
+			numSkipFrames = 0;
+			firingState = FIRE_SKIPFRAMES;
+			break;
 
-	case FIRE_SKIPFRAMES:
-		UpdateBarrel();
-		numSkipFrames++;
-		if(numSkipFrames >= CHAINGUN_FIRE_SKIPFRAMES)
-		{
-			if (owner->IsFiring())
+		case FIRE_SKIPFRAMES:
+			UpdateBarrel();
+			numSkipFrames++;
+			if( numSkipFrames >= CHAINGUN_FIRE_SKIPFRAMES )
 			{
-				firingState = FIRE_FIRE;
-				numSkipFrames = 0;
+				if( owner->IsFiring() )
+				{
+					firingState = FIRE_FIRE;
+					numSkipFrames = 0;
+				}
+				else
+				{
+					firingState = 0;
+					owner->WeaponState( WP_IDLE, 0 );
+					SpinDown();
+				}
 			}
-			else
-			{
-				firingState = 0;
-				owner->WeaponState(WP_IDLE, 0);
-				SpinDown();
-			}
-		}
-		break;
+			break;
 	}
 }
 
@@ -295,9 +305,12 @@ void rvmWeaponChainGun::Fire() {
 rvmWeaponChainGun::HasWaitSignal
 ===============
 */
-bool rvmWeaponChainGun::HasWaitSignal(void) {
-	if (rvmWeaponObject::HasWaitSignal())
+bool rvmWeaponChainGun::HasWaitSignal( void )
+{
+	if( rvmWeaponObject::HasWaitSignal() )
+	{
 		return true;
+	}
 
 	// Allow the player to shoot or reload while reloading.
 	return false; // next_attack >= MS2SEC(gameLocal.realClientTime);
@@ -309,7 +322,8 @@ bool rvmWeaponChainGun::HasWaitSignal(void) {
 rvmWeaponChainGun::Reload
 ===============
 */
-void rvmWeaponChainGun::Reload() {
+void rvmWeaponChainGun::Reload()
+{
 	float ammoClip;
 	float ammoAvail;
 	float clip_size;
@@ -325,21 +339,21 @@ void rvmWeaponChainGun::Reload() {
 	ammoAvail = owner->AmmoAvailable();
 	ammoClip = owner->AmmoInClip();
 
-	switch (reloadState)
+	switch( reloadState )
 	{
-	case RELOAD_NOTSET:
-		owner->Event_WeaponReloading();
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "reload", false);
-		reloadState = RELOAD_WAIT;
-		break;
+		case RELOAD_NOTSET:
+			owner->Event_WeaponReloading();
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "reload", false );
+			reloadState = RELOAD_WAIT;
+			break;
 
-	case RELOAD_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			owner->Event_AddToClip(owner->ClipSize());
-			owner->WeaponState(WP_IDLE, CHAINGUN_RELOAD_TO_IDLE);
-			reloadState = 0;
-		}
-		break;
+		case RELOAD_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				owner->Event_AddToClip( owner->ClipSize() );
+				owner->WeaponState( WP_IDLE, CHAINGUN_RELOAD_TO_IDLE );
+				reloadState = 0;
+			}
+			break;
 	}
 }

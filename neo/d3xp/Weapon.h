@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 BFG Edition GPL Source Code
-Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
 Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,13 +35,14 @@ If you have questions concerning this license or the applicable additional terms
 ===============================================================================
 
 	Player Weapon
-	
+
 ===============================================================================
 */
 
 extern const idEventDef EV_Weapon_State;
 
-typedef enum {
+typedef enum
+{
 	WP_NONE,
 	WP_IDLE,
 	WP_READY,
@@ -63,7 +64,8 @@ static const int LIGHTID_VIEW_MUZZLE_FLASH = 100;
 
 class idMoveableItem;
 
-typedef struct {
+typedef struct
+{
 	char			name[64];
 	char			particlename[128];
 	bool			active;
@@ -74,7 +76,8 @@ typedef struct {
 	idFuncEmitter*  emitter;		//Used for non-smoke particles
 } WeaponParticle_t;
 
-typedef struct {
+typedef struct
+{
 	char			name[64];
 	bool			active;
 	int				startTime;
@@ -83,11 +86,12 @@ typedef struct {
 	renderLight_t	light;
 } WeaponLight_t;
 
-class rvmWeaponObject : public idClass {
+class rvmWeaponObject : public idClass
+{
 public:
-	CLASS_PROTOTYPE(rvmWeaponObject);
+	CLASS_PROTOTYPE( rvmWeaponObject );
 
-	virtual void			Init(idWeapon* weapon);
+	virtual void			Init( idWeapon* weapon );
 
 	virtual void			Raise() { }
 	virtual void			Idle() { }
@@ -95,25 +99,34 @@ public:
 	virtual void			Lower() { }
 	virtual void			Reload() { }
 
-	virtual bool			CanFire() { return true; }
+	virtual bool			CanFire()
+	{
+		return true;
+	}
 
-	virtual void			ResetStates(void);
+	virtual void			ResetStates( void );
 
-	virtual bool			CanSwitchState(void);
+	virtual bool			CanSwitchState( void );
 
-	virtual bool			HasWaitSignal(void);
+	virtual bool			HasWaitSignal( void );
 
-	virtual bool			IsHolstered(void) { return isHolstered; }
-	virtual bool			IsRisen(void) { return isRisen; }
+	virtual bool			IsHolstered( void )
+	{
+		return isHolstered;
+	}
+	virtual bool			IsRisen( void )
+	{
+		return isRisen;
+	}
 protected:
 	idWeapon* owner;
 
-	const idSoundShader*	FindSound(const char* name);
+	const idSoundShader*	FindSound( const char* name );
 
 	bool					isHolstered;
 	bool					isRisen;
 
-	void					Wait(float duration);
+	void					Wait( float duration );
 protected:
 	int	risingState;
 	int	loweringState;
@@ -123,44 +136,48 @@ protected:
 	float waitDuration;
 };
 
-class idWeapon : public idAnimatedEntity {
+class idWeapon : public idAnimatedEntity
+{
 public:
 	CLASS_PROTOTYPE( idWeapon );
 
-							idWeapon();
+	idWeapon();
 	virtual					~idWeapon();
 
 	// Init
 	void					Spawn();
-	void					SetOwner( idPlayer *owner );
+	void					SetOwner( idPlayer* owner );
 	idPlayer*				GetOwner();
 	virtual bool			ShouldConstructScriptObjectAtSpawn() const;
-	void					SetFlashlightOwner( idPlayer *owner );
+	void					SetFlashlightOwner( idPlayer* owner );
 
-	static void				CacheWeapon( const char *weaponName );
+	static void				CacheWeapon( const char* weaponName );
 
 	// save games
-	void					Save( idSaveGame *savefile ) const;					// archives object for save game file
-	void					Restore( idRestoreGame *savefile );					// unarchives object from save game file
+	void					Save( idSaveGame* savefile ) const;					// archives object for save game file
+	void					Restore( idRestoreGame* savefile );					// unarchives object from save game file
 
 	// Weapon definition management
 	void					Clear();
-	void					GetWeaponDef( const char *objectname, int ammoinclip );
+	void					GetWeaponDef( const char* objectname, int ammoinclip );
 	bool					IsWorldModelReady();
 
 	// GUIs
-	const char *			Icon() const;
+	const char* 			Icon() const;
 	void					UpdateGUI();
-	const char *			PdaIcon() const;
-	const char *			DisplayName() const;
-	const char *			Description() const;
+	const char* 			PdaIcon() const;
+	const char* 			DisplayName() const;
+	const char* 			Description() const;
 
-	virtual void			SetModel( const char *modelname );
-	bool					GetGlobalJointTransform( bool viewModel, const jointHandle_t jointHandle, idVec3 &offset, idMat3 &axis );
-	void					SetPushVelocity( const idVec3 &pushVelocity );
+	virtual void			SetModel( const char* modelname );
+	bool					GetGlobalJointTransform( bool viewModel, const jointHandle_t jointHandle, idVec3& offset, idMat3& axis );
+	void					SetPushVelocity( const idVec3& pushVelocity );
 	bool					UpdateSkin();
 
-	bool					IsFiring() { return isFiring; }
+	bool					IsFiring()
+	{
+		return isFiring;
+	}
 
 	// State control/player interface
 	void					Think();
@@ -180,27 +197,33 @@ public:
 	bool					IsReloading() const;
 	bool					IsHolstered() const;
 	bool					ShowCrosshair() const;
-	idEntity *				DropItem( const idVec3 &velocity, int activateDelay, int removeDelay, bool died );
+	idEntity* 				DropItem( const idVec3& velocity, int activateDelay, int removeDelay, bool died );
 	bool					CanDrop() const;
 	void					WeaponStolen();
 	void					ForceAmmoInClip();
 
-	weaponStatus_t			GetStatus() { return status; };
+	weaponStatus_t			GetStatus()
+	{
+		return status;
+	};
 
 	// Visual presentation
 	void					PresentWeapon( bool showViewModel );
 	int						GetZoomFov();
-	void					GetWeaponAngleOffsets( int *average, float *scale, float *max );
-	void					GetWeaponTimeOffsets( float *time, float *scale );
+	void					GetWeaponAngleOffsets( int* average, float* scale, float* max );
+	void					GetWeaponTimeOffsets( float* time, float* scale );
 	bool					BloodSplat( float size );
-	void					SetIsPlayerFlashlight( bool bl ) { isPlayerFlashlight = bl; }
+	void					SetIsPlayerFlashlight( bool bl )
+	{
+		isPlayerFlashlight = bl;
+	}
 	void					FlashlightOn();
 	void					FlashlightOff();
 
 	// Ammo
-	static ammo_t			GetAmmoNumForName( const char *ammoname );
-	static const char		*GetAmmoNameForNum( ammo_t ammonum );
-	static const char		*GetAmmoPickupNameForNum( ammo_t ammonum );
+	static ammo_t			GetAmmoNumForName( const char* ammoname );
+	static const char*		GetAmmoNameForNum( ammo_t ammonum );
+	static const char*		GetAmmoPickupNameForNum( ammo_t ammonum );
 	ammo_t					GetAmmoType() const;
 	int						AmmoAvailable() const;
 	int						AmmoInClip() const;
@@ -212,18 +235,22 @@ public:
 	int						GetGrabberState() const;
 
 	// Flashlight
-	idAnimatedEntity *		GetWorldModel() { return worldModel.GetEntity(); }
+	idAnimatedEntity* 		GetWorldModel()
+	{
+		return worldModel.GetEntity();
+	}
 
-	virtual void			WriteToSnapshot( idBitMsg &msg ) const;
-	virtual void			ReadFromSnapshot( const idBitMsg &msg );
+	virtual void			WriteToSnapshot( idBitMsg& msg ) const;
+	virtual void			ReadFromSnapshot( const idBitMsg& msg );
 
-	enum {
+	enum
+	{
 		EVENT_RELOAD = idEntity::EVENT_MAXEVENTS,
 		EVENT_ENDRELOAD,
 		EVENT_CHANGESKIN,
 		EVENT_MAXEVENTS
 	};
-	virtual bool			ClientReceiveEvent( int event, int time, const idBitMsg &msg );
+	virtual bool			ClientReceiveEvent( int event, int time, const idBitMsg& msg );
 
 	virtual void			ClientPredictionThink();
 	virtual void			ClientThink( const int curTime, const float fraction, const bool predict );
@@ -233,52 +260,55 @@ public:
 	// Get a global origin and axis suitable for the laser sight or bullet tracing
 	// Returns false for hands, grenades, and chainsaw.
 	// Can't be const because a frame may need to be created.
-	bool					GetMuzzlePositionWithHacks( idVec3 & origin, idMat3 & axis );
+	bool					GetMuzzlePositionWithHacks( idVec3& origin, idMat3& axis );
 
-	void					GetProjectileLaunchOriginAndAxis( idVec3 & origin, idMat3 & axis );
+	void					GetProjectileLaunchOriginAndAxis( idVec3& origin, idMat3& axis );
 
-	const idDeclEntityDef * GetDeclEntityDef() { return weaponDef; }
+	const idDeclEntityDef* GetDeclEntityDef()
+	{
+		return weaponDef;
+	}
 
 	friend class idPlayer;
 public:
-	virtual void			CallNativeEvent(idStr& name) override;
+	virtual void			CallNativeEvent( idStr& name ) override;
 
-	void					SetState(weaponStatus_t state, int blendFrames);
-	void					WeaponState(weaponStatus_t state, int blendFrames);
-	void					Event_SetLightParm(int parmnum, float value);
-	void					Event_SetLightParms(float parm0, float parm1, float parm2, float parm3);
+	void					SetState( weaponStatus_t state, int blendFrames );
+	void					WeaponState( weaponStatus_t state, int blendFrames );
+	void					Event_SetLightParm( int parmnum, float value );
+	void					Event_SetLightParms( float parm0, float parm1, float parm2, float parm3 );
 
 	// script events
 	void					Event_Clear();
 	void					Event_GetOwner();
-	void					Event_SetWeaponStatus(float newStatus);
+	void					Event_SetWeaponStatus( float newStatus );
 	void					Event_WeaponReady();
 	void					Event_WeaponOutOfAmmo();
 	void					Event_WeaponReloading();
 	void					Event_WeaponHolstered();
 	void					Event_WeaponRising();
 	void					Event_WeaponLowering();
-	void					Event_UseAmmo(int amount);
-	void					Event_AddToClip(int amount);
+	void					Event_UseAmmo( int amount );
+	void					Event_AddToClip( int amount );
 	void					Event_AmmoInClip();
 	void					Event_AmmoAvailable();
 	void					Event_TotalAmmoCount();
 	void					Event_ClipSize();
-	void					Event_PlayAnim(int channel, const char* animname, bool loop);
-	void					Event_PlayCycle(int channel, const char* animname);
-	bool					Event_AnimDone(int channel, int blendFrames);
-	void					Event_SetBlendFrames(int channel, int blendFrames);
-	void					Event_GetBlendFrames(int channel);
+	void					Event_PlayAnim( int channel, const char* animname, bool loop );
+	void					Event_PlayCycle( int channel, const char* animname );
+	bool					Event_AnimDone( int channel, int blendFrames );
+	void					Event_SetBlendFrames( int channel, int blendFrames );
+	void					Event_GetBlendFrames( int channel );
 	void					Event_Next();
-	void					Event_SetSkin(const char* skinname);
-	void					Event_Flashlight(int enable);
-	void					Event_GetLightParm(int parmnum);
-	void					Event_LaunchProjectiles(int num_projectiles, float spread, float fuseOffset, float launchPower, float dmgPower);
+	void					Event_SetSkin( const char* skinname );
+	void					Event_Flashlight( int enable );
+	void					Event_GetLightParm( int parmnum );
+	void					Event_LaunchProjectiles( int num_projectiles, float spread, float fuseOffset, float launchPower, float dmgPower );
 	void					Event_CreateProjectile();
 	void					Event_EjectBrass();
 	void					Event_Melee();
 	void					Event_GetWorldModel();
-	void					Event_AllowDrop(int allow);
+	void					Event_AllowDrop( int allow );
 	void					Event_AutoReload();
 	void					Event_NetReload();
 	bool					Event_IsInvisible();
@@ -288,7 +318,10 @@ public:
 	void					ExitCinematic();
 	void					NetCatchup();
 
-	bool					IsLinked() { return isLinked; }
+	bool					IsLinked()
+	{
+		return isLinked;
+	}
 private:
 	weaponStatus_t			status;
 	weaponStatus_t			state;
@@ -299,9 +332,9 @@ private:
 	bool					isLinked;
 
 	// precreated projectile
-	idEntity				*projectileEnt;
+	idEntity*				projectileEnt;
 
-	idPlayer *				owner;
+	idPlayer* 				owner;
 	idEntityPtr<idAnimatedEntity>	worldModel;
 
 	// hiding (for GUIs and NPCs)
@@ -324,7 +357,7 @@ private:
 	// the view weapon render entity parms
 	idVec3					viewWeaponOrigin;
 	idMat3					viewWeaponAxis;
-	
+
 	// the muzzle bone's position, used for launching projectiles and trailing smoke
 	idVec3					muzzleOrigin;
 	idMat3					muzzleAxis;
@@ -334,8 +367,8 @@ private:
 	// weapon definition
 	// we maintain local copies of the projectile and brass dictionaries so they
 	// do not have to be copied across the DLL boundary when entities are spawned
-	const idDeclEntityDef *	weaponDef;
-	const idDeclEntityDef *	meleeDef;
+	const idDeclEntityDef* 	weaponDef;
+	const idDeclEntityDef* 	meleeDef;
 	idDict					projectileDict;
 	float					meleeDistance;
 	idStr					meleeDefName;
@@ -384,12 +417,12 @@ private:
 	idPredictedValue< int >	ammoClip;
 	int						lowAmmo;			// if ammo in clip hits this threshold, snd_
 	bool					powerAmmo;			// true if the clip reduction is a factor of the power setting when
-												// a projectile is launched
+	// a projectile is launched
 	// mp client
 	bool					isFiring;
 
 	// zoom
-    int						zoomFov;			// variable zoom fov per weapon
+	int						zoomFov;			// variable zoom fov per weapon
 
 	// joints from models
 	jointHandle_t			barrelJointView;
@@ -408,28 +441,28 @@ private:
 	idHashTable<WeaponLight_t>		weaponLights;
 
 	// sound
-	const idSoundShader *	sndHum;
+	const idSoundShader* 	sndHum;
 
 	// new style muzzle smokes
-	const idDeclParticle *	weaponSmoke;			// null if it doesn't smoke
+	const idDeclParticle* 	weaponSmoke;			// null if it doesn't smoke
 	int						weaponSmokeStartTime;	// set to gameLocal.time every weapon fire
 	bool					continuousSmoke;		// if smoke is continuous ( chainsaw )
-	const idDeclParticle *  strikeSmoke;			// striking something in melee
-	int						strikeSmokeStartTime;	// timing	
-	idVec3					strikePos;				// position of last melee strike	
+	const idDeclParticle*   strikeSmoke;			// striking something in melee
+	int						strikeSmokeStartTime;	// timing
+	idVec3					strikePos;				// position of last melee strike
 	idMat3					strikeAxis;				// axis of last melee strike
 	int						nextStrikeFx;			// used for sound and decal ( may use for strike smoke too )
 
 	// nozzle effects
 	bool					nozzleFx;			// does this use nozzle effects ( parm5 at rest, parm6 firing )
-										// this also assumes a nozzle light atm
+	// this also assumes a nozzle light atm
 	int						nozzleFxFade;		// time it takes to fade between the effects
 	int						lastAttack;			// last time an attack occured
 	renderLight_t			nozzleGlow;			// nozzle light
 	int						nozzleGlowHandle;	// handle for nozzle light
 
 	idVec3					nozzleGlowColor;	// color of the nozzle glow
-	const idMaterial *		nozzleGlowShader;	// shader for glow light
+	const idMaterial* 		nozzleGlowShader;	// shader for glow light
 	float					nozzleGlowRadius;	// radius of glow light
 
 	// weighting for viewmodel angles
@@ -443,8 +476,8 @@ private:
 	void					AlertMonsters();
 
 	// Visual presentation
-	void					InitWorldModel( const idDeclEntityDef *def );
-	void					MuzzleRise( idVec3 &origin, idMat3 &axis );
+	void					InitWorldModel( const idDeclEntityDef* def );
+	void					MuzzleRise( idVec3& origin, idMat3& axis );
 	void					UpdateNozzleFx();
 	void					UpdateFlashPosition();
 
@@ -460,20 +493,22 @@ public:
 	void					Event_StartWeaponSmoke();
 	void					Event_StopWeaponSmoke();
 
-	void					Event_StartWeaponParticle( const char* name);
-	void					Event_StopWeaponParticle( const char* name);
+	void					Event_StartWeaponParticle( const char* name );
+	void					Event_StopWeaponParticle( const char* name );
 
-	void					Event_StartWeaponLight( const char* name);
-	void					Event_StopWeaponLight( const char* name);
+	void					Event_StartWeaponLight( const char* name );
+	void					Event_StopWeaponLight( const char* name );
 private:
 	rvmWeaponObject* currentWeaponObject;
 };
 
-ID_INLINE bool idWeapon::IsWorldModelReady() {
+ID_INLINE bool idWeapon::IsWorldModelReady()
+{
 	return ( worldModel.GetEntity() != NULL );
 }
 
-ID_INLINE idPlayer* idWeapon::GetOwner() {
+ID_INLINE idPlayer* idWeapon::GetOwner()
+{
 	return owner;
 }
 

@@ -3,11 +3,12 @@
 
 #pragma once
 
-class rvmWeaponDoubleShotgun : public rvmWeaponObject {
+class rvmWeaponDoubleShotgun : public rvmWeaponObject
+{
 public:
-	CLASS_PROTOTYPE(rvmWeaponDoubleShotgun);
+	CLASS_PROTOTYPE( rvmWeaponDoubleShotgun );
 
-	virtual void			Init(idWeapon* weapon);
+	virtual void			Init( idWeapon* weapon );
 
 	virtual void			Raise();
 	virtual void			Idle();
@@ -15,7 +16,7 @@ public:
 	virtual void			Lower();
 	virtual void			Reload();
 
-	virtual bool			HasWaitSignal(void) override;
+	virtual bool			HasWaitSignal( void ) override;
 private:
 	float		next_attack;
 };

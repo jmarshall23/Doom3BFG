@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #define SOURCE_CODE_BASE_FOLDER "neo"
 
-idSession *			session = NULL;
+idSession* 			session = NULL;
 
 /*
 ==============================================================
@@ -44,9 +44,10 @@ idSession *			session = NULL;
 ==============================================================
 */
 
-int main( int argc, char** argv ) {
+int main( int argc, char** argv )
+{
 	idStr fileName, sourcePath;
-	idTypeInfoGen *generator;
+	idTypeInfoGen* generator;
 
 	idLib::common = common;
 	idLib::cvarSystem = cvarSystem;
@@ -58,7 +59,7 @@ int main( int argc, char** argv ) {
 	cvarSystem->Init();
 	idCVar::RegisterStaticVars();
 
-	cvarSystem->SetCVarString("fs_game", "neo");
+	cvarSystem->SetCVarString( "fs_game", "neo" );
 	fileSystem->Init();
 
 	generator = new idTypeInfoGen;
@@ -66,13 +67,13 @@ int main( int argc, char** argv ) {
 	sourcePath = "d3xp";
 	fileName = "d3xp/gamesys/GameTypeInfo";
 
-	generator->AddDefine("__cplusplus");
-	generator->AddDefine("GAME_DLL");
-	generator->AddDefine("ID_TYPEINFO");
-	generator->AddDefine("TYPEINFO");
-	generator->AddDefine("__TYPEINFOGEN__");
-	generator->AddDefine("_WIN32");
-	generator->AddDefine("ID_VULKAN");	
+	generator->AddDefine( "__cplusplus" );
+	generator->AddDefine( "GAME_DLL" );
+	generator->AddDefine( "ID_TYPEINFO" );
+	generator->AddDefine( "TYPEINFO" );
+	generator->AddDefine( "__TYPEINFOGEN__" );
+	generator->AddDefine( "_WIN32" );
+	generator->AddDefine( "ID_VULKAN" );
 
 	generator->CreateTypeInfo( sourcePath );
 	generator->WriteTypeInfo( fileName );

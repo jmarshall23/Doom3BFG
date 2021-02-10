@@ -3,11 +3,12 @@
 
 #pragma once
 
-class rvmWeaponChainGun : public rvmWeaponObject {
+class rvmWeaponChainGun : public rvmWeaponObject
+{
 public:
-	CLASS_PROTOTYPE(rvmWeaponChainGun);
+	CLASS_PROTOTYPE( rvmWeaponChainGun );
 
-	virtual void			Init(idWeapon *weapon);
+	virtual void			Init( idWeapon* weapon );
 
 	virtual void			Raise();
 	virtual void			Idle();
@@ -15,13 +16,13 @@ public:
 	virtual void			Lower();
 	virtual void			Reload();
 
-	virtual bool			HasWaitSignal(void) override;
+	virtual bool			HasWaitSignal( void ) override;
 private:
 	void		UpdateBarrel();
 	void		SpinUp();
 	void		SpinDown();
 private:
-	idAnimatedEntity	*world_model;
+	idAnimatedEntity*	world_model;
 	jointHandle_t		world_barrel_joint;
 	jointHandle_t		barrel_joint;
 	float		barrel_angle;
@@ -33,6 +34,6 @@ private:
 	float		spread;
 	int			numSkipFrames;
 
-	const idSoundShader		*snd_windup;
-	const idSoundShader		*snd_winddown;
+	const idSoundShader*		snd_windup;
+	const idSoundShader*		snd_winddown;
 };

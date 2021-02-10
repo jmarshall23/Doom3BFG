@@ -3,11 +3,12 @@
 
 #pragma once
 
-class rvmWeaponGrabber : public rvmWeaponObject {
+class rvmWeaponGrabber : public rvmWeaponObject
+{
 public:
-	CLASS_PROTOTYPE(rvmWeaponGrabber);
+	CLASS_PROTOTYPE( rvmWeaponGrabber );
 
-	virtual void			Init(idWeapon* weapon);
+	virtual void			Init( idWeapon* weapon );
 
 	virtual void			Raise();
 	virtual void			Idle();
@@ -17,7 +18,7 @@ public:
 
 	virtual bool			CanFire() override;
 
-	virtual bool			HasWaitSignal(void) override;
+	virtual bool			HasWaitSignal( void ) override;
 private:
 	void		StartActive();
 	void		StopActive();

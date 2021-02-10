@@ -2560,11 +2560,12 @@ void idGameLocal::RunFrame( idUserCmdMgr& cmdMgr, gameReturn_t& ret )
 	ServerSendNetworkSyncCvars();
 
 // jmarshall
-	for (int i = 0; i < delayRemoveEntities.Num(); i++)
+	for( int i = 0; i < delayRemoveEntities.Num(); i++ )
 	{
-		if (gameLocal.time > delayRemoveEntities[i].removeTime) {
-			delayRemoveEntities[i].entity->PostEventMS(&EV_Remove, 0);
-			delayRemoveEntities.RemoveIndex(i);
+		if( gameLocal.time > delayRemoveEntities[i].removeTime )
+		{
+			delayRemoveEntities[i].entity->PostEventMS( &EV_Remove, 0 );
+			delayRemoveEntities.RemoveIndex( i );
 		}
 	}
 // jmarshall end
@@ -6056,10 +6057,11 @@ bool idGameLocal::ProcessDemoCommand( idDemoFile* readDemo )
 idGameLocal::DelayRemoveEntity
 ===============
 */
-void idGameLocal::DelayRemoveEntity(idEntity* entity, int delay) {
+void idGameLocal::DelayRemoveEntity( idEntity* entity, int delay )
+{
 	rvmGameDelayRemoveEntry_t entry;
 	entry.entity = entity;
 	entry.removeTime = gameLocal.time + delay;
-	delayRemoveEntities.Append(entry);
+	delayRemoveEntities.Append( entry );
 }
 // jmarshall end

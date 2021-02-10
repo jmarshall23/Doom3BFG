@@ -3,11 +3,12 @@
 
 #pragma once
 
-class rvmWeaponFist : public rvmWeaponObject {
+class rvmWeaponFist : public rvmWeaponObject
+{
 public:
-	CLASS_PROTOTYPE(rvmWeaponFist);
+	CLASS_PROTOTYPE( rvmWeaponFist );
 
-	virtual void			Init(idWeapon *weapon);
+	virtual void			Init( idWeapon* weapon );
 
 	virtual void			Raise();
 	virtual void			Idle();
@@ -15,6 +16,6 @@ public:
 	virtual void			Lower();
 	virtual void			Reload();
 private:
-	const char *			GetFireAnim();
+	const char* 			GetFireAnim();
 	bool side;
 };

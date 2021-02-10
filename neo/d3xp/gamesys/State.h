@@ -1,7 +1,8 @@
 #ifndef __SYS_STATE_H__
 #define __SYS_STATE_H__
 
-typedef enum {
+typedef enum
+{
 	SRESULT_OK,				// Call was made successfully
 	SRESULT_ERROR,			// An unrecoverable error occurred
 	SRESULT_DONE,			// Done with current state, move to next
@@ -9,8 +10,8 @@ typedef enum {
 	SRESULT_WAIT,			// Wait a frame and re-run current state
 	SRESULT_IDLE,			// State thread is currently idle (ie. no states)
 	SRESULT_SETSTAGE,		// Sets the current stage of the current state and reruns the state
-							// NOTE: this has to be the last result becuase the stage is added to
-							//		 the result.
+	// NOTE: this has to be the last result becuase the stage is added to
+	//		 the result.
 	SRESULT_SETDELAY = SRESULT_SETSTAGE + 20
 } stateResult_t;
 
@@ -19,13 +20,14 @@ typedef enum {
 #define SRESULT_STAGE(x)	((stateResult_t)((int)SRESULT_SETSTAGE + (int)(x)))
 #define SRESULT_DELAY(x)	((stateResult_t)((int)SRESULT_SETDELAY + (int)(x)))
 
-struct stateParms_t {
+struct stateParms_t
+{
 	int		blendFrames;
 	int		time;
 	int		stage;
 
-	void	Save( idSaveGame *saveFile ) const;
-	void	Restore( idRestoreGame *saveFile );
+	void	Save( idSaveGame* saveFile ) const;
+	void	Restore( idRestoreGame* saveFile );
 };
 
 /*
@@ -51,12 +53,12 @@ used in state processing for a idClass dervied class
 */
 #define CLASS_STATES_DECLARATION(nameofclass)				\
 rvStateFunc<nameofclass> nameofclass::stateCallbacks[] = {
-	
+
 /*
 ================
 STATE
 
-This macro declares a single state.  It must be surrounded by the CLASS_STATES_DECLARATION 
+This macro declares a single state.  It must be surrounded by the CLASS_STATES_DECLARATION
 and END_CLASS_STATES macros.
 ================
 */
@@ -71,55 +73,58 @@ Terminates a state block
 */
 #define END_CLASS_STATES					{ NULL, NULL } };
 
-struct stateCall_t {
+struct stateCall_t
+{
 	idStr						state;
 	idLinkList<stateCall_t>		node;
 	int							flags;
 	int							delay;
 	stateParms_t				parms;
 
-	void						Save( idSaveGame *saveFile ) const;
-	void						Restore( idRestoreGame *saveFile, const idClass* owner );
+	void						Save( idSaveGame* saveFile ) const;
+	void						Restore( idRestoreGame* saveFile, const idClass* owner );
 };
 
 class idClass;
 
-const int SFLAG_ONCLEAR			= BIT(0);			// Executes, even if the state queue is cleared
-const int SFLAG_ONCLEARONLY		= BIT(1);			// Executes only if the state queue is cleared
+const int SFLAG_ONCLEAR			= BIT( 0 );			// Executes, even if the state queue is cleared
+const int SFLAG_ONCLEARONLY		= BIT( 1 );			// Executes only if the state queue is cleared
 
-class rvStateThread {
+class rvStateThread
+{
 public:
 
-	rvStateThread ( void );
-	~rvStateThread ( void );
-	
-	void			SetName			( const char* name );
-	void			SetOwner		( idClass* owner );
-	
-	bool			Interrupt		( void );
+	rvStateThread( void );
+	~rvStateThread( void );
 
-	stateResult_t	InterruptState	( const char* state, int blendFrames = 0, int delay = 0, int flags = 0 );	
-	stateResult_t	PostState		( const char* state, int blendFrames = 0, int delay = 0, int flags = 0 );
-	stateResult_t	SetState		( const char* state, int blendFrames = 0, int delay = 0, int flags = 0 );
-	stateCall_t*	GetState		( void ) const;
-	bool			CurrentStateIs	( const char* name ) const;
-	
-	stateResult_t	Execute			( void );
-	
-	void			Clear			( bool ignoreStateCalls = false );
-	
-	bool			IsIdle			( void ) const;
-	bool			IsExecuting		( void ) const;
+	void			SetName( const char* name );
+	void			SetOwner( idClass* owner );
 
-	void			Save( idSaveGame *saveFile ) const;
-	void			Restore( idRestoreGame *saveFile, idClass* owner );
-	
+	bool			Interrupt( void );
+
+	stateResult_t	InterruptState( const char* state, int blendFrames = 0, int delay = 0, int flags = 0 );
+	stateResult_t	PostState( const char* state, int blendFrames = 0, int delay = 0, int flags = 0 );
+	stateResult_t	SetState( const char* state, int blendFrames = 0, int delay = 0, int flags = 0 );
+	stateCall_t*	GetState( void ) const;
+	bool			CurrentStateIs( const char* name ) const;
+
+	stateResult_t	Execute( void );
+
+	void			Clear( bool ignoreStateCalls = false );
+
+	bool			IsIdle( void ) const;
+	bool			IsExecuting( void ) const;
+
+	void			Save( idSaveGame* saveFile ) const;
+	void			Restore( idRestoreGame* saveFile, idClass* owner );
+
 protected:
 
-	struct flags {
-		bool		stateCleared		:1;		// State list was cleared 
-		bool		stateInterrupted	:1;		// State list was interrupted
-		bool		executing			:1;		// Execute is currently processing states
+	struct flags
+	{
+		bool		stateCleared		: 1;		// State list was cleared
+		bool		stateInterrupted	: 1;		// State list was interrupted
+		bool		executing			: 1;		// Execute is currently processing states
 	} fl;
 
 	idStr						name;
@@ -130,19 +135,23 @@ protected:
 	stateResult_t				lastResult;
 };
 
-ID_INLINE void rvStateThread::SetName ( const char* _name ) {
+ID_INLINE void rvStateThread::SetName( const char* _name )
+{
 	name = _name;
 }
 
-ID_INLINE stateCall_t* rvStateThread::GetState ( void ) const {
+ID_INLINE stateCall_t* rvStateThread::GetState( void ) const
+{
 	return states.Next();
 }
 
-ID_INLINE bool rvStateThread::IsIdle ( void ) const {
+ID_INLINE bool rvStateThread::IsIdle( void ) const
+{
 	return !states.Next() && !interrupted.Next();
 }
 
-ID_INLINE bool rvStateThread::IsExecuting ( void ) const {
+ID_INLINE bool rvStateThread::IsExecuting( void ) const
+{
 	return fl.executing;
 }
 
