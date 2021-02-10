@@ -94,7 +94,7 @@ public:																	\
 	static	idTypeInfo						Type;						\
 	static	idClass							*CreateInstance();	\
 	virtual	idTypeInfo						*GetType() const;		\
-	virtual intptr_t Invoke(nameofclass * cls, const char* functionName); \
+	virtual intptr_t Invoke(const char* functionName); \
 	static	idEventFunc<nameofclass>		eventCallbacks[]
 
 /*

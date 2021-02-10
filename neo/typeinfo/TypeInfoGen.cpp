@@ -1052,7 +1052,7 @@ void idTypeInfoGen::WriteTypeInfo( const char *fileName ) const {
 
 		if (info->functions.Num() > 0)
 		{
-			filecpp->WriteFloatString("intptr_t %s::Invoke(%s *cls, const char *functionName) {\n", typeInfoName.c_str(), typeName.c_str());
+			filecpp->WriteFloatString("intptr_t %s::Invoke(const char *functionName) {\n", typeInfoName.c_str(), typeName.c_str());
 			//file->WriteFloatString("\tTypeInfoVariableArgs();\n");
 			filecpp->WriteFloatString("\tint functionNameHash = idStr::Hash(functionName);\n");
 			for (j = 0; j < info->functions.Num(); j++) {
@@ -1103,11 +1103,11 @@ void idTypeInfoGen::WriteTypeInfo( const char *fileName ) const {
 				filecpp->WriteFloatString("\tif(functionNameHash == %d) { // %s\n", hash, varName);
 
 				if (!strstr(info->functions[j].returnType.c_str(), "*") && info->functions[j].returnType != "int " && info->functions[j].returnType != "short ") {
-					filecpp->WriteFloatString("\t\tcls->%s();\n", varName);
+					filecpp->WriteFloatString("\t\t%s();\n", varName);
 					filecpp->WriteFloatString("\t\treturn 0;\n", varName);
 				}
 				else {
-					filecpp->WriteFloatString("\t\treturn (intptr_t)cls->%s();\n", varName);
+					filecpp->WriteFloatString("\t\treturn (intptr_t)%s();\n", varName);
 				}
 				filecpp->WriteFloatString("\t};\n");
 			}

@@ -4,5351 +4,5351 @@
 #pragma warning(disable : 4505)
 #include "../precompiled.h"
 #include "../Game_local.h"
-intptr_t idForce::Invoke(idForce *cls, const char *functionName) {
+intptr_t idForce::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idForce_Constant::Invoke(idForce_Constant *cls, const char *functionName) {
+intptr_t idForce_Constant::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idForce_Drag::Invoke(idForce_Drag *cls, const char *functionName) {
+intptr_t idForce_Drag::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 192385) { // GetDragPosition
-		cls->GetDragPosition();
+		GetDragPosition();
 		return 0;
 	};
 	if(functionNameHash == 233549) { // GetDraggedPosition
-		cls->GetDraggedPosition();
+		GetDraggedPosition();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idForce_Grab::Invoke(idForce_Grab *cls, const char *functionName) {
+intptr_t idForce_Grab::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 213643) { // GetDistanceToGoal
-		cls->GetDistanceToGoal();
+		GetDistanceToGoal();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idForce_Field::Invoke(idForce_Field *cls, const char *functionName) {
+intptr_t idForce_Field::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idForce_Spring::Invoke(idForce_Spring *cls, const char *functionName) {
+intptr_t idForce_Spring::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idPhysics_Static::Invoke(idPhysics_Static *cls, const char *functionName) {
+intptr_t idPhysics_Static::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 202251) { // GetNumClipModels
-		return (intptr_t)cls->GetNumClipModels();
+		return (intptr_t)GetNumClipModels();
 	};
 	if(functionNameHash == 83909) { // GetTime
-		return (intptr_t)cls->GetTime();
+		return (intptr_t)GetTime();
 	};
 	if(functionNameHash == 100229) { // Activate
-		cls->Activate();
+		Activate();
 		return 0;
 	};
 	if(functionNameHash == 113512) { // PutToRest
-		cls->PutToRest();
+		PutToRest();
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		cls->IsAtRest();
+		IsAtRest();
 		return 0;
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
-		return (intptr_t)cls->GetRestStartTime();
+		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		cls->IsPushable();
+		IsPushable();
 		return 0;
 	};
 	if(functionNameHash == 112278) { // SaveState
-		cls->SaveState();
+		SaveState();
 		return 0;
 	};
 	if(functionNameHash == 156059) { // RestoreState
-		cls->RestoreState();
+		RestoreState();
 		return 0;
 	};
 	if(functionNameHash == 127517) { // GetGravity
-		cls->GetGravity();
+		GetGravity();
 		return 0;
 	};
 	if(functionNameHash == 208704) { // GetGravityNormal
-		cls->GetGravityNormal();
+		GetGravityNormal();
 		return 0;
 	};
 	if(functionNameHash == 134558) { // DisableClip
-		cls->DisableClip();
+		DisableClip();
 		return 0;
 	};
 	if(functionNameHash == 120566) { // EnableClip
-		cls->EnableClip();
+		EnableClip();
 		return 0;
 	};
 	if(functionNameHash == 125645) { // UnlinkClip
-		cls->UnlinkClip();
+		UnlinkClip();
 		return 0;
 	};
 	if(functionNameHash == 96878) { // LinkClip
-		cls->LinkClip();
+		LinkClip();
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		cls->EvaluateContacts();
+		EvaluateContacts();
 		return 0;
 	};
 	if(functionNameHash == 178966) { // GetNumContacts
-		return (intptr_t)cls->GetNumContacts();
+		return (intptr_t)GetNumContacts();
 	};
 	if(functionNameHash == 165117) { // ClearContacts
-		cls->ClearContacts();
+		ClearContacts();
 		return 0;
 	};
 	if(functionNameHash == 221187) { // HasGroundContacts
-		cls->HasGroundContacts();
+		HasGroundContacts();
 		return 0;
 	};
 	if(functionNameHash == 188391) { // GetBlockingInfo
-		return (intptr_t)cls->GetBlockingInfo();
+		return (intptr_t)GetBlockingInfo();
 	};
 	if(functionNameHash == 220800) { // GetBlockingEntity
-		return (intptr_t)cls->GetBlockingEntity();
+		return (intptr_t)GetBlockingEntity();
 	};
 	if(functionNameHash == 198674) { // GetLinearEndTime
-		return (intptr_t)cls->GetLinearEndTime();
+		return (intptr_t)GetLinearEndTime();
 	};
 	if(functionNameHash == 213576) { // GetAngularEndTime
-		return (intptr_t)cls->GetAngularEndTime();
+		return (intptr_t)GetAngularEndTime();
 	};
 	return 0;
 
 };
 
-intptr_t idPhysics_StaticMulti::Invoke(idPhysics_StaticMulti *cls, const char *functionName) {
+intptr_t idPhysics_StaticMulti::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 202251) { // GetNumClipModels
-		return (intptr_t)cls->GetNumClipModels();
+		return (intptr_t)GetNumClipModels();
 	};
 	if(functionNameHash == 83909) { // GetTime
-		return (intptr_t)cls->GetTime();
+		return (intptr_t)GetTime();
 	};
 	if(functionNameHash == 100229) { // Activate
-		cls->Activate();
+		Activate();
 		return 0;
 	};
 	if(functionNameHash == 113512) { // PutToRest
-		cls->PutToRest();
+		PutToRest();
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		cls->IsAtRest();
+		IsAtRest();
 		return 0;
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
-		return (intptr_t)cls->GetRestStartTime();
+		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		cls->IsPushable();
+		IsPushable();
 		return 0;
 	};
 	if(functionNameHash == 112278) { // SaveState
-		cls->SaveState();
+		SaveState();
 		return 0;
 	};
 	if(functionNameHash == 156059) { // RestoreState
-		cls->RestoreState();
+		RestoreState();
 		return 0;
 	};
 	if(functionNameHash == 127517) { // GetGravity
-		cls->GetGravity();
+		GetGravity();
 		return 0;
 	};
 	if(functionNameHash == 208704) { // GetGravityNormal
-		cls->GetGravityNormal();
+		GetGravityNormal();
 		return 0;
 	};
 	if(functionNameHash == 134558) { // DisableClip
-		cls->DisableClip();
+		DisableClip();
 		return 0;
 	};
 	if(functionNameHash == 120566) { // EnableClip
-		cls->EnableClip();
+		EnableClip();
 		return 0;
 	};
 	if(functionNameHash == 125645) { // UnlinkClip
-		cls->UnlinkClip();
+		UnlinkClip();
 		return 0;
 	};
 	if(functionNameHash == 96878) { // LinkClip
-		cls->LinkClip();
+		LinkClip();
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		cls->EvaluateContacts();
+		EvaluateContacts();
 		return 0;
 	};
 	if(functionNameHash == 178966) { // GetNumContacts
-		return (intptr_t)cls->GetNumContacts();
+		return (intptr_t)GetNumContacts();
 	};
 	if(functionNameHash == 165117) { // ClearContacts
-		cls->ClearContacts();
+		ClearContacts();
 		return 0;
 	};
 	if(functionNameHash == 221187) { // HasGroundContacts
-		cls->HasGroundContacts();
+		HasGroundContacts();
 		return 0;
 	};
 	if(functionNameHash == 188391) { // GetBlockingInfo
-		return (intptr_t)cls->GetBlockingInfo();
+		return (intptr_t)GetBlockingInfo();
 	};
 	if(functionNameHash == 220800) { // GetBlockingEntity
-		return (intptr_t)cls->GetBlockingEntity();
+		return (intptr_t)GetBlockingEntity();
 	};
 	if(functionNameHash == 198674) { // GetLinearEndTime
-		return (intptr_t)cls->GetLinearEndTime();
+		return (intptr_t)GetLinearEndTime();
 	};
 	if(functionNameHash == 213576) { // GetAngularEndTime
-		return (intptr_t)cls->GetAngularEndTime();
+		return (intptr_t)GetAngularEndTime();
 	};
 	return 0;
 
 };
 
-intptr_t idPhysics_Base::Invoke(idPhysics_Base *cls, const char *functionName) {
+intptr_t idPhysics_Base::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 202251) { // GetNumClipModels
-		return (intptr_t)cls->GetNumClipModels();
+		return (intptr_t)GetNumClipModels();
 	};
 	if(functionNameHash == 83909) { // GetTime
-		return (intptr_t)cls->GetTime();
+		return (intptr_t)GetTime();
 	};
 	if(functionNameHash == 100229) { // Activate
-		cls->Activate();
+		Activate();
 		return 0;
 	};
 	if(functionNameHash == 113512) { // PutToRest
-		cls->PutToRest();
+		PutToRest();
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		cls->IsAtRest();
+		IsAtRest();
 		return 0;
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
-		return (intptr_t)cls->GetRestStartTime();
+		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		cls->IsPushable();
+		IsPushable();
 		return 0;
 	};
 	if(functionNameHash == 112278) { // SaveState
-		cls->SaveState();
+		SaveState();
 		return 0;
 	};
 	if(functionNameHash == 156059) { // RestoreState
-		cls->RestoreState();
+		RestoreState();
 		return 0;
 	};
 	if(functionNameHash == 127517) { // GetGravity
-		cls->GetGravity();
+		GetGravity();
 		return 0;
 	};
 	if(functionNameHash == 208704) { // GetGravityNormal
-		cls->GetGravityNormal();
+		GetGravityNormal();
 		return 0;
 	};
 	if(functionNameHash == 134558) { // DisableClip
-		cls->DisableClip();
+		DisableClip();
 		return 0;
 	};
 	if(functionNameHash == 120566) { // EnableClip
-		cls->EnableClip();
+		EnableClip();
 		return 0;
 	};
 	if(functionNameHash == 125645) { // UnlinkClip
-		cls->UnlinkClip();
+		UnlinkClip();
 		return 0;
 	};
 	if(functionNameHash == 96878) { // LinkClip
-		cls->LinkClip();
+		LinkClip();
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		cls->EvaluateContacts();
+		EvaluateContacts();
 		return 0;
 	};
 	if(functionNameHash == 178966) { // GetNumContacts
-		return (intptr_t)cls->GetNumContacts();
+		return (intptr_t)GetNumContacts();
 	};
 	if(functionNameHash == 165117) { // ClearContacts
-		cls->ClearContacts();
+		ClearContacts();
 		return 0;
 	};
 	if(functionNameHash == 221187) { // HasGroundContacts
-		cls->HasGroundContacts();
+		HasGroundContacts();
 		return 0;
 	};
 	if(functionNameHash == 188391) { // GetBlockingInfo
-		return (intptr_t)cls->GetBlockingInfo();
+		return (intptr_t)GetBlockingInfo();
 	};
 	if(functionNameHash == 220800) { // GetBlockingEntity
-		return (intptr_t)cls->GetBlockingEntity();
+		return (intptr_t)GetBlockingEntity();
 	};
 	if(functionNameHash == 198674) { // GetLinearEndTime
-		return (intptr_t)cls->GetLinearEndTime();
+		return (intptr_t)GetLinearEndTime();
 	};
 	if(functionNameHash == 213576) { // GetAngularEndTime
-		return (intptr_t)cls->GetAngularEndTime();
+		return (intptr_t)GetAngularEndTime();
 	};
 	if(functionNameHash == 392632) { // AddContactEntitiesForContacts
-		cls->AddContactEntitiesForContacts();
+		AddContactEntitiesForContacts();
 		return 0;
 	};
 	if(functionNameHash == 308634) { // ActivateContactEntities
-		cls->ActivateContactEntities();
+		ActivateContactEntities();
 		return 0;
 	};
 	if(functionNameHash == 181023) { // IsOutsideWorld
-		cls->IsOutsideWorld();
+		IsOutsideWorld();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPhysics_Actor::Invoke(idPhysics_Actor *cls, const char *functionName) {
+intptr_t idPhysics_Actor::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 216567) { // GetMasterDeltaYaw
-		cls->GetMasterDeltaYaw();
+		GetMasterDeltaYaw();
 		return 0;
 	};
 	if(functionNameHash == 195500) { // GetGroundEntity
-		return (intptr_t)cls->GetGroundEntity();
+		return (intptr_t)GetGroundEntity();
 	};
 	if(functionNameHash == 201909) { // SetClipModelAxis
-		cls->SetClipModelAxis();
+		SetClipModelAxis();
 		return 0;
 	};
 	if(functionNameHash == 202251) { // GetNumClipModels
-		return (intptr_t)cls->GetNumClipModels();
+		return (intptr_t)GetNumClipModels();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		cls->IsPushable();
+		IsPushable();
 		return 0;
 	};
 	if(functionNameHash == 180437) { // GetGravityAxis
-		cls->GetGravityAxis();
+		GetGravityAxis();
 		return 0;
 	};
 	if(functionNameHash == 134558) { // DisableClip
-		cls->DisableClip();
+		DisableClip();
 		return 0;
 	};
 	if(functionNameHash == 120566) { // EnableClip
-		cls->EnableClip();
+		EnableClip();
 		return 0;
 	};
 	if(functionNameHash == 125645) { // UnlinkClip
-		cls->UnlinkClip();
+		UnlinkClip();
 		return 0;
 	};
 	if(functionNameHash == 96878) { // LinkClip
-		cls->LinkClip();
+		LinkClip();
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		cls->EvaluateContacts();
+		EvaluateContacts();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPhysics_Monster::Invoke(idPhysics_Monster *cls, const char *functionName) {
+intptr_t idPhysics_Monster::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 202109) { // GetMaxStepHeight
-		cls->GetMaxStepHeight();
+		GetMaxStepHeight();
 		return 0;
 	};
 	if(functionNameHash == 99611) { // OnGround
-		cls->OnGround();
+		OnGround();
 		return 0;
 	};
 	if(functionNameHash == 167117) { // GetMoveResult
-		cls->GetMoveResult();
+		GetMoveResult();
 		return 0;
 	};
 	if(functionNameHash == 233773) { // GetSlideMoveEntity
-		return (intptr_t)cls->GetSlideMoveEntity();
+		return (intptr_t)GetSlideMoveEntity();
 	};
 	if(functionNameHash == 148262) { // EnableImpact
-		cls->EnableImpact();
+		EnableImpact();
 		return 0;
 	};
 	if(functionNameHash == 162468) { // DisableImpact
-		cls->DisableImpact();
+		DisableImpact();
 		return 0;
 	};
 	if(functionNameHash == 83909) { // GetTime
-		return (intptr_t)cls->GetTime();
+		return (intptr_t)GetTime();
 	};
 	if(functionNameHash == 100229) { // Activate
-		cls->Activate();
+		Activate();
 		return 0;
 	};
 	if(functionNameHash == 113512) { // PutToRest
-		cls->PutToRest();
+		PutToRest();
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		cls->IsAtRest();
+		IsAtRest();
 		return 0;
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
-		return (intptr_t)cls->GetRestStartTime();
+		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 112278) { // SaveState
-		cls->SaveState();
+		SaveState();
 		return 0;
 	};
 	if(functionNameHash == 156059) { // RestoreState
-		cls->RestoreState();
+		RestoreState();
 		return 0;
 	};
 	if(functionNameHash == 49945) { // Rest
-		cls->Rest();
+		Rest();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPhysics_Player::Invoke(idPhysics_Player *cls, const char *functionName) {
+intptr_t idPhysics_Player::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 202109) { // GetMaxStepHeight
-		cls->GetMaxStepHeight();
+		GetMaxStepHeight();
 		return 0;
 	};
 	if(functionNameHash == 163603) { // GetWaterLevel
-		cls->GetWaterLevel();
+		GetWaterLevel();
 		return 0;
 	};
 	if(functionNameHash == 152257) { // GetWaterType
-		return (intptr_t)cls->GetWaterType();
+		return (intptr_t)GetWaterType();
 	};
 	if(functionNameHash == 110484) { // HasJumped
-		cls->HasJumped();
+		HasJumped();
 		return 0;
 	};
 	if(functionNameHash == 150305) { // HasSteppedUp
-		cls->HasSteppedUp();
+		HasSteppedUp();
 		return 0;
 	};
 	if(functionNameHash == 110457) { // GetStepUp
-		cls->GetStepUp();
+		GetStepUp();
 		return 0;
 	};
 	if(functionNameHash == 138844) { // IsCrouching
-		cls->IsCrouching();
+		IsCrouching();
 		return 0;
 	};
 	if(functionNameHash == 95320) { // OnLadder
-		cls->OnLadder();
+		OnLadder();
 		return 0;
 	};
 	if(functionNameHash == 192322) { // PlayerGetOrigin
-		cls->PlayerGetOrigin();
+		PlayerGetOrigin();
 		return 0;
 	};
 	if(functionNameHash == 83909) { // GetTime
-		return (intptr_t)cls->GetTime();
+		return (intptr_t)GetTime();
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		cls->IsAtRest();
+		IsAtRest();
 		return 0;
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
-		return (intptr_t)cls->GetRestStartTime();
+		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 112278) { // SaveState
-		cls->SaveState();
+		SaveState();
 		return 0;
 	};
 	if(functionNameHash == 156059) { // RestoreState
-		cls->RestoreState();
+		RestoreState();
 		return 0;
 	};
 	if(functionNameHash == 250305) { // ClearPushedVelocity
-		cls->ClearPushedVelocity();
+		ClearPushedVelocity();
 		return 0;
 	};
 	if(functionNameHash == 192377) { // SnapToNextState
-		cls->SnapToNextState();
+		SnapToNextState();
 		return 0;
 	};
 	if(functionNameHash == 101816) { // Friction
-		cls->Friction();
+		Friction();
 		return 0;
 	};
 	if(functionNameHash == 166878) { // WaterJumpMove
-		cls->WaterJumpMove();
+		WaterJumpMove();
 		return 0;
 	};
 	if(functionNameHash == 113491) { // WaterMove
-		cls->WaterMove();
+		WaterMove();
 		return 0;
 	};
 	if(functionNameHash == 86235) { // FlyMove
-		cls->FlyMove();
+		FlyMove();
 		return 0;
 	};
 	if(functionNameHash == 84433) { // AirMove
-		cls->AirMove();
+		AirMove();
 		return 0;
 	};
 	if(functionNameHash == 98826) { // WalkMove
-		cls->WalkMove();
+		WalkMove();
 		return 0;
 	};
 	if(functionNameHash == 94860) { // DeadMove
-		cls->DeadMove();
+		DeadMove();
 		return 0;
 	};
 	if(functionNameHash == 126085) { // NoclipMove
-		cls->NoclipMove();
+		NoclipMove();
 		return 0;
 	};
 	if(functionNameHash == 169622) { // SpectatorMove
-		cls->SpectatorMove();
+		SpectatorMove();
 		return 0;
 	};
 	if(functionNameHash == 123068) { // LadderMove
-		cls->LadderMove();
+		LadderMove();
 		return 0;
 	};
 	if(functionNameHash == 136792) { // CheckGround
-		cls->CheckGround();
+		CheckGround();
 		return 0;
 	};
 	if(functionNameHash == 107033) { // CheckDuck
-		cls->CheckDuck();
+		CheckDuck();
 		return 0;
 	};
 	if(functionNameHash == 132396) { // CheckLadder
-		cls->CheckLadder();
+		CheckLadder();
 		return 0;
 	};
 	if(functionNameHash == 109672) { // CheckJump
-		cls->CheckJump();
+		CheckJump();
 		return 0;
 	};
 	if(functionNameHash == 176680) { // CheckWaterJump
-		cls->CheckWaterJump();
+		CheckWaterJump();
 		return 0;
 	};
 	if(functionNameHash == 165031) { // SetWaterLevel
-		cls->SetWaterLevel();
+		SetWaterLevel();
 		return 0;
 	};
 	if(functionNameHash == 127768) { // DropTimers
-		cls->DropTimers();
+		DropTimers();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPhysics_Parametric::Invoke(idPhysics_Parametric *cls, const char *functionName) {
+intptr_t idPhysics_Parametric::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 100471) { // IsPusher
-		cls->IsPusher();
+		IsPusher();
 		return 0;
 	};
 	if(functionNameHash == 355226) { // GetLinearExtrapolationType
-		cls->GetLinearExtrapolationType();
+		GetLinearExtrapolationType();
 		return 0;
 	};
 	if(functionNameHash == 371254) { // GetAngularExtrapolationType
-		cls->GetAngularExtrapolationType();
+		GetAngularExtrapolationType();
 		return 0;
 	};
 	if(functionNameHash == 111711) { // GetSpline
-		return (intptr_t)cls->GetSpline();
+		return (intptr_t)GetSpline();
 	};
 	if(functionNameHash == 275732) { // GetSplineAcceleration
-		return (intptr_t)cls->GetSplineAcceleration();
+		return (intptr_t)GetSplineAcceleration();
 	};
 	if(functionNameHash == 276374) { // GetSplineDeceleration
-		return (intptr_t)cls->GetSplineDeceleration();
+		return (intptr_t)GetSplineDeceleration();
 	};
 	if(functionNameHash == 220932) { // UsingSplineAngles
-		cls->UsingSplineAngles();
+		UsingSplineAngles();
 		return 0;
 	};
 	if(functionNameHash == 202251) { // GetNumClipModels
-		return (intptr_t)cls->GetNumClipModels();
+		return (intptr_t)GetNumClipModels();
 	};
 	if(functionNameHash == 83909) { // GetTime
-		return (intptr_t)cls->GetTime();
+		return (intptr_t)GetTime();
 	};
 	if(functionNameHash == 100229) { // Activate
-		cls->Activate();
+		Activate();
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		cls->IsAtRest();
+		IsAtRest();
 		return 0;
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
-		return (intptr_t)cls->GetRestStartTime();
+		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		cls->IsPushable();
+		IsPushable();
 		return 0;
 	};
 	if(functionNameHash == 112278) { // SaveState
-		cls->SaveState();
+		SaveState();
 		return 0;
 	};
 	if(functionNameHash == 156059) { // RestoreState
-		cls->RestoreState();
+		RestoreState();
 		return 0;
 	};
 	if(functionNameHash == 134558) { // DisableClip
-		cls->DisableClip();
+		DisableClip();
 		return 0;
 	};
 	if(functionNameHash == 120566) { // EnableClip
-		cls->EnableClip();
+		EnableClip();
 		return 0;
 	};
 	if(functionNameHash == 125645) { // UnlinkClip
-		cls->UnlinkClip();
+		UnlinkClip();
 		return 0;
 	};
 	if(functionNameHash == 96878) { // LinkClip
-		cls->LinkClip();
+		LinkClip();
 		return 0;
 	};
 	if(functionNameHash == 188391) { // GetBlockingInfo
-		return (intptr_t)cls->GetBlockingInfo();
+		return (intptr_t)GetBlockingInfo();
 	};
 	if(functionNameHash == 220800) { // GetBlockingEntity
-		return (intptr_t)cls->GetBlockingEntity();
+		return (intptr_t)GetBlockingEntity();
 	};
 	if(functionNameHash == 198674) { // GetLinearEndTime
-		return (intptr_t)cls->GetLinearEndTime();
+		return (intptr_t)GetLinearEndTime();
 	};
 	if(functionNameHash == 213576) { // GetAngularEndTime
-		return (intptr_t)cls->GetAngularEndTime();
+		return (intptr_t)GetAngularEndTime();
 	};
 	if(functionNameHash == 49945) { // Rest
-		cls->Rest();
+		Rest();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPhysics_RigidBody::Invoke(idPhysics_RigidBody *cls, const char *functionName) {
+intptr_t idPhysics_RigidBody::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 138332) { // DropToFloor
-		cls->DropToFloor();
+		DropToFloor();
 		return 0;
 	};
 	if(functionNameHash == 111496) { // NoContact
-		cls->NoContact();
+		NoContact();
 		return 0;
 	};
 	if(functionNameHash == 148262) { // EnableImpact
-		cls->EnableImpact();
+		EnableImpact();
 		return 0;
 	};
 	if(functionNameHash == 162468) { // DisableImpact
-		cls->DisableImpact();
+		DisableImpact();
 		return 0;
 	};
 	if(functionNameHash == 202251) { // GetNumClipModels
-		return (intptr_t)cls->GetNumClipModels();
+		return (intptr_t)GetNumClipModels();
 	};
 	if(functionNameHash == 83909) { // GetTime
-		return (intptr_t)cls->GetTime();
+		return (intptr_t)GetTime();
 	};
 	if(functionNameHash == 100229) { // Activate
-		cls->Activate();
+		Activate();
 		return 0;
 	};
 	if(functionNameHash == 113512) { // PutToRest
-		cls->PutToRest();
+		PutToRest();
 		return 0;
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		cls->IsAtRest();
+		IsAtRest();
 		return 0;
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
-		return (intptr_t)cls->GetRestStartTime();
+		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		cls->IsPushable();
+		IsPushable();
 		return 0;
 	};
 	if(functionNameHash == 112278) { // SaveState
-		cls->SaveState();
+		SaveState();
 		return 0;
 	};
 	if(functionNameHash == 156059) { // RestoreState
-		cls->RestoreState();
+		RestoreState();
 		return 0;
 	};
 	if(functionNameHash == 134558) { // DisableClip
-		cls->DisableClip();
+		DisableClip();
 		return 0;
 	};
 	if(functionNameHash == 120566) { // EnableClip
-		cls->EnableClip();
+		EnableClip();
 		return 0;
 	};
 	if(functionNameHash == 125645) { // UnlinkClip
-		cls->UnlinkClip();
+		UnlinkClip();
 		return 0;
 	};
 	if(functionNameHash == 96878) { // LinkClip
-		cls->LinkClip();
+		LinkClip();
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		cls->EvaluateContacts();
+		EvaluateContacts();
 		return 0;
 	};
 	if(functionNameHash == 230133) { // DropToFloorAndRest
-		cls->DropToFloorAndRest();
+		DropToFloorAndRest();
 		return 0;
 	};
 	if(functionNameHash == 147808) { // TestIfAtRest
-		cls->TestIfAtRest();
+		TestIfAtRest();
 		return 0;
 	};
 	if(functionNameHash == 49945) { // Rest
-		cls->Rest();
+		Rest();
 		return 0;
 	};
 	if(functionNameHash == 109030) { // DebugDraw
-		cls->DebugDraw();
+		DebugDraw();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPhysics_AF::Invoke(idPhysics_AF *cls, const char *functionName) {
+intptr_t idPhysics_AF::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 148383) { // GetNumBodies
-		return (intptr_t)cls->GetNumBodies();
+		return (intptr_t)GetNumBodies();
 	};
 	if(functionNameHash == 225129) { // GetNumConstraints
-		return (intptr_t)cls->GetNumConstraints();
+		return (intptr_t)GetNumConstraints();
 	};
 	if(functionNameHash == 163512) { // GetMasterBody
-		return (intptr_t)cls->GetMasterBody();
+		return (intptr_t)GetMasterBody();
 	};
 	if(functionNameHash == 274029) { // GetJointFrictionScale
-		cls->GetJointFrictionScale();
+		GetJointFrictionScale();
 		return 0;
 	};
 	if(functionNameHash == 302208) { // GetContactFrictionScale
-		cls->GetContactFrictionScale();
+		GetContactFrictionScale();
 		return 0;
 	};
 	if(functionNameHash == 121382) { // SetChanged
-		cls->SetChanged();
+		SetChanged();
 		return 0;
 	};
 	if(functionNameHash == 148262) { // EnableImpact
-		cls->EnableImpact();
+		EnableImpact();
 		return 0;
 	};
 	if(functionNameHash == 162468) { // DisableImpact
-		cls->DisableImpact();
+		DisableImpact();
 		return 0;
 	};
 	if(functionNameHash == 204504) { // UpdateClipModels
-		cls->UpdateClipModels();
+		UpdateClipModels();
 		return 0;
 	};
 	if(functionNameHash == 202251) { // GetNumClipModels
-		return (intptr_t)cls->GetNumClipModels();
+		return (intptr_t)GetNumClipModels();
 	};
 	if(functionNameHash == 83909) { // GetTime
-		return (intptr_t)cls->GetTime();
+		return (intptr_t)GetTime();
 	};
 	if(functionNameHash == 96105) { // IsAtRest
-		cls->IsAtRest();
+		IsAtRest();
 		return 0;
 	};
 	if(functionNameHash == 206079) { // GetRestStartTime
-		return (intptr_t)cls->GetRestStartTime();
+		return (intptr_t)GetRestStartTime();
 	};
 	if(functionNameHash == 100229) { // Activate
-		cls->Activate();
+		Activate();
 		return 0;
 	};
 	if(functionNameHash == 113512) { // PutToRest
-		cls->PutToRest();
+		PutToRest();
 		return 0;
 	};
 	if(functionNameHash == 124599) { // IsPushable
-		cls->IsPushable();
+		IsPushable();
 		return 0;
 	};
 	if(functionNameHash == 112278) { // SaveState
-		cls->SaveState();
+		SaveState();
 		return 0;
 	};
 	if(functionNameHash == 156059) { // RestoreState
-		cls->RestoreState();
+		RestoreState();
 		return 0;
 	};
 	if(functionNameHash == 134558) { // DisableClip
-		cls->DisableClip();
+		DisableClip();
 		return 0;
 	};
 	if(functionNameHash == 120566) { // EnableClip
-		cls->EnableClip();
+		EnableClip();
 		return 0;
 	};
 	if(functionNameHash == 125645) { // UnlinkClip
-		cls->UnlinkClip();
+		UnlinkClip();
 		return 0;
 	};
 	if(functionNameHash == 96878) { // LinkClip
-		cls->LinkClip();
+		LinkClip();
 		return 0;
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
-		cls->EvaluateContacts();
+		EvaluateContacts();
 		return 0;
 	};
 	if(functionNameHash == 168534) { // PrimaryFactor
-		cls->PrimaryFactor();
+		PrimaryFactor();
 		return 0;
 	};
 	if(functionNameHash == 248229) { // AddFrameConstraints
-		cls->AddFrameConstraints();
+		AddFrameConstraints();
 		return 0;
 	};
 	if(functionNameHash == 297042) { // RemoveFrameConstraints
-		cls->RemoveFrameConstraints();
+		RemoveFrameConstraints();
 		return 0;
 	};
 	if(functionNameHash == 329599) { // VerifyContactConstraints
-		cls->VerifyContactConstraints();
+		VerifyContactConstraints();
 		return 0;
 	};
 	if(functionNameHash == 315282) { // SetupContactConstraints
-		cls->SetupContactConstraints();
+		SetupContactConstraints();
 		return 0;
 	};
 	if(functionNameHash == 235353) { // ApplyContactForces
-		cls->ApplyContactForces();
+		ApplyContactForces();
 		return 0;
 	};
 	if(functionNameHash == 231929) { // ClearExternalForce
-		cls->ClearExternalForce();
+		ClearExternalForce();
 		return 0;
 	};
 	if(functionNameHash == 124747) { // AddGravity
-		cls->AddGravity();
+		AddGravity();
 		return 0;
 	};
 	if(functionNameHash == 128439) { // SwapStates
-		cls->SwapStates();
+		SwapStates();
 		return 0;
 	};
 	if(functionNameHash == 49945) { // Rest
-		cls->Rest();
+		Rest();
 		return 0;
 	};
 	if(functionNameHash == 109030) { // DebugDraw
-		cls->DebugDraw();
+		DebugDraw();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAnimatedEntity::Invoke(idAnimatedEntity *cls, const char *functionName) {
+intptr_t idAnimatedEntity::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 278761) { // ClientPredictionThink
-		cls->ClientPredictionThink();
+		ClientPredictionThink();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 194183) { // UpdateAnimation
-		cls->UpdateAnimation();
+		UpdateAnimation();
 		return 0;
 	};
 	if(functionNameHash == 138578) { // GetAnimator
-		return (intptr_t)cls->GetAnimator();
+		return (intptr_t)GetAnimator();
 	};
 	if(functionNameHash == 275016) { // GetDefaultSurfaceType
-		cls->GetDefaultSurfaceType();
+		GetDefaultSurfaceType();
 		return 0;
 	};
 	if(functionNameHash == 242178) { // UpdateDamageEffects
-		cls->UpdateDamageEffects();
+		UpdateDamageEffects();
 		return 0;
 	};
 	if(functionNameHash == 258459) { // Event_ClearAllJoints
-		cls->Event_ClearAllJoints();
+		Event_ClearAllJoints();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idCursor3D::Invoke(idCursor3D *cls, const char *functionName) {
+intptr_t idCursor3D::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 90014) { // Present
-		cls->Present();
+		Present();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idGrabber::Invoke(idGrabber *cls, const char *functionName) {
+intptr_t idGrabber::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 128839) { // Initialize
-		cls->Initialize();
+		Initialize();
 		return 0;
 	};
 	if(functionNameHash == 136363) { // UpdateBeams
-		cls->UpdateBeams();
+		UpdateBeams();
 		return 0;
 	};
 	if(functionNameHash == 124817) { // ApplyShake
-		cls->ApplyShake();
+		ApplyShake();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idMultiModelAF::Invoke(idMultiModelAF *cls, const char *functionName) {
+intptr_t idMultiModelAF::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 90014) { // Present
-		cls->Present();
+		Present();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idChain::Invoke(idChain *cls, const char *functionName) {
+intptr_t idChain::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFAttachment::Invoke(idAFAttachment *cls, const char *functionName) {
+intptr_t idAFAttachment::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 109036) { // ClearBody
-		cls->ClearBody();
+		ClearBody();
 		return 0;
 	};
 	if(functionNameHash == 83835) { // GetBody
-		return (intptr_t)cls->GetBody();
+		return (intptr_t)GetBody();
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 45590) { // Hide
-		cls->Hide();
+		Hide();
 		return 0;
 	};
 	if(functionNameHash == 50306) { // Show
-		cls->Show();
+		Show();
 		return 0;
 	};
 	if(functionNameHash == 175242) { // SetCombatModel
-		cls->SetCombatModel();
+		SetCombatModel();
 		return 0;
 	};
 	if(functionNameHash == 173814) { // GetCombatModel
-		return (intptr_t)cls->GetCombatModel();
+		return (intptr_t)GetCombatModel();
 	};
 	if(functionNameHash == 123153) { // LinkCombat
-		cls->LinkCombat();
+		LinkCombat();
 		return 0;
 	};
 	if(functionNameHash == 152332) { // UnlinkCombat
-		cls->UnlinkCombat();
+		UnlinkCombat();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_Base::Invoke(idAFEntity_Base *cls, const char *functionName) {
+intptr_t idAFEntity_Base::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 357711) { // UpdateAnimationControllers
-		cls->UpdateAnimationControllers();
+		UpdateAnimationControllers();
 		return 0;
 	};
 	if(functionNameHash == 143723) { // FreeModelDef
-		cls->FreeModelDef();
+		FreeModelDef();
 		return 0;
 	};
 	if(functionNameHash == 62976) { // LoadAF
-		cls->LoadAF();
+		LoadAF();
 		return 0;
 	};
 	if(functionNameHash == 114409) { // IsActiveAF
-		cls->IsActiveAF();
+		IsActiveAF();
 		return 0;
 	};
 	if(functionNameHash == 99503) { // GetAFName
-		return (intptr_t)cls->GetAFName();
+		return (intptr_t)GetAFName();
 	};
 	if(functionNameHash == 145077) { // GetAFPhysics
-		return (intptr_t)cls->GetAFPhysics();
+		return (intptr_t)GetAFPhysics();
 	};
 	if(functionNameHash == 175242) { // SetCombatModel
-		cls->SetCombatModel();
+		SetCombatModel();
 		return 0;
 	};
 	if(functionNameHash == 173814) { // GetCombatModel
-		return (intptr_t)cls->GetCombatModel();
+		return (intptr_t)GetCombatModel();
 	};
 	if(functionNameHash == 123153) { // LinkCombat
-		cls->LinkCombat();
+		LinkCombat();
 		return 0;
 	};
 	if(functionNameHash == 152332) { // UnlinkCombat
-		cls->UnlinkCombat();
+		UnlinkCombat();
 		return 0;
 	};
 	if(functionNameHash == 233219) { // AddBindConstraints
-		cls->AddBindConstraints();
+		AddBindConstraints();
 		return 0;
 	};
 	if(functionNameHash == 281702) { // RemoveBindConstraints
-		cls->RemoveBindConstraints();
+		RemoveBindConstraints();
 		return 0;
 	};
 	if(functionNameHash == 218178) { // ShowEditingDialog
-		cls->ShowEditingDialog();
+		ShowEditingDialog();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_Gibbable::Invoke(idAFEntity_Gibbable *cls, const char *functionName) {
+intptr_t idAFEntity_Gibbable::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 90014) { // Present
-		cls->Present();
+		Present();
 		return 0;
 	};
 	if(functionNameHash == 93319) { // IsGibbed
-		cls->IsGibbed();
+		IsGibbed();
 		return 0;
 	};
 	if(functionNameHash == 220901) { // InitSkeletonModel
-		cls->InitSkeletonModel();
+		InitSkeletonModel();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_Generic::Invoke(idAFEntity_Generic *cls, const char *functionName) {
+intptr_t idAFEntity_Generic::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 238202) { // KeepRunningPhysics
-		cls->KeepRunningPhysics();
+		KeepRunningPhysics();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_WithAttachedHead::Invoke(idAFEntity_WithAttachedHead *cls, const char *functionName) {
+intptr_t idAFEntity_WithAttachedHead::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 110558) { // SetupHead
-		cls->SetupHead();
+		SetupHead();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 45590) { // Hide
-		cls->Hide();
+		Hide();
 		return 0;
 	};
 	if(functionNameHash == 50306) { // Show
-		cls->Show();
+		Show();
 		return 0;
 	};
 	if(functionNameHash == 123153) { // LinkCombat
-		cls->LinkCombat();
+		LinkCombat();
 		return 0;
 	};
 	if(functionNameHash == 152332) { // UnlinkCombat
-		cls->UnlinkCombat();
+		UnlinkCombat();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_Vehicle::Invoke(idAFEntity_Vehicle *cls, const char *functionName) {
+intptr_t idAFEntity_Vehicle::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 161405) { // GetSteerAngle
-		cls->GetSteerAngle();
+		GetSteerAngle();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_VehicleSimple::Invoke(idAFEntity_VehicleSimple *cls, const char *functionName) {
+intptr_t idAFEntity_VehicleSimple::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_VehicleFourWheels::Invoke(idAFEntity_VehicleFourWheels *cls, const char *functionName) {
+intptr_t idAFEntity_VehicleFourWheels::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_VehicleSixWheels::Invoke(idAFEntity_VehicleSixWheels *cls, const char *functionName) {
+intptr_t idAFEntity_VehicleSixWheels::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_VehicleAutomated::Invoke(idAFEntity_VehicleAutomated *cls, const char *functionName) {
+intptr_t idAFEntity_VehicleAutomated::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 116093) { // PostSpawn
-		cls->PostSpawn();
+		PostSpawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_SteamPipe::Invoke(idAFEntity_SteamPipe *cls, const char *functionName) {
+intptr_t idAFEntity_SteamPipe::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 278530) { // InitSteamRenderEntity
-		cls->InitSteamRenderEntity();
+		InitSteamRenderEntity();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_ClawFourFingers::Invoke(idAFEntity_ClawFourFingers *cls, const char *functionName) {
+intptr_t idAFEntity_ClawFourFingers::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 222404) { // Event_StopFingers
-		cls->Event_StopFingers();
+		Event_StopFingers();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idHarvestable::Invoke(idHarvestable *cls, const char *functionName) {
+intptr_t idHarvestable::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 32907) { // Gib
-		cls->Gib();
+		Gib();
 		return 0;
 	};
 	if(functionNameHash == 78457) { // BeginFX
-		cls->BeginFX();
+		BeginFX();
 		return 0;
 	};
 	if(functionNameHash == 339354) { // Event_SpawnHarvestTrigger
-		cls->Event_SpawnHarvestTrigger();
+		Event_SpawnHarvestTrigger();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAFEntity_Harvest::Invoke(idAFEntity_Harvest *cls, const char *functionName) {
+intptr_t idAFEntity_Harvest::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idSpawnableEntity::Invoke(idSpawnableEntity *cls, const char *functionName) {
+intptr_t idSpawnableEntity::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPlayerStart::Invoke(idPlayerStart *cls, const char *functionName) {
+intptr_t idPlayerStart::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idActivator::Invoke(idActivator *cls, const char *functionName) {
+intptr_t idActivator::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPathCorner::Invoke(idPathCorner *cls, const char *functionName) {
+intptr_t idPathCorner::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idDamagable::Invoke(idDamagable *cls, const char *functionName) {
+intptr_t idDamagable::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 45590) { // Hide
-		cls->Hide();
+		Hide();
 		return 0;
 	};
 	if(functionNameHash == 50306) { // Show
-		cls->Show();
+		Show();
 		return 0;
 	};
 	if(functionNameHash == 288410) { // Event_RestoreDamagable
-		cls->Event_RestoreDamagable();
+		Event_RestoreDamagable();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idExplodable::Invoke(idExplodable *cls, const char *functionName) {
+intptr_t idExplodable::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idSpring::Invoke(idSpring *cls, const char *functionName) {
+intptr_t idSpring::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 206949) { // Event_LinkSpring
-		cls->Event_LinkSpring();
+		Event_LinkSpring();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idForceField::Invoke(idForceField *cls, const char *functionName) {
+intptr_t idForceField::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 74153) { // Toggle
-		cls->Toggle();
+		Toggle();
 		return 0;
 	};
 	if(functionNameHash == 151873) { // Event_Toggle
-		cls->Event_Toggle();
+		Event_Toggle();
 		return 0;
 	};
 	if(functionNameHash == 219288) { // Event_FindTargets
-		cls->Event_FindTargets();
+		Event_FindTargets();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAnimated::Invoke(idAnimated *cls, const char *functionName) {
+intptr_t idAnimated::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 62976) { // LoadAF
-		cls->LoadAF();
+		LoadAF();
 		return 0;
 	};
 	if(functionNameHash == 153861) { // StartRagdoll
-		cls->StartRagdoll();
+		StartRagdoll();
 		return 0;
 	};
 	if(functionNameHash == 150763) { // PlayNextAnim
-		cls->PlayNextAnim();
+		PlayNextAnim();
 		return 0;
 	};
 	if(functionNameHash == 140926) { // Event_Start
-		cls->Event_Start();
+		Event_Start();
 		return 0;
 	};
 	if(functionNameHash == 235331) { // Event_StartRagdoll
-		cls->Event_StartRagdoll();
+		Event_StartRagdoll();
 		return 0;
 	};
 	if(functionNameHash == 183671) { // Event_Footstep
-		cls->Event_Footstep();
+		Event_Footstep();
 		return 0;
 	};
 	if(functionNameHash == 318263) { // Event_GetAnimationLength
-		cls->Event_GetAnimationLength();
+		Event_GetAnimationLength();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idStaticEntity::Invoke(idStaticEntity *cls, const char *functionName) {
+intptr_t idStaticEntity::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 218178) { // ShowEditingDialog
-		cls->ShowEditingDialog();
+		ShowEditingDialog();
 		return 0;
 	};
 	if(functionNameHash == 45590) { // Hide
-		cls->Hide();
+		Hide();
 		return 0;
 	};
 	if(functionNameHash == 50306) { // Show
-		cls->Show();
+		Show();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idFuncEmitter::Invoke(idFuncEmitter *cls, const char *functionName) {
+intptr_t idFuncEmitter::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idFuncShootProjectile::Invoke(idFuncShootProjectile *cls, const char *functionName) {
+intptr_t idFuncShootProjectile::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idFuncSmoke::Invoke(idFuncSmoke *cls, const char *functionName) {
+intptr_t idFuncSmoke::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idFuncSplat::Invoke(idFuncSplat *cls, const char *functionName) {
+intptr_t idFuncSplat::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 139643) { // Event_Splat
-		cls->Event_Splat();
+		Event_Splat();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTextEntity::Invoke(idTextEntity *cls, const char *functionName) {
+intptr_t idTextEntity::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idLocationEntity::Invoke(idLocationEntity *cls, const char *functionName) {
+intptr_t idLocationEntity::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 138280) { // GetLocation
-		return (intptr_t)cls->GetLocation();
+		return (intptr_t)GetLocation();
 	};
 	return 0;
 
 };
 
-intptr_t idLocationSeparatorEntity::Invoke(idLocationSeparatorEntity *cls, const char *functionName) {
+intptr_t idLocationSeparatorEntity::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idVacuumSeparatorEntity::Invoke(idVacuumSeparatorEntity *cls, const char *functionName) {
+intptr_t idVacuumSeparatorEntity::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idVacuumEntity::Invoke(idVacuumEntity *cls, const char *functionName) {
+intptr_t idVacuumEntity::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idBeam::Invoke(idBeam *cls, const char *functionName) {
+intptr_t idBeam::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 50306) { // Show
-		cls->Show();
+		Show();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idLiquid::Invoke(idLiquid *cls, const char *functionName) {
+intptr_t idLiquid::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idShaking::Invoke(idShaking *cls, const char *functionName) {
+intptr_t idShaking::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 148900) { // BeginShaking
-		cls->BeginShaking();
+		BeginShaking();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idEarthQuake::Invoke(idEarthQuake *cls, const char *functionName) {
+intptr_t idEarthQuake::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idFuncPortal::Invoke(idFuncPortal *cls, const char *functionName) {
+intptr_t idFuncPortal::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idFuncAASPortal::Invoke(idFuncAASPortal *cls, const char *functionName) {
+intptr_t idFuncAASPortal::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idFuncAASObstacle::Invoke(idFuncAASObstacle *cls, const char *functionName) {
+intptr_t idFuncAASObstacle::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idFuncRadioChatter::Invoke(idFuncRadioChatter *cls, const char *functionName) {
+intptr_t idFuncRadioChatter::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPhantomObjects::Invoke(idPhantomObjects *cls, const char *functionName) {
+intptr_t idPhantomObjects::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idShockwave::Invoke(idShockwave *cls, const char *functionName) {
+intptr_t idShockwave::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idFuncMountedObject::Invoke(idFuncMountedObject *cls, const char *functionName) {
+intptr_t idFuncMountedObject::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idFuncMountedWeapon::Invoke(idFuncMountedWeapon *cls, const char *functionName) {
+intptr_t idFuncMountedWeapon::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 195811) { // Event_PostSpawn
-		cls->Event_PostSpawn();
+		Event_PostSpawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPortalSky::Invoke(idPortalSky *cls, const char *functionName) {
+intptr_t idPortalSky::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 195811) { // Event_PostSpawn
-		cls->Event_PostSpawn();
+		Event_PostSpawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idActor::Invoke(idActor *cls, const char *functionName) {
+intptr_t idActor::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 90512) { // Restart
-		cls->Restart();
+		Restart();
 		return 0;
 	};
 	if(functionNameHash == 45590) { // Hide
-		cls->Hide();
+		Hide();
 		return 0;
 	};
 	if(functionNameHash == 50306) { // Show
-		cls->Show();
+		Show();
 		return 0;
 	};
 	if(functionNameHash == 275016) { // GetDefaultSurfaceType
-		cls->GetDefaultSurfaceType();
+		GetDefaultSurfaceType();
 		return 0;
 	};
 	if(functionNameHash == 62976) { // LoadAF
-		cls->LoadAF();
+		LoadAF();
 		return 0;
 	};
 	if(functionNameHash == 114109) { // SetupBody
-		cls->SetupBody();
+		SetupBody();
 		return 0;
 	};
 	if(functionNameHash == 120493) { // CheckBlink
-		cls->CheckBlink();
+		CheckBlink();
 		return 0;
 	};
 	if(functionNameHash == 198483) { // ShutdownThreads
-		cls->ShutdownThreads();
+		ShutdownThreads();
 		return 0;
 	};
 	if(functionNameHash == 476562) { // ShouldConstructScriptObjectAtSpawn
-		cls->ShouldConstructScriptObjectAtSpawn();
+		ShouldConstructScriptObjectAtSpawn();
 		return 0;
 	};
 	if(functionNameHash == 282905) { // ConstructScriptObject
-		return (intptr_t)cls->ConstructScriptObject();
+		return (intptr_t)ConstructScriptObject();
 	};
 	if(functionNameHash == 154576) { // UpdateScript
-		cls->UpdateScript();
+		UpdateScript();
 		return 0;
 	};
 	if(functionNameHash == 109890) { // EyeHeight
-		cls->EyeHeight();
+		EyeHeight();
 		return 0;
 	};
 	if(functionNameHash == 111617) { // EyeOffset
-		cls->EyeOffset();
+		EyeOffset();
 		return 0;
 	};
 	if(functionNameHash == 180136) { // GetEyePosition
-		cls->GetEyePosition();
+		GetEyePosition();
 		return 0;
 	};
 	if(functionNameHash == 221816) { // SetupDamageGroups
-		cls->SetupDamageGroups();
+		SetupDamageGroups();
 		return 0;
 	};
 	if(functionNameHash == 108255) { // ClearPain
-		cls->ClearPain();
+		ClearPain();
 		return 0;
 	};
 	if(functionNameHash == 175242) { // SetCombatModel
-		cls->SetCombatModel();
+		SetCombatModel();
 		return 0;
 	};
 	if(functionNameHash == 173814) { // GetCombatModel
-		return (intptr_t)cls->GetCombatModel();
+		return (intptr_t)GetCombatModel();
 	};
 	if(functionNameHash == 123153) { // LinkCombat
-		cls->LinkCombat();
+		LinkCombat();
 		return 0;
 	};
 	if(functionNameHash == 152332) { // UnlinkCombat
-		cls->UnlinkCombat();
+		UnlinkCombat();
 		return 0;
 	};
 	if(functionNameHash == 153861) { // StartRagdoll
-		cls->StartRagdoll();
+		StartRagdoll();
 		return 0;
 	};
 	if(functionNameHash == 140334) { // StopRagdoll
-		cls->StopRagdoll();
+		StopRagdoll();
 		return 0;
 	};
 	if(functionNameHash == 357711) { // UpdateAnimationControllers
-		cls->UpdateAnimationControllers();
+		UpdateAnimationControllers();
 		return 0;
 	};
 	if(functionNameHash == 228780) { // GetDeltaViewAngles
-		cls->GetDeltaViewAngles();
+		GetDeltaViewAngles();
 		return 0;
 	};
 	if(functionNameHash == 122997) { // HasEnemies
-		cls->HasEnemies();
+		HasEnemies();
 		return 0;
 	};
 	if(functionNameHash == 248410) { // EnemyWithMostHealth
-		return (intptr_t)cls->EnemyWithMostHealth();
+		return (intptr_t)EnemyWithMostHealth();
 	};
 	if(functionNameHash == 95320) { // OnLadder
-		cls->OnLadder();
+		OnLadder();
 		return 0;
 	};
 	if(functionNameHash == 163648) { // GetRenderView
-		return (intptr_t)cls->GetRenderView();
+		return (intptr_t)GetRenderView();
 	};
 	if(functionNameHash == 190792) { // UpdateAnimState
-		cls->UpdateAnimState();
+		UpdateAnimState();
 		return 0;
 	};
 	if(functionNameHash == 113011) { // WaitState
-		return (intptr_t)cls->WaitState();
+		return (intptr_t)WaitState();
 	};
 	if(functionNameHash == 162328) { // GetHeadEntity
-		return (intptr_t)cls->GetHeadEntity();
+		return (intptr_t)GetHeadEntity();
 	};
 	if(functionNameHash == 225137) { // RemoveAttachments
-		cls->RemoveAttachments();
+		RemoveAttachments();
 		return 0;
 	};
 	if(functionNameHash == 314148) { // CopyJointsFromBodyToHead
-		cls->CopyJointsFromBodyToHead();
+		CopyJointsFromBodyToHead();
 		return 0;
 	};
 	if(functionNameHash == 141348) { // FinishSetup
-		cls->FinishSetup();
+		FinishSetup();
 		return 0;
 	};
 	if(functionNameHash == 110558) { // SetupHead
-		cls->SetupHead();
+		SetupHead();
 		return 0;
 	};
 	if(functionNameHash == 222148) { // PlayFootStepSound
-		cls->PlayFootStepSound();
+		PlayFootStepSound();
 		return 0;
 	};
 	if(functionNameHash == 256642) { // Event_EnableEyeFocus
-		cls->Event_EnableEyeFocus();
+		Event_EnableEyeFocus();
 		return 0;
 	};
 	if(functionNameHash == 271699) { // Event_DisableEyeFocus
-		cls->Event_DisableEyeFocus();
+		Event_DisableEyeFocus();
 		return 0;
 	};
 	if(functionNameHash == 183671) { // Event_Footstep
-		cls->Event_Footstep();
+		Event_Footstep();
 		return 0;
 	};
 	if(functionNameHash == 221428) { // Event_EnableWalkIK
-		cls->Event_EnableWalkIK();
+		Event_EnableWalkIK();
 		return 0;
 	};
 	if(functionNameHash == 236229) { // Event_DisableWalkIK
-		cls->Event_DisableWalkIK();
+		Event_DisableWalkIK();
 		return 0;
 	};
 	if(functionNameHash == 215105) { // Event_DisablePain
-		cls->Event_DisablePain();
+		Event_DisablePain();
 		return 0;
 	};
 	if(functionNameHash == 200459) { // Event_EnablePain
-		cls->Event_EnablePain();
+		Event_EnablePain();
 		return 0;
 	};
 	if(functionNameHash == 213201) { // Event_GetPainAnim
-		cls->Event_GetPainAnim();
+		Event_GetPainAnim();
 		return 0;
 	};
 	if(functionNameHash == 203021) { // Event_HasEnemies
-		cls->Event_HasEnemies();
+		Event_HasEnemies();
 		return 0;
 	};
 	if(functionNameHash == 177119) { // Event_GetState
-		cls->Event_GetState();
+		Event_GetState();
 		return 0;
 	};
 	if(functionNameHash == 158348) { // Event_GetHead
-		cls->Event_GetHead();
+		Event_GetHead();
 		return 0;
 	};
 	if(functionNameHash == 231666) { // Event_GetWaitState
-		cls->Event_GetWaitState();
+		Event_GetWaitState();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idProjectile::Invoke(idProjectile *cls, const char *functionName) {
+intptr_t idProjectile::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 144625) { // FreeLightDef
-		cls->FreeLightDef();
+		FreeLightDef();
 		return 0;
 	};
 	if(functionNameHash == 99509) { // GetOwner
-		return (intptr_t)cls->GetOwner();
+		return (intptr_t)GetOwner();
 	};
 	if(functionNameHash == 235142) { // GetProjectileState
-		return (intptr_t)cls->GetProjectileState();
+		return (intptr_t)GetProjectileState();
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 76384) { // Fizzle
-		cls->Fizzle();
+		Fizzle();
 		return 0;
 	};
 	if(functionNameHash == 283804) { // GetLaunchedFromGrabber
-		cls->GetLaunchedFromGrabber();
+		GetLaunchedFromGrabber();
 		return 0;
 	};
 	if(functionNameHash == 278761) { // ClientPredictionThink
-		cls->ClientPredictionThink();
+		ClientPredictionThink();
 		return 0;
 	};
 	if(functionNameHash == 254726) { // AddParticlesAndLight
-		cls->AddParticlesAndLight();
+		AddParticlesAndLight();
 		return 0;
 	};
 	if(functionNameHash == 166403) { // Event_Explode
-		cls->Event_Explode();
+		Event_Explode();
 		return 0;
 	};
 	if(functionNameHash == 154212) { // Event_Fizzle
-		cls->Event_Fizzle();
+		Event_Fizzle();
 		return 0;
 	};
 	if(functionNameHash == 320254) { // Event_GetProjectileState
-		cls->Event_GetProjectileState();
+		Event_GetProjectileState();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idGuidedProjectile::Invoke(idGuidedProjectile *cls, const char *functionName) {
+intptr_t idGuidedProjectile::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idSoulCubeMissile::Invoke(idSoulCubeMissile *cls, const char *functionName) {
+intptr_t idSoulCubeMissile::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 169855) { // ReturnToOwner
-		cls->ReturnToOwner();
+		ReturnToOwner();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idBFGProjectile::Invoke(idBFGProjectile *cls, const char *functionName) {
+intptr_t idBFGProjectile::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 107659) { // FreeBeams
-		cls->FreeBeams();
+		FreeBeams();
 		return 0;
 	};
 	if(functionNameHash == 218449) { // Event_RemoveBeams
-		cls->Event_RemoveBeams();
+		Event_RemoveBeams();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idHomingProjectile::Invoke(idHomingProjectile *cls, const char *functionName) {
+intptr_t idHomingProjectile::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idDebris::Invoke(idDebris *cls, const char *functionName) {
+intptr_t idDebris::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 73334) { // Launch
-		cls->Launch();
+		Launch();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 88017) { // Explode
-		cls->Explode();
+		Explode();
 		return 0;
 	};
 	if(functionNameHash == 76384) { // Fizzle
-		cls->Fizzle();
+		Fizzle();
 		return 0;
 	};
 	if(functionNameHash == 166403) { // Event_Explode
-		cls->Event_Explode();
+		Event_Explode();
 		return 0;
 	};
 	if(functionNameHash == 154212) { // Event_Fizzle
-		cls->Event_Fizzle();
+		Event_Fizzle();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponObject::Invoke(rvmWeaponObject *cls, const char *functionName) {
+intptr_t rvmWeaponObject::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	if(functionNameHash == 81139) { // CanFire
-		cls->CanFire();
+		CanFire();
 		return 0;
 	};
 	if(functionNameHash == 141892) { // ResetStates
-		cls->ResetStates();
+		ResetStates();
 		return 0;
 	};
 	if(functionNameHash == 177614) { // CanSwitchState
-		cls->CanSwitchState();
+		CanSwitchState();
 		return 0;
 	};
 	if(functionNameHash == 162113) { // HasWaitSignal
-		cls->HasWaitSignal();
+		HasWaitSignal();
 		return 0;
 	};
 	if(functionNameHash == 139817) { // IsHolstered
-		cls->IsHolstered();
+		IsHolstered();
 		return 0;
 	};
 	if(functionNameHash == 85638) { // IsRisen
-		cls->IsRisen();
+		IsRisen();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idWeapon::Invoke(idWeapon *cls, const char *functionName) {
+intptr_t idWeapon::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 99509) { // GetOwner
-		return (intptr_t)cls->GetOwner();
+		return (intptr_t)GetOwner();
 	};
 	if(functionNameHash == 476562) { // ShouldConstructScriptObjectAtSpawn
-		cls->ShouldConstructScriptObjectAtSpawn();
+		ShouldConstructScriptObjectAtSpawn();
 		return 0;
 	};
 	if(functionNameHash == 59010) { // Clear
-		cls->Clear();
+		Clear();
 		return 0;
 	};
 	if(functionNameHash == 216848) { // IsWorldModelReady
-		cls->IsWorldModelReady();
+		IsWorldModelReady();
 		return 0;
 	};
 	if(functionNameHash == 47418) { // Icon
-		return (intptr_t)cls->Icon();
+		return (intptr_t)Icon();
 	};
 	if(functionNameHash == 103137) { // UpdateGUI
-		cls->UpdateGUI();
+		UpdateGUI();
 		return 0;
 	};
 	if(functionNameHash == 81854) { // PdaIcon
-		return (intptr_t)cls->PdaIcon();
+		return (intptr_t)PdaIcon();
 	};
 	if(functionNameHash == 137836) { // DisplayName
-		return (intptr_t)cls->DisplayName();
+		return (intptr_t)DisplayName();
 	};
 	if(functionNameHash == 143596) { // Description
-		return (intptr_t)cls->Description();
+		return (intptr_t)Description();
 	};
 	if(functionNameHash == 125553) { // UpdateSkin
-		cls->UpdateSkin();
+		UpdateSkin();
 		return 0;
 	};
 	if(functionNameHash == 97537) { // IsFiring
-		cls->IsFiring();
+		IsFiring();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 87316) { // PutAway
-		cls->PutAway();
+		PutAway();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	if(functionNameHash == 141364) { // LowerWeapon
-		cls->LowerWeapon();
+		LowerWeapon();
 		return 0;
 	};
 	if(functionNameHash == 138813) { // RaiseWeapon
-		cls->RaiseWeapon();
+		RaiseWeapon();
 		return 0;
 	};
 	if(functionNameHash == 123229) { // HideWeapon
-		cls->HideWeapon();
+		HideWeapon();
 		return 0;
 	};
 	if(functionNameHash == 127945) { // ShowWeapon
-		cls->ShowWeapon();
+		ShowWeapon();
 		return 0;
 	};
 	if(functionNameHash == 175275) { // HideWorldModel
-		cls->HideWorldModel();
+		HideWorldModel();
 		return 0;
 	};
 	if(functionNameHash == 179991) { // ShowWorldModel
-		cls->ShowWorldModel();
+		ShowWorldModel();
 		return 0;
 	};
 	if(functionNameHash == 110318) { // OwnerDied
-		cls->OwnerDied();
+		OwnerDied();
 		return 0;
 	};
 	if(functionNameHash == 134747) { // BeginAttack
-		cls->BeginAttack();
+		BeginAttack();
 		return 0;
 	};
 	if(functionNameHash == 108281) { // EndAttack
-		cls->EndAttack();
+		EndAttack();
 		return 0;
 	};
 	if(functionNameHash == 84187) { // IsReady
-		cls->IsReady();
+		IsReady();
 		return 0;
 	};
 	if(functionNameHash == 137206) { // IsReloading
-		cls->IsReloading();
+		IsReloading();
 		return 0;
 	};
 	if(functionNameHash == 139817) { // IsHolstered
-		cls->IsHolstered();
+		IsHolstered();
 		return 0;
 	};
 	if(functionNameHash == 170062) { // ShowCrosshair
-		cls->ShowCrosshair();
+		ShowCrosshair();
 		return 0;
 	};
 	if(functionNameHash == 83005) { // CanDrop
-		cls->CanDrop();
+		CanDrop();
 		return 0;
 	};
 	if(functionNameHash == 155408) { // WeaponStolen
-		cls->WeaponStolen();
+		WeaponStolen();
 		return 0;
 	};
 	if(functionNameHash == 184609) { // ForceAmmoInClip
-		cls->ForceAmmoInClip();
+		ForceAmmoInClip();
 		return 0;
 	};
 	if(functionNameHash == 114874) { // GetStatus
-		cls->GetStatus();
+		GetStatus();
 		return 0;
 	};
 	if(functionNameHash == 124648) { // GetZoomFov
-		return (intptr_t)cls->GetZoomFov();
+		return (intptr_t)GetZoomFov();
 	};
 	if(functionNameHash == 151891) { // FlashlightOn
-		cls->FlashlightOn();
+		FlashlightOn();
 		return 0;
 	};
 	if(functionNameHash == 164213) { // FlashlightOff
-		cls->FlashlightOff();
+		FlashlightOff();
 		return 0;
 	};
 	if(functionNameHash == 136649) { // GetAmmoType
-		cls->GetAmmoType();
+		GetAmmoType();
 		return 0;
 	};
 	if(functionNameHash == 161573) { // AmmoAvailable
-		return (intptr_t)cls->AmmoAvailable();
+		return (intptr_t)AmmoAvailable();
 	};
 	if(functionNameHash == 119819) { // AmmoInClip
-		return (intptr_t)cls->AmmoInClip();
+		return (intptr_t)AmmoInClip();
 	};
 	if(functionNameHash == 162729) { // ResetAmmoClip
-		cls->ResetAmmoClip();
+		ResetAmmoClip();
 		return 0;
 	};
 	if(functionNameHash == 98507) { // ClipSize
-		return (intptr_t)cls->ClipSize();
+		return (intptr_t)ClipSize();
 	};
 	if(functionNameHash == 85491) { // LowAmmo
-		return (intptr_t)cls->LowAmmo();
+		return (intptr_t)LowAmmo();
 	};
 	if(functionNameHash == 152979) { // AmmoRequired
-		return (intptr_t)cls->AmmoRequired();
+		return (intptr_t)AmmoRequired();
 	};
 	if(functionNameHash == 112768) { // AmmoCount
-		return (intptr_t)cls->AmmoCount();
+		return (intptr_t)AmmoCount();
 	};
 	if(functionNameHash == 188573) { // GetGrabberState
-		return (intptr_t)cls->GetGrabberState();
+		return (intptr_t)GetGrabberState();
 	};
 	if(functionNameHash == 163273) { // GetWorldModel
-		return (intptr_t)cls->GetWorldModel();
+		return (intptr_t)GetWorldModel();
 	};
 	if(functionNameHash == 278761) { // ClientPredictionThink
-		cls->ClientPredictionThink();
+		ClientPredictionThink();
 		return 0;
 	};
 	if(functionNameHash == 208077) { // MuzzleFlashLight
-		cls->MuzzleFlashLight();
+		MuzzleFlashLight();
 		return 0;
 	};
 	if(functionNameHash == 297946) { // RemoveMuzzleFlashlight
-		cls->RemoveMuzzleFlashlight();
+		RemoveMuzzleFlashlight();
 		return 0;
 	};
 	if(functionNameHash == 199165) { // GetDeclEntityDef
-		return (intptr_t)cls->GetDeclEntityDef();
+		return (intptr_t)GetDeclEntityDef();
 	};
 	if(functionNameHash == 135992) { // Event_Clear
-		cls->Event_Clear();
+		Event_Clear();
 		return 0;
 	};
 	if(functionNameHash == 178435) { // Event_GetOwner
-		cls->Event_GetOwner();
+		Event_GetOwner();
 		return 0;
 	};
 	if(functionNameHash == 219645) { // Event_WeaponReady
-		cls->Event_WeaponReady();
+		Event_WeaponReady();
 		return 0;
 	};
 	if(functionNameHash == 272756) { // Event_WeaponOutOfAmmo
-		cls->Event_WeaponOutOfAmmo();
+		Event_WeaponOutOfAmmo();
 		return 0;
 	};
 	if(functionNameHash == 276824) { // Event_WeaponReloading
-		cls->Event_WeaponReloading();
+		Event_WeaponReloading();
 		return 0;
 	};
 	if(functionNameHash == 279645) { // Event_WeaponHolstered
-		cls->Event_WeaponHolstered();
+		Event_WeaponHolstered();
 		return 0;
 	};
 	if(functionNameHash == 235760) { // Event_WeaponRising
-		cls->Event_WeaponRising();
+		Event_WeaponRising();
 		return 0;
 	};
 	if(functionNameHash == 265858) { // Event_WeaponLowering
-		cls->Event_WeaponLowering();
+		Event_WeaponLowering();
 		return 0;
 	};
 	if(functionNameHash == 199693) { // Event_AmmoInClip
-		cls->Event_AmmoInClip();
+		Event_AmmoInClip();
 		return 0;
 	};
 	if(functionNameHash == 243379) { // Event_AmmoAvailable
-		cls->Event_AmmoAvailable();
+		Event_AmmoAvailable();
 		return 0;
 	};
 	if(functionNameHash == 262459) { // Event_TotalAmmoCount
-		cls->Event_TotalAmmoCount();
+		Event_TotalAmmoCount();
 		return 0;
 	};
 	if(functionNameHash == 177385) { // Event_ClipSize
-		cls->Event_ClipSize();
+		Event_ClipSize();
 		return 0;
 	};
 	if(functionNameHash == 126624) { // Event_Next
-		cls->Event_Next();
+		Event_Next();
 		return 0;
 	};
 	if(functionNameHash == 291264) { // Event_CreateProjectile
-		cls->Event_CreateProjectile();
+		Event_CreateProjectile();
 		return 0;
 	};
 	if(functionNameHash == 203527) { // Event_EjectBrass
-		cls->Event_EjectBrass();
+		Event_EjectBrass();
 		return 0;
 	};
 	if(functionNameHash == 136084) { // Event_Melee
-		cls->Event_Melee();
+		Event_Melee();
 		return 0;
 	};
 	if(functionNameHash == 245163) { // Event_GetWorldModel
-		cls->Event_GetWorldModel();
+		Event_GetWorldModel();
 		return 0;
 	};
 	if(functionNameHash == 204676) { // Event_AutoReload
-		cls->Event_AutoReload();
+		Event_AutoReload();
 		return 0;
 	};
 	if(functionNameHash == 189478) { // Event_NetReload
-		cls->Event_NetReload();
+		Event_NetReload();
 		return 0;
 	};
 	if(functionNameHash == 219964) { // Event_IsInvisible
-		cls->Event_IsInvisible();
+		Event_IsInvisible();
 		return 0;
 	};
 	if(functionNameHash == 227297) { // Event_NetEndReload
-		cls->Event_NetEndReload();
+		Event_NetEndReload();
 		return 0;
 	};
 	if(functionNameHash == 178279) { // EnterCinematic
-		cls->EnterCinematic();
+		EnterCinematic();
 		return 0;
 	};
 	if(functionNameHash == 165047) { // ExitCinematic
-		cls->ExitCinematic();
+		ExitCinematic();
 		return 0;
 	};
 	if(functionNameHash == 124601) { // NetCatchup
-		cls->NetCatchup();
+		NetCatchup();
 		return 0;
 	};
 	if(functionNameHash == 96516) { // IsLinked
-		cls->IsLinked();
+		IsLinked();
 		return 0;
 	};
 	if(functionNameHash == 170742) { // AlertMonsters
-		cls->AlertMonsters();
+		AlertMonsters();
 		return 0;
 	};
 	if(functionNameHash == 181199) { // UpdateNozzleFx
-		cls->UpdateNozzleFx();
+		UpdateNozzleFx();
 		return 0;
 	};
 	if(functionNameHash == 251065) { // UpdateFlashPosition
-		cls->UpdateFlashPosition();
+		UpdateFlashPosition();
 		return 0;
 	};
 	if(functionNameHash == 285326) { // Event_GrabberHasTarget
-		return (intptr_t)cls->Event_GrabberHasTarget();
+		return (intptr_t)Event_GrabberHasTarget();
 	};
 	if(functionNameHash == 293443) { // Event_StartWeaponSmoke
-		cls->Event_StartWeaponSmoke();
+		Event_StartWeaponSmoke();
 		return 0;
 	};
 	if(functionNameHash == 278872) { // Event_StopWeaponSmoke
-		cls->Event_StopWeaponSmoke();
+		Event_StopWeaponSmoke();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idLight::Invoke(idLight *cls, const char *functionName) {
+intptr_t idLight::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 144625) { // FreeLightDef
-		cls->FreeLightDef();
+		FreeLightDef();
 		return 0;
 	};
 	if(functionNameHash == 90014) { // Present
-		cls->Present();
+		Present();
 		return 0;
 	};
 	if(functionNameHash == 146975) { // GetBaseColor
-		cls->GetBaseColor();
+		GetBaseColor();
 		return 0;
 	};
 	if(functionNameHash == 22601) { // On
-		cls->On();
+		On();
 		return 0;
 	};
 	if(functionNameHash == 33983) { // Off
-		cls->Off();
+		Off();
 		return 0;
 	};
 	if(functionNameHash == 209896) { // GetLightDefHandle
-		cls->GetLightDefHandle();
+		GetLightDefHandle();
 		return 0;
 	};
 	if(functionNameHash == 163688) { // SetLightLevel
-		cls->SetLightLevel();
+		SetLightLevel();
 		return 0;
 	};
 	if(functionNameHash == 218178) { // ShowEditingDialog
-		cls->ShowEditingDialog();
+		ShowEditingDialog();
 		return 0;
 	};
 	if(functionNameHash == 278761) { // ClientPredictionThink
-		cls->ClientPredictionThink();
+		ClientPredictionThink();
 		return 0;
 	};
 	if(functionNameHash == 269021) { // PresentModelDefChange
-		cls->PresentModelDefChange();
+		PresentModelDefChange();
 		return 0;
 	};
 	if(functionNameHash == 121918) { // Event_Hide
-		cls->Event_Hide();
+		Event_Hide();
 		return 0;
 	};
 	if(functionNameHash == 126868) { // Event_Show
-		cls->Event_Show();
+		Event_Show();
 		return 0;
 	};
 	if(functionNameHash == 97795) { // Event_On
-		cls->Event_On();
+		Event_On();
 		return 0;
 	};
 	if(functionNameHash == 109741) { // Event_Off
-		cls->Event_Off();
+		Event_Off();
 		return 0;
 	};
 	if(functionNameHash == 275399) { // Event_SetSoundHandles
-		cls->Event_SetSoundHandles();
+		Event_SetSoundHandles();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idWorldspawn::Invoke(idWorldspawn *cls, const char *functionName) {
+intptr_t idWorldspawn::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idItem::Invoke(idItem *cls, const char *functionName) {
+intptr_t idItem::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 90014) { // Present
-		cls->Present();
+		Present();
 		return 0;
 	};
 	if(functionNameHash == 278761) { // ClientPredictionThink
-		cls->ClientPredictionThink();
+		ClientPredictionThink();
 		return 0;
 	};
 	if(functionNameHash == 219076) { // Event_DropToFloor
-		cls->Event_DropToFloor();
+		Event_DropToFloor();
 		return 0;
 	};
 	if(functionNameHash == 168370) { // Event_Respawn
-		cls->Event_Respawn();
+		Event_Respawn();
 		return 0;
 	};
 	if(functionNameHash == 193570) { // Event_RespawnFx
-		cls->Event_RespawnFx();
+		Event_RespawnFx();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idItemPowerup::Invoke(idItemPowerup *cls, const char *functionName) {
+intptr_t idItemPowerup::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idObjective::Invoke(idObjective *cls, const char *functionName) {
+intptr_t idObjective::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 232865) { // Event_GetPlayerPos
-		cls->Event_GetPlayerPos();
+		Event_GetPlayerPos();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idVideoCDItem::Invoke(idVideoCDItem *cls, const char *functionName) {
+intptr_t idVideoCDItem::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idPDAItem::Invoke(idPDAItem *cls, const char *functionName) {
+intptr_t idPDAItem::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idMoveableItem::Invoke(idMoveableItem *cls, const char *functionName) {
+intptr_t idMoveableItem::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 219076) { // Event_DropToFloor
-		cls->Event_DropToFloor();
+		Event_DropToFloor();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idItemTeam::Invoke(idItemTeam *cls, const char *functionName) {
+intptr_t idItemTeam::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 88469) { // Capture
-		cls->Capture();
+		Capture();
 		return 0;
 	};
 	if(functionNameHash == 144625) { // FreeLightDef
-		cls->FreeLightDef();
+		FreeLightDef();
 		return 0;
 	};
 	if(functionNameHash == 90014) { // Present
-		cls->Present();
+		Present();
 		return 0;
 	};
 	if(functionNameHash == 217630) { // Event_FlagCapture
-		cls->Event_FlagCapture();
+		Event_FlagCapture();
 		return 0;
 	};
 	if(functionNameHash == 171571) { // PrivateReturn
-		cls->PrivateReturn();
+		PrivateReturn();
 		return 0;
 	};
 	if(functionNameHash == 125953) { // UpdateGuis
-		cls->UpdateGuis();
+		UpdateGuis();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idMoveablePDAItem::Invoke(idMoveablePDAItem *cls, const char *functionName) {
+intptr_t idMoveablePDAItem::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idItemRemover::Invoke(idItemRemover *cls, const char *functionName) {
+intptr_t idItemRemover::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idObjectiveComplete::Invoke(idObjectiveComplete *cls, const char *functionName) {
+intptr_t idObjectiveComplete::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 232865) { // Event_GetPlayerPos
-		cls->Event_GetPlayerPos();
+		Event_GetPlayerPos();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPlayer::Invoke(idPlayer *cls, const char *functionName) {
+intptr_t idPlayer::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 45590) { // Hide
-		cls->Hide();
+		Hide();
 		return 0;
 	};
 	if(functionNameHash == 50306) { // Show
-		cls->Show();
+		Show();
 		return 0;
 	};
 	if(functionNameHash == 48744) { // Init
-		cls->Init();
+		Init();
 		return 0;
 	};
 	if(functionNameHash == 223208) { // PrepareForRestart
-		cls->PrepareForRestart();
+		PrepareForRestart();
 		return 0;
 	};
 	if(functionNameHash == 90512) { // Restart
-		cls->Restart();
+		Restart();
 		return 0;
 	};
 	if(functionNameHash == 249647) { // LinkScriptVariables
-		cls->LinkScriptVariables();
+		LinkScriptVariables();
 		return 0;
 	};
 	if(functionNameHash == 226876) { // SetupWeaponEntity
-		cls->SetupWeaponEntity();
+		SetupWeaponEntity();
 		return 0;
 	};
 	if(functionNameHash == 238460) { // SpawnFromSpawnSpot
-		cls->SpawnFromSpawnSpot();
+		SpawnFromSpawnSpot();
 		return 0;
 	};
 	if(functionNameHash == 148179) { // SetClipModel
-		cls->SetClipModel();
+		SetClipModel();
 		return 0;
 	};
 	if(functionNameHash == 237887) { // SavePersistantInfo
-		cls->SavePersistantInfo();
+		SavePersistantInfo();
 		return 0;
 	};
 	if(functionNameHash == 284524) { // RestorePersistantInfo
-		cls->RestorePersistantInfo();
+		RestorePersistantInfo();
 		return 0;
 	};
 	if(functionNameHash == 149910) { // CacheWeapons
-		cls->CacheWeapons();
+		CacheWeapons();
 		return 0;
 	};
 	if(functionNameHash == 178279) { // EnterCinematic
-		cls->EnterCinematic();
+		EnterCinematic();
 		return 0;
 	};
 	if(functionNameHash == 165047) { // ExitCinematic
-		cls->ExitCinematic();
+		ExitCinematic();
 		return 0;
 	};
 	if(functionNameHash == 210484) { // UpdateConditions
-		cls->UpdateConditions();
+		UpdateConditions();
 		return 0;
 	};
 	if(functionNameHash == 265702) { // ResetControllerShake
-		cls->ResetControllerShake();
+		ResetControllerShake();
 		return 0;
 	};
 	if(functionNameHash == 149541) { // GetAimAssist
-		return (intptr_t)cls->GetAimAssist();
+		return (intptr_t)GetAimAssist();
 	};
 	if(functionNameHash == 163648) { // GetRenderView
-		return (intptr_t)cls->GetRenderView();
+		return (intptr_t)GetRenderView();
 	};
 	if(functionNameHash == 247267) { // CalculateRenderView
-		cls->CalculateRenderView();
+		CalculateRenderView();
 		return 0;
 	};
 	if(functionNameHash == 323196) { // CalculateFirstPersonView
-		cls->CalculateFirstPersonView();
+		CalculateFirstPersonView();
 		return 0;
 	};
 	if(functionNameHash == 266853) { // UpdateSpectatingText
-		cls->UpdateSpectatingText();
+		UpdateSpectatingText();
 		return 0;
 	};
 	if(functionNameHash == 124692) { // DefaultFov
-		cls->DefaultFov();
+		DefaultFov();
 		return 0;
 	};
 	if(functionNameHash == 180136) { // GetEyePosition
-		cls->GetEyePosition();
+		GetEyePosition();
 		return 0;
 	};
 	if(functionNameHash == 250140) { // GetPrimaryObjective
-		return (intptr_t)cls->GetPrimaryObjective();
+		return (intptr_t)GetPrimaryObjective();
 	};
 	if(functionNameHash == 157534) { // GetInventory
-		cls->GetInventory();
+		GetInventory();
 		return 0;
 	};
 	if(functionNameHash == 267860) { // GetNumInventoryItems
-		return (intptr_t)cls->GetNumInventoryItems();
+		return (intptr_t)GetNumInventoryItems();
 	};
 	if(functionNameHash == 132490) { // EndAudioLog
-		cls->EndAudioLog();
+		EndAudioLog();
 		return 0;
 	};
 	if(functionNameHash == 146750) { // EndVideoDisk
-		cls->EndVideoDisk();
+		EndVideoDisk();
 		return 0;
 	};
 	if(functionNameHash == 203479) { // GetVideoMaterial
-		return (intptr_t)cls->GetVideoMaterial();
+		return (intptr_t)GetVideoMaterial();
 	};
 	if(functionNameHash == 165808) { // ClearPowerUps
-		cls->ClearPowerUps();
+		ClearPowerUps();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	if(functionNameHash == 127713) { // NextWeapon
-		cls->NextWeapon();
+		NextWeapon();
 		return 0;
 	};
 	if(functionNameHash == 179818) { // NextBestWeapon
-		cls->NextBestWeapon();
+		NextBestWeapon();
 		return 0;
 	};
 	if(functionNameHash == 127456) { // PrevWeapon
-		cls->PrevWeapon();
+		PrevWeapon();
 		return 0;
 	};
 	if(functionNameHash == 141364) { // LowerWeapon
-		cls->LowerWeapon();
+		LowerWeapon();
 		return 0;
 	};
 	if(functionNameHash == 138813) { // RaiseWeapon
-		cls->RaiseWeapon();
+		RaiseWeapon();
 		return 0;
 	};
 	if(functionNameHash == 289786) { // WeaponLoweringCallback
-		cls->WeaponLoweringCallback();
+		WeaponLoweringCallback();
 		return 0;
 	};
 	if(functionNameHash == 259440) { // WeaponRisingCallback
-		cls->WeaponRisingCallback();
+		WeaponRisingCallback();
 		return 0;
 	};
 	if(functionNameHash == 381109) { // RemoveAllButEssentialWeapons
-		cls->RemoveAllButEssentialWeapons();
+		RemoveAllButEssentialWeapons();
 		return 0;
 	};
 	if(functionNameHash == 291879) { // CanShowWeaponViewmodel
-		cls->CanShowWeaponViewmodel();
+		CanShowWeaponViewmodel();
 		return 0;
 	};
 	if(functionNameHash == 98493) { // AddAIKill
-		cls->AddAIKill();
+		AddAIKill();
 		return 0;
 	};
 	if(functionNameHash == 247825) { // SetCurrentHeartRate
-		cls->SetCurrentHeartRate();
+		SetCurrentHeartRate();
 		return 0;
 	};
 	if(functionNameHash == 198082) { // GetBaseHeartRate
-		return (intptr_t)cls->GetBaseHeartRate();
+		return (intptr_t)GetBaseHeartRate();
 	};
 	if(functionNameHash == 110114) { // UpdateAir
-		cls->UpdateAir();
+		UpdateAir();
 		return 0;
 	};
 	if(functionNameHash == 209361) { // UpdatePowerupHud
-		cls->UpdatePowerupHud();
+		UpdatePowerupHud();
 		return 0;
 	};
 	if(functionNameHash == 110505) { // GuiActive
-		cls->GuiActive();
+		GuiActive();
 		return 0;
 	};
 	if(functionNameHash == 100976) { // TogglePDA
-		cls->TogglePDA();
+		TogglePDA();
 		return 0;
 	};
 	if(functionNameHash == 110723) { // UpdateHud
-		cls->UpdateHud();
+		UpdateHud();
 		return 0;
 	};
 	if(functionNameHash == 60789) { // GetPDA
-		return (intptr_t)cls->GetPDA();
+		return (intptr_t)GetPDA();
 	};
 	if(functionNameHash == 111683) { // GetPDAOpen
-		cls->GetPDAOpen();
+		GetPDAOpen();
 		return 0;
 	};
 	if(functionNameHash == 217835) { // GetInfluenceLevel
-		return (intptr_t)cls->GetInfluenceLevel();
+		return (intptr_t)GetInfluenceLevel();
 	};
 	if(functionNameHash == 259212) { // GetPrivateCameraView
-		return (intptr_t)cls->GetPrivateCameraView();
+		return (intptr_t)GetPrivateCameraView();
 	};
 	if(functionNameHash == 218301) { // UpdateChattingHud
-		cls->UpdateChattingHud();
+		UpdateChattingHud();
 		return 0;
 	};
 	if(functionNameHash == 231979) { // Event_StopAudioLog
-		cls->Event_StopAudioLog();
+		Event_StopAudioLog();
 		return 0;
 	};
 	if(functionNameHash == 82942) { // HideTip
-		cls->HideTip();
+		HideTip();
 		return 0;
 	};
 	if(functionNameHash == 150457) { // IsTipVisible
-		cls->IsTipVisible();
+		IsTipVisible();
 		return 0;
 	};
 	if(functionNameHash == 162972) { // HideObjective
-		cls->HideObjective();
+		HideObjective();
 		return 0;
 	};
 	if(functionNameHash == 154873) { // IsRespawning
-		cls->IsRespawning();
+		IsRespawning();
 		return 0;
 	};
 	if(functionNameHash == 152040) { // IsInTeleport
-		cls->IsInTeleport();
+		IsInTeleport();
 		return 0;
 	};
 	if(functionNameHash == 149259) { // GetSkinIndex
-		return (intptr_t)cls->GetSkinIndex();
+		return (intptr_t)GetSkinIndex();
 	};
 	if(functionNameHash == 235912) { // GetInfluenceEntity
-		return (intptr_t)cls->GetInfluenceEntity();
+		return (intptr_t)GetInfluenceEntity();
 	};
 	if(functionNameHash == 260455) { // GetInfluenceMaterial
-		return (intptr_t)cls->GetInfluenceMaterial();
+		return (intptr_t)GetInfluenceMaterial();
 	};
 	if(functionNameHash == 233090) { // GetInfluenceRadius
-		cls->GetInfluenceRadius();
+		GetInfluenceRadius();
 		return 0;
 	};
 	if(functionNameHash == 208894) { // GetPlayerPhysics
-		return (intptr_t)cls->GetPlayerPhysics();
+		return (intptr_t)GetPlayerPhysics();
 	};
 	if(functionNameHash == 95325) { // IsLeader
-		cls->IsLeader();
+		IsLeader();
 		return 0;
 	};
 	if(functionNameHash == 194926) { // UpdateSkinSetup
-		cls->UpdateSkinSetup();
+		UpdateSkinSetup();
 		return 0;
 	};
 	if(functionNameHash == 95320) { // OnLadder
-		cls->OnLadder();
+		OnLadder();
 		return 0;
 	};
 	if(functionNameHash == 221204) { // UpdatePlayerIcons
-		cls->UpdatePlayerIcons();
+		UpdatePlayerIcons();
 		return 0;
 	};
 	if(functionNameHash == 192692) { // DrawPlayerIcons
-		cls->DrawPlayerIcons();
+		DrawPlayerIcons();
 		return 0;
 	};
 	if(functionNameHash == 190255) { // HidePlayerIcons
-		cls->HidePlayerIcons();
+		HidePlayerIcons();
 		return 0;
 	};
 	if(functionNameHash == 109351) { // NeedsIcon
-		cls->NeedsIcon();
+		NeedsIcon();
 		return 0;
 	};
 	if(functionNameHash == 232272) { // StopHealthRecharge
-		cls->StopHealthRecharge();
+		StopHealthRecharge();
 		return 0;
 	};
 	if(functionNameHash == 208447) { // GetCurrentWeapon
-		cls->GetCurrentWeapon();
+		GetCurrentWeapon();
 		return 0;
 	};
 	if(functionNameHash == 265555) { // GetCurrentWeaponSlot
-		return (intptr_t)cls->GetCurrentWeaponSlot();
+		return (intptr_t)GetCurrentWeaponSlot();
 	};
 	if(functionNameHash == 174179) { // GetIdealWeapon
-		return (intptr_t)cls->GetIdealWeapon();
+		return (intptr_t)GetIdealWeapon();
 	};
 	if(functionNameHash == 206679) { // GetWeaponToggles
-		cls->GetWeaponToggles();
+		GetWeaponToggles();
 		return 0;
 	};
 	if(functionNameHash == 280196) { // PlayHelltimeStopSound
-		cls->PlayHelltimeStopSound();
+		PlayHelltimeStopSound();
 		return 0;
 	};
 	if(functionNameHash == 95972) { // DropFlag
-		cls->DropFlag();
+		DropFlag();
 		return 0;
 	};
 	if(functionNameHash == 125711) { // ReturnFlag
-		cls->ReturnFlag();
+		ReturnFlag();
 		return 0;
 	};
 	if(functionNameHash == 143723) { // FreeModelDef
-		cls->FreeModelDef();
+		FreeModelDef();
 		return 0;
 	};
 	if(functionNameHash == 127139) { // SelfSmooth
-		cls->SelfSmooth();
+		SelfSmooth();
 		return 0;
 	};
 	if(functionNameHash == 199645) { // GetViewBobAngles
-		cls->GetViewBobAngles();
+		GetViewBobAngles();
 		return 0;
 	};
 	if(functionNameHash == 120368) { // GetViewBob
-		cls->GetViewBob();
+		GetViewBob();
 		return 0;
 	};
 	if(functionNameHash == 273462) { // GetAchievementManager
-		cls->GetAchievementManager();
+		GetAchievementManager();
 		return 0;
 	};
 	if(functionNameHash == 273462) { // GetAchievementManager
-		cls->GetAchievementManager();
+		GetAchievementManager();
 		return 0;
 	};
 	if(functionNameHash == 161926) { // GetPlayedTime
-		return (intptr_t)cls->GetPlayedTime();
+		return (intptr_t)GetPlayedTime();
 	};
 	if(functionNameHash == 230767) { // GetClientFireCount
-		return (intptr_t)cls->GetClientFireCount();
+		return (intptr_t)GetClientFireCount();
 	};
 	if(functionNameHash == 235397) { // IncrementFireCount
-		cls->IncrementFireCount();
+		IncrementFireCount();
 		return 0;
 	};
 	if(functionNameHash == 277513) { // ShowRespawnHudMessage
-		cls->ShowRespawnHudMessage();
+		ShowRespawnHudMessage();
 		return 0;
 	};
 	if(functionNameHash == 272797) { // HideRespawnHudMessage
-		cls->HideRespawnHudMessage();
+		HideRespawnHudMessage();
 		return 0;
 	};
 	if(functionNameHash == 250595) { // IsLocallyControlled
-		cls->IsLocallyControlled();
+		IsLocallyControlled();
 		return 0;
 	};
 	if(functionNameHash == 209726) { // GetExpansionType
-		cls->GetExpansionType();
+		GetExpansionType();
 		return 0;
 	};
 	if(functionNameHash == 232151) { // AddProjectileKills
-		cls->AddProjectileKills();
+		AddProjectileKills();
 		return 0;
 	};
 	if(functionNameHash == 234921) { // GetProjectileKills
-		return (intptr_t)cls->GetProjectileKills();
+		return (intptr_t)GetProjectileKills();
 	};
 	if(functionNameHash == 265803) { // ResetProjectileKills
-		cls->ResetProjectileKills();
+		ResetProjectileKills();
 		return 0;
 	};
 	if(functionNameHash == 165154) { // GetPrevWeapon
-		return (intptr_t)cls->GetPrevWeapon();
+		return (intptr_t)GetPrevWeapon();
 	};
 	if(functionNameHash == 127156) { // StopFiring
-		cls->StopFiring();
+		StopFiring();
 		return 0;
 	};
 	if(functionNameHash == 124685) { // FireWeapon
-		cls->FireWeapon();
+		FireWeapon();
 		return 0;
 	};
 	if(functionNameHash == 163981) { // Weapon_Combat
-		cls->Weapon_Combat();
+		Weapon_Combat();
 		return 0;
 	};
 	if(functionNameHash == 115606) { // Weapon_NPC
-		cls->Weapon_NPC();
+		Weapon_NPC();
 		return 0;
 	};
 	if(functionNameHash == 116127) { // Weapon_GUI
-		cls->Weapon_GUI();
+		Weapon_GUI();
 		return 0;
 	};
 	if(functionNameHash == 153156) { // UpdateWeapon
-		cls->UpdateWeapon();
+		UpdateWeapon();
 		return 0;
 	};
 	if(functionNameHash == 207861) { // UpdateFlashlight
-		cls->UpdateFlashlight();
+		UpdateFlashlight();
 		return 0;
 	};
 	if(functionNameHash == 151891) { // FlashlightOn
-		cls->FlashlightOn();
+		FlashlightOn();
 		return 0;
 	};
 	if(functionNameHash == 164213) { // FlashlightOff
-		cls->FlashlightOff();
+		FlashlightOff();
 		return 0;
 	};
 	if(functionNameHash == 209329) { // UpdateSpectating
-		cls->UpdateSpectating();
+		UpdateSpectating();
 		return 0;
 	};
 	if(functionNameHash == 165177) { // SpectateCycle
-		cls->SpectateCycle();
+		SpectateCycle();
 		return 0;
 	};
 	if(functionNameHash == 209678) { // GunTurningOffset
-		cls->GunTurningOffset();
+		GunTurningOffset();
 		return 0;
 	};
 	if(functionNameHash == 275446) { // GunAcceleratingOffset
-		cls->GunAcceleratingOffset();
+		GunAcceleratingOffset();
 		return 0;
 	};
 	if(functionNameHash == 205597) { // UpdateViewAngles
-		cls->UpdateViewAngles();
+		UpdateViewAngles();
 		return 0;
 	};
 	if(functionNameHash == 212276) { // EvaluateControls
-		cls->EvaluateControls();
+		EvaluateControls();
 		return 0;
 	};
 	if(functionNameHash == 138506) { // AdjustSpeed
-		cls->AdjustSpeed();
+		AdjustSpeed();
 		return 0;
 	};
 	if(functionNameHash == 205065) { // AdjustBodyAngles
-		cls->AdjustBodyAngles();
+		AdjustBodyAngles();
 		return 0;
 	};
 	if(functionNameHash == 182149) { // InitAASLocation
-		cls->InitAASLocation();
+		InitAASLocation();
 		return 0;
 	};
 	if(functionNameHash == 168400) { // SetAASLocation
-		cls->SetAASLocation();
+		SetAASLocation();
 		return 0;
 	};
 	if(functionNameHash == 49083) { // Move
-		cls->Move();
+		Move();
 		return 0;
 	};
 	if(functionNameHash == 461936) { // RunPhysics_RemoteClientCorrection
-		cls->RunPhysics_RemoteClientCorrection();
+		RunPhysics_RemoteClientCorrection();
 		return 0;
 	};
 	if(functionNameHash == 181916) { // UpdatePowerUps
-		cls->UpdatePowerUps();
+		UpdatePowerUps();
 		return 0;
 	};
 	if(functionNameHash == 221329) { // SetSpectateOrigin
-		cls->SetSpectateOrigin();
+		SetSpectateOrigin();
 		return 0;
 	};
 	if(functionNameHash == 293094) { // AllowClientAuthPhysics
-		cls->AllowClientAuthPhysics();
+		AllowClientAuthPhysics();
 		return 0;
 	};
 	if(functionNameHash == 234606) { // GetPhysicsTimeStep
-		cls->GetPhysicsTimeStep();
+		GetPhysicsTimeStep();
 		return 0;
 	};
 	if(functionNameHash == 123618) { // ClearFocus
-		cls->ClearFocus();
+		ClearFocus();
 		return 0;
 	};
 	if(functionNameHash == 139401) { // UpdateFocus
-		cls->UpdateFocus();
+		UpdateFocus();
 		return 0;
 	};
 	if(functionNameHash == 180431) { // UpdateLocation
-		cls->UpdateLocation();
+		UpdateLocation();
 		return 0;
 	};
 	if(functionNameHash == 110451) { // ActiveGui
-		return (intptr_t)cls->ActiveGui();
+		return (intptr_t)ActiveGui();
 	};
 	if(functionNameHash == 179481) { // Respawn_Shared
-		cls->Respawn_Shared();
+		Respawn_Shared();
 		return 0;
 	};
 	if(functionNameHash == 124190) { // UseVehicle
-		cls->UseVehicle();
+		UseVehicle();
 		return 0;
 	};
 	if(functionNameHash == 163139) { // Event_GetMove
-		cls->Event_GetMove();
+		Event_GetMove();
 		return 0;
 	};
 	if(functionNameHash == 244748) { // Event_GetViewAngles
-		cls->Event_GetViewAngles();
+		Event_GetViewAngles();
 		return 0;
 	};
 	if(functionNameHash == 191630) { // Event_StopFxFov
-		cls->Event_StopFxFov();
+		Event_StopFxFov();
 		return 0;
 	};
 	if(functionNameHash == 231053) { // Event_EnableWeapon
-		cls->Event_EnableWeapon();
+		Event_EnableWeapon();
 		return 0;
 	};
 	if(functionNameHash == 245925) { // Event_DisableWeapon
-		cls->Event_DisableWeapon();
+		Event_DisableWeapon();
 		return 0;
 	};
 	if(functionNameHash == 292377) { // Event_GetCurrentWeapon
-		cls->Event_GetCurrentWeapon();
+		Event_GetCurrentWeapon();
 		return 0;
 	};
 	if(functionNameHash == 309426) { // Event_GetPreviousWeapon
-		cls->Event_GetPreviousWeapon();
+		Event_GetPreviousWeapon();
 		return 0;
 	};
 	if(functionNameHash == 278206) { // Event_GetWeaponEntity
-		cls->Event_GetWeaponEntity();
+		Event_GetWeaponEntity();
 		return 0;
 	};
 	if(functionNameHash == 152629) { // Event_OpenPDA
-		cls->Event_OpenPDA();
+		Event_OpenPDA();
 		return 0;
 	};
 	if(functionNameHash == 124294) { // Event_InPDA
-		cls->Event_InPDA();
+		Event_InPDA();
 		return 0;
 	};
 	if(functionNameHash == 267939) { // Event_ExitTeleporter
-		cls->Event_ExitTeleporter();
+		Event_ExitTeleporter();
 		return 0;
 	};
 	if(functionNameHash == 161076) { // Event_HideTip
-		cls->Event_HideTip();
+		Event_HideTip();
 		return 0;
 	};
 	if(functionNameHash == 234486) { // Event_LevelTrigger
-		cls->Event_LevelTrigger();
+		Event_LevelTrigger();
 		return 0;
 	};
 	if(functionNameHash == 147184) { // Event_Gibbed
-		cls->Event_Gibbed();
+		Event_Gibbed();
 		return 0;
 	};
 	if(functionNameHash == 256549) { // Event_GetIdealWeapon
-		cls->Event_GetIdealWeapon();
+		Event_GetIdealWeapon();
 		return 0;
 	};
 	if(functionNameHash == 194887) { // Event_StartWarp
-		cls->Event_StartWarp();
+		Event_StartWarp();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idMover::Invoke(idMover *cls, const char *functionName) {
+intptr_t idMover::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 45590) { // Hide
-		cls->Hide();
+		Hide();
 		return 0;
 	};
 	if(functionNameHash == 50306) { // Show
-		cls->Show();
+		Show();
 		return 0;
 	};
 	if(functionNameHash == 207323) { // Event_OpenPortal
-		cls->Event_OpenPortal();
+		Event_OpenPortal();
 		return 0;
 	};
 	if(functionNameHash == 220884) { // Event_ClosePortal
-		cls->Event_ClosePortal();
+		Event_ClosePortal();
 		return 0;
 	};
 	if(functionNameHash == 177094) { // FindGuiTargets
-		cls->FindGuiTargets();
+		FindGuiTargets();
 		return 0;
 	};
 	if(functionNameHash == 125413) { // DoneMoving
-		cls->DoneMoving();
+		DoneMoving();
 		return 0;
 	};
 	if(functionNameHash == 153368) { // DoneRotating
-		cls->DoneRotating();
+		DoneRotating();
 		return 0;
 	};
 	if(functionNameHash == 214718) { // Event_SetCallback
-		cls->Event_SetCallback();
+		Event_SetCallback();
 		return 0;
 	};
 	if(functionNameHash == 209597) { // Event_StopMoving
-		cls->Event_StopMoving();
+		Event_StopMoving();
 		return 0;
 	};
 	if(functionNameHash == 238848) { // Event_StopRotating
-		cls->Event_StopRotating();
+		Event_StopRotating();
 		return 0;
 	};
 	if(functionNameHash == 205974) { // Event_UpdateMove
-		cls->Event_UpdateMove();
+		Event_UpdateMove();
 		return 0;
 	};
 	if(functionNameHash == 266154) { // Event_UpdateRotation
-		cls->Event_UpdateRotation();
+		Event_UpdateRotation();
 		return 0;
 	};
 	if(functionNameHash == 259602) { // Event_FindGuiTargets
-		cls->Event_FindGuiTargets();
+		Event_FindGuiTargets();
 		return 0;
 	};
 	if(functionNameHash == 262020) { // Event_InitGuiTargets
-		cls->Event_InitGuiTargets();
+		Event_InitGuiTargets();
 		return 0;
 	};
 	if(functionNameHash == 315240) { // Event_EnableSplineAngles
-		cls->Event_EnableSplineAngles();
+		Event_EnableSplineAngles();
 		return 0;
 	};
 	if(functionNameHash == 330715) { // Event_DisableSplineAngles
-		cls->Event_DisableSplineAngles();
+		Event_DisableSplineAngles();
 		return 0;
 	};
 	if(functionNameHash == 424511) { // Event_RemoveInitialSplineAngles
-		cls->Event_RemoveInitialSplineAngles();
+		Event_RemoveInitialSplineAngles();
 		return 0;
 	};
 	if(functionNameHash == 208923) { // Event_StopSpline
-		cls->Event_StopSpline();
+		Event_StopSpline();
 		return 0;
 	};
 	if(functionNameHash == 178540) { // Event_IsMoving
-		cls->Event_IsMoving();
+		Event_IsMoving();
 		return 0;
 	};
 	if(functionNameHash == 207359) { // Event_IsRotating
-		cls->Event_IsRotating();
+		Event_IsRotating();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idSplinePath::Invoke(idSplinePath *cls, const char *functionName) {
+intptr_t idSplinePath::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idElevator::Invoke(idElevator *cls, const char *functionName) {
+intptr_t idElevator::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 164442) { // OpenInnerDoor
-		cls->OpenInnerDoor();
+		OpenInnerDoor();
 		return 0;
 	};
 	if(functionNameHash == 163033) { // CloseAllDoors
-		cls->CloseAllDoors();
+		CloseAllDoors();
 		return 0;
 	};
 	if(functionNameHash == 188328) { // DisableAllDoors
-		cls->DisableAllDoors();
+		DisableAllDoors();
 		return 0;
 	};
 	if(functionNameHash == 220682) { // EnableProperDoors
-		cls->EnableProperDoors();
+		EnableProperDoors();
 		return 0;
 	};
 	if(functionNameHash == 293800) { // Event_PostFloorArrival
-		cls->Event_PostFloorArrival();
+		Event_PostFloorArrival();
 		return 0;
 	};
 	if(functionNameHash == 233629) { // Event_SetGuiStates
-		cls->Event_SetGuiStates();
+		Event_SetGuiStates();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idMover_Binary::Invoke(idMover_Binary *cls, const char *functionName) {
+intptr_t idMover_Binary::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 82528) { // PreBind
-		cls->PreBind();
+		PreBind();
 		return 0;
 	};
 	if(functionNameHash == 98395) { // PostBind
-		cls->PostBind();
+		PostBind();
 		return 0;
 	};
 	if(functionNameHash == 163766) { // GotoPosition1
-		cls->GotoPosition1();
+		GotoPosition1();
 		return 0;
 	};
 	if(functionNameHash == 163897) { // GotoPosition2
-		cls->GotoPosition2();
+		GotoPosition2();
 		return 0;
 	};
 	if(functionNameHash == 201128) { // GetActivateChain
-		return (intptr_t)cls->GetActivateChain();
+		return (intptr_t)GetActivateChain();
 	};
 	if(functionNameHash == 164678) { // GetMoveMaster
-		return (intptr_t)cls->GetMoveMaster();
+		return (intptr_t)GetMoveMaster();
 	};
 	if(functionNameHash == 108379) { // IsBlocked
-		cls->IsBlocked();
+		IsBlocked();
 		return 0;
 	};
 	if(functionNameHash == 153395) { // GetActivator
-		return (intptr_t)cls->GetActivator();
+		return (intptr_t)GetActivator();
 	};
 	if(functionNameHash == 165486) { // GetMoverState
-		cls->GetMoverState();
+		GetMoverState();
 		return 0;
 	};
 	if(functionNameHash == 177094) { // FindGuiTargets
-		cls->FindGuiTargets();
+		FindGuiTargets();
 		return 0;
 	};
 	if(functionNameHash == 214718) { // Event_SetCallback
-		cls->Event_SetCallback();
+		Event_SetCallback();
 		return 0;
 	};
 	if(functionNameHash == 229109) { // Event_ReturnToPos1
-		cls->Event_ReturnToPos1();
+		Event_ReturnToPos1();
 		return 0;
 	};
 	if(functionNameHash == 330944) { // Event_Reached_BinaryMover
-		cls->Event_Reached_BinaryMover();
+		Event_Reached_BinaryMover();
 		return 0;
 	};
 	if(functionNameHash == 148470) { // Event_Enable
-		cls->Event_Enable();
+		Event_Enable();
 		return 0;
 	};
 	if(functionNameHash == 162724) { // Event_Disable
-		cls->Event_Disable();
+		Event_Disable();
 		return 0;
 	};
 	if(functionNameHash == 207323) { // Event_OpenPortal
-		cls->Event_OpenPortal();
+		Event_OpenPortal();
 		return 0;
 	};
 	if(functionNameHash == 220884) { // Event_ClosePortal
-		cls->Event_ClosePortal();
+		Event_ClosePortal();
 		return 0;
 	};
 	if(functionNameHash == 259602) { // Event_FindGuiTargets
-		cls->Event_FindGuiTargets();
+		Event_FindGuiTargets();
 		return 0;
 	};
 	if(functionNameHash == 262020) { // Event_InitGuiTargets
-		cls->Event_InitGuiTargets();
+		Event_InitGuiTargets();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idDoor::Invoke(idDoor *cls, const char *functionName) {
+intptr_t idDoor::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 82528) { // PreBind
-		cls->PreBind();
+		PreBind();
 		return 0;
 	};
 	if(functionNameHash == 98395) { // PostBind
-		cls->PostBind();
+		PostBind();
 		return 0;
 	};
 	if(functionNameHash == 45590) { // Hide
-		cls->Hide();
+		Hide();
 		return 0;
 	};
 	if(functionNameHash == 50306) { // Show
-		cls->Show();
+		Show();
 		return 0;
 	};
 	if(functionNameHash == 71773) { // IsOpen
-		cls->IsOpen();
+		IsOpen();
 		return 0;
 	};
 	if(functionNameHash == 109870) { // IsNoTouch
-		cls->IsNoTouch();
+		IsNoTouch();
 		return 0;
 	};
 	if(functionNameHash == 95895) { // IsLocked
-		return (intptr_t)cls->IsLocked();
+		return (intptr_t)IsLocked();
 	};
 	if(functionNameHash == 60817) { // Close
-		cls->Close();
+		Close();
 		return 0;
 	};
 	if(functionNameHash == 48482) { // Open
-		cls->Open();
+		Open();
 		return 0;
 	};
 	if(functionNameHash == 330944) { // Event_Reached_BinaryMover
-		cls->Event_Reached_BinaryMover();
+		Event_Reached_BinaryMover();
 		return 0;
 	};
 	if(functionNameHash == 193830) { // Event_StartOpen
-		cls->Event_StartOpen();
+		Event_StartOpen();
 		return 0;
 	};
 	if(functionNameHash == 292733) { // Event_SpawnDoorTrigger
-		cls->Event_SpawnDoorTrigger();
+		Event_SpawnDoorTrigger();
 		return 0;
 	};
 	if(functionNameHash == 309067) { // Event_SpawnSoundTrigger
-		cls->Event_SpawnSoundTrigger();
+		Event_SpawnSoundTrigger();
 		return 0;
 	};
 	if(functionNameHash == 137889) { // Event_Close
-		cls->Event_Close();
+		Event_Close();
 		return 0;
 	};
 	if(functionNameHash == 124954) { // Event_Open
-		cls->Event_Open();
+		Event_Open();
 		return 0;
 	};
 	if(functionNameHash == 149373) { // Event_IsOpen
-		cls->Event_IsOpen();
+		Event_IsOpen();
 		return 0;
 	};
 	if(functionNameHash == 149844) { // Event_Locked
-		cls->Event_Locked();
+		Event_Locked();
 		return 0;
 	};
 	if(functionNameHash == 207323) { // Event_OpenPortal
-		cls->Event_OpenPortal();
+		Event_OpenPortal();
 		return 0;
 	};
 	if(functionNameHash == 220884) { // Event_ClosePortal
-		cls->Event_ClosePortal();
+		Event_ClosePortal();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPlat::Invoke(idPlat *cls, const char *functionName) {
+intptr_t idPlat::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 276247) { // RunPhysics_NoBlocking
-		cls->RunPhysics_NoBlocking();
+		RunPhysics_NoBlocking();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 82528) { // PreBind
-		cls->PreBind();
+		PreBind();
 		return 0;
 	};
 	if(functionNameHash == 98395) { // PostBind
-		cls->PostBind();
+		PostBind();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idMover_Periodic::Invoke(idMover_Periodic *cls, const char *functionName) {
+intptr_t idMover_Periodic::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idRotater::Invoke(idRotater *cls, const char *functionName) {
+intptr_t idRotater::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idBobber::Invoke(idBobber *cls, const char *functionName) {
+intptr_t idBobber::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idPendulum::Invoke(idPendulum *cls, const char *functionName) {
+intptr_t idPendulum::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idRiser::Invoke(idRiser *cls, const char *functionName) {
+intptr_t idRiser::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idCameraView::Invoke(idCameraView *cls, const char *functionName) {
+intptr_t idCameraView::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 50892) { // Stop
-		cls->Stop();
+		Stop();
 		return 0;
 	};
 	if(functionNameHash == 264827) { // Event_SetAttachments
-		cls->Event_SetAttachments();
+		Event_SetAttachments();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idCameraAnim::Invoke(idCameraAnim *cls, const char *functionName) {
+intptr_t idCameraAnim::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 63710) { // Start
-		cls->Start();
+		Start();
 		return 0;
 	};
 	if(functionNameHash == 50892) { // Stop
-		cls->Stop();
+		Stop();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 94795) { // LoadAnim
-		cls->LoadAnim();
+		LoadAnim();
 		return 0;
 	};
 	if(functionNameHash == 140926) { // Event_Start
-		cls->Event_Start();
+		Event_Start();
 		return 0;
 	};
 	if(functionNameHash == 127484) { // Event_Stop
-		cls->Event_Stop();
+		Event_Stop();
 		return 0;
 	};
 	if(functionNameHash == 214718) { // Event_SetCallback
-		cls->Event_SetCallback();
+		Event_SetCallback();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idMoveable::Invoke(idMoveable *cls, const char *functionName) {
+intptr_t idMoveable::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 45590) { // Hide
-		cls->Hide();
+		Hide();
 		return 0;
 	};
 	if(functionNameHash == 50306) { // Show
-		cls->Show();
+		Show();
 		return 0;
 	};
 	if(functionNameHash == 113684) { // AllowStep
-		cls->AllowStep();
+		AllowStep();
 		return 0;
 	};
 	if(functionNameHash == 137009) { // GetAttacker
-		return (intptr_t)cls->GetAttacker();
+		return (intptr_t)GetAttacker();
 	};
 	if(functionNameHash == 286384) { // GetRenderModelMaterial
-		return (intptr_t)cls->GetRenderModelMaterial();
+		return (intptr_t)GetRenderModelMaterial();
 	};
 	if(functionNameHash == 175070) { // BecomeNonSolid
-		cls->BecomeNonSolid();
+		BecomeNonSolid();
 		return 0;
 	};
 	if(functionNameHash == 306497) { // FollowInitialSplinePath
-		cls->FollowInitialSplinePath();
+		FollowInitialSplinePath();
 		return 0;
 	};
 	if(functionNameHash == 257488) { // Event_BecomeNonSolid
-		cls->Event_BecomeNonSolid();
+		Event_BecomeNonSolid();
 		return 0;
 	};
 	if(functionNameHash == 363849) { // Event_SetOwnerFromSpawnArgs
-		cls->Event_SetOwnerFromSpawnArgs();
+		Event_SetOwnerFromSpawnArgs();
 		return 0;
 	};
 	if(functionNameHash == 174863) { // Event_IsAtRest
-		cls->Event_IsAtRest();
+		Event_IsAtRest();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idBarrel::Invoke(idBarrel *cls, const char *functionName) {
+intptr_t idBarrel::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 137833) { // BarrelThink
-		cls->BarrelThink();
+		BarrelThink();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idExplodingBarrel::Invoke(idExplodingBarrel *cls, const char *functionName) {
+intptr_t idExplodingBarrel::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 96991) { // IsStable
-		cls->IsStable();
+		IsStable();
 		return 0;
 	};
 	if(functionNameHash == 155873) { // StartBurning
-		cls->StartBurning();
+		StartBurning();
 		return 0;
 	};
 	if(functionNameHash == 142330) { // StopBurning
-		cls->StopBurning();
+		StopBurning();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 207845) { // ExplodingEffects
-		cls->ExplodingEffects();
+		ExplodingEffects();
 		return 0;
 	};
 	if(functionNameHash == 138368) { // UpdateLight
-		cls->UpdateLight();
+		UpdateLight();
 		return 0;
 	};
 	if(functionNameHash == 168370) { // Event_Respawn
-		cls->Event_Respawn();
+		Event_Respawn();
 		return 0;
 	};
 	if(functionNameHash == 166403) { // Event_Explode
-		cls->Event_Explode();
+		Event_Explode();
 		return 0;
 	};
 	if(functionNameHash == 265462) { // Event_TriggerTargets
-		cls->Event_TriggerTargets();
+		Event_TriggerTargets();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTarget::Invoke(idTarget *cls, const char *functionName) {
+intptr_t idTarget::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_Remove::Invoke(idTarget_Remove *cls, const char *functionName) {
+intptr_t idTarget_Remove::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_Show::Invoke(idTarget_Show *cls, const char *functionName) {
+intptr_t idTarget_Show::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_Damage::Invoke(idTarget_Damage *cls, const char *functionName) {
+intptr_t idTarget_Damage::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_SessionCommand::Invoke(idTarget_SessionCommand *cls, const char *functionName) {
+intptr_t idTarget_SessionCommand::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_EndLevel::Invoke(idTarget_EndLevel *cls, const char *functionName) {
+intptr_t idTarget_EndLevel::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_WaitForButton::Invoke(idTarget_WaitForButton *cls, const char *functionName) {
+intptr_t idTarget_WaitForButton::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTarget_SetGlobalShaderTime::Invoke(idTarget_SetGlobalShaderTime *cls, const char *functionName) {
+intptr_t idTarget_SetGlobalShaderTime::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_SetShaderParm::Invoke(idTarget_SetShaderParm *cls, const char *functionName) {
+intptr_t idTarget_SetShaderParm::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_SetShaderTime::Invoke(idTarget_SetShaderTime *cls, const char *functionName) {
+intptr_t idTarget_SetShaderTime::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_FadeEntity::Invoke(idTarget_FadeEntity *cls, const char *functionName) {
+intptr_t idTarget_FadeEntity::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTarget_LightFadeIn::Invoke(idTarget_LightFadeIn *cls, const char *functionName) {
+intptr_t idTarget_LightFadeIn::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_LightFadeOut::Invoke(idTarget_LightFadeOut *cls, const char *functionName) {
+intptr_t idTarget_LightFadeOut::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_Give::Invoke(idTarget_Give *cls, const char *functionName) {
+intptr_t idTarget_Give::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTarget_GiveEmail::Invoke(idTarget_GiveEmail *cls, const char *functionName) {
+intptr_t idTarget_GiveEmail::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_SetModel::Invoke(idTarget_SetModel *cls, const char *functionName) {
+intptr_t idTarget_SetModel::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTarget_SetInfluence::Invoke(idTarget_SetInfluence *cls, const char *functionName) {
+intptr_t idTarget_SetInfluence::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 294203) { // Event_RestoreInfluence
-		cls->Event_RestoreInfluence();
+		Event_RestoreInfluence();
 		return 0;
 	};
 	if(functionNameHash == 263754) { // Event_GatherEntities
-		cls->Event_GatherEntities();
+		Event_GatherEntities();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTarget_SetKeyVal::Invoke(idTarget_SetKeyVal *cls, const char *functionName) {
+intptr_t idTarget_SetKeyVal::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_SetFov::Invoke(idTarget_SetFov *cls, const char *functionName) {
+intptr_t idTarget_SetFov::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTarget_SetPrimaryObjective::Invoke(idTarget_SetPrimaryObjective *cls, const char *functionName) {
+intptr_t idTarget_SetPrimaryObjective::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_LockDoor::Invoke(idTarget_LockDoor *cls, const char *functionName) {
+intptr_t idTarget_LockDoor::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_CallObjectFunction::Invoke(idTarget_CallObjectFunction *cls, const char *functionName) {
+intptr_t idTarget_CallObjectFunction::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_EnableLevelWeapons::Invoke(idTarget_EnableLevelWeapons *cls, const char *functionName) {
+intptr_t idTarget_EnableLevelWeapons::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_Tip::Invoke(idTarget_Tip *cls, const char *functionName) {
+intptr_t idTarget_Tip::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 148544) { // Event_TipOff
-		cls->Event_TipOff();
+		Event_TipOff();
 		return 0;
 	};
 	if(functionNameHash == 232865) { // Event_GetPlayerPos
-		cls->Event_GetPlayerPos();
+		Event_GetPlayerPos();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTarget_GiveSecurity::Invoke(idTarget_GiveSecurity *cls, const char *functionName) {
+intptr_t idTarget_GiveSecurity::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_RemoveWeapons::Invoke(idTarget_RemoveWeapons *cls, const char *functionName) {
+intptr_t idTarget_RemoveWeapons::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_LevelTrigger::Invoke(idTarget_LevelTrigger *cls, const char *functionName) {
+intptr_t idTarget_LevelTrigger::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_Checkpoint::Invoke(idTarget_Checkpoint *cls, const char *functionName) {
+intptr_t idTarget_Checkpoint::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_EnableStamina::Invoke(idTarget_EnableStamina *cls, const char *functionName) {
+intptr_t idTarget_EnableStamina::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_FadeSoundClass::Invoke(idTarget_FadeSoundClass *cls, const char *functionName) {
+intptr_t idTarget_FadeSoundClass::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 253902) { // Event_RestoreVolume
-		cls->Event_RestoreVolume();
+		Event_RestoreVolume();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTarget_RumbleJoystick::Invoke(idTarget_RumbleJoystick *cls, const char *functionName) {
+intptr_t idTarget_RumbleJoystick::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTarget_Achievement::Invoke(idTarget_Achievement *cls, const char *functionName) {
+intptr_t idTarget_Achievement::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTrigger::Invoke(idTrigger *cls, const char *functionName) {
+intptr_t idTrigger::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 223336) { // GetScriptFunction
-		return (intptr_t)cls->GetScriptFunction();
+		return (intptr_t)GetScriptFunction();
 	};
 	if(functionNameHash == 70912) { // Enable
-		cls->Enable();
+		Enable();
 		return 0;
 	};
 	if(functionNameHash == 84512) { // Disable
-		cls->Disable();
+		Disable();
 		return 0;
 	};
 	if(functionNameHash == 148470) { // Event_Enable
-		cls->Event_Enable();
+		Event_Enable();
 		return 0;
 	};
 	if(functionNameHash == 162724) { // Event_Disable
-		cls->Event_Disable();
+		Event_Disable();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTrigger_Multi::Invoke(idTrigger_Multi *cls, const char *functionName) {
+intptr_t idTrigger_Multi::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTrigger_EntityName::Invoke(idTrigger_EntityName *cls, const char *functionName) {
+intptr_t idTrigger_EntityName::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTrigger_Timer::Invoke(idTrigger_Timer *cls, const char *functionName) {
+intptr_t idTrigger_Timer::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 70912) { // Enable
-		cls->Enable();
+		Enable();
 		return 0;
 	};
 	if(functionNameHash == 84512) { // Disable
-		cls->Disable();
+		Disable();
 		return 0;
 	};
 	if(functionNameHash == 139267) { // Event_Timer
-		cls->Event_Timer();
+		Event_Timer();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTrigger_Count::Invoke(idTrigger_Count *cls, const char *functionName) {
+intptr_t idTrigger_Count::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTrigger_Hurt::Invoke(idTrigger_Hurt *cls, const char *functionName) {
+intptr_t idTrigger_Hurt::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTrigger_Fade::Invoke(idTrigger_Fade *cls, const char *functionName) {
+intptr_t idTrigger_Fade::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTrigger_Touch::Invoke(idTrigger_Touch *cls, const char *functionName) {
+intptr_t idTrigger_Touch::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 70912) { // Enable
-		cls->Enable();
+		Enable();
 		return 0;
 	};
 	if(functionNameHash == 84512) { // Disable
-		cls->Disable();
+		Disable();
 		return 0;
 	};
 	if(functionNameHash == 169188) { // TouchEntities
-		cls->TouchEntities();
+		TouchEntities();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTrigger_Flag::Invoke(idTrigger_Flag *cls, const char *functionName) {
+intptr_t idTrigger_Flag::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idSound::Invoke(idSound *cls, const char *functionName) {
+intptr_t idSound::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 218178) { // ShowEditingDialog
-		cls->ShowEditingDialog();
+		ShowEditingDialog();
 		return 0;
 	};
 	if(functionNameHash == 139267) { // Event_Timer
-		cls->Event_Timer();
+		Event_Timer();
 		return 0;
 	};
 	if(functionNameHash == 97795) { // Event_On
-		cls->Event_On();
+		Event_On();
 		return 0;
 	};
 	if(functionNameHash == 109741) { // Event_Off
-		cls->Event_Off();
+		Event_Off();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idEntityFx::Invoke(idEntityFx *cls, const char *functionName) {
+intptr_t idEntityFx::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 50892) { // Stop
-		cls->Stop();
+		Stop();
 		return 0;
 	};
 	if(functionNameHash == 102783) { // Duration
-		cls->Duration();
+		Duration();
 		return 0;
 	};
 	if(functionNameHash == 120419) { // EffectName
-		return (intptr_t)cls->EffectName();
+		return (intptr_t)EffectName();
 	};
 	if(functionNameHash == 62519) { // Joint
-		return (intptr_t)cls->Joint();
+		return (intptr_t)Joint();
 	};
 	if(functionNameHash == 47044) { // Done
-		cls->Done();
+		Done();
 		return 0;
 	};
 	if(functionNameHash == 278761) { // ClientPredictionThink
-		cls->ClientPredictionThink();
+		ClientPredictionThink();
 		return 0;
 	};
 	if(functionNameHash == 160812) { // Event_ClearFx
-		cls->Event_ClearFx();
+		Event_ClearFx();
 		return 0;
 	};
 	if(functionNameHash == 83058) { // CleanUp
-		cls->CleanUp();
+		CleanUp();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idTeleporter::Invoke(idTeleporter *cls, const char *functionName) {
+intptr_t idTeleporter::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idSecurityCamera::Invoke(idSecurityCamera *cls, const char *functionName) {
+intptr_t idSecurityCamera::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 163648) { // GetRenderView
-		return (intptr_t)cls->GetRenderView();
+		return (intptr_t)GetRenderView();
 	};
 	if(functionNameHash == 90014) { // Present
-		cls->Present();
+		Present();
 		return 0;
 	};
 	if(functionNameHash == 128766) { // StartSweep
-		cls->StartSweep();
+		StartSweep();
 		return 0;
 	};
 	if(functionNameHash == 147260) { // CanSeePlayer
-		cls->CanSeePlayer();
+		CanSeePlayer();
 		return 0;
 	};
 	if(functionNameHash == 85151) { // DrawFov
-		cls->DrawFov();
+		DrawFov();
 		return 0;
 	};
 	if(functionNameHash == 84690) { // GetAxis
-		cls->GetAxis();
+		GetAxis();
 		return 0;
 	};
 	if(functionNameHash == 125121) { // SweepSpeed
-		cls->SweepSpeed();
+		SweepSpeed();
 		return 0;
 	};
 	if(functionNameHash == 237021) { // Event_ReverseSweep
-		cls->Event_ReverseSweep();
+		Event_ReverseSweep();
 		return 0;
 	};
 	if(functionNameHash == 251443) { // Event_ContinueSweep
-		cls->Event_ContinueSweep();
+		Event_ContinueSweep();
 		return 0;
 	};
 	if(functionNameHash == 138890) { // Event_Pause
-		cls->Event_Pause();
+		Event_Pause();
 		return 0;
 	};
 	if(functionNameHash == 138176) { // Event_Alert
-		cls->Event_Alert();
+		Event_Alert();
 		return 0;
 	};
 	if(functionNameHash == 173084) { // Event_AddLight
-		cls->Event_AddLight();
+		Event_AddLight();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idBrittleFracture::Invoke(idBrittleFracture *cls, const char *functionName) {
+intptr_t idBrittleFracture::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 90014) { // Present
-		cls->Present();
+		Present();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 97787) { // IsBroken
-		cls->IsBroken();
+		IsBroken();
 		return 0;
 	};
 	if(functionNameHash == 278761) { // ClientPredictionThink
-		cls->ClientPredictionThink();
+		ClientPredictionThink();
 		return 0;
 	};
 	if(functionNameHash == 58750) { // Break
-		cls->Break();
+		Break();
 		return 0;
 	};
 	if(functionNameHash == 180056) { // FindNeighbours
-		cls->FindNeighbours();
+		FindNeighbours();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAI::Invoke(idAI *cls, const char *functionName) {
+intptr_t idAI::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 97948) { // GetEnemy
-		return (intptr_t)cls->GetEnemy();
+		return (intptr_t)GetEnemy();
 	};
 	if(functionNameHash == 149251) { // GetTalkState
-		cls->GetTalkState();
+		GetTalkState();
 		return 0;
 	};
 	if(functionNameHash == 62250) { // SetAAS
-		cls->SetAAS();
+		SetAAS();
 		return 0;
 	};
 	if(functionNameHash == 150747) { // DormantBegin
-		cls->DormantBegin();
+		DormantBegin();
 		return 0;
 	};
 	if(functionNameHash == 124039) { // DormantEnd
-		cls->DormantEnd();
+		DormantEnd();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 107792) { // EnemyDead
-		cls->EnemyDead();
+		EnemyDead();
 		return 0;
 	};
 	if(functionNameHash == 261747) { // CanPlayChatterSounds
-		cls->CanPlayChatterSounds();
+		CanPlayChatterSounds();
 		return 0;
 	};
 	if(functionNameHash == 150248) { // SetChatSound
-		cls->SetChatSound();
+		SetChatSound();
 		return 0;
 	};
 	if(functionNameHash == 139223) { // PlayChatter
-		cls->PlayChatter();
+		PlayChatter();
 		return 0;
 	};
 	if(functionNameHash == 45590) { // Hide
-		cls->Hide();
+		Hide();
 		return 0;
 	};
 	if(functionNameHash == 50306) { // Show
-		cls->Show();
+		Show();
 		return 0;
 	};
 	if(functionNameHash == 290625) { // CalculateAttackOffsets
-		cls->CalculateAttackOffsets();
+		CalculateAttackOffsets();
 		return 0;
 	};
 	if(functionNameHash == 164558) { // PlayCinematic
-		cls->PlayCinematic();
+		PlayCinematic();
 		return 0;
 	};
 	if(functionNameHash == 94860) { // DeadMove
-		cls->DeadMove();
+		DeadMove();
 		return 0;
 	};
 	if(functionNameHash == 97649) { // AnimMove
-		cls->AnimMove();
+		AnimMove();
 		return 0;
 	};
 	if(functionNameHash == 111283) { // SlideMove
-		cls->SlideMove();
+		SlideMove();
 		return 0;
 	};
 	if(functionNameHash == 234590) { // AdjustFlyingAngles
-		cls->AdjustFlyingAngles();
+		AdjustFlyingAngles();
 		return 0;
 	};
 	if(functionNameHash == 88456) { // FlyTurn
-		cls->FlyTurn();
+		FlyTurn();
 		return 0;
 	};
 	if(functionNameHash == 86235) { // FlyMove
-		cls->FlyMove();
+		FlyMove();
 		return 0;
 	};
 	if(functionNameHash == 126402) { // StaticMove
-		cls->StaticMove();
+		StaticMove();
 		return 0;
 	};
 	if(functionNameHash == 113945) { // DrawRoute
-		cls->DrawRoute();
+		DrawRoute();
 		return 0;
 	};
 	if(functionNameHash == 97687) { // MoveDone
-		cls->MoveDone();
+		MoveDone();
 		return 0;
 	};
 	if(functionNameHash == 183413) { // BlockedFailSafe
-		cls->BlockedFailSafe();
+		BlockedFailSafe();
 		return 0;
 	};
 	if(functionNameHash == 108124) { // FaceEnemy
-		cls->FaceEnemy();
+		FaceEnemy();
 		return 0;
 	};
 	if(functionNameHash == 217798) { // MoveToEnemyHeight
-		cls->MoveToEnemyHeight();
+		MoveToEnemyHeight();
 		return 0;
 	};
 	if(functionNameHash == 138052) { // MoveToEnemy
-		cls->MoveToEnemy();
+		MoveToEnemy();
 		return 0;
 	};
 	if(functionNameHash == 152814) { // WanderAround
-		cls->WanderAround();
+		WanderAround();
 		return 0;
 	};
 	if(functionNameHash == 131961) { // FacingIdeal
-		cls->FacingIdeal();
+		FacingIdeal();
 		return 0;
 	};
 	if(functionNameHash == 51250) { // Turn
-		cls->Turn();
+		Turn();
 		return 0;
 	};
 	if(functionNameHash == 123373) { // ClearEnemy
-		cls->ClearEnemy();
+		ClearEnemy();
 		return 0;
 	};
 	if(functionNameHash == 237166) { // EnemyPositionValid
-		cls->EnemyPositionValid();
+		EnemyPositionValid();
 		return 0;
 	};
 	if(functionNameHash == 210788) { // SetEnemyPosition
-		cls->SetEnemyPosition();
+		SetEnemyPosition();
 		return 0;
 	};
 	if(functionNameHash == 253125) { // UpdateEnemyPosition
-		cls->UpdateEnemyPosition();
+		UpdateEnemyPosition();
 		return 0;
 	};
 	if(functionNameHash == 331085) { // CreateProjectileClipModel
-		cls->CreateProjectileClipModel();
+		CreateProjectileClipModel();
 		return 0;
 	};
 	if(functionNameHash == 210529) { // RemoveProjectile
-		cls->RemoveProjectile();
+		RemoveProjectile();
 		return 0;
 	};
 	if(functionNameHash == 111231) { // TestMelee
-		cls->TestMelee();
+		TestMelee();
 		return 0;
 	};
 	if(functionNameHash == 108281) { // EndAttack
-		cls->EndAttack();
+		EndAttack();
 		return 0;
 	};
 	if(functionNameHash == 118703) { // PushWithAF
-		cls->PushWithAF();
+		PushWithAF();
 		return 0;
 	};
 	if(functionNameHash == 194778) { // InitMuzzleFlash
-		cls->InitMuzzleFlash();
+		InitMuzzleFlash();
 		return 0;
 	};
 	if(functionNameHash == 222597) { // UpdateMuzzleFlash
-		cls->UpdateMuzzleFlash();
+		UpdateMuzzleFlash();
 		return 0;
 	};
 	if(functionNameHash == 357711) { // UpdateAnimationControllers
-		cls->UpdateAnimationControllers();
+		UpdateAnimationControllers();
 		return 0;
 	};
 	if(functionNameHash == 195019) { // UpdateParticles
-		cls->UpdateParticles();
+		UpdateParticles();
 		return 0;
 	};
 	if(functionNameHash == 249647) { // LinkScriptVariables
-		cls->LinkScriptVariables();
+		LinkScriptVariables();
 		return 0;
 	};
 	if(functionNameHash == 173157) { // UpdateAIScript
-		cls->UpdateAIScript();
+		UpdateAIScript();
 		return 0;
 	};
 	if(functionNameHash == 370058) { // Event_FindEnemyInCombatNodes
-		cls->Event_FindEnemyInCombatNodes();
+		Event_FindEnemyInCombatNodes();
 		return 0;
 	};
 	if(functionNameHash == 203415) { // Event_ClearEnemy
-		cls->Event_ClearEnemy();
+		Event_ClearEnemy();
 		return 0;
 	};
 	if(functionNameHash == 334229) { // Event_LaunchHomingMissile
-		cls->Event_LaunchHomingMissile();
+		Event_LaunchHomingMissile();
 		return 0;
 	};
 	if(functionNameHash == 346298) { // Event_SetHomingMissileGoal
-		cls->Event_SetHomingMissileGoal();
+		Event_SetHomingMissileGoal();
 		return 0;
 	};
 	if(functionNameHash == 187615) { // Event_EndAttack
-		cls->Event_EndAttack();
+		Event_EndAttack();
 		return 0;
 	};
 	if(functionNameHash == 204439) { // Event_RandomPath
-		cls->Event_RandomPath();
+		Event_RandomPath();
 		return 0;
 	};
 	if(functionNameHash == 254316) { // Event_CanBecomeSolid
-		cls->Event_CanBecomeSolid();
+		Event_CanBecomeSolid();
 		return 0;
 	};
 	if(functionNameHash == 216467) { // Event_BecomeSolid
-		cls->Event_BecomeSolid();
+		Event_BecomeSolid();
 		return 0;
 	};
 	if(functionNameHash == 257488) { // Event_BecomeNonSolid
-		cls->Event_BecomeNonSolid();
+		Event_BecomeNonSolid();
 		return 0;
 	};
 	if(functionNameHash == 244122) { // Event_BecomeRagdoll
-		cls->Event_BecomeRagdoll();
+		Event_BecomeRagdoll();
 		return 0;
 	};
 	if(functionNameHash == 221180) { // Event_StopRagdoll
-		cls->Event_StopRagdoll();
+		Event_StopRagdoll();
 		return 0;
 	};
 	if(functionNameHash == 188540) { // Event_GetHealth
-		cls->Event_GetHealth();
+		Event_GetHealth();
 		return 0;
 	};
 	if(functionNameHash == 215341) { // Event_AllowDamage
-		cls->Event_AllowDamage();
+		Event_AllowDamage();
 		return 0;
 	};
 	if(functionNameHash == 229025) { // Event_IgnoreDamage
-		cls->Event_IgnoreDamage();
+		Event_IgnoreDamage();
 		return 0;
 	};
 	if(functionNameHash == 248832) { // Event_GetCurrentYaw
-		cls->Event_GetCurrentYaw();
+		Event_GetCurrentYaw();
 		return 0;
 	};
 	if(functionNameHash == 210362) { // Event_MoveStatus
-		cls->Event_MoveStatus();
+		Event_MoveStatus();
 		return 0;
 	};
 	if(functionNameHash == 180637) { // Event_StopMove
-		cls->Event_StopMove();
+		Event_StopMove();
 		return 0;
 	};
 	if(functionNameHash == 218898) { // Event_MoveToCover
-		cls->Event_MoveToCover();
+		Event_MoveToCover();
 		return 0;
 	};
 	if(functionNameHash == 218784) { // Event_MoveToEnemy
-		cls->Event_MoveToEnemy();
+		Event_MoveToEnemy();
 		return 0;
 	};
 	if(functionNameHash == 302136) { // Event_MoveToEnemyHeight
-		cls->Event_MoveToEnemyHeight();
+		Event_MoveToEnemyHeight();
 		return 0;
 	};
 	if(functionNameHash == 151776) { // Event_Wander
-		cls->Event_Wander();
+		Event_Wander();
 		return 0;
 	};
 	if(functionNameHash == 212399) { // Event_FacingIdeal
-		cls->Event_FacingIdeal();
+		Event_FacingIdeal();
 		return 0;
 	};
 	if(functionNameHash == 187446) { // Event_FaceEnemy
-		cls->Event_FaceEnemy();
+		Event_FaceEnemy();
 		return 0;
 	};
 	if(functionNameHash == 241402) { // Event_GetCombatNode
-		cls->Event_GetCombatNode();
+		Event_GetCombatNode();
 		return 0;
 	};
 	if(functionNameHash == 178493) { // Event_WaitMove
-		cls->Event_WaitMove();
+		Event_WaitMove();
 		return 0;
 	};
 	if(functionNameHash == 244513) { // Event_GetTalkTarget
-		cls->Event_GetTalkTarget();
+		Event_GetTalkTarget();
 		return 0;
 	};
 	if(functionNameHash == 204053) { // Event_EnemyRange
-		cls->Event_EnemyRange();
+		Event_EnemyRange();
 		return 0;
 	};
 	if(functionNameHash == 220051) { // Event_EnemyRange2D
-		cls->Event_EnemyRange2D();
+		Event_EnemyRange2D();
 		return 0;
 	};
 	if(functionNameHash == 176796) { // Event_GetEnemy
-		cls->Event_GetEnemy();
+		Event_GetEnemy();
 		return 0;
 	};
 	if(functionNameHash == 217835) { // Event_GetEnemyPos
-		cls->Event_GetEnemyPos();
+		Event_GetEnemyPos();
 		return 0;
 	};
 	if(functionNameHash == 257779) { // Event_GetEnemyEyePos
-		cls->Event_GetEnemyEyePos();
+		Event_GetEnemyEyePos();
 		return 0;
 	};
 	if(functionNameHash == 214401) { // Event_CanHitEnemy
-		cls->Event_CanHitEnemy();
+		Event_CanHitEnemy();
 		return 0;
 	};
 	if(functionNameHash == 322380) { // Event_EnemyPositionValid
-		cls->Event_EnemyPositionValid();
+		Event_EnemyPositionValid();
 		return 0;
 	};
 	if(functionNameHash == 286460) { // Event_TestChargeAttack
-		cls->Event_TestChargeAttack();
+		Event_TestChargeAttack();
 		return 0;
 	};
 	if(functionNameHash == 272685) { // Event_TestMeleeAttack
-		cls->Event_TestMeleeAttack();
+		Event_TestMeleeAttack();
 		return 0;
 	};
 	if(functionNameHash == 125610) { // Event_Burn
-		cls->Event_Burn();
+		Event_Burn();
 		return 0;
 	};
 	if(functionNameHash == 164022) { // Event_PreBurn
-		cls->Event_PreBurn();
+		Event_PreBurn();
 		return 0;
 	};
 	if(functionNameHash == 189577) { // Event_ClearBurn
-		cls->Event_ClearBurn();
+		Event_ClearBurn();
 		return 0;
 	};
 	if(functionNameHash == 294369) { // Event_NumSmokeEmitters
-		cls->Event_NumSmokeEmitters();
+		Event_NumSmokeEmitters();
 		return 0;
 	};
 	if(functionNameHash == 237274) { // Event_StopThinking
-		cls->Event_StopThinking();
+		Event_StopThinking();
 		return 0;
 	};
 	if(functionNameHash == 231201) { // Event_GetTurnDelta
-		cls->Event_GetTurnDelta();
+		Event_GetTurnDelta();
 		return 0;
 	};
 	if(functionNameHash == 218963) { // Event_GetMoveType
-		cls->Event_GetMoveType();
+		Event_GetMoveType();
 		return 0;
 	};
 	if(functionNameHash == 177724) { // Event_SaveMove
-		cls->Event_SaveMove();
+		Event_SaveMove();
 		return 0;
 	};
 	if(functionNameHash == 223233) { // Event_RestoreMove
-		cls->Event_RestoreMove();
+		Event_RestoreMove();
 		return 0;
 	};
 	if(functionNameHash == 190609) { // Event_JumpFrame
-		cls->Event_JumpFrame();
+		Event_JumpFrame();
 		return 0;
 	};
 	if(functionNameHash == 200476) { // Event_EnableClip
-		cls->Event_EnableClip();
+		Event_EnableClip();
 		return 0;
 	};
 	if(functionNameHash == 215122) { // Event_DisableClip
-		cls->Event_DisableClip();
+		Event_DisableClip();
 		return 0;
 	};
 	if(functionNameHash == 248060) { // Event_EnableGravity
-		cls->Event_EnableGravity();
+		Event_EnableGravity();
 		return 0;
 	};
 	if(functionNameHash == 263056) { // Event_DisableGravity
-		cls->Event_DisableGravity();
+		Event_DisableGravity();
 		return 0;
 	};
 	if(functionNameHash == 222212) { // Event_EnableAFPush
-		cls->Event_EnableAFPush();
+		Event_EnableAFPush();
 		return 0;
 	};
 	if(functionNameHash == 237017) { // Event_DisableAFPush
-		cls->Event_DisableAFPush();
+		Event_DisableAFPush();
 		return 0;
 	};
 	if(functionNameHash == 258642) { // Event_ClearFlyOffset
-		cls->Event_ClearFlyOffset();
+		Event_ClearFlyOffset();
 		return 0;
 	};
 	if(functionNameHash == 250014) { // Event_ThrowMoveable
-		cls->Event_ThrowMoveable();
+		Event_ThrowMoveable();
 		return 0;
 	};
 	if(functionNameHash == 159321) { // Event_ThrowAF
-		cls->Event_ThrowAF();
+		Event_ThrowAF();
 		return 0;
 	};
 	if(functionNameHash == 189068) { // Event_GetAngles
-		cls->Event_GetAngles();
+		Event_GetAngles();
 		return 0;
 	};
 	if(functionNameHash == 367056) { // Event_GetTrajectoryToPlayer
-		cls->Event_GetTrajectoryToPlayer();
+		Event_GetTrajectoryToPlayer();
 		return 0;
 	};
 	if(functionNameHash == 174908) { // Event_RealKill
-		cls->Event_RealKill();
+		Event_RealKill();
 		return 0;
 	};
 	if(functionNameHash == 124205) { // Event_Kill
-		cls->Event_Kill();
+		Event_Kill();
 		return 0;
 	};
 	if(functionNameHash == 218562) { // Event_LocateEnemy
-		cls->Event_LocateEnemy();
+		Event_LocateEnemy();
 		return 0;
 	};
 	if(functionNameHash == 217371) { // Event_GetObstacle
-		cls->Event_GetObstacle();
+		Event_GetObstacle();
 		return 0;
 	};
 	if(functionNameHash == 218372) { // Event_GetTurnRate
-		cls->Event_GetTurnRate();
+		Event_GetTurnRate();
 		return 0;
 	};
 	if(functionNameHash == 240412) { // Event_CanReachEnemy
-		cls->Event_CanReachEnemy();
+		Event_CanReachEnemy();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idCombatNode::Invoke(idCombatNode *cls, const char *functionName) {
+intptr_t idCombatNode::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 121183) { // IsDisabled
-		cls->IsDisabled();
+		IsDisabled();
 		return 0;
 	};
 	if(functionNameHash == 176427) { // Event_MarkUsed
-		cls->Event_MarkUsed();
+		Event_MarkUsed();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idAI_Vagary::Invoke(idAI_Vagary *cls, const char *functionName) {
+intptr_t idAI_Vagary::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
 
 };
 
-intptr_t idTestModel::Invoke(idTestModel *cls, const char *functionName) {
+intptr_t idTestModel::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
-		cls->Spawn();
+		Spawn();
 		return 0;
 	};
 	if(functionNameHash == 476562) { // ShouldConstructScriptObjectAtSpawn
-		cls->ShouldConstructScriptObjectAtSpawn();
+		ShouldConstructScriptObjectAtSpawn();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
-		cls->Think();
+		Think();
 		return 0;
 	};
 	if(functionNameHash == 183671) { // Event_Footstep
-		cls->Event_Footstep();
+		Event_Footstep();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponFist::Invoke(rvmWeaponFist *cls, const char *functionName) {
+intptr_t rvmWeaponFist::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponPistol::Invoke(rvmWeaponPistol *cls, const char *functionName) {
+intptr_t rvmWeaponPistol::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	if(functionNameHash == 162113) { // HasWaitSignal
-		cls->HasWaitSignal();
+		HasWaitSignal();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponFlashlight::Invoke(rvmWeaponFlashlight *cls, const char *functionName) {
+intptr_t rvmWeaponFlashlight::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	if(functionNameHash == 268148) { // UpdateLightIntensity
-		cls->UpdateLightIntensity();
+		UpdateLightIntensity();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponPDA::Invoke(rvmWeaponPDA *cls, const char *functionName) {
+intptr_t rvmWeaponPDA::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponShotgun::Invoke(rvmWeaponShotgun *cls, const char *functionName) {
+intptr_t rvmWeaponShotgun::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	if(functionNameHash == 162113) { // HasWaitSignal
-		cls->HasWaitSignal();
+		HasWaitSignal();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponDoubleShotgun::Invoke(rvmWeaponDoubleShotgun *cls, const char *functionName) {
+intptr_t rvmWeaponDoubleShotgun::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	if(functionNameHash == 162113) { // HasWaitSignal
-		cls->HasWaitSignal();
+		HasWaitSignal();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponMachineGun::Invoke(rvmWeaponMachineGun *cls, const char *functionName) {
+intptr_t rvmWeaponMachineGun::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	if(functionNameHash == 162113) { // HasWaitSignal
-		cls->HasWaitSignal();
+		HasWaitSignal();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponPlasmaGun::Invoke(rvmWeaponPlasmaGun *cls, const char *functionName) {
+intptr_t rvmWeaponPlasmaGun::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	if(functionNameHash == 162113) { // HasWaitSignal
-		cls->HasWaitSignal();
+		HasWaitSignal();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponChainGun::Invoke(rvmWeaponChainGun *cls, const char *functionName) {
+intptr_t rvmWeaponChainGun::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	if(functionNameHash == 162113) { // HasWaitSignal
-		cls->HasWaitSignal();
+		HasWaitSignal();
 		return 0;
 	};
 	if(functionNameHash == 73785) { // SpinUp
-		cls->SpinUp();
+		SpinUp();
 		return 0;
 	};
 	if(functionNameHash == 100305) { // SpinDown
-		cls->SpinDown();
+		SpinDown();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponRocketLauncher::Invoke(rvmWeaponRocketLauncher *cls, const char *functionName) {
+intptr_t rvmWeaponRocketLauncher::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponBFG::Invoke(rvmWeaponBFG *cls, const char *functionName) {
+intptr_t rvmWeaponBFG::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t rvmWeaponGrabber::Invoke(rvmWeaponGrabber *cls, const char *functionName) {
+intptr_t rvmWeaponGrabber::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		cls->Raise();
+		Raise();
 		return 0;
 	};
 	if(functionNameHash == 46077) { // Idle
-		cls->Idle();
+		Idle();
 		return 0;
 	};
 	if(functionNameHash == 47046) { // Fire
-		cls->Fire();
+		Fire();
 		return 0;
 	};
 	if(functionNameHash == 63107) { // Lower
-		cls->Lower();
+		Lower();
 		return 0;
 	};
 	if(functionNameHash == 72819) { // Reload
-		cls->Reload();
+		Reload();
 		return 0;
 	};
 	if(functionNameHash == 81139) { // CanFire
-		cls->CanFire();
+		CanFire();
 		return 0;
 	};
 	if(functionNameHash == 162113) { // HasWaitSignal
-		cls->HasWaitSignal();
+		HasWaitSignal();
 		return 0;
 	};
 	if(functionNameHash == 126807) { // StopActive
-		cls->StopActive();
+		StopActive();
 		return 0;
 	};
 	if(functionNameHash == 225303) { // StartWarningSound
-		cls->StartWarningSound();
+		StartWarningSound();
 		return 0;
 	};
 	if(functionNameHash == 237121) { // UpdateWarningSound
-		cls->UpdateWarningSound();
+		UpdateWarningSound();
 		return 0;
 	};
 	if(functionNameHash == 176832) { // UpdateGuiLight
-		cls->UpdateGuiLight();
+		UpdateGuiLight();
 		return 0;
 	};
 	return 0;
 
 };
 
-intptr_t idThread::Invoke(idThread *cls, const char *functionName) {
+intptr_t idThread::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 149674) { // ManualDelete
-		cls->ManualDelete();
+		ManualDelete();
 		return 0;
 	};
 	if(functionNameHash == 184974) { // EnableDebugInfo
-		cls->EnableDebugInfo();
+		EnableDebugInfo();
 		return 0;
 	};
 	if(functionNameHash == 199457) { // DisableDebugInfo
-		cls->DisableDebugInfo();
+		DisableDebugInfo();
 		return 0;
 	};
 	if(functionNameHash == 110282) { // WaitFrame
-		cls->WaitFrame();
+		WaitFrame();
 		return 0;
 	};
 	if(functionNameHash == 139251) { // DisplayInfo
-		cls->DisplayInfo();
+		DisplayInfo();
 		return 0;
 	};
 	if(functionNameHash == 206780) { // IsDoneProcessing
-		cls->IsDoneProcessing();
+		IsDoneProcessing();
 		return 0;
 	};
 	if(functionNameHash == 84907) { // IsDying
-		cls->IsDying();
+		IsDying();
 		return 0;
 	};
 	if(functionNameHash == 33511) { // End
-		cls->End();
+		End();
 		return 0;
 	};
 	if(functionNameHash == 88310) { // Execute
-		cls->Execute();
+		Execute();
 		return 0;
 	};
 	if(functionNameHash == 168173) { // ManualControl
-		cls->ManualControl();
+		ManualControl();
 		return 0;
 	};
 	if(functionNameHash == 181407) { // DoneProcessing
-		cls->DoneProcessing();
+		DoneProcessing();
 		return 0;
 	};
 	if(functionNameHash == 241236) { // ContinueProcessing
-		cls->ContinueProcessing();
+		ContinueProcessing();
 		return 0;
 	};
 	if(functionNameHash == 137371) { // ThreadDying
-		cls->ThreadDying();
+		ThreadDying();
 		return 0;
 	};
 	if(functionNameHash == 108234) { // EndThread
-		cls->EndThread();
+		EndThread();
 		return 0;
 	};
 	if(functionNameHash == 112213) { // IsWaiting
-		cls->IsWaiting();
+		IsWaiting();
 		return 0;
 	};
 	if(functionNameHash == 147984) { // ClearWaitFor
-		cls->ClearWaitFor();
+		ClearWaitFor();
 		return 0;
 	};
 	if(functionNameHash == 63710) { // Start
-		cls->Start();
+		Start();
 		return 0;
 	};
 	if(functionNameHash == 190527) { // WaitingOnThread
-		return (intptr_t)cls->WaitingOnThread();
+		return (intptr_t)WaitingOnThread();
 	};
 	if(functionNameHash == 148575) { // GetThreadNum
-		return (intptr_t)cls->GetThreadNum();
+		return (intptr_t)GetThreadNum();
 	};
 	if(functionNameHash == 159226) { // GetThreadName
-		return (intptr_t)cls->GetThreadName();
+		return (intptr_t)GetThreadName();
 	};
 	return 0;
 
