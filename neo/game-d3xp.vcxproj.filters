@@ -383,6 +383,12 @@
     <ClCompile Include="d3xp\gamesys\GameTypeInfo.cpp">
       <Filter>GameSys</Filter>
     </ClCompile>
+    <ClCompile Include="d3xp\gamesys\State.cpp">
+      <Filter>GameSys</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\ai\AI_follower.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3xp\ai\AAS.h">
@@ -563,6 +569,9 @@
       <Filter>Weapons</Filter>
     </ClInclude>
     <ClInclude Include="d3xp\gamesys\GameTypeInfo.h">
+      <Filter>GameSys</Filter>
+    </ClInclude>
+    <ClInclude Include="d3xp\gamesys\State.h">
       <Filter>GameSys</Filter>
     </ClInclude>
   </ItemGroup>

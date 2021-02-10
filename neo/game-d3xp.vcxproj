@@ -95,6 +95,7 @@
     <ClCompile Include="d3xp\ai\AAS_routing.cpp" />
     <ClCompile Include="d3xp\ai\AI.cpp" />
     <ClCompile Include="d3xp\ai\AI_events.cpp" />
+    <ClCompile Include="d3xp\ai\AI_follower.cpp" />
     <ClCompile Include="d3xp\ai\AI_pathing.cpp" />
     <ClCompile Include="d3xp\ai\AI_Vagary.cpp" />
     <ClCompile Include="d3xp\anim\Anim.cpp" />
@@ -110,6 +111,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="d3xp\gamesys\SaveGame.cpp" />
+    <ClCompile Include="d3xp\gamesys\State.cpp" />
     <ClCompile Include="d3xp\gamesys\SysCmds.cpp" />
     <ClCompile Include="d3xp\gamesys\SysCvar.cpp" />
     <ClCompile Include="d3xp\Game_Precompiled.cpp" />
@@ -252,6 +254,7 @@
     <ClInclude Include="d3xp\gamesys\Event.h" />
     <ClInclude Include="d3xp\gamesys\GameTypeInfo.h" />
     <ClInclude Include="d3xp\gamesys\SaveGame.h" />
+    <ClInclude Include="d3xp\gamesys\State.h" />
     <ClInclude Include="d3xp\gamesys\SysCmds.h" />
     <ClInclude Include="d3xp\gamesys\SysCvar.h" />
     <ClInclude Include="d3xp\Leaderboards.h" />

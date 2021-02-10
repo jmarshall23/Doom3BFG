@@ -971,6 +971,8 @@ void idAI::Spawn() {
 	// init the move variables
 	StopMove( MOVE_STATUS_DONE );
 
+	stateThread.SetOwner(this);
+	Init();
 
 	spawnArgs.GetBool( "spawnClearMoveables", "0", spawnClearMoveables );
 }
@@ -1110,6 +1112,8 @@ void idAI::Think() {
 	}
 
 	if ( thinkFlags & TH_THINK ) {
+		stateThread.Execute();
+
 		// clear out the enemy when he dies or is hidden
 		idActor *enemyEnt = enemy.GetEntity();
 		if ( enemyEnt ) {
@@ -1232,6 +1236,7 @@ void idAI::LinkScriptVariables() {
 	AI_PAIN.LinkTo(				scriptObject, "AI_PAIN" );
 	AI_SPECIAL_DAMAGE.LinkTo(	scriptObject, "AI_SPECIAL_DAMAGE" );
 	AI_DEAD.LinkTo(				scriptObject, "AI_DEAD" );
+	AI_RUN.LinkTo(				scriptObject, "AI_RUN");
 	AI_ENEMY_VISIBLE.LinkTo(	scriptObject, "AI_ENEMY_VISIBLE" );
 	AI_ENEMY_IN_FOV.LinkTo(		scriptObject, "AI_ENEMY_IN_FOV" );
 	AI_ENEMY_DEAD.LinkTo(		scriptObject, "AI_ENEMY_DEAD" );
@@ -3463,7 +3468,12 @@ void idAI::Killed( idEntity *inflictor, idEntity *attacker, int damage, const id
 	restartParticles = false;
 
 	state = GetScriptFunction( "state_Killed" );
-	SetState( state );
+	if (state == NULL) {
+		stateThread.SetState("state_killed");
+	}
+	else {
+		SetState(state);
+	}
 	SetWaitState( "" );
 
 	const idKeyValue *kv = spawnArgs.MatchPrefix( "def_drops", NULL );

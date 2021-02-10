@@ -256,6 +256,8 @@ protected:
 	idAnimState				torsoAnim;
 	idAnimState				legsAnim;
 
+	rvStateThread			stateThread;
+
 	bool					allowPain;
 	bool					allowEyeFocus;
 	bool					finalBoss;
@@ -275,7 +277,7 @@ protected:
 							// copies animation from body to head joints
 	void					CopyJointsFromBodyToHead();
 
-private:
+protected:
 	void					SyncAnimChannels( int channel, int syncToChannel, int blendFrames );
 	void					FinishSetup();
 	void					SetupHead();

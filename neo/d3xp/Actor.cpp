@@ -1296,15 +1296,14 @@ idThread *idActor::ConstructScriptObject() {
 	
 	// call script object's constructor
 	constructor = scriptObject.GetConstructor();
-	if ( !constructor ) {
-		gameLocal.Error( "Missing constructor on '%s' for entity '%s'", scriptObject.GetTypeName(), name.c_str() );
-	}
+	if ( constructor ) {
+		//gameLocal.Error( "Missing constructor on '%s' for entity '%s'", scriptObject.GetTypeName(), name.c_str() );
+		// init the script object's data
+		scriptObject.ClearObject();
 
-	// init the script object's data
-	scriptObject.ClearObject();
-
-	// just set the current function on the script.  we'll execute in the subclasses.
-	scriptThread->CallFunction( this, constructor, true );
+		// just set the current function on the script.  we'll execute in the subclasses.
+		scriptThread->CallFunction(this, constructor, true);
+	}	
 
 	return scriptThread;
 }

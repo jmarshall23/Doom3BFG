@@ -94,7 +94,7 @@ public:																	\
 	static	idTypeInfo						Type;						\
 	static	idClass							*CreateInstance();	\
 	virtual	idTypeInfo						*GetType() const;		\
-	virtual intptr_t Invoke(const char* functionName); \
+	virtual intptr_t Invoke(const char* functionName) override; \
 	static	idEventFunc<nameofclass>		eventCallbacks[]
 
 /*
@@ -181,6 +181,10 @@ public:
 
 	virtual						~idClass();
 
+	virtual intptr_t Invoke(const char* functionName);
+
+	void						SetStateParms(stateParms_t& stateParms) { currentStateParms = stateParms; }
+
 	void						Spawn();
 	void						CallSpawn();
 	bool						IsType( const idTypeInfo &c ) const;
@@ -239,13 +243,14 @@ public:
 	static int					GetTypeNumBits();
 	static idTypeInfo *			GetType( int num );
 
+	void						Event_SafeRemove();
+protected:
+	stateParms_t				currentStateParms;
 private:
 	classSpawnFunc_t			CallSpawnFunc( idTypeInfo *cls );
 
 	bool						PostEventArgs( const idEventDef *ev, int time, int numargs, ... );
 	bool						ProcessEventArgs( const idEventDef *ev, int numargs, ... );
-
-	void						Event_SafeRemove();
 
 	static bool					initialized;
 	static idList<idTypeInfo *, TAG_IDCLASS>	types;

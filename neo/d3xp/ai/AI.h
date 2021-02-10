@@ -290,6 +290,8 @@ public:
 	virtual void			Gib( const idVec3 &dir, const char *damageDefName );
 
 protected:
+	virtual void			Init() { }
+
 	// navigation
 	idAAS *					aas;
 	int						travelFlags;
@@ -421,6 +423,7 @@ protected:
 	idScriptBool			AI_PAIN;
 	idScriptFloat			AI_SPECIAL_DAMAGE;
 	idScriptBool			AI_DEAD;
+	idScriptBool			AI_RUN;
 	idScriptBool			AI_ENEMY_VISIBLE;
 	idScriptBool			AI_ENEMY_IN_FOV;
 	idScriptBool			AI_ENEMY_DEAD;
@@ -734,6 +737,23 @@ public:
 private:
 	void	Event_ChooseObjectToThrow(const idVec3& mins, const idVec3& maxs, float speed, float minDist, float offset);
 	void	Event_ThrowObjectAtEnemy(idEntity* ent, float speed);
+};
+
+class rvmAI_Follower : public idAI {
+public:
+	CLASS_PROTOTYPE(rvmAI_Follower);
+
+	virtual void			Init() override;
+private:
+	bool inCustomAnim;
+	idEntity* leader;
+private:
+	void state_idle(void);
+	void state_idle_frame(void);
+	void state_follow(void);
+	void state_follow_frame(void);
+	void state_get_closer(void);
+	void state_killed(void);
 };
 
 #endif /* !__AI_H__ */

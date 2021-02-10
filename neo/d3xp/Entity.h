@@ -529,6 +529,8 @@ private:
 public:
 // jmarshall
 	idVec3					GetOrigin(void);
+	float					DistanceTo(idEntity* ent);
+	float					DistanceTo(const idVec3& pos) const;
 // jmarshall end
 
 	void					Event_GetName();
@@ -598,6 +600,14 @@ public:
 	void					Event_GetGuiParmFloat(int guiNum, const char *key);
 	void					Event_GuiNamedEvent(int guiNum, const char *event);
 };
+
+ID_INLINE float idEntity::DistanceTo(idEntity* ent) {
+	return DistanceTo(ent->GetPhysics()->GetOrigin());
+}
+
+ID_INLINE float idEntity::DistanceTo(const idVec3& pos) const {
+	return (pos - GetPhysics()->GetOrigin()).LengthFast();
+}
 
 /*
 ===============================================================================

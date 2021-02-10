@@ -4,6 +4,38 @@
 #pragma warning(disable : 4505)
 #include "../precompiled.h"
 #include "../Game_local.h"
+intptr_t idClass::Invoke(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		Spawn();
+		return 0;
+	};
+	if(functionNameHash == 111043) { // CallSpawn
+		CallSpawn();
+		return 0;
+	};
+	if(functionNameHash == 150533) { // GetClassname
+		return (intptr_t)GetClassname();
+	};
+	if(functionNameHash == 168924) { // GetSuperclass
+		return (intptr_t)GetSuperclass();
+	};
+	if(functionNameHash == 310927) { // FindUninitializedMemory
+		FindUninitializedMemory();
+		return 0;
+	};
+	if(functionNameHash == 153439) { // Event_Remove
+		Event_Remove();
+		return 0;
+	};
+	if(functionNameHash == 204406) { // Event_SafeRemove
+		Event_SafeRemove();
+		return 0;
+	};
+	return 0;
+
+};
+
 intptr_t idForce::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	return 0;
@@ -4793,6 +4825,36 @@ intptr_t idCombatNode::Invoke(const char *functionName) {
 
 intptr_t idAI_Vagary::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
+	return 0;
+
+};
+
+intptr_t rvmAI_Follower::Invoke(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 48744) { // Init
+		Init();
+		return 0;
+	};
+	if(functionNameHash == 211350) { // state_idle_frame
+		state_idle_frame();
+		return 0;
+	};
+	if(functionNameHash == 161762) { // state_follow
+		state_follow();
+		return 0;
+	};
+	if(functionNameHash == 244282) { // state_follow_frame
+		state_follow_frame();
+		return 0;
+	};
+	if(functionNameHash == 215431) { // state_get_closer
+		state_get_closer();
+		return 0;
+	};
+	if(functionNameHash == 157871) { // state_killed
+		state_killed();
+		return 0;
+	};
 	return 0;
 
 };
