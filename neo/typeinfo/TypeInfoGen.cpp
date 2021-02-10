@@ -1376,7 +1376,13 @@ void idTypeInfoGen::WriteTypeInfo( const char* fileName ) const
 				}
 				filecpp->WriteFloatString( "\t};\n" );
 			}
-			filecpp->WriteFloatString( "\treturn 0;\n\n" );
+
+			if (typeInfoName == "idClass") {
+				filecpp->WriteFloatString("\treturn 0;\n\n");
+			}
+			else {
+				filecpp->WriteFloatString("\treturn __super::Invoke(functionName);\n\n");
+			}
 			filecpp->WriteFloatString( "};\n\n" );
 		}
 
