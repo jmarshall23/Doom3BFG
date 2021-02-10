@@ -3,11 +3,12 @@
 
 #pragma once
 
-class rvmWeaponMachineGun : public rvmWeaponObject {
+class rvmWeaponMachineGun : public rvmWeaponObject
+{
 public:
-	CLASS_PROTOTYPE(rvmWeaponMachineGun);
+	CLASS_PROTOTYPE( rvmWeaponMachineGun );
 
-	virtual void			Init(idWeapon *weapon);
+	virtual void			Init( idWeapon* weapon );
 
 	virtual void			Raise();
 	virtual void			Idle();
@@ -15,10 +16,10 @@ public:
 	virtual void			Lower();
 	virtual void			Reload();
 
-	virtual bool			HasWaitSignal(void) override;
+	virtual bool			HasWaitSignal( void ) override;
 private:
 	float					next_attack;
 	float					spread;
 
-	const idSoundShader		*snd_lowammo;
+	const idSoundShader*		snd_lowammo;
 };

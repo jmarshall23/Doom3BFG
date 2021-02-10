@@ -5,7 +5,7 @@
 #include "precompiled.h"
 #include "../Game_local.h"
 
-CLASS_DECLARATION(rvmWeaponObject, rvmWeaponFlashlight)
+CLASS_DECLARATION( rvmWeaponObject, rvmWeaponFlashlight )
 END_CLASS
 
 // blend times
@@ -23,24 +23,25 @@ END_CLASS
 rvmWeaponFlashlight::Init
 ================
 */
-void rvmWeaponFlashlight::Init(idWeapon *weapon) {
-	rvmWeaponObject::Init(weapon);
+void rvmWeaponFlashlight::Init( idWeapon* weapon )
+{
+	rvmWeaponObject::Init( weapon );
 
-	skin_on = owner->GetKey("skin_on");
-	skin_on_invis = owner->GetKey("skin_on_invis");
-	skin_off = owner->GetKey("skin_off");
-	skin_off_invis = owner->GetKey("skin_off_invis");
+	skin_on = owner->GetKey( "skin_on" );
+	skin_on_invis = owner->GetKey( "skin_on_invis" );
+	skin_off = owner->GetKey( "skin_off" );
+	skin_off_invis = owner->GetKey( "skin_off_invis" );
 
 	intensity = 1.0;
 
-	owner->Event_SetLightParm(3, 1.0);
-	owner->Event_SetShaderParm(3, 1.0);
+	owner->Event_SetLightParm( 3, 1.0 );
+	owner->Event_SetShaderParm( 3, 1.0 );
 
 	on = true;
 
 	UpdateSkin();
 
-	weapon->WeaponState(WP_RISING, 0);
+	weapon->WeaponState( WP_RISING, 0 );
 }
 
 /*
@@ -48,7 +49,8 @@ void rvmWeaponFlashlight::Init(idWeapon *weapon) {
 rvmWeaponFlashlight::UpdateLightIntensity
 ================
 */
-void rvmWeaponFlashlight::UpdateLightIntensity(void) {
+void rvmWeaponFlashlight::UpdateLightIntensity( void )
+{
 	// TODO this has to interact with scripts somehow
 }
 
@@ -57,21 +59,28 @@ void rvmWeaponFlashlight::UpdateLightIntensity(void) {
 rvmWeaponFlashlight::UpdateSkin
 ================
 */
-void rvmWeaponFlashlight::UpdateSkin(void) {
-	if (on && (intensity > FLASHLIGHT_MIN_SKIN_INTENSITY)) {
-		if (!owner->Event_IsInvisible()) {
-			owner->Event_SetSkin(skin_on);
+void rvmWeaponFlashlight::UpdateSkin( void )
+{
+	if( on && ( intensity > FLASHLIGHT_MIN_SKIN_INTENSITY ) )
+	{
+		if( !owner->Event_IsInvisible() )
+		{
+			owner->Event_SetSkin( skin_on );
 		}
-		else {
-			owner->Event_SetSkin(skin_on_invis);
+		else
+		{
+			owner->Event_SetSkin( skin_on_invis );
 		}
 	}
-	else {
-		if (!owner->Event_IsInvisible()) {
-			owner->Event_SetSkin(skin_off);
+	else
+	{
+		if( !owner->Event_IsInvisible() )
+		{
+			owner->Event_SetSkin( skin_off );
 		}
-		else {
-			owner->Event_SetSkin(skin_off_invis);
+		else
+		{
+			owner->Event_SetSkin( skin_off_invis );
 		}
 	}
 }
@@ -81,29 +90,30 @@ void rvmWeaponFlashlight::UpdateSkin(void) {
 rvmWeaponFlashlight::Raise
 ================
 */
-void rvmWeaponFlashlight::Raise(void) {
+void rvmWeaponFlashlight::Raise( void )
+{
 	enum RisingState
 	{
 		RISING_NOTSET = 0,
 		RISING_WAIT
 	};
 
-	switch (risingState)
+	switch( risingState )
 	{
-	case RISING_NOTSET:
-		owner->Event_WeaponRising();
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
-		risingState = RISING_WAIT;
-		break;
+		case RISING_NOTSET:
+			owner->Event_WeaponRising();
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
+			risingState = RISING_WAIT;
+			break;
 
-	case RISING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, FLASHLIGHT_RAISE_TO_IDLE))
-		{
-			owner->WeaponState(WP_IDLE, FLASHLIGHT_RAISE_TO_IDLE);
-			risingState = RISING_NOTSET;
-			isRisen = true;
-		}
-		break;
+		case RISING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, FLASHLIGHT_RAISE_TO_IDLE ) )
+			{
+				owner->WeaponState( WP_IDLE, FLASHLIGHT_RAISE_TO_IDLE );
+				risingState = RISING_NOTSET;
+				isRisen = true;
+			}
+			break;
 	}
 }
 
@@ -112,29 +122,30 @@ void rvmWeaponFlashlight::Raise(void) {
 rvmWeaponFlashlight::Lower
 ================
 */
-void rvmWeaponFlashlight::Lower() {
+void rvmWeaponFlashlight::Lower()
+{
 	enum LoweringState
 	{
 		LOWERING_NOTSET = 0,
 		LOWERING_WAIT
 	};
 
-	switch (loweringState)
+	switch( loweringState )
 	{
-	case LOWERING_NOTSET:
-		owner->Event_WeaponLowering();
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
-		loweringState = LOWERING_WAIT;
-		break;
+		case LOWERING_NOTSET:
+			owner->Event_WeaponLowering();
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
+			loweringState = LOWERING_WAIT;
+			break;
 
-	case LOWERING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			owner->Event_WeaponHolstered();
-			loweringState = LOWERING_NOTSET;
-			isHolstered = true;
-		}
-		break;
+		case LOWERING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				owner->Event_WeaponHolstered();
+				loweringState = LOWERING_NOTSET;
+				isHolstered = true;
+			}
+			break;
 	}
 }
 
@@ -143,24 +154,25 @@ void rvmWeaponFlashlight::Lower() {
 rvmWeaponFlashlight::Idle
 ================
 */
-void rvmWeaponFlashlight::Idle() {
+void rvmWeaponFlashlight::Idle()
+{
 	enum IdleState
 	{
 		IDLE_NOTSET = 0,
 		IDLE_WAIT
 	};
 
-	switch (idleState)
+	switch( idleState )
 	{
-	case IDLE_NOTSET:
-		owner->Event_WeaponReady();
-		owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle");
-		idleState = IDLE_WAIT;
-		break;
+		case IDLE_NOTSET:
+			owner->Event_WeaponReady();
+			owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
+			idleState = IDLE_WAIT;
+			break;
 
-	case IDLE_WAIT:
-		// Do nothing.
-		break;
+		case IDLE_WAIT:
+			// Do nothing.
+			break;
 	}
 }
 
@@ -169,7 +181,8 @@ void rvmWeaponFlashlight::Idle() {
 rvmWeaponFlashlight::Fire
 ================
 */
-void rvmWeaponFlashlight::Fire() {
+void rvmWeaponFlashlight::Fire()
+{
 	enum FIRE_State
 	{
 		FIRE_NOTSET = 0,
@@ -177,26 +190,26 @@ void rvmWeaponFlashlight::Fire() {
 		FIRE_WAIT
 	};
 
-	switch (firingState)
+	switch( firingState )
 	{
-	case FIRE_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "fire", false);
-		firingState = FIRE_MELEE;
-		Wait(0.1f);
-		break;
+		case FIRE_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "fire", false );
+			firingState = FIRE_MELEE;
+			Wait( 0.1f );
+			break;
 
-	case FIRE_MELEE:
-		owner->Event_Melee();
-		firingState = FIRE_WAIT;
-		break;
+		case FIRE_MELEE:
+			owner->Event_Melee();
+			firingState = FIRE_WAIT;
+			break;
 
-	case FIRE_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, FLASHLIGHT_FIRE_TO_IDLE))
-		{
-			owner->WeaponState(WP_IDLE, FLASHLIGHT_FIRE_TO_IDLE);
-			firingState = 0;
-		}
-		break;
+		case FIRE_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, FLASHLIGHT_FIRE_TO_IDLE ) )
+			{
+				owner->WeaponState( WP_IDLE, FLASHLIGHT_FIRE_TO_IDLE );
+				firingState = 0;
+			}
+			break;
 	}
 }
 
@@ -205,7 +218,8 @@ void rvmWeaponFlashlight::Fire() {
 rvmWeaponFlashlight::Reload
 ================
 */
-void rvmWeaponFlashlight::Reload() {
+void rvmWeaponFlashlight::Reload()
+{
 	enum RELOAD_State
 	{
 		RELOAD_NOTSET = 0,
@@ -213,27 +227,27 @@ void rvmWeaponFlashlight::Reload() {
 		RELOAD_WAIT
 	};
 
-	switch (reloadState)
+	switch( reloadState )
 	{
-	case RELOAD_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "reload", false);
-		reloadState = RELOAD_TOGGLEFLASHLIGHT;
-		Wait(0.2f);
-		break;
+		case RELOAD_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "reload", false );
+			reloadState = RELOAD_TOGGLEFLASHLIGHT;
+			Wait( 0.2f );
+			break;
 
-	case RELOAD_TOGGLEFLASHLIGHT:
-		on = !on;
-		UpdateSkin();
-		owner->Event_Flashlight(on);
-		reloadState = RELOAD_WAIT;
-		break;
+		case RELOAD_TOGGLEFLASHLIGHT:
+			on = !on;
+			UpdateSkin();
+			owner->Event_Flashlight( on );
+			reloadState = RELOAD_WAIT;
+			break;
 
-	case RELOAD_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, FLASHLIGHT_RELOAD_TO_IDLE))
-		{
-			owner->WeaponState(WP_IDLE, FLASHLIGHT_RELOAD_TO_IDLE);
-			reloadState = 0;
-		}
-		break;
+		case RELOAD_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, FLASHLIGHT_RELOAD_TO_IDLE ) )
+			{
+				owner->WeaponState( WP_IDLE, FLASHLIGHT_RELOAD_TO_IDLE );
+				reloadState = 0;
+			}
+			break;
 	}
 }

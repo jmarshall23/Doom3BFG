@@ -6,7 +6,7 @@
 #include "precompiled.h"
 #include "../Game_local.h"
 
-CLASS_DECLARATION(rvmWeaponObject, rvmWeaponGrabber)
+CLASS_DECLARATION( rvmWeaponObject, rvmWeaponGrabber )
 END_CLASS
 
 // blend times
@@ -31,20 +31,21 @@ END_CLASS
 rvmWeaponGrabber::Init
 ===============
 */
-void rvmWeaponGrabber::Init(idWeapon* weapon) {
-	rvmWeaponObject::Init(weapon);
+void rvmWeaponGrabber::Init( idWeapon* weapon )
+{
+	rvmWeaponObject::Init( weapon );
 
 	next_attack = 0;
-	weapon->WeaponState(WP_RISING, 0);
+	weapon->WeaponState( WP_RISING, 0 );
 
-	snd_fireloop = FindSound("snd_fireloop");
-	snd_electroloop = FindSound("snd_electroloop");
-	snd_mainfire = FindSound("snd_mainfire");
-	snd_cangrab = FindSound("snd_cangrab");
-	snd_warning = FindSound("snd_warning");
-	snd_stopfire = FindSound("snd_stopfire");
+	snd_fireloop = FindSound( "snd_fireloop" );
+	snd_electroloop = FindSound( "snd_electroloop" );
+	snd_mainfire = FindSound( "snd_mainfire" );
+	snd_cangrab = FindSound( "snd_cangrab" );
+	snd_warning = FindSound( "snd_warning" );
+	snd_stopfire = FindSound( "snd_stopfire" );
 
-	owner->Event_Grabber(true);
+	owner->Event_Grabber( true );
 
 	grabberState = -1;
 }
@@ -54,29 +55,30 @@ void rvmWeaponGrabber::Init(idWeapon* weapon) {
 rvmWeaponGrabber::Raise
 ===============
 */
-void rvmWeaponGrabber::Raise() {
+void rvmWeaponGrabber::Raise()
+{
 	enum RisingState
 	{
 		RISING_NOTSET = 0,
 		RISING_WAIT
 	};
 
-	switch (risingState)
+	switch( risingState )
 	{
-	case RISING_NOTSET:
-		owner->Event_WeaponRising();
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
-		risingState = RISING_WAIT;
-		break;
+		case RISING_NOTSET:
+			owner->Event_WeaponRising();
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
+			risingState = RISING_WAIT;
+			break;
 
-	case RISING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, GRABBER_RAISE_TO_IDLE))
-		{
-			owner->WeaponState(WP_IDLE, GRABBER_RAISE_TO_IDLE);
-			risingState = RISING_NOTSET;
-			isRisen = true;
-		}
-		break;
+		case RISING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, GRABBER_RAISE_TO_IDLE ) )
+			{
+				owner->WeaponState( WP_IDLE, GRABBER_RAISE_TO_IDLE );
+				risingState = RISING_NOTSET;
+				isRisen = true;
+			}
+			break;
 	}
 }
 
@@ -86,29 +88,30 @@ void rvmWeaponGrabber::Raise() {
 rvmWeaponGrabber::Lower
 ===============
 */
-void rvmWeaponGrabber::Lower() {
+void rvmWeaponGrabber::Lower()
+{
 	enum LoweringState
 	{
 		LOWERING_NOTSET = 0,
 		LOWERING_WAIT
 	};
 
-	switch (loweringState)
+	switch( loweringState )
 	{
-	case LOWERING_NOTSET:
-		owner->Event_WeaponLowering();
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
-		loweringState = LOWERING_WAIT;
-		break;
+		case LOWERING_NOTSET:
+			owner->Event_WeaponLowering();
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
+			loweringState = LOWERING_WAIT;
+			break;
 
-	case LOWERING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			owner->Event_WeaponHolstered();
-			loweringState = LOWERING_NOTSET;
-			isHolstered = true;
-		}
-		break;
+		case LOWERING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				owner->Event_WeaponHolstered();
+				loweringState = LOWERING_NOTSET;
+				isHolstered = true;
+			}
+			break;
 	}
 }
 /*
@@ -125,7 +128,8 @@ if ( grabState == 1 || grabState == 2 ) {
 }
 ===============
 */
-bool rvmWeaponGrabber::CanFire() {
+bool rvmWeaponGrabber::CanFire()
+{
 	int grabState = owner->Event_GrabberHasTarget();
 	return grabState == 1 || grabState == 2;
 }
@@ -135,7 +139,8 @@ bool rvmWeaponGrabber::CanFire() {
 rvmWeaponGrabber::Idle
 ===============
 */
-void rvmWeaponGrabber::Idle() {
+void rvmWeaponGrabber::Idle()
+{
 	int grabState = 0;
 
 	enum IdleState
@@ -149,59 +154,61 @@ void rvmWeaponGrabber::Idle() {
 	UpdateGuiLight();
 
 	grabState = owner->Event_GrabberHasTarget();
-	if (grabState == 1 || grabState == 2) {
+	if( grabState == 1 || grabState == 2 )
+	{
 		idleState = IDLE_GRABBER_OPEN;
 	}
 
-	switch (idleState)
+	switch( idleState )
 	{
-	case IDLE_NOTSET:
-		owner->Event_WeaponReady();
-		if (!owner->AmmoInClip())
-		{
-			owner->Event_WeaponOutOfAmmo();
-		}
-		else
-		{
+		case IDLE_NOTSET:
 			owner->Event_WeaponReady();
-		}
-
-		owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle");
-		idleState = IDLE_WAIT;
-		break;
-
-	case IDLE_WAIT:
-		// Do nothing.
-		break;
-
-	case IDLE_GRABBER_OPEN:
-		owner->StartSoundShader(snd_fireloop, SND_CHANNEL_BODY3, 0, false, NULL);
-		owner->StartSoundShader(snd_electroloop, SND_CHANNEL_BODY2, 0, false, NULL);
-		owner->StartSoundShader(snd_mainfire, SND_CHANNEL_BODY, 0, false, NULL);
-
-		StartWarningSound();
-		StartActive();
-
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "open", false);
-		firingState = IDLE_GRABBER_OPEN_WAIT;
-		break;
-
-	case IDLE_GRABBER_OPEN_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			owner->WeaponState(WP_FIRE, GRABBER_OPEN_TO_CLOSE);
-		}
-		else
-		{
-			grabState = owner->Event_GrabberHasTarget();
-			if (grabState == 3) {
-				owner->WeaponState(WP_FIRE, GRABBER_OPEN_TO_CLOSE);
+			if( !owner->AmmoInClip() )
+			{
+				owner->Event_WeaponOutOfAmmo();
 			}
-		}
+			else
+			{
+				owner->Event_WeaponReady();
+			}
 
-		UpdateGuiLight();
-		UpdateWarningSound();
-		break;
+			owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
+			idleState = IDLE_WAIT;
+			break;
+
+		case IDLE_WAIT:
+			// Do nothing.
+			break;
+
+		case IDLE_GRABBER_OPEN:
+			owner->StartSoundShader( snd_fireloop, SND_CHANNEL_BODY3, 0, false, NULL );
+			owner->StartSoundShader( snd_electroloop, SND_CHANNEL_BODY2, 0, false, NULL );
+			owner->StartSoundShader( snd_mainfire, SND_CHANNEL_BODY, 0, false, NULL );
+
+			StartWarningSound();
+			StartActive();
+
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "open", false );
+			firingState = IDLE_GRABBER_OPEN_WAIT;
+			break;
+
+		case IDLE_GRABBER_OPEN_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				owner->WeaponState( WP_FIRE, GRABBER_OPEN_TO_CLOSE );
+			}
+			else
+			{
+				grabState = owner->Event_GrabberHasTarget();
+				if( grabState == 3 )
+				{
+					owner->WeaponState( WP_FIRE, GRABBER_OPEN_TO_CLOSE );
+				}
+			}
+
+			UpdateGuiLight();
+			UpdateWarningSound();
+			break;
 	}
 }
 
@@ -210,7 +217,8 @@ void rvmWeaponGrabber::Idle() {
 rvmWeaponGrabber::StartWarningSound
 =====================
 */
-void rvmWeaponGrabber::StartWarningSound() {
+void rvmWeaponGrabber::StartWarningSound()
+{
 	fireStartTime = gameLocal.realClientTime;
 	warningBeep1 = false;
 	warningBeep2 = false;
@@ -223,11 +231,12 @@ void rvmWeaponGrabber::StartWarningSound() {
 rvmWeaponGrabber::StartActive
 =====================
 */
-void rvmWeaponGrabber::StartActive() {
-	owner->Event_StartWeaponParticle("barrel_upper");
-	owner->Event_StartWeaponLight("light_barrel_upper");
-	owner->Event_StartWeaponLight("light_barrel_lower");
-	owner->Event_StartWeaponLight("light_side");
+void rvmWeaponGrabber::StartActive()
+{
+	owner->Event_StartWeaponParticle( "barrel_upper" );
+	owner->Event_StartWeaponLight( "light_barrel_upper" );
+	owner->Event_StartWeaponLight( "light_barrel_lower" );
+	owner->Event_StartWeaponLight( "light_side" );
 }
 
 /*
@@ -235,12 +244,13 @@ void rvmWeaponGrabber::StartActive() {
 rvmWeaponGrabber::StopActive
 =====================
 */
-void rvmWeaponGrabber::StopActive() {
-	owner->Event_StopWeaponParticle("barrel_upper");
+void rvmWeaponGrabber::StopActive()
+{
+	owner->Event_StopWeaponParticle( "barrel_upper" );
 
-	owner->Event_StopWeaponLight("light_barrel_upper");
-	owner->Event_StopWeaponLight("light_barrel_lower");
-	owner->Event_StopWeaponLight("light_side");
+	owner->Event_StopWeaponLight( "light_barrel_upper" );
+	owner->Event_StopWeaponLight( "light_barrel_lower" );
+	owner->Event_StopWeaponLight( "light_side" );
 }
 
 /*
@@ -248,27 +258,32 @@ void rvmWeaponGrabber::StopActive() {
 rvmWeaponGrabber::UpdateGuiLight
 ==================== =
 */
-void rvmWeaponGrabber::UpdateGuiLight() {
+void rvmWeaponGrabber::UpdateGuiLight()
+{
 
 	float newState = owner->Event_GrabberHasTarget();
-	if (newState != grabberState) {
+	if( newState != grabberState )
+	{
 		grabberState = newState;
-		if (grabberState == 0) {		
-			owner->Event_StartWeaponLight("gLightBlue");
-			owner->Event_StopWeaponLight("gLightYellow");
-			owner->Event_StopWeaponLight("gLightRed");
+		if( grabberState == 0 )
+		{
+			owner->Event_StartWeaponLight( "gLightBlue" );
+			owner->Event_StopWeaponLight( "gLightYellow" );
+			owner->Event_StopWeaponLight( "gLightRed" );
 		}
-		else if (grabberState == 1) {
+		else if( grabberState == 1 )
+		{
 			//startSound("snd_cangrab", SND_CHANNEL_ITEM, false);
-			owner->StartSoundShader(snd_cangrab, SND_CHANNEL_ITEM, 0, false, NULL);
-			owner->Event_StartWeaponLight("gLightYellow");
-			owner->Event_StopWeaponLight("gLightBlue");
-			owner->Event_StopWeaponLight("gLightRed");
+			owner->StartSoundShader( snd_cangrab, SND_CHANNEL_ITEM, 0, false, NULL );
+			owner->Event_StartWeaponLight( "gLightYellow" );
+			owner->Event_StopWeaponLight( "gLightBlue" );
+			owner->Event_StopWeaponLight( "gLightRed" );
 		}
-		else if (grabberState == 2) {
-			owner->Event_StartWeaponLight("gLightRed");
-			owner->Event_StopWeaponLight("gLightBlue");
-			owner->Event_StopWeaponLight("gLightYellow");
+		else if( grabberState == 2 )
+		{
+			owner->Event_StartWeaponLight( "gLightRed" );
+			owner->Event_StopWeaponLight( "gLightBlue" );
+			owner->Event_StopWeaponLight( "gLightYellow" );
 		}
 	}
 }
@@ -278,27 +293,32 @@ void rvmWeaponGrabber::UpdateGuiLight() {
 rvmWeaponGrabber::UpdateWarningSound
 =====================
 */
-void rvmWeaponGrabber::UpdateWarningSound() {
+void rvmWeaponGrabber::UpdateWarningSound()
+{
 	float currentTime;
 	float elapsed;
 
 	currentTime = gameLocal.realClientTime;
 	elapsed = currentTime - fireStartTime;
 
-	if (elapsed > WARNING_BEEP_1 && !warningBeep1) {
-		owner->StartSoundShader(snd_warning, SND_CHANNEL_ITEM, 0, false, NULL);
+	if( elapsed > WARNING_BEEP_1 && !warningBeep1 )
+	{
+		owner->StartSoundShader( snd_warning, SND_CHANNEL_ITEM, 0, false, NULL );
 		warningBeep1 = true;
 	}
-	if (elapsed > WARNING_BEEP_2 && !warningBeep2) {
-		owner->StartSoundShader(snd_warning, SND_CHANNEL_ITEM, 0, false, NULL);
+	if( elapsed > WARNING_BEEP_2 && !warningBeep2 )
+	{
+		owner->StartSoundShader( snd_warning, SND_CHANNEL_ITEM, 0, false, NULL );
 		warningBeep2 = true;
 	}
-	if (elapsed > WARNING_BEEP_3 && !warningBeep3) {
-		owner->StartSoundShader(snd_warning, SND_CHANNEL_ITEM, 0, false, NULL);
+	if( elapsed > WARNING_BEEP_3 && !warningBeep3 )
+	{
+		owner->StartSoundShader( snd_warning, SND_CHANNEL_ITEM, 0, false, NULL );
 		warningBeep3 = true;
 	}
-	if (elapsed > WARNING_BEEP_4 && !warningBeep4) {
-		owner->StartSoundShader(snd_warning, SND_CHANNEL_ITEM, 0, false, NULL);
+	if( elapsed > WARNING_BEEP_4 && !warningBeep4 )
+	{
+		owner->StartSoundShader( snd_warning, SND_CHANNEL_ITEM, 0, false, NULL );
 		warningBeep4 = true;
 	}
 }
@@ -309,7 +329,8 @@ void rvmWeaponGrabber::UpdateWarningSound() {
 rvmWeaponGrabber::Fire
 ===============
 */
-void rvmWeaponGrabber::Fire() {
+void rvmWeaponGrabber::Fire()
+{
 	int grabState;
 
 	grabState = owner->Event_GrabberHasTarget();
@@ -322,43 +343,43 @@ void rvmWeaponGrabber::Fire() {
 		FIRE_WAIT
 	};
 
-	switch (firingState)
+	switch( firingState )
 	{
-	case FIRE_NOTSET:
-		next_attack = MS2SEC(gameLocal.realClientTime);
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "idleopen", true);
-		firingState = FIRE_WAIT_GRABSTATE;
-		break;
+		case FIRE_NOTSET:
+			next_attack = MS2SEC( gameLocal.realClientTime );
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "idleopen", true );
+			firingState = FIRE_WAIT_GRABSTATE;
+			break;
 
-	case FIRE_WAIT_GRABSTATE:
-		if (grabState == 3 || grabState == 0)
-		{
-			firingState = FIRE_ACTUALLY_FIRE;
-		}
-		break;
+		case FIRE_WAIT_GRABSTATE:
+			if( grabState == 3 || grabState == 0 )
+			{
+				firingState = FIRE_ACTUALLY_FIRE;
+			}
+			break;
 
-	case FIRE_ACTUALLY_FIRE:
-		StopActive();
+		case FIRE_ACTUALLY_FIRE:
+			StopActive();
 
-		// Stops fire loop sound
-		owner->StartSoundShader(snd_stopfire, SND_CHANNEL_BODY3, 0, false, NULL);
-		owner->StopSound(SND_CHANNEL_BODY2, false);
+			// Stops fire loop sound
+			owner->StartSoundShader( snd_stopfire, SND_CHANNEL_BODY3, 0, false, NULL );
+			owner->StopSound( SND_CHANNEL_BODY2, false );
 
-		owner->Event_StartWeaponSmoke();
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "fire", true);
-		break;
+			owner->Event_StartWeaponSmoke();
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "fire", true );
+			break;
 
-	case FIRE_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			owner->WeaponState(WP_IDLE, GRABBER_CLOSE_TO_IDLE);
-			firingState = 0;
-		}
-		else
-		{
-			UpdateGuiLight();
-		}
-		break;
+		case FIRE_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				owner->WeaponState( WP_IDLE, GRABBER_CLOSE_TO_IDLE );
+				firingState = 0;
+			}
+			else
+			{
+				UpdateGuiLight();
+			}
+			break;
 	}
 }
 
@@ -367,9 +388,12 @@ void rvmWeaponGrabber::Fire() {
 rvmWeaponGrabber::HasWaitSignal
 ===============
 */
-bool rvmWeaponGrabber::HasWaitSignal(void) {
-	if (rvmWeaponObject::HasWaitSignal())
+bool rvmWeaponGrabber::HasWaitSignal( void )
+{
+	if( rvmWeaponObject::HasWaitSignal() )
+	{
 		return true;
+	}
 
 	// Allow the player to shoot or reload while reloading.
 	return false; // next_attack >= MS2SEC(gameLocal.realClientTime);
@@ -381,6 +405,7 @@ bool rvmWeaponGrabber::HasWaitSignal(void) {
 rvmWeaponGrabber::Reload
 ===============
 */
-void rvmWeaponGrabber::Reload() {
-	owner->WeaponState(WP_IDLE, 0);
+void rvmWeaponGrabber::Reload()
+{
+	owner->WeaponState( WP_IDLE, 0 );
 }

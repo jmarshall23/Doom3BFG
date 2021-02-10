@@ -3,11 +3,12 @@
 
 #pragma once
 
-class rvmWeaponPDA : public rvmWeaponObject {
+class rvmWeaponPDA : public rvmWeaponObject
+{
 public:
-	CLASS_PROTOTYPE(rvmWeaponPDA);
+	CLASS_PROTOTYPE( rvmWeaponPDA );
 
-	virtual void			Init(idWeapon *weapon);
+	virtual void			Init( idWeapon* weapon );
 
 	virtual void			Raise();
 	virtual void			Idle();

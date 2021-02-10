@@ -287,7 +287,8 @@ enum slowmoState_t
 	SLOWMO_STATE_RAMPDOWN
 };
 
-struct rvmGameDelayRemoveEntry_t {
+struct rvmGameDelayRemoveEntry_t
+{
 	int32_t removeTime;
 	idEntity* entity;
 };
@@ -455,7 +456,7 @@ public:
 
 	idMapFile* 				GetLevelMap();
 	const char* 			GetMapName() const;
-	void					DelayRemoveEntity(idEntity* entity, int delay);
+	void					DelayRemoveEntity( idEntity* entity, int delay );
 
 	int						NumAAS() const;
 	idAAS* 					GetAAS( int num ) const;

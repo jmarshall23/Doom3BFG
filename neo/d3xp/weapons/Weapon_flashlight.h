@@ -3,11 +3,12 @@
 
 #pragma once
 
-class rvmWeaponFlashlight : public rvmWeaponObject {
+class rvmWeaponFlashlight : public rvmWeaponObject
+{
 public:
-	CLASS_PROTOTYPE(rvmWeaponFlashlight);
+	CLASS_PROTOTYPE( rvmWeaponFlashlight );
 
-	virtual void			Init(idWeapon *weapon);
+	virtual void			Init( idWeapon* weapon );
 
 	virtual void			Raise();
 	virtual void			Idle();
@@ -15,8 +16,8 @@ public:
 	virtual void			Lower();
 	virtual void			Reload();
 private:
-	void					UpdateSkin(void);
-	void					UpdateLightIntensity(void);
+	void					UpdateSkin( void );
+	void					UpdateLightIntensity( void );
 
 	bool					on;
 	float					intensity;

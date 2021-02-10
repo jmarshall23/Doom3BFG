@@ -32,7 +32,7 @@ If you have questions concerning this license or the applicable additional terms
 
 // DG: all the zip access stuff from minizip is now in minizip/zip.h
 #ifndef TYPEINFOPROJECT
-#include "libs/zlib/minizip/zip.h"
+	#include "libs/zlib/minizip/zip.h"
 #endif
 
 
