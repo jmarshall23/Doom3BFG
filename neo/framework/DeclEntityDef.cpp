@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 BFG Edition GPL Source Code
-Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
 Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,15 +26,17 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
+#include "precompiled.h"
 #pragma hdrstop
-#include "../framework/precompiled.h"
+
 
 /*
 =================
 idDeclEntityDef::Size
 =================
 */
-size_t idDeclEntityDef::Size() const {
+size_t idDeclEntityDef::Size() const
+{
 	return sizeof( idDeclEntityDef ) + dict.Allocated();
 }
 
@@ -43,7 +45,8 @@ size_t idDeclEntityDef::Size() const {
 idDeclEntityDef::FreeData
 ================
 */
-void idDeclEntityDef::FreeData() {
+void idDeclEntityDef::FreeData()
+{
 	dict.Clear();
 }
 
@@ -52,7 +55,8 @@ void idDeclEntityDef::FreeData() {
 idDeclEntityDef::Parse
 ================
 */
-bool idDeclEntityDef::Parse( const char *text, const int textLength, bool allowBinaryVersion ) {
+bool idDeclEntityDef::Parse( const char* text, const int textLength, bool allowBinaryVersion )
+{
 	idLexer src;
 	idToken	token, token2;
 
@@ -60,27 +64,33 @@ bool idDeclEntityDef::Parse( const char *text, const int textLength, bool allowB
 	src.SetFlags( DECL_LEXER_FLAGS );
 	src.SkipUntilString( "{" );
 
-	while (1) {
-		if ( !src.ReadToken( &token ) ) {
+	while( 1 )
+	{
+		if( !src.ReadToken( &token ) )
+		{
 			break;
 		}
 
-		if ( !token.Icmp( "}" ) ) {
+		if( !token.Icmp( "}" ) )
+		{
 			break;
 		}
-		if ( token.type != TT_STRING ) {
+		if( token.type != TT_STRING )
+		{
 			src.Warning( "Expected quoted string, but found '%s'", token.c_str() );
 			MakeDefault();
 			return false;
 		}
 
-		if ( !src.ReadToken( &token2 ) ) {
+		if( !src.ReadToken( &token2 ) )
+		{
 			src.Warning( "Unexpected end of file" );
 			MakeDefault();
 			return false;
 		}
 
-		if ( dict.FindKey( token ) ) {
+		if( dict.FindKey( token ) )
+		{
 			src.Warning( "'%s' already defined", token.c_str() );
 		}
 		dict.Set( token, token2 );
@@ -94,19 +104,24 @@ bool idDeclEntityDef::Parse( const char *text, const int textLength, bool allowB
 	// never be parsed mroe than once
 
 	// find all of the dicts first, because copying inherited values will modify the dict
-	idList<const idDeclEntityDef *> defList;
+	idList<const idDeclEntityDef*> defList;
 
-	while ( 1 ) {
-		const idKeyValue *kv;
+	while( 1 )
+	{
+		const idKeyValue* kv;
 		kv = dict.MatchPrefix( "inherit", NULL );
-		if ( !kv ) {
+		if( !kv )
+		{
 			break;
 		}
 
-		const idDeclEntityDef *copy = static_cast<const idDeclEntityDef *>( declManager->FindType( DECL_ENTITYDEF, kv->GetValue(), false ) );
-		if ( !copy ) {
+		const idDeclEntityDef* copy = static_cast<const idDeclEntityDef*>( declManager->FindType( DECL_ENTITYDEF, kv->GetValue(), false ) );
+		if( !copy )
+		{
 			src.Warning( "Unknown entityDef '%s' inherited by '%s'", kv->GetValue().c_str(), GetName() );
-		} else {
+		}
+		else
+		{
 			defList.Append( copy );
 		}
 
@@ -115,11 +130,17 @@ bool idDeclEntityDef::Parse( const char *text, const int textLength, bool allowB
 	}
 
 	// now copy over the inherited key / value pairs
-	for ( int i = 0 ; i < defList.Num() ; i++ ) {
+	for( int i = 0 ; i < defList.Num() ; i++ )
+	{
 		dict.SetDefaults( &defList[ i ]->dict );
 	}
 
-	game->CacheDictionaryMedia( &dict );
+	// precache all referenced media
+	// do this as long as we arent in modview
+	if( !( com_editors & ( EDITOR_AAS ) ) )
+	{
+		game->CacheDictionaryMedia( &dict );
+	}
 
 	return true;
 }
@@ -129,10 +150,11 @@ bool idDeclEntityDef::Parse( const char *text, const int textLength, bool allowB
 idDeclEntityDef::DefaultDefinition
 ================
 */
-const char *idDeclEntityDef::DefaultDefinition() const {
+const char* idDeclEntityDef::DefaultDefinition() const
+{
 	return
 		"{\n"
-	"\t"	"\"DEFAULTED\"\t\"1\"\n"
+		"\t"	"\"DEFAULTED\"\t\"1\"\n"
 		"}";
 }
 
@@ -143,6 +165,7 @@ idDeclEntityDef::Print
 Dumps all key/value pairs, including inherited ones
 ================
 */
-void idDeclEntityDef::Print() {
+void idDeclEntityDef::Print()
+{
 	dict.Print();
 }

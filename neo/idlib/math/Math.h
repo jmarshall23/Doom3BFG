@@ -2,10 +2,9 @@
 ===========================================================================
 
 Doom 3 BFG Edition GPL Source Code
-Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
-Copyright (C) 2016-2017 Dustin Land
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
 Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,13 +29,6 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __MATH_MATH_H__
 #define __MATH_MATH_H__
 
-#ifdef MACOS_X
-// for square root estimate instruction
-#include <ppc_intrinsics.h>
-// for FLT_MIN
-#include <float.h>
-#endif
-
 /*
 ===============================================================================
 
@@ -46,11 +38,11 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #ifdef INFINITY
-#undef INFINITY
+	#undef INFINITY
 #endif
 
 #ifdef FLT_EPSILON
-#undef FLT_EPSILON
+	#undef FLT_EPSILON
 #endif
 
 #define DEG2RAD(a)				( (a) * idMath::M_DEG2RAD )
@@ -104,13 +96,15 @@ compile_time_assert( sizeof( unsigned int ) == 4 );
 // either 0 or 1, so this extra wrapper is needed to avoid the static
 // alaysis warning.
 
-ID_INLINE int INT32_SIGNBITSET( int i ) {
+ID_INLINE_EXTERN int INT32_SIGNBITSET( int i )
+{
 	int	r = OLD_INT32_SIGNBITSET( i );
 	assert( r == 0 || r == 1 );
 	return r;
 }
 
-ID_INLINE int INT32_SIGNBITNOTSET( int i ) {
+ID_INLINE_EXTERN int INT32_SIGNBITNOTSET( int i )
+{
 	int	r = OLD_INT32_SIGNBITNOTSET( i );
 	assert( r == 0 || r == 1 );
 	return r;
@@ -172,7 +166,8 @@ ID_INLINE int INT32_SIGNBITNOTSET( int i ) {
 IEEE_FLT_IS_NAN
 ========================
 */
-ID_INLINE bool IEEE_FLT_IS_NAN( float x ) {
+ID_INLINE_EXTERN bool IEEE_FLT_IS_NAN( float x )
+{
 	return x != x;
 }
 
@@ -181,7 +176,8 @@ ID_INLINE bool IEEE_FLT_IS_NAN( float x ) {
 IEEE_FLT_IS_INF
 ========================
 */
-ID_INLINE bool IEEE_FLT_IS_INF( float x ) {
+ID_INLINE_EXTERN bool IEEE_FLT_IS_INF( float x )
+{
 	return x == x && x * 0 != x * 0;
 }
 
@@ -190,7 +186,8 @@ ID_INLINE bool IEEE_FLT_IS_INF( float x ) {
 IEEE_FLT_IS_INF_NAN
 ========================
 */
-ID_INLINE bool IEEE_FLT_IS_INF_NAN( float x ) {
+ID_INLINE_EXTERN bool IEEE_FLT_IS_INF_NAN( float x )
+{
 	return x * 0 != x * 0;
 }
 
@@ -199,8 +196,9 @@ ID_INLINE bool IEEE_FLT_IS_INF_NAN( float x ) {
 IEEE_FLT_IS_IND
 ========================
 */
-ID_INLINE bool IEEE_FLT_IS_IND( float x ) {
-	return	(reinterpret_cast<const unsigned int &>(x) == 0xffc00000); 
+ID_INLINE_EXTERN bool IEEE_FLT_IS_IND( float x )
+{
+	return	( reinterpret_cast<const unsigned int&>( x ) == 0xffc00000 );
 }
 
 /*
@@ -208,9 +206,10 @@ ID_INLINE bool IEEE_FLT_IS_IND( float x ) {
 IEEE_FLT_IS_DENORMAL
 ========================
 */
-ID_INLINE bool IEEE_FLT_IS_DENORMAL( float x ) {
-	return ((reinterpret_cast<const unsigned int &>(x) & 0x7f800000) == 0x00000000 &&
-			(reinterpret_cast<const unsigned int &>(x) & 0x007fffff) != 0x00000000 ); 
+ID_INLINE_EXTERN bool IEEE_FLT_IS_DENORMAL( float x )
+{
+	return ( ( reinterpret_cast<const unsigned int&>( x ) & 0x7f800000 ) == 0x00000000 &&
+			 ( reinterpret_cast<const unsigned int&>( x ) & 0x007fffff ) != 0x00000000 );
 }
 
 
@@ -219,10 +218,13 @@ ID_INLINE bool IEEE_FLT_IS_DENORMAL( float x ) {
 IsNAN
 ========================
 */template<class type>
-ID_INLINE bool IsNAN( const type &v ) {
-	for ( int i = 0; i < v.GetDimension(); i++ ) {
+ID_INLINE_EXTERN bool IsNAN( const type& v )
+{
+	for( int i = 0; i < v.GetDimension(); i++ )
+	{
 		const float f = v.ToFloatPtr()[i];
-		if ( IEEE_FLT_IS_NAN( f ) || IEEE_FLT_IS_INF( f ) || IEEE_FLT_IS_IND( f ) ) {
+		if( IEEE_FLT_IS_NAN( f ) || IEEE_FLT_IS_INF( f ) || IEEE_FLT_IS_IND( f ) )
+		{
 			return true;
 		}
 	}
@@ -235,10 +237,13 @@ IsValid
 ========================
 */
 template<class type>
-ID_INLINE bool IsValid( const type &v ) {
-	for ( int i = 0; i < v.GetDimension(); i++ ) {
+ID_INLINE_EXTERN bool IsValid( const type& v )
+{
+	for( int i = 0; i < v.GetDimension(); i++ )
+	{
 		const float f = v.ToFloatPtr()[i];
-		if ( IEEE_FLT_IS_NAN( f ) || IEEE_FLT_IS_INF( f ) || IEEE_FLT_IS_IND( f ) || IEEE_FLT_IS_DENORMAL( f ) ) {
+		if( IEEE_FLT_IS_NAN( f ) || IEEE_FLT_IS_INF( f ) || IEEE_FLT_IS_IND( f ) || IEEE_FLT_IS_DENORMAL( f ) )
+		{
 			return false;
 		}
 	}
@@ -251,7 +256,9 @@ IsValid
 ========================
 */
 template<>
-ID_INLINE bool IsValid( const float & f ) {	// these parameter must be a reference for the function to be considered a specialization
+ID_INLINE
+bool IsValid( const float& f )  	// these parameter must be a reference for the function to be considered a specialization
+{
 	return !( IEEE_FLT_IS_NAN( f ) || IEEE_FLT_IS_INF( f ) || IEEE_FLT_IS_IND( f ) || IEEE_FLT_IS_DENORMAL( f ) );
 }
 
@@ -261,8 +268,11 @@ IsNAN
 ========================
 */
 template<>
-ID_INLINE bool IsNAN( const float & f ) {	// these parameter must be a reference for the function to be considered a specialization
-	if ( IEEE_FLT_IS_NAN( f ) || IEEE_FLT_IS_INF( f ) || IEEE_FLT_IS_IND( f ) ) {
+ID_INLINE
+bool IsNAN( const float& f )  	// these parameter must be a reference for the function to be considered a specialization
+{
+	if( IEEE_FLT_IS_NAN( f ) || IEEE_FLT_IS_INF( f ) || IEEE_FLT_IS_IND( f ) )
+	{
 		return true;
 	}
 	return false;
@@ -276,10 +286,14 @@ Returns true if any scalar is greater than the range or less than the negative r
 ========================
 */
 template<class type>
-ID_INLINE bool IsInRange( const type &v, const float range ) {
-	for ( int i = 0; i < v.GetDimension(); i++ ) {
+ID_INLINE
+bool IsInRange( const type& v, const float range )
+{
+	for( int i = 0; i < v.GetDimension(); i++ )
+	{
 		const float f = v.ToFloatPtr()[i];
-		if ( f > range || f < -range ) {
+		if( f > range || f < -range )
+		{
 			return false;
 		}
 	}
@@ -294,13 +308,31 @@ ID_INLINE bool IsInRange( const type &v, const float range ) {
 
 ================================================================================================
 */
-template<class T> ID_INLINE int	MaxIndex( T x, T y ) { return  ( x > y ) ? 0 : 1; }
-template<class T> ID_INLINE int	MinIndex( T x, T y ) { return ( x < y ) ? 0 : 1; }
+template<class T> ID_INLINE int	MaxIndex( T x, T y )
+{
+	return ( x > y ) ? 0 : 1;
+}
+template<class T> ID_INLINE int	MinIndex( T x, T y )
+{
+	return ( x < y ) ? 0 : 1;
+}
 
-template<class T> ID_INLINE T	Max3( T x, T y, T z ) { return ( x > y ) ? ( ( x > z ) ? x : z ) : ( ( y > z ) ? y : z ); }
-template<class T> ID_INLINE T	Min3( T x, T y, T z ) { return ( x < y ) ? ( ( x < z ) ? x : z ) : ( ( y < z ) ? y : z ); }
-template<class T> ID_INLINE int	Max3Index( T x, T y, T z ) { return ( x > y ) ? ( ( x > z ) ? 0 : 2 ) : ( ( y > z ) ? 1 : 2 ); }
-template<class T> ID_INLINE int	Min3Index( T x, T y, T z ) { return ( x < y ) ? ( ( x < z ) ? 0 : 2 ) : ( ( y < z ) ? 1 : 2 ); }
+template<class T> ID_INLINE T	Max3( T x, T y, T z )
+{
+	return ( x > y ) ? ( ( x > z ) ? x : z ) : ( ( y > z ) ? y : z );
+}
+template<class T> ID_INLINE T	Min3( T x, T y, T z )
+{
+	return ( x < y ) ? ( ( x < z ) ? x : z ) : ( ( y < z ) ? y : z );
+}
+template<class T> ID_INLINE int	Max3Index( T x, T y, T z )
+{
+	return ( x > y ) ? ( ( x > z ) ? 0 : 2 ) : ( ( y > z ) ? 1 : 2 );
+}
+template<class T> ID_INLINE int	Min3Index( T x, T y, T z )
+{
+	return ( x < y ) ? ( ( x < z ) ? 0 : 2 ) : ( ( y < z ) ? 1 : 2 );
+}
 
 /*
 ================================================================================================
@@ -309,11 +341,21 @@ template<class T> ID_INLINE int	Min3Index( T x, T y, T z ) { return ( x < y ) ? 
 
 ================================================================================================
 */
-template<class T> ID_INLINE T	Sign( T f ) { return ( f > 0 ) ? 1 : ( ( f < 0 ) ? -1 : 0 ); }
-template<class T> ID_INLINE T	Square( T x ) { return x * x; }
-template<class T> ID_INLINE T	Cube( T x ) { return x * x * x; }
+template<class T> ID_INLINE T	Sign( T f )
+{
+	return ( f > 0 ) ? 1 : ( ( f < 0 ) ? -1 : 0 );
+}
+template<class T> ID_INLINE T	Square( T x )
+{
+	return x * x;
+}
+template<class T> ID_INLINE T	Cube( T x )
+{
+	return x * x * x;
+}
 
-class idMath {
+class idMath
+{
 public:
 
 	static void					Init();
@@ -330,8 +372,8 @@ public:
 	static float				Cos( float a );				// cosine with 32 bits precision
 	static float				Cos16( float a );			// cosine with 16 bits precision, maximum absolute error is 2.3082e-09
 
-	static void					SinCos( float a, float &s, float &c );		// sine and cosine with 32 bits precision
-	static void					SinCos16( float a, float &s, float &c );	// sine and cosine with 16 bits precision
+	static void					SinCos( float a, float& s, float& c );		// sine and cosine with 32 bits precision
+	static void					SinCos16( float a, float& s, float& c );	// sine and cosine with 16 bits precision
 
 	static float				Tan( float a );				// tangent with 32 bits precision
 	static float				Tan16( float a );			// tangent with 16 bits precision, maximum absolute error is 1.8897e-08
@@ -397,7 +439,7 @@ public:
 	static int					FloatToBits( float f, int exponentBits, int mantissaBits );
 	static float				BitsToFloat( int i, int exponentBits, int mantissaBits );
 
-	static int					FloatHash( const float *array, const int numFloats );
+	static int					FloatHash( const float* array, const int numFloats );
 
 	static float				LerpToWithScale( const float cur, const float dest, const float scale );
 
@@ -420,7 +462,7 @@ public:
 	static const float			FLT_EPSILON;				// smallest positive number such that 1.0+FLT_EPSILON != 1.0
 	static const float			FLT_SMALLEST_NON_DENORMAL;	// smallest non-denormal 32-bit floating point value
 
-#if defined( ID_WIN_X86_SSE_INTRIN )
+#if defined(USE_INTRINSICS)
 	static const __m128				SIMD_SP_zero;
 	static const __m128				SIMD_SP_255;
 	static const __m128				SIMD_SP_min_char;
@@ -434,17 +476,19 @@ public:
 #endif
 
 private:
-	enum {
-		LOOKUP_BITS				= 8,							
-		EXP_POS					= 23,							
-		EXP_BIAS				= 127,							
-		LOOKUP_POS				= (EXP_POS-LOOKUP_BITS),
-		SEED_POS				= (EXP_POS-8),
-		SQRT_TABLE_SIZE			= (2<<LOOKUP_BITS),
-		LOOKUP_MASK				= (SQRT_TABLE_SIZE-1)
+	enum
+	{
+		LOOKUP_BITS				= 8,
+		EXP_POS					= 23,
+		EXP_BIAS				= 127,
+		LOOKUP_POS				= ( EXP_POS - LOOKUP_BITS ),
+		SEED_POS				= ( EXP_POS - 8 ),
+		SQRT_TABLE_SIZE			= ( 2 << LOOKUP_BITS ),
+		LOOKUP_MASK				= ( SQRT_TABLE_SIZE - 1 )
 	};
 
-	union _flint {
+	union _flint
+	{
 		dword					i;
 		float					f;
 	};
@@ -453,8 +497,9 @@ private:
 	static bool					initialized;
 };
 
-ID_INLINE byte CLAMP_BYTE( int x )	{ 
-	return ( (x) < 0 ? (0) : ( (x) > 255 ? 255 : (byte)(x) ) ); 
+ID_INLINE byte CLAMP_BYTE( int x )
+{
+	return ( ( x ) < 0 ? ( 0 ) : ( ( x ) > 255 ? 255 : ( byte )( x ) ) );
 }
 
 /*
@@ -462,16 +507,11 @@ ID_INLINE byte CLAMP_BYTE( int x )	{
 idMath::InvSqrt
 ========================
 */
-ID_INLINE float idMath::InvSqrt( float x ) {
-#ifdef ID_WIN_X86_SSE_INTRIN
+ID_INLINE float idMath::InvSqrt( float x )
+{
 
 	return ( x > FLT_SMALLEST_NON_DENORMAL ) ? sqrtf( 1.0f / x ) : INFINITY;
 
-#else
-
-	return ( x > FLT_SMALLEST_NON_DENORMAL ) ? sqrtf( 1.0f / x ) : INFINITY;
-
-#endif
 }
 
 /*
@@ -479,16 +519,9 @@ ID_INLINE float idMath::InvSqrt( float x ) {
 idMath::InvSqrt16
 ========================
 */
-ID_INLINE float idMath::InvSqrt16( float x ) {
-#ifdef ID_WIN_X86_SSE_INTRIN
-
+ID_INLINE float idMath::InvSqrt16( float x )
+{
 	return ( x > FLT_SMALLEST_NON_DENORMAL ) ? sqrtf( 1.0f / x ) : INFINITY;
-
-#else
-
-	return ( x > FLT_SMALLEST_NON_DENORMAL ) ? sqrtf( 1.0f / x ) : INFINITY;
-
-#endif
 }
 
 /*
@@ -496,12 +529,9 @@ ID_INLINE float idMath::InvSqrt16( float x ) {
 idMath::Sqrt
 ========================
 */
-ID_INLINE float idMath::Sqrt( float x ) {
-#ifdef ID_WIN_X86_SSE_INTRIN
+ID_INLINE float idMath::Sqrt( float x )
+{
 	return ( x >= 0.0f ) ?  x * InvSqrt( x ) : 0.0f;
-#else
-	return ( x >= 0.0f ) ? sqrtf( x ) : 0.0f;
-#endif
 }
 
 /*
@@ -509,12 +539,9 @@ ID_INLINE float idMath::Sqrt( float x ) {
 idMath::Sqrt16
 ========================
 */
-ID_INLINE float idMath::Sqrt16( float x ) {
-#ifdef ID_WIN_X86_SSE_INTRIN
+ID_INLINE float idMath::Sqrt16( float x )
+{
 	return ( x >= 0.0f ) ?  x * InvSqrt16( x ) : 0.0f;
-#else
-	return ( x >= 0.0f ) ? sqrtf( x ) : 0.0f;
-#endif
 }
 
 /*
@@ -522,7 +549,8 @@ ID_INLINE float idMath::Sqrt16( float x ) {
 idMath::Frac
 ========================
 */
-ID_INLINE float idMath::Frac( float f ) {
+ID_INLINE float idMath::Frac( float f )
+{
 	return f - floorf( f );
 }
 
@@ -531,7 +559,8 @@ ID_INLINE float idMath::Frac( float f ) {
 idMath::Sin
 ========================
 */
-ID_INLINE float idMath::Sin( float a ) {
+ID_INLINE float idMath::Sin( float a )
+{
 	return sinf( a );
 }
 
@@ -540,27 +569,37 @@ ID_INLINE float idMath::Sin( float a ) {
 idMath::Sin16
 ========================
 */
-ID_INLINE float idMath::Sin16( float a ) {
+ID_INLINE float idMath::Sin16( float a )
+{
 	float s;
 
-	if ( ( a < 0.0f ) || ( a >= TWO_PI ) ) {
+	if( ( a < 0.0f ) || ( a >= TWO_PI ) )
+	{
 		a -= floorf( a * ONEOVER_TWOPI ) * TWO_PI;
 	}
 #if 1
-	if ( a < PI ) {
-		if ( a > HALF_PI ) {
+	if( a < PI )
+	{
+		if( a > HALF_PI )
+		{
 			a = PI - a;
 		}
-	} else {
-		if ( a > PI + HALF_PI ) {
+	}
+	else
+	{
+		if( a > PI + HALF_PI )
+		{
 			a = a - TWO_PI;
-		} else {
+		}
+		else
+		{
 			a = PI - a;
 		}
 	}
 #else
 	a = PI - a;
-	if ( fabsf( a ) >= HALF_PI ) {
+	if( fabsf( a ) >= HALF_PI )
+	{
 		a = ( ( a < 0.0f ) ? -PI : PI ) - a;
 	}
 #endif
@@ -573,7 +612,8 @@ ID_INLINE float idMath::Sin16( float a ) {
 idMath::Cos
 ========================
 */
-ID_INLINE float idMath::Cos( float a ) {
+ID_INLINE float idMath::Cos( float a )
+{
 	return cosf( a );
 }
 
@@ -582,35 +622,49 @@ ID_INLINE float idMath::Cos( float a ) {
 idMath::Cos16
 ========================
 */
-ID_INLINE float idMath::Cos16( float a ) {
+ID_INLINE float idMath::Cos16( float a )
+{
 	float s, d;
 
-	if ( ( a < 0.0f ) || ( a >= TWO_PI ) ) {
+	if( ( a < 0.0f ) || ( a >= TWO_PI ) )
+	{
 		a -= floorf( a * ONEOVER_TWOPI ) * TWO_PI;
 	}
 #if 1
-	if ( a < PI ) {
-		if ( a > HALF_PI ) {
+	if( a < PI )
+	{
+		if( a > HALF_PI )
+		{
 			a = PI - a;
 			d = -1.0f;
-		} else {
+		}
+		else
+		{
 			d = 1.0f;
 		}
-	} else {
-		if ( a > PI + HALF_PI ) {
+	}
+	else
+	{
+		if( a > PI + HALF_PI )
+		{
 			a = a - TWO_PI;
 			d = 1.0f;
-		} else {
+		}
+		else
+		{
 			a = PI - a;
 			d = -1.0f;
 		}
 	}
 #else
 	a = PI - a;
-	if ( fabsf( a ) >= HALF_PI ) {
+	if( fabsf( a ) >= HALF_PI )
+	{
 		a = ( ( a < 0.0f ) ? -PI : PI ) - a;
 		d = 1.0f;
-	} else {
+	}
+	else
+	{
 		d = -1.0f;
 	}
 #endif
@@ -623,9 +677,11 @@ ID_INLINE float idMath::Cos16( float a ) {
 idMath::SinCos
 ========================
 */
-ID_INLINE void idMath::SinCos( float a, float &s, float &c ) {
-#if defined( ID_WIN_X86_ASM )
-	_asm {
+ID_INLINE void idMath::SinCos( float a, float& s, float& c )
+{
+#if defined(_MSC_VER) && defined(_M_IX86)
+	_asm
+	{
 		fld		a
 		fsincos
 		mov		ecx, c
@@ -634,8 +690,10 @@ ID_INLINE void idMath::SinCos( float a, float &s, float &c ) {
 		fstp	dword ptr [edx]
 	}
 #else
+	// DG: non-MSVC version
 	s = sinf( a );
 	c = cosf( a );
+	// DG end
 #endif
 }
 
@@ -644,35 +702,49 @@ ID_INLINE void idMath::SinCos( float a, float &s, float &c ) {
 idMath::SinCos16
 ========================
 */
-ID_INLINE void idMath::SinCos16( float a, float &s, float &c ) {
+ID_INLINE void idMath::SinCos16( float a, float& s, float& c )
+{
 	float t, d;
 
-	if ( ( a < 0.0f ) || ( a >= TWO_PI ) ) {
+	if( ( a < 0.0f ) || ( a >= TWO_PI ) )
+	{
 		a -= floorf( a * ONEOVER_TWOPI ) * TWO_PI;
 	}
 #if 1
-	if ( a < PI ) {
-		if ( a > HALF_PI ) {
+	if( a < PI )
+	{
+		if( a > HALF_PI )
+		{
 			a = PI - a;
 			d = -1.0f;
-		} else {
+		}
+		else
+		{
 			d = 1.0f;
 		}
-	} else {
-		if ( a > PI + HALF_PI ) {
+	}
+	else
+	{
+		if( a > PI + HALF_PI )
+		{
 			a = a - TWO_PI;
 			d = 1.0f;
-		} else {
+		}
+		else
+		{
 			a = PI - a;
 			d = -1.0f;
 		}
 	}
 #else
 	a = PI - a;
-	if ( fabsf( a ) >= HALF_PI ) {
+	if( fabsf( a ) >= HALF_PI )
+	{
 		a = ( ( a < 0.0f ) ? -PI : PI ) - a;
 		d = 1.0f;
-	} else {
+	}
+	else
+	{
 		d = -1.0f;
 	}
 #endif
@@ -686,7 +758,8 @@ ID_INLINE void idMath::SinCos16( float a, float &s, float &c ) {
 idMath::Tan
 ========================
 */
-ID_INLINE float idMath::Tan( float a ) {
+ID_INLINE float idMath::Tan( float a )
+{
 	return tanf( a );
 }
 
@@ -695,44 +768,61 @@ ID_INLINE float idMath::Tan( float a ) {
 idMath::Tan16
 ========================
 */
-ID_INLINE float idMath::Tan16( float a ) {
+ID_INLINE float idMath::Tan16( float a )
+{
 	float s;
 	bool reciprocal;
 
-	if ( ( a < 0.0f ) || ( a >= PI ) ) {
+	if( ( a < 0.0f ) || ( a >= PI ) )
+	{
 		a -= floorf( a * ONEOVER_PI ) * PI;
 	}
 #if 1
-	if ( a < HALF_PI ) {
-		if ( a > ONEFOURTH_PI ) {
+	if( a < HALF_PI )
+	{
+		if( a > ONEFOURTH_PI )
+		{
 			a = HALF_PI - a;
 			reciprocal = true;
-		} else {
+		}
+		else
+		{
 			reciprocal = false;
 		}
-	} else {
-		if ( a > HALF_PI + ONEFOURTH_PI ) {
+	}
+	else
+	{
+		if( a > HALF_PI + ONEFOURTH_PI )
+		{
 			a = a - PI;
 			reciprocal = false;
-		} else {
+		}
+		else
+		{
 			a = HALF_PI - a;
 			reciprocal = true;
 		}
 	}
 #else
 	a = HALF_PI - a;
-	if ( fabsf( a ) >= ONEFOURTH_PI ) {
+	if( fabsf( a ) >= ONEFOURTH_PI )
+	{
 		a = ( ( a < 0.0f ) ? -HALF_PI : HALF_PI ) - a;
 		reciprocal = false;
-	} else {
+	}
+	else
+	{
 		reciprocal = true;
 	}
 #endif
 	s = a * a;
 	s = a * ( ( ( ( ( ( 9.5168091e-03f * s + 2.900525e-03f ) * s + 2.45650893e-02f ) * s + 5.33740603e-02f ) * s + 1.333923995e-01f ) * s + 3.333314036e-01f ) * s + 1.0f );
-	if ( reciprocal ) {
+	if( reciprocal )
+	{
 		return 1.0f / s;
-	} else {
+	}
+	else
+	{
 		return s;
 	}
 }
@@ -742,11 +832,14 @@ ID_INLINE float idMath::Tan16( float a ) {
 idMath::ASin
 ========================
 */
-ID_INLINE float idMath::ASin( float a ) {
-	if ( a <= -1.0f ) {
+ID_INLINE float idMath::ASin( float a )
+{
+	if( a <= -1.0f )
+	{
 		return -HALF_PI;
 	}
-	if ( a >= 1.0f ) {
+	if( a >= 1.0f )
+	{
 		return HALF_PI;
 	}
 	return asinf( a );
@@ -757,15 +850,21 @@ ID_INLINE float idMath::ASin( float a ) {
 idMath::ASin16
 ========================
 */
-ID_INLINE float idMath::ASin16( float a ) {
-	if ( a < 0.0f ) {
-		if ( a <= -1.0f ) {
+ID_INLINE float idMath::ASin16( float a )
+{
+	if( a < 0.0f )
+	{
+		if( a <= -1.0f )
+		{
 			return -HALF_PI;
 		}
 		a = fabsf( a );
 		return ( ( ( -0.0187293f * a + 0.0742610f ) * a - 0.2121144f ) * a + 1.5707288f ) * idMath::Sqrt( 1.0f - a ) - HALF_PI;
-	} else {
-		if ( a >= 1.0f ) {
+	}
+	else
+	{
+		if( a >= 1.0f )
+		{
 			return HALF_PI;
 		}
 		return HALF_PI - ( ( ( -0.0187293f * a + 0.0742610f ) * a - 0.2121144f ) * a + 1.5707288f ) * idMath::Sqrt( 1.0f - a );
@@ -777,11 +876,14 @@ ID_INLINE float idMath::ASin16( float a ) {
 idMath::ACos
 ========================
 */
-ID_INLINE float idMath::ACos( float a ) {
-	if ( a <= -1.0f ) {
+ID_INLINE float idMath::ACos( float a )
+{
+	if( a <= -1.0f )
+	{
 		return PI;
 	}
-	if ( a >= 1.0f ) {
+	if( a >= 1.0f )
+	{
 		return 0.0f;
 	}
 	return acosf( a );
@@ -792,15 +894,21 @@ ID_INLINE float idMath::ACos( float a ) {
 idMath::ACos16
 ========================
 */
-ID_INLINE float idMath::ACos16( float a ) {
-	if ( a < 0.0f ) {
-		if ( a <= -1.0f ) {
+ID_INLINE float idMath::ACos16( float a )
+{
+	if( a < 0.0f )
+	{
+		if( a <= -1.0f )
+		{
 			return PI;
 		}
 		a = fabsf( a );
 		return PI - ( ( ( -0.0187293f * a + 0.0742610f ) * a - 0.2121144f ) * a + 1.5707288f ) * idMath::Sqrt( 1.0f - a );
-	} else {
-		if ( a >= 1.0f ) {
+	}
+	else
+	{
+		if( a >= 1.0f )
+		{
 			return 0.0f;
 		}
 		return ( ( ( -0.0187293f * a + 0.0742610f ) * a - 0.2121144f ) * a + 1.5707288f ) * idMath::Sqrt( 1.0f - a );
@@ -812,7 +920,8 @@ ID_INLINE float idMath::ACos16( float a ) {
 idMath::ATan
 ========================
 */
-ID_INLINE float idMath::ATan( float a ) {
+ID_INLINE float idMath::ATan( float a )
+{
 	return atanf( a );
 }
 
@@ -821,22 +930,29 @@ ID_INLINE float idMath::ATan( float a ) {
 idMath::ATan16
 ========================
 */
-ID_INLINE float idMath::ATan16( float a ) {
+ID_INLINE float idMath::ATan16( float a )
+{
 	float s;
-	if ( fabsf( a ) > 1.0f ) {
+	if( fabsf( a ) > 1.0f )
+	{
 		a = 1.0f / a;
 		s = a * a;
 		s = - ( ( ( ( ( ( ( ( ( 0.0028662257f * s - 0.0161657367f ) * s + 0.0429096138f ) * s - 0.0752896400f )
-				* s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
-		if ( a < 0.0f ) {
+						  * s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
+		if( a < 0.0f )
+		{
 			return s - HALF_PI;
-		} else {
+		}
+		else
+		{
 			return s + HALF_PI;
 		}
-	} else {
+	}
+	else
+	{
 		s = a * a;
 		return ( ( ( ( ( ( ( ( ( 0.0028662257f * s - 0.0161657367f ) * s + 0.0429096138f ) * s - 0.0752896400f )
-			* s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
+						   * s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
 	}
 }
 
@@ -845,7 +961,8 @@ ID_INLINE float idMath::ATan16( float a ) {
 idMath::ATan
 ========================
 */
-ID_INLINE float idMath::ATan( float y, float x ) {
+ID_INLINE float idMath::ATan( float y, float x )
+{
 	assert( fabs( y ) > idMath::FLT_SMALLEST_NON_DENORMAL || fabs( x ) > idMath::FLT_SMALLEST_NON_DENORMAL );
 	return atan2f( y, x );
 }
@@ -855,25 +972,32 @@ ID_INLINE float idMath::ATan( float y, float x ) {
 idMath::ATan16
 ========================
 */
-ID_INLINE float idMath::ATan16( float y, float x ) {
+ID_INLINE float idMath::ATan16( float y, float x )
+{
 	assert( fabs( y ) > idMath::FLT_SMALLEST_NON_DENORMAL || fabs( x ) > idMath::FLT_SMALLEST_NON_DENORMAL );
 
 	float a, s;
-	if ( fabsf( y ) > fabsf( x ) ) {
+	if( fabsf( y ) > fabsf( x ) )
+	{
 		a = x / y;
 		s = a * a;
 		s = - ( ( ( ( ( ( ( ( ( 0.0028662257f * s - 0.0161657367f ) * s + 0.0429096138f ) * s - 0.0752896400f )
-				* s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
-		if ( a < 0.0f ) {
+						  * s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
+		if( a < 0.0f )
+		{
 			return s - HALF_PI;
-		} else {
+		}
+		else
+		{
 			return s + HALF_PI;
 		}
-	} else {
+	}
+	else
+	{
 		a = y / x;
 		s = a * a;
 		return ( ( ( ( ( ( ( ( ( 0.0028662257f * s - 0.0161657367f ) * s + 0.0429096138f ) * s - 0.0752896400f )
-			* s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
+						   * s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
 	}
 }
 
@@ -882,7 +1006,8 @@ ID_INLINE float idMath::ATan16( float y, float x ) {
 idMath::Pow
 ========================
 */
-ID_INLINE float idMath::Pow( float x, float y ) {
+ID_INLINE float idMath::Pow( float x, float y )
+{
 	return powf( x, y );
 }
 
@@ -891,7 +1016,8 @@ ID_INLINE float idMath::Pow( float x, float y ) {
 idMath::Pow16
 ========================
 */
-ID_INLINE float idMath::Pow16( float x, float y ) {
+ID_INLINE float idMath::Pow16( float x, float y )
+{
 	return Exp16( y * Log16( x ) );
 }
 
@@ -900,7 +1026,8 @@ ID_INLINE float idMath::Pow16( float x, float y ) {
 idMath::Exp
 ========================
 */
-ID_INLINE float idMath::Exp( float f ) {
+ID_INLINE float idMath::Exp( float f )
+{
 	return expf( f );
 }
 
@@ -909,24 +1036,27 @@ ID_INLINE float idMath::Exp( float f ) {
 idMath::Exp16
 ========================
 */
-ID_INLINE float idMath::Exp16( float f ) {
+ID_INLINE float idMath::Exp16( float f )
+{
 	float x = f * 1.44269504088896340f;		// multiply with ( 1 / log( 2 ) )
 #if 1
-	int i = *reinterpret_cast<int *>(&x);
+	int i = *reinterpret_cast<int*>( &x );
 	int s = ( i >> IEEE_FLT_SIGN_BIT );
 	int e = ( ( i >> IEEE_FLT_MANTISSA_BITS ) & ( ( 1 << IEEE_FLT_EXPONENT_BITS ) - 1 ) ) - IEEE_FLT_EXPONENT_BIAS;
 	int m = ( i & ( ( 1 << IEEE_FLT_MANTISSA_BITS ) - 1 ) ) | ( 1 << IEEE_FLT_MANTISSA_BITS );
 	i = ( ( m >> ( IEEE_FLT_MANTISSA_BITS - e ) ) & ~( e >> INT32_SIGN_BIT ) ) ^ s;
 #else
-	int i = (int) x;
-	if ( x < 0.0f ) {
+	int i = ( int ) x;
+	if( x < 0.0f )
+	{
 		i--;
 	}
 #endif
 	int exponent = ( i + IEEE_FLT_EXPONENT_BIAS ) << IEEE_FLT_MANTISSA_BITS;
-	float y = *reinterpret_cast<float *>(&exponent);
-	x -= (float) i;
-	if ( x >= 0.5f ) {
+	float y = *reinterpret_cast<float*>( &exponent );
+	x -= ( float ) i;
+	if( x >= 0.5f )
+	{
 		x -= 0.5f;
 		y *= 1.4142135623730950488f;	// multiply with sqrt( 2 )
 	}
@@ -942,7 +1072,8 @@ ID_INLINE float idMath::Exp16( float f ) {
 idMath::Log
 ========================
 */
-ID_INLINE float idMath::Log( float f ) {
+ID_INLINE float idMath::Log( float f )
+{
 	return logf( f );
 }
 
@@ -951,16 +1082,17 @@ ID_INLINE float idMath::Log( float f ) {
 idMath::Log16
 ========================
 */
-ID_INLINE float idMath::Log16( float f ) {
-	int i = *reinterpret_cast<int *>(&f);
+ID_INLINE float idMath::Log16( float f )
+{
+	int i = *reinterpret_cast<int*>( &f );
 	int exponent = ( ( i >> IEEE_FLT_MANTISSA_BITS ) & ( ( 1 << IEEE_FLT_EXPONENT_BITS ) - 1 ) ) - IEEE_FLT_EXPONENT_BIAS;
 	i -= ( exponent + 1 ) << IEEE_FLT_MANTISSA_BITS;	// get value in the range [.5, 1>
-	float y = *reinterpret_cast<float *>(&i);
+	float y = *reinterpret_cast<float*>( &i );
 	y *= 1.4142135623730950488f;						// multiply with sqrt( 2 )
 	y = ( y - 1.0f ) / ( y + 1.0f );
 	float y2 = y * y;
 	y = y * ( 2.000000000046727f + y2 * ( 0.666666635059382f + y2 * ( 0.4000059794795f + y2 * ( 0.28525381498f + y2 * 0.2376245609f ) ) ) );
-	y += 0.693147180559945f * ( (float)exponent + 0.5f );
+	y += 0.693147180559945f * ( ( float )exponent + 0.5f );
 	return y;
 }
 
@@ -969,8 +1101,14 @@ ID_INLINE float idMath::Log16( float f ) {
 idMath::IPow
 ========================
 */
-ID_INLINE int idMath::IPow( int x, int y ) {
-	int r; for( r = x; y > 1; y-- ) { r *= x; } return r;
+ID_INLINE int idMath::IPow( int x, int y )
+{
+	int r;
+	for( r = x; y > 1; y-- )
+	{
+		r *= x;
+	}
+	return r;
 }
 
 /*
@@ -978,8 +1116,9 @@ ID_INLINE int idMath::IPow( int x, int y ) {
 idMath::ILog2
 ========================
 */
-ID_INLINE int idMath::ILog2( float f ) {
-	return ( ( (*reinterpret_cast<int *>(&f)) >> IEEE_FLT_MANTISSA_BITS ) & ( ( 1 << IEEE_FLT_EXPONENT_BITS ) - 1 ) ) - IEEE_FLT_EXPONENT_BIAS;
+ID_INLINE int idMath::ILog2( float f )
+{
+	return ( ( ( *reinterpret_cast<int*>( &f ) ) >> IEEE_FLT_MANTISSA_BITS ) & ( ( 1 << IEEE_FLT_EXPONENT_BITS ) - 1 ) ) - IEEE_FLT_EXPONENT_BIAS;
 }
 
 /*
@@ -987,8 +1126,9 @@ ID_INLINE int idMath::ILog2( float f ) {
 idMath::ILog2
 ========================
 */
-ID_INLINE int idMath::ILog2( int i ) {
-	return ILog2( (float)i );
+ID_INLINE int idMath::ILog2( int i )
+{
+	return ILog2( ( float )i );
 }
 
 /*
@@ -996,7 +1136,8 @@ ID_INLINE int idMath::ILog2( int i ) {
 idMath::BitsForFloat
 ========================
 */
-ID_INLINE int idMath::BitsForFloat( float f ) {
+ID_INLINE int idMath::BitsForFloat( float f )
+{
 	return ILog2( f ) + 1;
 }
 
@@ -1005,8 +1146,9 @@ ID_INLINE int idMath::BitsForFloat( float f ) {
 idMath::BitsForInteger
 ========================
 */
-ID_INLINE int idMath::BitsForInteger( int i ) {
-	return ILog2( (float)i ) + 1;
+ID_INLINE int idMath::BitsForInteger( int i )
+{
+	return ILog2( ( float )i ) + 1;
 }
 
 /*
@@ -1014,8 +1156,9 @@ ID_INLINE int idMath::BitsForInteger( int i ) {
 idMath::MaskForFloatSign
 ========================
 */
-ID_INLINE int idMath::MaskForFloatSign( float f ) {
-	return ( (*reinterpret_cast<int *>(&f)) >> IEEE_FLT_SIGN_BIT );
+ID_INLINE int idMath::MaskForFloatSign( float f )
+{
+	return ( ( *reinterpret_cast<int*>( &f ) ) >> IEEE_FLT_SIGN_BIT );
 }
 
 /*
@@ -1023,7 +1166,8 @@ ID_INLINE int idMath::MaskForFloatSign( float f ) {
 idMath::MaskForIntegerSign
 ========================
 */
-ID_INLINE int idMath::MaskForIntegerSign( int i ) {
+ID_INLINE int idMath::MaskForIntegerSign( int i )
+{
 	return ( i >> INT32_SIGN_BIT );
 }
 
@@ -1032,7 +1176,8 @@ ID_INLINE int idMath::MaskForIntegerSign( int i ) {
 idMath::FloorPowerOfTwo
 ========================
 */
-ID_INLINE int idMath::FloorPowerOfTwo( int x ) {
+ID_INLINE int idMath::FloorPowerOfTwo( int x )
+{
 	x |= x >> 1;
 	x |= x >> 2;
 	x |= x >> 4;
@@ -1047,7 +1192,8 @@ ID_INLINE int idMath::FloorPowerOfTwo( int x ) {
 idMath::CeilPowerOfTwo
 ========================
 */
-ID_INLINE int idMath::CeilPowerOfTwo( int x ) {
+ID_INLINE int idMath::CeilPowerOfTwo( int x )
+{
 	x--;
 	x |= x >> 1;
 	x |= x >> 2;
@@ -1063,7 +1209,8 @@ ID_INLINE int idMath::CeilPowerOfTwo( int x ) {
 idMath::IsPowerOfTwo
 ========================
 */
-ID_INLINE bool idMath::IsPowerOfTwo( int x ) {
+ID_INLINE bool idMath::IsPowerOfTwo( int x )
+{
 	return ( x & ( x - 1 ) ) == 0 && x > 0;
 }
 
@@ -1072,7 +1219,8 @@ ID_INLINE bool idMath::IsPowerOfTwo( int x ) {
 idMath::BitCount
 ========================
 */
-ID_INLINE int idMath::BitCount( int x ) {
+ID_INLINE int idMath::BitCount( int x )
+{
 	x -= ( ( x >> 1 ) & 0x55555555 );
 	x = ( ( ( x >> 2 ) & 0x33333333 ) + ( x & 0x33333333 ) );
 	x = ( ( ( x >> 4 ) + x ) & 0x0f0f0f0f );
@@ -1085,7 +1233,8 @@ ID_INLINE int idMath::BitCount( int x ) {
 idMath::BitReverse
 ========================
 */
-ID_INLINE int idMath::BitReverse( int x ) {
+ID_INLINE int idMath::BitReverse( int x )
+{
 	x = ( ( ( x >> 1 ) & 0x55555555 ) | ( ( x & 0x55555555 ) << 1 ) );
 	x = ( ( ( x >> 2 ) & 0x33333333 ) | ( ( x & 0x33333333 ) << 2 ) );
 	x = ( ( ( x >> 4 ) & 0x0f0f0f0f ) | ( ( x & 0x0f0f0f0f ) << 4 ) );
@@ -1098,12 +1247,13 @@ ID_INLINE int idMath::BitReverse( int x ) {
 idMath::Abs
 ========================
 */
-ID_INLINE int idMath::Abs( int x ) {
+ID_INLINE int idMath::Abs( int x )
+{
 #if 1
 	return abs( x );
 #else
-   int y = x >> INT32_SIGN_BIT;
-   return ( ( x ^ y ) - y );
+	int y = x >> INT32_SIGN_BIT;
+	return ( ( x ^ y ) - y );
 #endif
 }
 
@@ -1112,13 +1262,14 @@ ID_INLINE int idMath::Abs( int x ) {
 idMath::Fabs
 ========================
 */
-ID_INLINE float idMath::Fabs( float f ) {
+ID_INLINE float idMath::Fabs( float f )
+{
 #if 1
 	return fabsf( f );
 #else
-	int tmp = *reinterpret_cast<int *>( &f );
+	int tmp = *reinterpret_cast<int*>( &f );
 	tmp &= 0x7FFFFFFF;
-	return *reinterpret_cast<float *>( &tmp );
+	return *reinterpret_cast<float*>( &tmp );
 #endif
 }
 
@@ -1127,7 +1278,8 @@ ID_INLINE float idMath::Fabs( float f ) {
 idMath::Floor
 ========================
 */
-ID_INLINE float idMath::Floor( float f ) {
+ID_INLINE float idMath::Floor( float f )
+{
 	return floorf( f );
 }
 
@@ -1136,7 +1288,8 @@ ID_INLINE float idMath::Floor( float f ) {
 idMath::Ceil
 ========================
 */
-ID_INLINE float idMath::Ceil( float f ) {
+ID_INLINE float idMath::Ceil( float f )
+{
 	return ceilf( f );
 }
 
@@ -1145,7 +1298,8 @@ ID_INLINE float idMath::Ceil( float f ) {
 idMath::Rint
 ========================
 */
-ID_INLINE float idMath::Rint( float f ) {
+ID_INLINE float idMath::Rint( float f )
+{
 	return floorf( f + 0.5f );
 }
 
@@ -1155,16 +1309,17 @@ ID_INLINE float idMath::Rint( float f ) {
 idMath::Ftoi
 ========================
 */
-ID_INLINE int idMath::Ftoi( float f ) {
-#ifdef ID_WIN_X86_SSE_INTRIN
+ID_INLINE int idMath::Ftoi( float f )
+{
 	// If a converted result is larger than the maximum signed doubleword integer,
 	// the floating-point invalid exception is raised, and if this exception is masked,
 	// the indefinite integer value (80000000H) is returned.
+#if defined(USE_INTRINSICS)
 	__m128 x = _mm_load_ss( &f );
 	return _mm_cvttss_si32( x );
 #elif 0 // round chop (C/C++ standard)
 	int i, s, e, m, shift;
-	i = *reinterpret_cast<int *>(&f);
+	i = *reinterpret_cast<int*>( &f );
 	s = i >> IEEE_FLT_SIGN_BIT;
 	e = ( ( i >> IEEE_FLT_MANTISSA_BITS ) & ( ( 1 << IEEE_FLT_EXPONENT_BITS ) - 1 ) ) - IEEE_FLT_EXPONENT_BIAS;
 	m = ( i & ( ( 1 << IEEE_FLT_MANTISSA_BITS ) - 1 ) ) | ( 1 << IEEE_FLT_MANTISSA_BITS );
@@ -1181,8 +1336,9 @@ ID_INLINE int idMath::Ftoi( float f ) {
 idMath::Ftoi8
 ========================
 */
-ID_INLINE char idMath::Ftoi8( float f ) {
-#ifdef ID_WIN_X86_SSE_INTRIN
+ID_INLINE char idMath::Ftoi8( float f )
+{
+#if defined(USE_INTRINSICS)
 	__m128 x = _mm_load_ss( &f );
 	x = _mm_max_ss( x, SIMD_SP_min_char );
 	x = _mm_min_ss( x, SIMD_SP_max_char );
@@ -1190,9 +1346,12 @@ ID_INLINE char idMath::Ftoi8( float f ) {
 #else
 	// The converted result is clamped to the range [-128,127].
 	int i = C_FLOAT_TO_INT( f );
-	if ( i < -128 ) {
+	if( i < -128 )
+	{
 		return -128;
-	} else if ( i > 127 ) {
+	}
+	else if( i > 127 )
+	{
 		return 127;
 	}
 	return static_cast<char>( i );
@@ -1204,8 +1363,9 @@ ID_INLINE char idMath::Ftoi8( float f ) {
 idMath::Ftoi16
 ========================
 */
-ID_INLINE short idMath::Ftoi16( float f ) {
-#ifdef ID_WIN_X86_SSE_INTRIN
+ID_INLINE short idMath::Ftoi16( float f )
+{
+#if defined(USE_INTRINSICS)
 	__m128 x = _mm_load_ss( &f );
 	x = _mm_max_ss( x, SIMD_SP_min_short );
 	x = _mm_min_ss( x, SIMD_SP_max_short );
@@ -1213,9 +1373,12 @@ ID_INLINE short idMath::Ftoi16( float f ) {
 #else
 	// The converted result is clamped to the range [-32768,32767].
 	int i = C_FLOAT_TO_INT( f );
-	if ( i < -32768 ) {
+	if( i < -32768 )
+	{
 		return -32768;
-	} else if ( i > 32767 ) {
+	}
+	else if( i > 32767 )
+	{
 		return 32767;
 	}
 	return static_cast<short>( i );
@@ -1227,14 +1390,18 @@ ID_INLINE short idMath::Ftoi16( float f ) {
 idMath::Ftoui16
 ========================
 */
-ID_INLINE unsigned short idMath::Ftoui16( float f ) {
+ID_INLINE unsigned short idMath::Ftoui16( float f )
+{
 	// TO DO - SSE ??
 
 	// The converted result is clamped to the range [-32768,32767].
 	int i = C_FLOAT_TO_INT( f );
-	if ( i < 0 ) {
+	if( i < 0 )
+	{
 		return 0;
-	} else if ( i > 65535 ) {
+	}
+	else if( i > 65535 )
+	{
 		return 65535;
 	}
 	return static_cast<unsigned short>( i );
@@ -1245,10 +1412,12 @@ ID_INLINE unsigned short idMath::Ftoui16( float f ) {
 idMath::Ftob
 ========================
 */
-ID_INLINE byte idMath::Ftob( float f ) {
-#ifdef ID_WIN_X86_SSE_INTRIN
+ID_INLINE byte idMath::Ftob( float f )
+{
 	// If a converted result is negative the value (0) is returned and if the
 	// converted result is larger than the maximum byte the value (255) is returned.
+
+#if defined(USE_INTRINSICS)
 	__m128 x = _mm_load_ss( &f );
 	x = _mm_max_ss( x, SIMD_SP_zero );
 	x = _mm_min_ss( x, SIMD_SP_255 );
@@ -1256,9 +1425,12 @@ ID_INLINE byte idMath::Ftob( float f ) {
 #else
 	// The converted result is clamped to the range [0,255].
 	int i = C_FLOAT_TO_INT( f );
-	if ( i < 0 ) {
+	if( i < 0 )
+	{
 		return 0;
-	} else if ( i > 255 ) {
+	}
+	else if( i > 255 )
+	{
 		return 255;
 	}
 	return static_cast<byte>( i );
@@ -1270,11 +1442,14 @@ ID_INLINE byte idMath::Ftob( float f ) {
 idMath::ClampChar
 ========================
 */
-ID_INLINE signed char idMath::ClampChar( int i ) {
-	if ( i < -128 ) {
+ID_INLINE signed char idMath::ClampChar( int i )
+{
+	if( i < -128 )
+	{
 		return -128;
 	}
-	if ( i > 127 ) {
+	if( i > 127 )
+	{
 		return 127;
 	}
 	return static_cast<signed char>( i );
@@ -1285,11 +1460,14 @@ ID_INLINE signed char idMath::ClampChar( int i ) {
 idMath::ClampShort
 ========================
 */
-ID_INLINE signed short idMath::ClampShort( int i ) {
-	if ( i < -32768 ) {
+ID_INLINE signed short idMath::ClampShort( int i )
+{
+	if( i < -32768 )
+	{
 		return -32768;
 	}
-	if ( i > 32767 ) {
+	if( i > 32767 )
+	{
 		return 32767;
 	}
 	return static_cast<signed short>( i );
@@ -1300,11 +1478,14 @@ ID_INLINE signed short idMath::ClampShort( int i ) {
 idMath::ClampInt
 ========================
 */
-ID_INLINE int idMath::ClampInt( int min, int max, int value ) {
-	if ( value < min ) {
+ID_INLINE int idMath::ClampInt( int min, int max, int value )
+{
+	if( value < min )
+	{
 		return min;
 	}
-	if ( value > max ) {
+	if( value > max )
+	{
 		return max;
 	}
 	return value;
@@ -1315,7 +1496,8 @@ ID_INLINE int idMath::ClampInt( int min, int max, int value ) {
 idMath::ClampFloat
 ========================
 */
-ID_INLINE float idMath::ClampFloat( float min, float max, float value ) {
+ID_INLINE float idMath::ClampFloat( float min, float max, float value )
+{
 	return Max( min, Min( max, value ) );
 }
 
@@ -1324,8 +1506,10 @@ ID_INLINE float idMath::ClampFloat( float min, float max, float value ) {
 idMath::AngleNormalize360
 ========================
 */
-ID_INLINE float idMath::AngleNormalize360( float angle ) {
-	if ( ( angle >= 360.0f ) || ( angle < 0.0f ) ) {
+ID_INLINE float idMath::AngleNormalize360( float angle )
+{
+	if( ( angle >= 360.0f ) || ( angle < 0.0f ) )
+	{
 		angle -= floorf( angle * ( 1.0f / 360.0f ) ) * 360.0f;
 	}
 	return angle;
@@ -1336,9 +1520,11 @@ ID_INLINE float idMath::AngleNormalize360( float angle ) {
 idMath::AngleNormalize180
 ========================
 */
-ID_INLINE float idMath::AngleNormalize180( float angle ) {
+ID_INLINE float idMath::AngleNormalize180( float angle )
+{
 	angle = AngleNormalize360( angle );
-	if ( angle > 180.0f ) {
+	if( angle > 180.0f )
+	{
 		angle -= 360.0f;
 	}
 	return angle;
@@ -1349,7 +1535,8 @@ ID_INLINE float idMath::AngleNormalize180( float angle ) {
 idMath::AngleDelta
 ========================
 */
-ID_INLINE float idMath::AngleDelta( float angle1, float angle2 ) {
+ID_INLINE float idMath::AngleDelta( float angle1, float angle2 )
+{
 	return AngleNormalize180( angle1 - angle2 );
 }
 
@@ -1358,25 +1545,31 @@ ID_INLINE float idMath::AngleDelta( float angle1, float angle2 ) {
 idMath::FloatHash
 ========================
 */
-ID_INLINE int idMath::FloatHash( const float *array, const int numFloats ) {
+ID_INLINE int idMath::FloatHash( const float* array, const int numFloats )
+{
 	int i, hash = 0;
-	const int *ptr;
+	const int* ptr;
 
-	ptr = reinterpret_cast<const int *>( array );
-	for ( i = 0; i < numFloats; i++ ) {
+	ptr = reinterpret_cast<const int*>( array );
+	for( i = 0; i < numFloats; i++ )
+	{
 		hash ^= ptr[i];
 	}
 	return hash;
 }
 
 template< typename T >
-ID_INLINE T Lerp( const T from, const T to, float f ) { 
+ID_INLINE
+T Lerp( const T from, const T to, float f )
+{
 	return from + ( ( to - from ) * f );
 }
 
 template<>
-ID_INLINE int Lerp( const int from, const int to, float f ) { 
-	return idMath::Ftoi( (float) from + ( ( (float) to - (float) from ) * f ) );
+ID_INLINE
+int Lerp( const int from, const int to, float f )
+{
+	return idMath::Ftoi( ( float ) from + ( ( ( float ) to - ( float ) from ) * f ) );
 }
 
 
@@ -1388,9 +1581,11 @@ Lerps from "cur" to "dest", scaling the delta to change by "scale"
 If the delta between "cur" and "dest" is very small, dest is returned to prevent denormals.
 ========================
 */
-inline float idMath::LerpToWithScale( const float cur, const float dest, const float scale ) {
+inline float idMath::LerpToWithScale( const float cur, const float dest, const float scale )
+{
 	float delta = dest - cur;
-	if ( delta > -1.0e-6f && delta < 1.0e-6f ) {
+	if( delta > -1.0e-6f && delta < 1.0e-6f )
+	{
 		return dest;
 	}
 	return cur + ( dest - cur ) * scale;

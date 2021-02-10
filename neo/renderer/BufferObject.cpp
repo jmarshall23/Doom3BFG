@@ -2,10 +2,11 @@
 ===========================================================================
 
 Doom 3 BFG Edition GPL Source Code
-Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
+Copyright (C) 2013 Robert Beckebans
 Copyright (C) 2016-2017 Dustin Land
 
-This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
 Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,22 +27,24 @@ If you have questions concerning this license or the applicable additional terms
 
 ===========================================================================
 */
-
 #pragma hdrstop
-#include "../framework/precompiled.h"
-#include "BufferObject.h"
+#include "precompiled.h"
+#include "RenderCommon.h"
 
 idCVar r_showBuffers( "r_showBuffers", "0", CVAR_INTEGER, "" );
 
+#ifdef _WIN32
 /*
 ==================
 IsWriteCombined
 ==================
 */
-bool IsWriteCombined( void * base ) {
+bool IsWriteCombined( void* base )
+{
 	MEMORY_BASIC_INFORMATION info;
 	SIZE_T size = VirtualQueryEx( GetCurrentProcess(), base, &info, sizeof( info ) );
-	if ( size == 0 ) {
+	if( size == 0 )
+	{
 		DWORD error = GetLastError();
 		error = error;
 		return false;
@@ -49,45 +52,46 @@ bool IsWriteCombined( void * base ) {
 	bool isWriteCombined = ( ( info.AllocationProtect & PAGE_WRITECOMBINE ) != 0 );
 	return isWriteCombined;
 }
+#endif
 
-#ifdef ID_WIN_X86_SSE2_INTRIN
+#if defined(USE_INTRINSICS)
 
-/*
-========================
-CopyBuffer
-========================
-*/
-void CopyBuffer( byte * dst, const byte * src, int numBytes ) {
+void CopyBuffer( byte* dst, const byte* src, int numBytes )
+{
 	assert_16_byte_aligned( dst );
 	assert_16_byte_aligned( src );
 
 	int i = 0;
-	for ( ; i + 128 <= numBytes; i += 128 ) {
-		__m128i d0 = _mm_load_si128( (__m128i *)&src[i + 0*16] );
-		__m128i d1 = _mm_load_si128( (__m128i *)&src[i + 1*16] );
-		__m128i d2 = _mm_load_si128( (__m128i *)&src[i + 2*16] );
-		__m128i d3 = _mm_load_si128( (__m128i *)&src[i + 3*16] );
-		__m128i d4 = _mm_load_si128( (__m128i *)&src[i + 4*16] );
-		__m128i d5 = _mm_load_si128( (__m128i *)&src[i + 5*16] );
-		__m128i d6 = _mm_load_si128( (__m128i *)&src[i + 6*16] );
-		__m128i d7 = _mm_load_si128( (__m128i *)&src[i + 7*16] );
-		_mm_stream_si128( (__m128i *)&dst[i + 0*16], d0 );
-		_mm_stream_si128( (__m128i *)&dst[i + 1*16], d1 );
-		_mm_stream_si128( (__m128i *)&dst[i + 2*16], d2 );
-		_mm_stream_si128( (__m128i *)&dst[i + 3*16], d3 );
-		_mm_stream_si128( (__m128i *)&dst[i + 4*16], d4 );
-		_mm_stream_si128( (__m128i *)&dst[i + 5*16], d5 );
-		_mm_stream_si128( (__m128i *)&dst[i + 6*16], d6 );
-		_mm_stream_si128( (__m128i *)&dst[i + 7*16], d7 );
+	for( ; i + 128 <= numBytes; i += 128 )
+	{
+		__m128i d0 = _mm_load_si128( ( __m128i* )&src[i + 0 * 16] );
+		__m128i d1 = _mm_load_si128( ( __m128i* )&src[i + 1 * 16] );
+		__m128i d2 = _mm_load_si128( ( __m128i* )&src[i + 2 * 16] );
+		__m128i d3 = _mm_load_si128( ( __m128i* )&src[i + 3 * 16] );
+		__m128i d4 = _mm_load_si128( ( __m128i* )&src[i + 4 * 16] );
+		__m128i d5 = _mm_load_si128( ( __m128i* )&src[i + 5 * 16] );
+		__m128i d6 = _mm_load_si128( ( __m128i* )&src[i + 6 * 16] );
+		__m128i d7 = _mm_load_si128( ( __m128i* )&src[i + 7 * 16] );
+		_mm_stream_si128( ( __m128i* )&dst[i + 0 * 16], d0 );
+		_mm_stream_si128( ( __m128i* )&dst[i + 1 * 16], d1 );
+		_mm_stream_si128( ( __m128i* )&dst[i + 2 * 16], d2 );
+		_mm_stream_si128( ( __m128i* )&dst[i + 3 * 16], d3 );
+		_mm_stream_si128( ( __m128i* )&dst[i + 4 * 16], d4 );
+		_mm_stream_si128( ( __m128i* )&dst[i + 5 * 16], d5 );
+		_mm_stream_si128( ( __m128i* )&dst[i + 6 * 16], d6 );
+		_mm_stream_si128( ( __m128i* )&dst[i + 7 * 16], d7 );
 	}
-	for ( ; i + 16 <= numBytes; i += 16 ) {
-		__m128i d = _mm_load_si128( (__m128i *)&src[i] );
-		_mm_stream_si128( (__m128i *)&dst[i], d );
+	for( ; i + 16 <= numBytes; i += 16 )
+	{
+		__m128i d = _mm_load_si128( ( __m128i* )&src[i] );
+		_mm_stream_si128( ( __m128i* )&dst[i], d );
 	}
-	for ( ; i + 4 <= numBytes; i += 4 ) {
-		*(uint32 *)&dst[i] = *(const uint32 *)&src[i];
+	for( ; i + 4 <= numBytes; i += 4 )
+	{
+		*( uint32* )&dst[i] = *( const uint32* )&src[i];
 	}
-	for ( ; i < numBytes; i++ ) {
+	for( ; i < numBytes; i++ )
+	{
 		dst[i] = src[i];
 	}
 	_mm_sfence();
@@ -95,12 +99,8 @@ void CopyBuffer( byte * dst, const byte * src, int numBytes ) {
 
 #else
 
-/*
-========================
-CopyBuffer
-========================
-*/
-void CopyBuffer( byte * dst, const byte * src, int numBytes ) {
+void CopyBuffer( byte* dst, const byte* src, int numBytes )
+{
 	assert_16_byte_aligned( dst );
 	assert_16_byte_aligned( src );
 	memcpy( dst, src, numBytes );
@@ -121,19 +121,22 @@ void CopyBuffer( byte * dst, const byte * src, int numBytes ) {
 idBufferObject::idBufferObject
 ========================
 */
-idBufferObject::idBufferObject() {
-	m_size = 0;
-	m_offsetInOtherBuffer = OWNS_BUFFER_FLAG;
-	m_usage = BU_STATIC;
-	
-#if defined( ID_VULKAN )
-	m_apiObject = VK_NULL_HANDLE;
-#if defined( ID_USE_AMD_ALLOCATOR )
-	m_vmaAllocation = NULL;
+idBufferObject::idBufferObject()
+{
+	size = 0;
+	offsetInOtherBuffer = OWNS_BUFFER_FLAG;
+	usage = BU_STATIC;
+
+#if defined( USE_VULKAN )
+	apiObject = VK_NULL_HANDLE;
+
+#if defined( USE_AMD_ALLOCATOR )
+	vmaAllocation = NULL;
 #endif
+
 #else
-	m_apiObject = 0xFFFF;
-	m_buffer = NULL;
+	apiObject = NULL;
+	buffer = NULL;
 #endif
 }
 
@@ -150,7 +153,8 @@ idBufferObject::idBufferObject() {
 idVertexBuffer::~idVertexBuffer
 ========================
 */
-idVertexBuffer::~idVertexBuffer() {
+idVertexBuffer::~idVertexBuffer()
+{
 	FreeBufferObject();
 }
 
@@ -159,18 +163,19 @@ idVertexBuffer::~idVertexBuffer() {
 idVertexBuffer::Reference
 ========================
 */
-void idVertexBuffer::Reference( const idVertexBuffer & other ) {
+void idVertexBuffer::Reference( const idVertexBuffer& other )
+{
 	assert( IsMapped() == false );
 	//assert( other.IsMapped() == false );	// this happens when building idTriangles while at the same time setting up idDrawVerts
 	assert( other.GetSize() > 0 );
 
 	FreeBufferObject();
-	m_size = other.GetSize();					// this strips the MAPPED_FLAG
-	m_offsetInOtherBuffer = other.GetOffset();	// this strips the OWNS_BUFFER_FLAG
-	m_usage = other.m_usage;
-	m_apiObject = other.m_apiObject;
-#if defined( ID_VULKAN )
-	m_allocation = other.m_allocation;
+	size = other.GetSize();					// this strips the MAPPED_FLAG
+	offsetInOtherBuffer = other.GetOffset();	// this strips the OWNS_BUFFER_FLAG
+	usage = other.usage;
+	apiObject = other.apiObject;
+#if defined( USE_VULKAN )
+	allocation = other.allocation;
 #endif
 	assert( OwnsBuffer() == false );
 }
@@ -180,7 +185,8 @@ void idVertexBuffer::Reference( const idVertexBuffer & other ) {
 idVertexBuffer::Reference
 ========================
 */
-void idVertexBuffer::Reference( const idVertexBuffer & other, int refOffset, int refSize ) {
+void idVertexBuffer::Reference( const idVertexBuffer& other, int refOffset, int refSize )
+{
 	assert( IsMapped() == false );
 	//assert( other.IsMapped() == false );	// this happens when building idTriangles while at the same time setting up idDrawVerts
 	assert( refOffset >= 0 );
@@ -188,12 +194,12 @@ void idVertexBuffer::Reference( const idVertexBuffer & other, int refOffset, int
 	assert( refOffset + refSize <= other.GetSize() );
 
 	FreeBufferObject();
-	m_size = refSize;
-	m_offsetInOtherBuffer = other.GetOffset() + refOffset;
-	m_usage = other.m_usage;
-	m_apiObject = other.m_apiObject;
-#if defined( ID_VULKAN )
-	m_allocation = other.m_allocation;
+	size = refSize;
+	offsetInOtherBuffer = other.GetOffset() + refOffset;
+	usage = other.usage;
+	apiObject = other.apiObject;
+#if defined( USE_VULKAN )
+	allocation = other.allocation;
 #endif
 	assert( OwnsBuffer() == false );
 }
@@ -211,7 +217,8 @@ idIndexBuffer
 idIndexBuffer::~idIndexBuffer
 ========================
 */
-idIndexBuffer::~idIndexBuffer() {
+idIndexBuffer::~idIndexBuffer()
+{
 	FreeBufferObject();
 }
 
@@ -220,18 +227,19 @@ idIndexBuffer::~idIndexBuffer() {
 idIndexBuffer::Reference
 ========================
 */
-void idIndexBuffer::Reference( const idIndexBuffer & other ) {
+void idIndexBuffer::Reference( const idIndexBuffer& other )
+{
 	assert( IsMapped() == false );
 	//assert( other.IsMapped() == false );	// this happens when building idTriangles while at the same time setting up triIndex_t
 	assert( other.GetSize() > 0 );
 
 	FreeBufferObject();
-	m_size = other.GetSize();					// this strips the MAPPED_FLAG
-	m_offsetInOtherBuffer = other.GetOffset();	// this strips the OWNS_BUFFER_FLAG
-	m_usage = other.m_usage;
-	m_apiObject = other.m_apiObject;
-#if defined( ID_VULKAN )
-	m_allocation = other.m_allocation;
+	size = other.GetSize();					// this strips the MAPPED_FLAG
+	offsetInOtherBuffer = other.GetOffset();	// this strips the OWNS_BUFFER_FLAG
+	usage = other.usage;
+	apiObject = other.apiObject;
+#if defined( USE_VULKAN )
+	allocation = other.allocation;
 #endif
 	assert( OwnsBuffer() == false );
 }
@@ -241,7 +249,8 @@ void idIndexBuffer::Reference( const idIndexBuffer & other ) {
 idIndexBuffer::Reference
 ========================
 */
-void idIndexBuffer::Reference( const idIndexBuffer & other, int refOffset, int refSize ) {
+void idIndexBuffer::Reference( const idIndexBuffer& other, int refOffset, int refSize )
+{
 	assert( IsMapped() == false );
 	//assert( other.IsMapped() == false );	// this happens when building idTriangles while at the same time setting up triIndex_t
 	assert( refOffset >= 0 );
@@ -249,12 +258,12 @@ void idIndexBuffer::Reference( const idIndexBuffer & other, int refOffset, int r
 	assert( refOffset + refSize <= other.GetSize() );
 
 	FreeBufferObject();
-	m_size = refSize;
-	m_offsetInOtherBuffer = other.GetOffset() + refOffset;
-	m_usage = other.m_usage;
-	m_apiObject = other.m_apiObject;
-#if defined( ID_VULKAN )
-	m_allocation = other.m_allocation;
+	size = refSize;
+	offsetInOtherBuffer = other.GetOffset() + refOffset;
+	usage = other.usage;
+	apiObject = other.apiObject;
+#if defined( USE_VULKAN )
+	allocation = other.allocation;
 #endif
 	assert( OwnsBuffer() == false );
 }
@@ -272,7 +281,8 @@ idUniformBuffer
 idUniformBuffer::~idUniformBuffer
 ========================
 */
-idUniformBuffer::~idUniformBuffer() {
+idUniformBuffer::~idUniformBuffer()
+{
 	FreeBufferObject();
 }
 
@@ -281,18 +291,19 @@ idUniformBuffer::~idUniformBuffer() {
 idUniformBuffer::Reference
 ========================
 */
-void idUniformBuffer::Reference( const idUniformBuffer & other ) {
+void idUniformBuffer::Reference( const idUniformBuffer& other )
+{
 	assert( IsMapped() == false );
 	assert( other.IsMapped() == false );
 	assert( other.GetSize() > 0 );
 
 	FreeBufferObject();
-	m_size = other.GetSize();					// this strips the MAPPED_FLAG
-	m_offsetInOtherBuffer = other.GetOffset();	// this strips the OWNS_BUFFER_FLAG
-	m_usage = other.m_usage;
-	m_apiObject = other.m_apiObject;
-#if defined( ID_VULKAN )
-	m_allocation = other.m_allocation;
+	size = other.GetSize();					// this strips the MAPPED_FLAG
+	offsetInOtherBuffer = other.GetOffset();	// this strips the OWNS_BUFFER_FLAG
+	usage = other.usage;
+	apiObject = other.apiObject;
+#if defined( USE_VULKAN )
+	allocation = other.allocation;
 #endif
 	assert( OwnsBuffer() == false );
 }
@@ -302,7 +313,8 @@ void idUniformBuffer::Reference( const idUniformBuffer & other ) {
 idUniformBuffer::Reference
 ========================
 */
-void idUniformBuffer::Reference( const idUniformBuffer & other, int refOffset, int refSize ) {
+void idUniformBuffer::Reference( const idUniformBuffer& other, int refOffset, int refSize )
+{
 	assert( IsMapped() == false );
 	assert( other.IsMapped() == false );
 	assert( refOffset >= 0 );
@@ -310,12 +322,12 @@ void idUniformBuffer::Reference( const idUniformBuffer & other, int refOffset, i
 	assert( refOffset + refSize <= other.GetSize() );
 
 	FreeBufferObject();
-	m_size = refSize;
-	m_offsetInOtherBuffer = other.GetOffset() + refOffset;
-	m_usage = other.m_usage;
-	m_apiObject = other.m_apiObject;
-#if defined( ID_VULKAN )
-	m_allocation = other.m_allocation;
+	size = refSize;
+	offsetInOtherBuffer = other.GetOffset() + refOffset;
+	usage = other.usage;
+	apiObject = other.apiObject;
+#if defined( USE_VULKAN )
+	allocation = other.allocation;
 #endif
 	assert( OwnsBuffer() == false );
 }

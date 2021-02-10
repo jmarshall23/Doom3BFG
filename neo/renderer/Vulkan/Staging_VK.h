@@ -2,9 +2,10 @@
 ===========================================================================
 
 Doom 3 BFG Edition GPL Source Code
-Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
+Copyright (C) 2016-2017 Dustin Land
 
-This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
 Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,7 +38,8 @@ idVulkanStagingManager
 ===========================================================================
 */
 
-struct stagingBuffer_t {
+struct stagingBuffer_t
+{
 	stagingBuffer_t() :
 		submitted( false ),
 		commandBuffer( VK_NULL_HANDLE ),
@@ -51,10 +53,11 @@ struct stagingBuffer_t {
 	VkBuffer			buffer;
 	VkFence				fence;
 	VkDeviceSize		offset;
-	byte *				data;
+	byte* 				data;
 };
 
-class idVulkanStagingManager {
+class idVulkanStagingManager
+{
 public:
 	idVulkanStagingManager();
 	~idVulkanStagingManager();
@@ -62,20 +65,20 @@ public:
 	void			Init();
 	void			Shutdown();
 
-	byte *			Stage( const int size, const int alignment, VkCommandBuffer & commandBuffer, VkBuffer & buffer, int & bufferOffset );
+	byte* 			Stage( const int size, const int alignment, VkCommandBuffer& commandBuffer, VkBuffer& buffer, int& bufferOffset );
 	void			Flush();
 
 private:
-	void			Wait( stagingBuffer_t & stage );
+	void			Wait( stagingBuffer_t& stage );
 
 private:
-	int				m_maxBufferSize;
-	int				m_currentBuffer;
-	byte *			m_mappedData;
-	VkDeviceMemory	m_memory;
-	VkCommandPool	m_commandPool;
+	int				maxBufferSize;
+	int				currentBuffer;
+	byte* 			mappedData;
+	VkDeviceMemory	memory;
+	VkCommandPool	commandPool;
 
-	stagingBuffer_t m_buffers[ NUM_FRAME_DATA ];
+	stagingBuffer_t buffers[ NUM_FRAME_DATA ];
 };
 
 extern idVulkanStagingManager stagingManager;

@@ -2,10 +2,10 @@
 ===========================================================================
 
 Doom 3 BFG Edition GPL Source Code
-Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
 Copyright (C) 2016-2017 Dustin Land
 
-This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
 Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,15 +30,33 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __QVK_H__
 #define __QVK_H__
 
-#if defined( ID_VULKAN )
+#if defined( USE_VULKAN )
 
-#define VK_USE_PLATFORM_WIN32_KHR
-//#define ID_USE_AMD_ALLOCATOR
+#if defined(VK_USE_PLATFORM_WIN32_KHR)
+	#include <Windows.h>
+#elif defined(VK_USE_PLATFORM_XCB_KHR)
+	#include <xcb/xcb.h>
+	#include <dlfcn.h>
+	#include <cstdlib>
+
+#elif defined(VK_USE_PLATFORM_XLIB_KHR)
+	#include <X11/Xlib.h>
+	#include <X11/Xutil.h>
+	#include <dlfcn.h>
+	#include <cstdlib>
+#endif
+
+#define USE_AMD_ALLOCATOR
 
 #include <vulkan/vulkan.h>
 
-#if defined( ID_USE_AMD_ALLOCATOR )
-#include "vma.h"
+#if defined(VK_USE_PLATFORM_XCB_KHR)
+	#include <xcb/xcb.h>
+	#include <dlfcn.h>
+#endif
+
+#if defined( USE_AMD_ALLOCATOR )
+	#include "vma.h"
 #endif
 
 #define ID_VK_CHECK( x ) { \
@@ -50,7 +68,31 @@ If you have questions concerning this license or the applicable additional terms
 	if ( !( x ) ) idLib::FatalError( "VK: %s - %s", msg, #x ); \
 }
 
-const char * VK_ErrorToString( VkResult result );
+const char* VK_ErrorToString( VkResult result );
+
+
+static const int MAX_DESC_SETS				= 16384;
+static const int MAX_DESC_UNIFORM_BUFFERS	= 8192;
+static const int MAX_DESC_IMAGE_SAMPLERS	= 12384;
+static const int MAX_DESC_SET_WRITES		= 32;
+static const int MAX_DESC_SET_UNIFORMS		= 48;
+static const int MAX_IMAGE_PARMS			= 16;
+static const int MAX_UBO_PARMS				= 2;
+static const int NUM_TIMESTAMP_QUERIES		= 32;
+
+// VK_EXT_debug_marker
+extern PFN_vkDebugMarkerSetObjectTagEXT		qvkDebugMarkerSetObjectTagEXT;
+extern PFN_vkDebugMarkerSetObjectNameEXT	qvkDebugMarkerSetObjectNameEXT;
+extern PFN_vkCmdDebugMarkerBeginEXT			qvkCmdDebugMarkerBeginEXT;
+extern PFN_vkCmdDebugMarkerEndEXT			qvkCmdDebugMarkerEndEXT;
+extern PFN_vkCmdDebugMarkerInsertEXT		qvkCmdDebugMarkerInsertEXT;
+
+// VK_EXT_debug_utils
+extern PFN_vkQueueBeginDebugUtilsLabelEXT	qvkQueueBeginDebugUtilsLabelEXT;
+extern PFN_vkQueueEndDebugUtilsLabelEXT		qvkQueueEndDebugUtilsLabelEXT;
+extern PFN_vkCmdBeginDebugUtilsLabelEXT		qvkCmdBeginDebugUtilsLabelEXT;
+extern PFN_vkCmdEndDebugUtilsLabelEXT		qvkCmdEndDebugUtilsLabelEXT;
+extern PFN_vkCmdInsertDebugUtilsLabelEXT	qvkCmdInsertDebugUtilsLabelEXT;
 
 #endif
 

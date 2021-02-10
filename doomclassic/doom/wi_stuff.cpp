@@ -29,7 +29,11 @@ If you have questions concerning this license or the applicable additional terms
 #include "Precompiled.h"
 #include "globaldata.h"
 #include "Main.h"
-#include "DoomLeaderboards.h"
+#include "sys/sys_session.h"
+#include "sys/sys_signin.h"
+//#include "DoomLeaderboards.h"
+#include "d3xp/Game_local.h"
+
 
 #include <stdio.h>
 
@@ -249,6 +253,15 @@ const wbplayerstruct_t* plrs;  // ::g->wbs->plyr[]
 void localCalculateAchievements(bool epComplete)
 {
 
+	if( !common->IsMultiplayer() ) {
+
+			player_t  *player = &::g->players[::g->consoleplayer];
+
+			// Calculate Any Achievements earned from stat cumulation.
+			idAchievementManager::CheckDoomClassicsAchievements( player->killcount, player->itemcount, player->secretcount, ::g->gameskill, ::g->gamemission, ::g->gamemap, ::g->gameepisode, ::g->totalkills, ::g->totalitems, ::g->totalsecret );
+
+
+	}
 }
 
 // slam background
@@ -1498,7 +1511,7 @@ void WI_loadData(void)
 		// DHM - Nerve :: Use our background image
 		//strcpy(name, "DMENUPIC");
 	else 
-		sprintf(name, "WIMAP%d", ::g->wbs->epsd);
+		idStr::snPrintf(name, sizeof( name ), "WIMAP%d", ::g->wbs->epsd);
 
 	if ( ::g->gamemode == retail )
 	{
@@ -1529,7 +1542,7 @@ void WI_loadData(void)
 		::g->lnames = (patch_t **) DoomLib::Z_Malloc(sizeof(patch_t*) * ::g->NUMCMAPS, PU_LEVEL_SHARED, 0);
 		for (i=0 ; i < ::g->NUMCMAPS ; i++)
 		{								
-			sprintf(name, "CWILV%2.2d", i);
+			idStr::snPrintf(name, sizeof( name ), "CWILV%2.2d", i);
 			::g->lnames[i] = (patch_t*)W_CacheLumpName(name, PU_LEVEL_SHARED);
 		}					
 	}
@@ -1562,7 +1575,7 @@ void WI_loadData(void)
 					if (::g->wbs->epsd != 1 || j != 8) 
 					{
 						// animations
-						sprintf(name, "WIA%d%.2d%.2d", ::g->wbs->epsd, j, i);  
+						idStr::snPrintf(name, sizeof( name ), "WIA%d%.2d%.2d", ::g->wbs->epsd, j, i);  
 						a->p[i] = (patch_t*)W_CacheLumpName(name, PU_LEVEL_SHARED);
 					}
 					else

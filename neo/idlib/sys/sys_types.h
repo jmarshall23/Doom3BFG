@@ -2,10 +2,9 @@
 ===========================================================================
 
 Doom 3 BFG Edition GPL Source Code
-Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
-Copyright (C) 2016-2017 Dustin Land
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
 Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,7 +40,7 @@ typedef unsigned char		byte;		// 8 bits
 typedef unsigned short		word;		// 16 bits
 typedef unsigned int		dword;		// 32 bits
 typedef unsigned int		uint;
-typedef unsigned long		ulong;
+// typedef unsigned long		ulong; // DG: long should be avoided.
 
 typedef signed char			int8;
 typedef unsigned char		uint8;
@@ -74,39 +73,63 @@ assert_sizeof( uint64,	8 );
 #define MAX_UNSIGNED_TYPE( x )	( ( ( ( 1U << ( ( sizeof( x ) - 1 ) * 8 ) ) - 1 ) << 8 ) | 255U )
 #define MIN_UNSIGNED_TYPE( x )	0
 
+
 template< typename _type_ >
-bool IsSignedType( const _type_ t ) {
+bool IsSignedType( const _type_ t )
+{
 	return _type_( -1 ) < 0;
 }
 
-template<class T> T	Max( T x, T y ) { return ( x > y ) ? x : y; }
-template<class T> T	Min( T x, T y ) { return ( x < y ) ? x : y; }
-
+#if !defined(USE_AMD_ALLOCATOR)
+template<class T> T	Max( T x, T y )
+{
+	return ( x > y ) ? x : y;
+}
+template<class T> T	Min( T x, T y )
+{
+	return ( x < y ) ? x : y;
+}
+#endif // USE_AMD_ALLOCATOR
 
 class idFile;
 
-struct idNullPtr {
+struct idNullPtr
+{
 	// one pointer member initialized to zero so you can pass NULL as a vararg
-	void *value; idNullPtr() : value( 0 ) { }
+	void* value;
+	constexpr idNullPtr() : value( 0 ) { }
 
 	// implicit conversion to all pointer types
-	template<typename T1> operator T1 * () const { return 0; }
+	template<typename T1> constexpr operator T1* () const
+	{
+		return 0;
+	}
 
 	// implicit conversion to all pointer to member types
-	template<typename T1, typename T2> operator T1 T2::* () const { return 0; }
+	template<typename T1, typename T2> constexpr operator T1 T2::* () const
+	{
+		return 0;
+	}
 };
 
+//#undef NULL
+//#if defined( ID_PC_WIN ) && !defined( ID_TOOL_EXTERNAL ) && !defined( _lint )
+//#define NULL					idNullPtr()
+//#else
+//#define NULL					0
+//#endif
+
 // C99 Standard
-#ifndef nullptr
-		#define nullptr	idNullPtr()		
-#endif
+//#ifndef nullptr
+//#define nullptr	idNullPtr()
+//#endif
 
 #ifndef BIT
-#define BIT( num )				( 1ULL << ( num ) )
+	#define BIT( num )				( 1ULL << ( num ) )
 #endif
 
 #ifndef NUMBITS
-#define NUMBITS( _type_ )		( sizeof( _type_ ) * 8 )
+	#define NUMBITS( _type_ )		( sizeof( _type_ ) * 8 )
 #endif
 
 #define	MAX_STRING_CHARS		1024		// max length of a static string
@@ -121,25 +144,31 @@ const float	MAX_ENTITY_COORDINATE = 64000.0f;
 
 #if 1
 
-typedef unsigned short triIndex_t;
-#define GL_INDEX_TYPE		GL_UNSIGNED_SHORT
+	typedef unsigned short triIndex_t;
+	#define GL_INDEX_TYPE		GL_UNSIGNED_SHORT
 
 #else
 
-typedef unsigned int triIndex_t;
-#define GL_INDEX_TYPE		GL_UNSIGNED_INT
+	typedef unsigned int triIndex_t;
+	#define GL_INDEX_TYPE		GL_UNSIGNED_INT
 
 #endif
 
-// if writing to write-combined memroy, always write indexes as pairs for 32 bit writes
-ID_INLINE void WriteIndexPair( triIndex_t * dest, const triIndex_t a, const triIndex_t b ) {
-	*(unsigned *)dest = (unsigned)a | ( (unsigned)b<<16 );
+// if writing to write-combined memory, always write indexes as pairs for 32 bit writes
+ID_INLINE void WriteIndexPair( triIndex_t* dest, const triIndex_t a, const triIndex_t b )
+{
+	*( unsigned* )dest = ( unsigned )a | ( ( unsigned )b << 16 );
 }
 
-#if defined(_DEBUG)
-#define NODEFAULT	default: assert( 0 )
+#if defined(_DEBUG) || defined(_lint)
+	#define NODEFAULT	default: assert( 0 )
 #else
-#define NODEFAULT	default: __assume( 0 )
+	#ifdef _MSVC
+		#define NODEFAULT	default: __assume( 0 )
+	#else // not _MSVC
+		// TODO: is that __assume an important optimization? if so, is there a gcc equivalent?
+		#define NODEFAULT
+	#endif
 #endif
 
 /*
@@ -151,6 +180,10 @@ literals or sizeof(). NEVER use an actual variable as a parameter to one of thes
 
 ================================================================================================
 */
+
+#ifdef _lint	// lint has problems with CONST_BITSFORINTEGER(), so just make it something simple for analysis
+#define CONST_ILOG2(x)		1
+#else
 
 #define CONST_ILOG2(x)			(	( (x) & (1u<<31) ) ? 31 : \
 									( (x) & (1u<<30) ) ? 30 : \
@@ -184,6 +217,7 @@ literals or sizeof(). NEVER use an actual variable as a parameter to one of thes
 									( (x) & (1u<<2) ) ? 2 : \
 									( (x) & (1u<<1) ) ? 1 : \
 									( (x) & (1u<<0) ) ? 0 : -1 )
+#endif	// _lint
 
 #define CONST_IEXP2					( 1 << (x) )
 

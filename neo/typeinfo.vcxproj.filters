@@ -7,6 +7,12 @@
     <Filter Include="Framework">
       <UniqueIdentifier>{40a69fce-c497-466a-ad0d-cc5a4293aab0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="zlib">
+      <UniqueIdentifier>{1837f70c-4b69-4f46-a875-f359ac233f6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zlib\minizip">
+      <UniqueIdentifier>{a90f2c6e-a27e-4262-bac7-6441a0e3ef6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TypeInfo\main.cpp">
@@ -27,9 +33,6 @@
     <ClCompile Include="framework\FileSystem.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="framework\Unzip.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="framework\File_Manifest.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
@@ -38,6 +41,60 @@
     </ClCompile>
     <ClCompile Include="typeinfo\EngineStub.cpp">
       <Filter>TypeInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="idlib\precompiled.cpp">
+      <Filter>TypeInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\minizip\unzip.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\adler32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\compress.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\crc32.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\deflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\gzclose.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\gzlib.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\gzread.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\gzwrite.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\infback.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\inffast.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\inflate.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\inftrees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\trees.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\uncompr.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\zutil.c">
+      <Filter>zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\zlib\minizip\ioapi.c">
+      <Filter>zlib\minizip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,14 +116,47 @@
     <ClInclude Include="framework\Licensee.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="framework\Unzip.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="framework\File_Manifest.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="framework\File_Resource.h">
       <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\precompiled.h">
+      <Filter>TypeInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\zlib\crc32.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\zlib\deflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\zlib\gzguts.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\zlib\inffast.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\zlib\inffixed.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\zlib\inflate.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\zlib\inftrees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\zlib\trees.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\zlib\zconf.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\zlib\zlib.h">
+      <Filter>zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\zlib\zutil.h">
+      <Filter>zlib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

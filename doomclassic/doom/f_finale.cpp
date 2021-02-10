@@ -47,6 +47,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "r_state.h"
 
 #include "Main.h"
+#include "d3xp/Game_local.h"
 
 // ?
 //#include "doomstat.h"
@@ -591,9 +592,9 @@ qboolean F_CastResponder (event_t* ev)
 }
 
 
-void F_CastPrint (char* text)
+void F_CastPrint (const char* text)
 {
-    char*	ch;
+    const char*	ch;
     int		c;
     int		cx;
     int		w;

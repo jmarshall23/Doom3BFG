@@ -2,10 +2,10 @@
 ===========================================================================
 
 Doom 3 BFG Edition GPL Source Code
-Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
-Copyright (C) 2016-2017 Dustin Land
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
+Copyright (C) 2014 Robert Beckebans
 
-This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
 Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,16 +28,166 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "../framework/precompiled.h"
-#include "RenderSystem_local.h"
-#include "GLMatrix.h"
-#include "GuiModel.h"
+#include "precompiled.h"
 
-extern idCVar r_skipFrontEnd;
-extern idCVar r_screenFraction;
-extern idCVar r_znear;
-extern idCVar r_subviewOnly;
-extern idCVar r_useShadowSurfaceScissor;
+#include "RenderCommon.h"
+
+/*
+==========================================================================================
+
+FRAME MEMORY ALLOCATION
+
+==========================================================================================
+*/
+
+static const unsigned int FRAME_ALLOC_ALIGNMENT = 128;
+static const unsigned int MAX_FRAME_MEMORY = 64 * 1024 * 1024;	// larger so that we can noclip on PC for dev purposes
+
+idFrameData		smpFrameData[NUM_FRAME_DATA];
+idFrameData* 	frameData;
+unsigned int	smpFrame;
+
+//#define TRACK_FRAME_ALLOCS
+
+#if defined( TRACK_FRAME_ALLOCS )
+	idSysInterlockedInteger frameAllocTypeCount[FRAME_ALLOC_MAX];
+	int frameHighWaterTypeCount[FRAME_ALLOC_MAX];
+#endif
+
+/*
+====================
+R_ToggleSmpFrame
+====================
+*/
+void R_ToggleSmpFrame()
+{
+	// update the highwater mark
+	if( frameData->frameMemoryAllocated.GetValue() > frameData->highWaterAllocated )
+	{
+		frameData->highWaterAllocated = frameData->frameMemoryAllocated.GetValue();
+#if defined( TRACK_FRAME_ALLOCS )
+		frameData->highWaterUsed = frameData->frameMemoryUsed.GetValue();
+		for( int i = 0; i < FRAME_ALLOC_MAX; i++ )
+		{
+			frameHighWaterTypeCount[i] = frameAllocTypeCount[i].GetValue();
+		}
+#endif
+	}
+
+	// switch to the next frame
+	smpFrame++;
+	frameData = &smpFrameData[smpFrame % NUM_FRAME_DATA];
+
+	// reset the memory allocation
+
+	// RB: 64 bit fixes, changed unsigned int to uintptr_t
+	const uintptr_t bytesNeededForAlignment = FRAME_ALLOC_ALIGNMENT - ( ( uintptr_t )frameData->frameMemory & ( FRAME_ALLOC_ALIGNMENT - 1 ) );
+	// RB end
+
+	frameData->frameMemoryAllocated.SetValue( bytesNeededForAlignment );
+	frameData->frameMemoryUsed.SetValue( 0 );
+
+#if defined( TRACK_FRAME_ALLOCS )
+	for( int i = 0; i < FRAME_ALLOC_MAX; i++ )
+	{
+		frameAllocTypeCount[i].SetValue( 0 );
+	}
+#endif
+
+	// clear the command chain and make a RC_NOP command the only thing on the list
+	frameData->cmdHead = frameData->cmdTail = ( emptyCommand_t* )R_FrameAlloc( sizeof( *frameData->cmdHead ), FRAME_ALLOC_DRAW_COMMAND );
+	frameData->cmdHead->commandId = RC_NOP;
+	frameData->cmdHead->next = NULL;
+}
+
+/*
+=====================
+R_ShutdownFrameData
+=====================
+*/
+void R_ShutdownFrameData()
+{
+	frameData = NULL;
+	for( int i = 0; i < NUM_FRAME_DATA; i++ )
+	{
+		Mem_Free16( smpFrameData[i].frameMemory );
+		smpFrameData[i].frameMemory = NULL;
+	}
+}
+
+/*
+=====================
+R_InitFrameData
+=====================
+*/
+void R_InitFrameData()
+{
+	R_ShutdownFrameData();
+
+	for( int i = 0; i < NUM_FRAME_DATA; i++ )
+	{
+		smpFrameData[i].frameMemory = ( byte* ) Mem_Alloc16( MAX_FRAME_MEMORY, TAG_RENDER );
+	}
+
+	// must be set before calling R_ToggleSmpFrame()
+	frameData = &smpFrameData[ 0 ];
+
+	R_ToggleSmpFrame();
+}
+
+/*
+================
+R_FrameAlloc
+
+This data will be automatically freed when the
+current frame's back end completes.
+
+This should only be called by the front end.  The
+back end shouldn't need to allocate memory.
+
+All temporary data, like dynamic tesselations
+and local spaces are allocated here.
+
+All memory is cache-line-cleared for the best performance.
+================
+*/
+void* R_FrameAlloc( int bytes, frameAllocType_t type )
+{
+#if defined( TRACK_FRAME_ALLOCS )
+	frameData->frameMemoryUsed.Add( bytes );
+	frameAllocTypeCount[type].Add( bytes );
+#endif
+
+	bytes = ( bytes + FRAME_ALLOC_ALIGNMENT - 1 ) & ~( FRAME_ALLOC_ALIGNMENT - 1 );
+
+	// thread safe add
+	int	end = frameData->frameMemoryAllocated.Add( bytes );
+	if( end > MAX_FRAME_MEMORY )
+	{
+		idLib::Error( "R_FrameAlloc ran out of memory. bytes = %d, end = %d, highWaterAllocated = %d\n", bytes, end, frameData->highWaterAllocated );
+	}
+
+	byte* ptr = frameData->frameMemory + end - bytes;
+
+	// cache line clear the memory
+	for( int offset = 0; offset < bytes; offset += CACHE_LINE_SIZE )
+	{
+		ZeroCacheLine( ptr, offset );
+	}
+
+	return ptr;
+}
+
+/*
+==================
+R_ClearedFrameAlloc
+==================
+*/
+void* R_ClearedFrameAlloc( int bytes, frameAllocType_t type )
+{
+	// NOTE: every allocation is cache line cleared
+	return R_FrameAlloc( bytes, type );
+}
 
 /*
 ==========================================================================================
@@ -52,13 +202,15 @@ FONT-END STATIC MEMORY ALLOCATION
 R_StaticAlloc
 =================
 */
-void *R_StaticAlloc( int bytes, const memTag_t tag ) {
+void* R_StaticAlloc( int bytes, const memTag_t tag )
+{
 	tr.pc.c_alloc++;
 
-    void * buf = Mem_Alloc( bytes, tag );
+	void* buf = Mem_Alloc( bytes, tag );
 
 	// don't exit on failure on zero length allocations since the old code didn't
-	if ( buf == NULL && bytes != 0 ) {
+	if( buf == NULL && bytes != 0 )
+	{
 		common->FatalError( "R_StaticAlloc failed on %i bytes", bytes );
 	}
 	return buf;
@@ -69,8 +221,9 @@ void *R_StaticAlloc( int bytes, const memTag_t tag ) {
 R_ClearedStaticAlloc
 =================
 */
-void *R_ClearedStaticAlloc( int bytes ) {
-	void * buf = R_StaticAlloc( bytes );
+void* R_ClearedStaticAlloc( int bytes )
+{
+	void* buf = R_StaticAlloc( bytes );
 	memset( buf, 0, bytes );
 	return buf;
 }
@@ -80,9 +233,10 @@ void *R_ClearedStaticAlloc( int bytes ) {
 R_StaticFree
 =================
 */
-void R_StaticFree( void *data ) {
+void R_StaticFree( void* data )
+{
 	tr.pc.c_free++;
-    Mem_Free( data );
+	Mem_Free( data );
 }
 
 /*
@@ -98,27 +252,32 @@ FONT-END RENDERING
 R_SortDrawSurfs
 =================
 */
-static void R_SortDrawSurfs( drawSurf_t ** drawSurfs, const int numDrawSurfs ) {
-	uint64 * indices = (uint64 *) _alloca16( numDrawSurfs * sizeof( indices[0] ) );
+static void R_SortDrawSurfs( drawSurf_t** drawSurfs, const int numDrawSurfs )
+{
+#if 1
+
+	uint64* indices = ( uint64* ) _alloca16( numDrawSurfs * sizeof( indices[0] ) );
 
 	// sort the draw surfs based on:
 	// 1. sort value (largest first)
 	// 2. depth (smallest first)
 	// 3. index (largest first)
 	assert( numDrawSurfs <= 0xFFFF );
-	for ( int i = 0; i < numDrawSurfs; i++ ) {
+	for( int i = 0; i < numDrawSurfs; i++ )
+	{
 		float sort = SS_POST_PROCESS - drawSurfs[i]->sort;
 		assert( sort >= 0.0f );
 
 		uint64 dist = 0;
-		if ( drawSurfs[i]->frontEndGeo != NULL ) {
+		if( drawSurfs[i]->frontEndGeo != NULL )
+		{
 			float min = 0.0f;
 			float max = 1.0f;
 			idRenderMatrix::DepthBoundsForBounds( min, max, drawSurfs[i]->space->mvp, drawSurfs[i]->frontEndGeo->bounds );
 			dist = idMath::Ftoui16( min * 0xFFFF );
 		}
-		
-		indices[i] = ( ( numDrawSurfs - i ) & 0xFFFF ) | ( dist << 16 ) | ( (uint64) ( *(uint32 *)&sort ) << 32 );
+
+		indices[i] = ( ( numDrawSurfs - i ) & 0xFFFF ) | ( dist << 16 ) | ( ( uint64 )( *( uint32* )&sort ) << 32 );
 	}
 
 	const int64 MAX_LEVELS = 128;
@@ -130,17 +289,32 @@ static void R_SortDrawSurfs( drawSurf_t ** drawSurfs, const int numDrawSurfs ) {
 	register int64 st_hi = numDrawSurfs - 1;
 	register int64 level = 0;
 
-	for ( ; ; ) {
+	for( ; ; )
+	{
 		register int64 i = st_lo;
 		register int64 j = st_hi;
-		if ( j - i >= 4 && level < MAX_LEVELS - 1 ) {
+		if( j - i >= 4 && level < MAX_LEVELS - 1 )
+		{
 			register uint64 pivot = indices[( i + j ) / 2];
-			do {
-				while ( indices[i] > pivot ) i++;
-				while ( indices[j] < pivot ) j--;
-				if ( i > j ) break;
-				uint64 h = indices[i]; indices[i] = indices[j]; indices[j] = h;
-			} while ( ++i <= --j );
+			do
+			{
+				while( indices[i] > pivot )
+				{
+					i++;
+				}
+				while( indices[j] < pivot )
+				{
+					j--;
+				}
+				if( i > j )
+				{
+					break;
+				}
+				uint64 h = indices[i];
+				indices[i] = indices[j];
+				indices[j] = h;
+			}
+			while( ++i <= --j );
 
 			// No need for these iterations because we are always sorting unique values.
 			//while ( indices[j] == pivot && st_lo < j ) j--;
@@ -151,17 +325,25 @@ static void R_SortDrawSurfs( drawSurf_t ** drawSurfs, const int numDrawSurfs ) {
 			hi[level] = st_hi;
 			st_hi = j;
 			level++;
-		} else {
-			for( ; i < j; j-- ) {
+		}
+		else
+		{
+			for( ; i < j; j-- )
+			{
 				register int64 m = i;
-				for ( int64 k = i + 1; k <= j; k++ ) {
-					if ( indices[k] < indices[m] ) {
+				for( int64 k = i + 1; k <= j; k++ )
+				{
+					if( indices[k] < indices[m] )
+					{
 						m = k;
 					}
 				}
-				uint64 h = indices[m]; indices[m] = indices[j]; indices[j] = h;
+				uint64 h = indices[m];
+				indices[m] = indices[j];
+				indices[j] = h;
 			}
-			if ( --level < 0 ) {
+			if( --level < 0 )
+			{
 				break;
 			}
 			st_lo = lo[level];
@@ -169,194 +351,114 @@ static void R_SortDrawSurfs( drawSurf_t ** drawSurfs, const int numDrawSurfs ) {
 		}
 	}
 
-	drawSurf_t ** newDrawSurfs = (drawSurf_t **) indices;
-	for ( int i = 0; i < numDrawSurfs; i++ ) {
+	drawSurf_t** newDrawSurfs = ( drawSurf_t** ) indices;
+	for( int i = 0; i < numDrawSurfs; i++ )
+	{
 		newDrawSurfs[i] = drawSurfs[numDrawSurfs - ( indices[i] & 0xFFFF )];
 	}
 	memcpy( drawSurfs, newDrawSurfs, numDrawSurfs * sizeof( drawSurfs[0] ) );
-}
 
-/*
-=====================
-R_OptimizeViewLightsList
-=====================
-*/
-void R_OptimizeViewLightsList( viewLight_t ** viewLights ) {
-	// go through each visible light
-	int numViewLights = 0;
-	for ( viewLight_t * vLight = *viewLights; vLight != NULL; vLight = vLight->next ) {
-		numViewLights++;
-		// If the light didn't have any lit surfaces visible, there is no need to
-		// draw any of the shadows.  We still keep the vLight for debugging draws.
-		if ( !vLight->localInteractions && !vLight->globalInteractions && !vLight->translucentInteractions ) {
-			vLight->localShadows = NULL;
-			vLight->globalShadows = NULL;
-		}
-	}
+#else
 
-	if ( r_useShadowSurfaceScissor.GetBool() ) {
-		// shrink the light scissor rect to only intersect the surfaces that will actually be drawn.
-		// This doesn't seem to actually help, perhaps because the surface scissor
-		// rects aren't actually the surface, but only the portal clippings.
-		for ( viewLight_t * vLight = *viewLights; vLight; vLight = vLight->next ) {
-			drawSurf_t * surf;
-			idScreenRect surfRect;
-
-			if ( !vLight->lightShader->LightCastsShadows() ) {
-				continue;
+	struct local_t
+	{
+		static int R_QsortSurfaces( const void* a, const void* b )
+		{
+			const drawSurf_t* ea = *( drawSurf_t** )a;
+			const drawSurf_t* eb = *( drawSurf_t** )b;
+			if( ea->sort < eb->sort )
+			{
+				return -1;
 			}
-
-			surfRect.Clear();
-
-			for ( surf = vLight->globalInteractions; surf != NULL; surf = surf->nextOnLight ) {
-				surfRect.Union( surf->scissorRect );
+			if( ea->sort > eb->sort )
+			{
+				return 1;
 			}
-			for ( surf = vLight->localShadows; surf != NULL; surf = surf->nextOnLight ) {
-				surf->scissorRect.Intersect( surfRect );
-			}
-
-			for ( surf = vLight->localInteractions; surf != NULL; surf = surf->nextOnLight ) {
-				surfRect.Union( surf->scissorRect );
-			}
-			for ( surf = vLight->globalShadows; surf != NULL; surf = surf->nextOnLight ) {
-				surf->scissorRect.Intersect( surfRect );
-			}
-
-			for ( surf = vLight->translucentInteractions; surf != NULL; surf = surf->nextOnLight ) {
-				surfRect.Union( surf->scissorRect );
-			}
-
-			vLight->scissorRect.Intersect( surfRect );
-		}
-	}
-
-	// sort the viewLights list so the largest lights come first, which will reduce
-	// the chance of GPU pipeline bubbles
-	struct sortLight_t {
-		viewLight_t *	vLight;
-		int				screenArea;
-		static int sort( const void * a, const void * b ) {
-			return ((sortLight_t *)a)->screenArea - ((sortLight_t *)b)->screenArea;
+			return 0;
 		}
 	};
-	sortLight_t * sortLights = (sortLight_t *)_alloca( sizeof( sortLight_t ) * numViewLights );
-	int	numSortLightsFilled = 0;
-	for ( viewLight_t * vLight = *viewLights; vLight != NULL; vLight = vLight->next ) {
-		sortLights[ numSortLightsFilled ].vLight = vLight;
-		sortLights[ numSortLightsFilled ].screenArea = vLight->scissorRect.GetArea();
-		numSortLightsFilled++;
+
+	// Add a sort offset so surfaces with equal sort orders still deterministically
+	// draw in the order they were added, at least within a given model.
+	float sorfOffset = 0.0f;
+	for( int i = 0; i < numDrawSurfs; i++ )
+	{
+		drawSurf[i]->sort += sorfOffset;
+		sorfOffset += 0.000001f;
 	}
 
-	qsort( sortLights, numSortLightsFilled, sizeof( sortLights[0] ), sortLight_t::sort );
+	// sort the drawsurfs
+	qsort( drawSurfs, numDrawSurfs, sizeof( drawSurfs[0] ), local_t::R_QsortSurfaces );
 
-	// rebuild the linked list in order
-	*viewLights = NULL;
-	for ( int i = 0; i < numSortLightsFilled; i++ ) {
-		sortLights[i].vLight->next = *viewLights;
-		*viewLights = sortLights[i].vLight;
+#endif
+}
+
+// RB begin
+static void R_SetupSplitFrustums( viewDef_t* viewDef )
+{
+	idVec3			planeOrigin;
+
+	const float zNearStart = ( viewDef->renderView.cramZNear ) ? ( r_znear.GetFloat() * 0.25f ) : r_znear.GetFloat();
+	float zFarEnd = 10000;
+
+	float zNear = zNearStart;
+	float zFar = zFarEnd;
+
+	float lambda = r_shadowMapSplitWeight.GetFloat();
+	float ratio = zFarEnd / zNearStart;
+
+	for( int i = 0; i < 6; i++ )
+	{
+		tr.viewDef->frustumSplitDistances[i] = idMath::INFINITY;
+	}
+
+	for( int i = 1; i <= ( r_shadowMapSplits.GetInteger() + 1 ) && i < MAX_FRUSTUMS; i++ )
+	{
+		float si = i / ( float )( r_shadowMapSplits.GetInteger() + 1 );
+
+		if( i > FRUSTUM_CASCADE1 )
+		{
+			zNear = zFar - ( zFar * 0.005f );
+		}
+
+		zFar = 1.005f * lambda * ( zNearStart * powf( ratio, si ) ) + ( 1 - lambda ) * ( zNearStart + ( zFarEnd - zNearStart ) * si );
+
+		if( i <= r_shadowMapSplits.GetInteger() )
+		{
+			tr.viewDef->frustumSplitDistances[i - 1] = zFar;
+		}
+
+		float projectionMatrix[16];
+		R_SetupProjectionMatrix2( tr.viewDef, zNear, zFar, projectionMatrix );
+
+		// setup render matrices for faster culling
+		idRenderMatrix projectionRenderMatrix;
+		idRenderMatrix::Transpose( *( idRenderMatrix* )projectionMatrix, projectionRenderMatrix );
+		idRenderMatrix viewRenderMatrix;
+		idRenderMatrix::Transpose( *( idRenderMatrix* )tr.viewDef->worldSpace.modelViewMatrix, viewRenderMatrix );
+		idRenderMatrix::Multiply( projectionRenderMatrix, viewRenderMatrix, tr.viewDef->frustumMVPs[i] );
+
+		// the planes of the view frustum are needed for portal visibility culling
+		idRenderMatrix::GetFrustumPlanes( tr.viewDef->frustums[i], tr.viewDef->frustumMVPs[i], false, true );
+
+		// the DOOM 3 frustum planes point outside the frustum
+		for( int j = 0; j < 6; j++ )
+		{
+			tr.viewDef->frustums[i][j] = - tr.viewDef->frustums[i][j];
+		}
+
+		// remove the Z-near to avoid portals from being near clipped
+		if( i == FRUSTUM_CASCADE1 )
+		{
+			tr.viewDef->frustums[i][4][3] -= r_znear.GetFloat();
+		}
 	}
 }
+// RB end
 
 /*
 ================
-idRenderSystemLocal::RenderScene
-
-Draw a 3D view into a part of the window, then return
-to 2D drawing.
-
-Rendering a scene may require multiple views to be rendered
-to handle mirrors.
-================
-*/
-void idRenderSystemLocal::RenderScene( idRenderWorld * world, const renderView_t * renderView ) {
-	if ( !m_bInitialized ) {
-		return;
-	}
-
-	// skip front end rendering work, which will result
-	// in only gui drawing
-	if ( r_skipFrontEnd.GetBool() ) {
-		return;
-	}
-
-	SCOPED_PROFILE_EVENT( "idRenderSystemLocal::RenderScene" );
-
-	if ( renderView->fov_x <= 0 || renderView->fov_y <= 0 ) {
-		idLib::Error( "idRenderSystemLocal::RenderScene: bad FOVs: %f, %f", renderView->fov_x, renderView->fov_y );
-	}
-
-	EmitFullscreenGui();
-
-	int startTime = Sys_Microseconds();
-
-	// setup viewDef for the intial view
-	viewDef_t * parms = (viewDef_t *)ClearedFrameAlloc( sizeof( *parms ), FRAME_ALLOC_VIEW_DEF );
-	parms->renderView = *renderView;
-
-	if ( m_takingScreenshot ) {
-		parms->renderView.forceUpdate = true;
-	}
-
-	int windowWidth = GetWidth();
-	int windowHeight = GetHeight();
-
-	PerformResolutionScaling( windowWidth, windowHeight );
-
-	// screenFraction is just for quickly testing fill rate limitations
-	if ( r_screenFraction.GetInteger() != 100 ) {
-		windowWidth = ( windowWidth * r_screenFraction.GetInteger() ) / 100;
-		windowHeight = ( windowHeight * r_screenFraction.GetInteger() ) / 100;
-	}
-
-	CropRenderSize( windowWidth, windowHeight );
-	GetCroppedViewport( &parms->viewport );
-
-	// the scissor bounds may be shrunk in subviews even if
-	// the viewport stays the same
-	// this scissor range is local inside the viewport
-	parms->scissor.x1 = 0;
-	parms->scissor.y1 = 0;
-	parms->scissor.x2 = parms->viewport.x2 - parms->viewport.x1;
-	parms->scissor.y2 = parms->viewport.y2 - parms->viewport.y1;
-
-	parms->isSubview = false;
-	parms->initialViewAreaOrigin = renderView->vieworg;
-	parms->renderWorld = world;
-
-	// see if the view needs to reverse the culling sense in mirrors
-	// or environment cube sides
-	idVec3 cross;
-	cross = parms->renderView.viewaxis[ 1 ].Cross( parms->renderView.viewaxis[ 2 ] );
-	if ( cross * parms->renderView.viewaxis[ 0 ] > 0 ) {
-		parms->isMirror = false;
-	} else {
-		parms->isMirror = true;
-	}
-
-	// save this world for use by some console commands
-	primaryWorld = world;
-	m_primaryRenderView = *renderView;
-	primaryView = parms;
-
-	// rendering this view may cause other views to be rendered
-	// for mirrors / portals / shadows / environment maps
-	// this will also cause any necessary entities and lights to be
-	// updated to the demo file
-	RenderView( parms );
-
-	UnCrop();
-
-	int endTime = Sys_Microseconds();
-
-	pc.frontEndMicroSec += endTime - startTime;
-
-	// prepare for any 2D drawing after this
-	m_guiModel->Clear();
-}
-
-/*
-================
-idRenderSystemLocal::RenderView
+R_RenderView
 
 A view may be either the actual camera view,
 a mirror / remote location, or a 3D view on a gui surface.
@@ -364,69 +466,123 @@ a mirror / remote location, or a 3D view on a gui surface.
 Parms will typically be allocated with R_FrameAlloc
 ================
 */
-void idRenderSystemLocal::RenderView( viewDef_t * parms ) {
+void R_RenderView( viewDef_t* parms )
+{
 	// save view in case we are a subview
-	viewDef_t * oldView = m_viewDef;
+	viewDef_t* oldView = tr.viewDef;
 
-	m_viewDef = parms;
+	tr.viewDef = parms;
 
 	// setup the matrix for world space to eye space
-	R_SetupViewMatrix( m_viewDef );
+	R_SetupViewMatrix( tr.viewDef );
 
 	// we need to set the projection matrix before doing
 	// portal-to-screen scissor calculations
-	R_SetupProjectionMatrix( m_viewDef );
+	R_SetupProjectionMatrix( tr.viewDef );
+
+	// RB: we need a unprojection matrix to calculate the vertex position based on the depth image value
+	// for some post process shaders
+	R_SetupUnprojection( tr.viewDef );
+	// RB end
 
 	// setup render matrices for faster culling
-	idRenderMatrix::Transpose( *(idRenderMatrix *)m_viewDef->projectionMatrix, m_viewDef->projectionRenderMatrix );
+	idRenderMatrix::Transpose( *( idRenderMatrix* )tr.viewDef->projectionMatrix, tr.viewDef->projectionRenderMatrix );
 	idRenderMatrix viewRenderMatrix;
-	idRenderMatrix::Transpose( *(idRenderMatrix *)m_viewDef->worldSpace.modelViewMatrix, viewRenderMatrix );
-	idRenderMatrix::Multiply( m_viewDef->projectionRenderMatrix, viewRenderMatrix, m_viewDef->worldSpace.mvp );
+	idRenderMatrix::Transpose( *( idRenderMatrix* )tr.viewDef->worldSpace.modelViewMatrix, viewRenderMatrix );
+	idRenderMatrix::Multiply( tr.viewDef->projectionRenderMatrix, viewRenderMatrix, tr.viewDef->worldSpace.mvp );
 
 	// the planes of the view frustum are needed for portal visibility culling
-	idRenderMatrix::GetFrustumPlanes( m_viewDef->frustum, m_viewDef->worldSpace.mvp, false, true );
+	idRenderMatrix::GetFrustumPlanes( tr.viewDef->frustums[FRUSTUM_PRIMARY], tr.viewDef->worldSpace.mvp, false, true );
 
 	// the DOOM 3 frustum planes point outside the frustum
-	for ( int i = 0; i < 6; i++ ) {
-		m_viewDef->frustum[i] = - m_viewDef->frustum[i];
+	for( int i = 0; i < 6; i++ )
+	{
+		tr.viewDef->frustums[FRUSTUM_PRIMARY][i] = - tr.viewDef->frustums[FRUSTUM_PRIMARY][i];
 	}
 	// remove the Z-near to avoid portals from being near clipped
-	m_viewDef->frustum[4][3] -= r_znear.GetFloat();
+	tr.viewDef->frustums[FRUSTUM_PRIMARY][4][3] -= r_znear.GetFloat();
+
+	// RB begin
+	R_SetupSplitFrustums( tr.viewDef );
+	// RB end
 
 	// identify all the visible portal areas, and create view lights and view entities
 	// for all the the entityDefs and lightDefs that are in the visible portal areas
-	parms->renderWorld->FindViewLightsAndEntities();
+	static_cast<idRenderWorldLocal*>( parms->renderWorld )->FindViewLightsAndEntities();
 
 	// wait for any shadow volume jobs from the previous frame to finish
-	m_frontEndJobList->Wait();
+	tr.frontEndJobList->Wait();
 
 	// make sure that interactions exist for all light / entity combinations that are visible
 	// add any pre-generated light shadows, and calculate the light shader values
-	AddLights();
+	R_AddLights();
 
 	// adds ambient surfaces and create any necessary interaction surfaces to add to the light lists
-	AddModels();
+	R_AddModels();
 
 	// build up the GUIs on world surfaces
-	AddInGameGuis( m_viewDef->drawSurfs, m_viewDef->numDrawSurfs );
+	R_AddInGameGuis( tr.viewDef->drawSurfs, tr.viewDef->numDrawSurfs );
 
 	// any viewLight that didn't have visible surfaces can have it's shadows removed
-	R_OptimizeViewLightsList( &m_viewDef->viewLights );
+	R_OptimizeViewLightsList();
 
 	// sort all the ambient surfaces for translucency ordering
-	R_SortDrawSurfs( m_viewDef->drawSurfs, m_viewDef->numDrawSurfs );
+	R_SortDrawSurfs( tr.viewDef->drawSurfs, tr.viewDef->numDrawSurfs );
 
 	// generate any subviews (mirrors, cameras, etc) before adding this view
-	if ( GenerateSubViews( m_viewDef->drawSurfs, m_viewDef->numDrawSurfs ) ) {
+	if( R_GenerateSubViews( tr.viewDef->drawSurfs, tr.viewDef->numDrawSurfs ) )
+	{
 		// if we are debugging subviews, allow the skipping of the main view draw
-		if ( r_subviewOnly.GetBool() ) {
+		if( r_subviewOnly.GetBool() )
+		{
 			return;
 		}
 	}
 
+	// RB: find closest environment probe
+	if( tr.viewDef->areaNum != -1 && !tr.viewDef->isSubview )
+	{
+		float bestDist = 90000.0f;
+
+		for( viewEnvprobe_t* vProbe = tr.viewDef->viewEnvprobes; vProbe != NULL; vProbe = vProbe->next )
+		{
+			float dist = ( tr.viewDef->renderView.vieworg  - vProbe->globalOrigin ).LengthSqr();
+			if( dist < bestDist )
+			{
+				tr.viewDef->irradianceImage = vProbe->irradianceImage;
+				tr.viewDef->radianceImage = vProbe->radianceImage;
+
+				bestDist = dist;
+			}
+		}
+	}
+
+	// write everything needed to the demo file
+	if( common->WriteDemo() )
+	{
+		static_cast<idRenderWorldLocal*>( parms->renderWorld )->WriteVisibleDefs( tr.viewDef );
+	}
+
 	// add the rendering commands for this viewDef
-	AddDrawViewCmd( parms, false );
+	R_AddDrawViewCmd( parms, false );
 
 	// restore view in case we are a subview
-	m_viewDef = oldView;
+	tr.viewDef = oldView;
+}
+
+/*
+================
+R_RenderPostProcess
+
+Because R_RenderView may be called by subviews we have to make sure the post process
+pass happens after the active view and its subviews is done rendering.
+================
+*/
+void R_RenderPostProcess( viewDef_t* parms )
+{
+	viewDef_t* oldView = tr.viewDef;
+
+	R_AddDrawPostProcess( parms );
+
+	tr.viewDef = oldView;
 }

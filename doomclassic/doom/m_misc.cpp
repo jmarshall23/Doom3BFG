@@ -60,6 +60,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "dstrings.h"
 
 #include "m_misc.h"
+#include "d3xp/Game_local.h"
 
 //
 // M_DrawText
@@ -104,7 +105,7 @@ M_DrawText
 //
 // M_WriteFile
 //
-boolean M_WriteFile ( char const*	name, void*		source, int		length ) {
+bool M_WriteFile ( char const*	name, void*		source, int		length ) {
 	
 	idFile *		handle = NULL;
 	int		count;
@@ -156,7 +157,7 @@ int M_ReadFile ( char const*	name, byte**	buffer ) {
 //
 // Write a save game to the specified device using the specified game name.
 //
-static qboolean SaveGame( void* source, DWORD length )
+static qboolean SaveGame( void* source, int length )
 {
 	return false;
 }

@@ -2,28 +2,10 @@
 
 #pragma warning(disable : 4189)
 #pragma warning(disable : 4505)
-#include "../precompiled.h"
+#include "precompiled.h"
 #include "../Game_local.h"
 intptr_t idClass::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
-	if(functionNameHash == 63102) { // Spawn
-		Spawn();
-		return 0;
-	};
-	if(functionNameHash == 111043) { // CallSpawn
-		CallSpawn();
-		return 0;
-	};
-	if(functionNameHash == 150533) { // GetClassname
-		return (intptr_t)GetClassname();
-	};
-	if(functionNameHash == 168924) { // GetSuperclass
-		return (intptr_t)GetSuperclass();
-	};
-	if(functionNameHash == 310927) { // FindUninitializedMemory
-		FindUninitializedMemory();
-		return 0;
-	};
 	if(functionNameHash == 153439) { // Event_Remove
 		Event_Remove();
 		return 0;
@@ -2545,6 +2527,72 @@ intptr_t idLight::Invoke(const char *functionName) {
 	};
 	if(functionNameHash == 275399) { // Event_SetSoundHandles
 		Event_SetSoundHandles();
+		return 0;
+	};
+	return 0;
+
+};
+
+intptr_t EnvironmentProbe::Invoke(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		Spawn();
+		return 0;
+	};
+	if(functionNameHash == 61762) { // Think
+		Think();
+		return 0;
+	};
+	if(functionNameHash == 187806) { // FreeEnvprobeDef
+		FreeEnvprobeDef();
+		return 0;
+	};
+	if(functionNameHash == 90014) { // Present
+		Present();
+		return 0;
+	};
+	if(functionNameHash == 146975) { // GetBaseColor
+		GetBaseColor();
+		return 0;
+	};
+	if(functionNameHash == 22601) { // On
+		On();
+		return 0;
+	};
+	if(functionNameHash == 33983) { // Off
+		Off();
+		return 0;
+	};
+	if(functionNameHash == 254512) { // GetEnvprobeDefHandle
+		GetEnvprobeDefHandle();
+		return 0;
+	};
+	if(functionNameHash == 163688) { // SetLightLevel
+		SetLightLevel();
+		return 0;
+	};
+	if(functionNameHash == 218178) { // ShowEditingDialog
+		ShowEditingDialog();
+		return 0;
+	};
+	if(functionNameHash == 278761) { // ClientPredictionThink
+		ClientPredictionThink();
+		return 0;
+	};
+	if(functionNameHash == 121918) { // Event_Hide
+		Event_Hide();
+		return 0;
+	};
+	if(functionNameHash == 126868) { // Event_Show
+		Event_Show();
+		return 0;
+	};
+	if(functionNameHash == 97795) { // Event_On
+		Event_On();
+		return 0;
+	};
+	if(functionNameHash == 109741) { // Event_Off
+		Event_Off();
 		return 0;
 	};
 	return 0;

@@ -29,6 +29,9 @@ If you have questions concerning this license or the applicable additional terms
 #include "Precompiled.h"
 #include "globaldata.h"
 #include "Main.h"
+#include "sys/sys_signin.h"
+#include "d3xp/Game_local.h"
+
 
 #include <string.h>
 #include <stdlib.h>
@@ -74,9 +77,8 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "g_game.h"
 
-#include "../../neo/framework/UsercmdGen.h"
-#include "../../neo/framework/Common_dialog.h"
-#include "../../neo/sys/sys_signin.h"
+#include "framework/Common.h"
+#include "sys/sys_lobby.h"
 
 #include <limits>
 
@@ -1419,7 +1421,7 @@ qboolean G_DoLoadGame ()
 		loadingGame = false;
 		waitingForWipe = false;
 
-		return FALSE;				// bad version
+		return false;				// bad version
 	}
 
 	::g->save_p += VERSIONSIZE; 
@@ -1461,7 +1463,7 @@ qboolean G_DoLoadGame ()
 
 	Z_Free(g->savebuffer);
 
-	return TRUE;
+	return true;
 } 
 
 
@@ -1842,9 +1844,9 @@ void G_BeginRecording (void)
 //
 // G_PlayDemo 
 //
-void G_DeferedPlayDemo (char* name) 
+void G_DeferedPlayDemo (const char* name)
 { 
-	::g->defdemoname = name; 
+	::g->defdemoname = (char *)name;
 	::g->gameaction = ga_playdemo; 
 } 
 
@@ -1944,14 +1946,14 @@ void G_DoPlayDemo (void)
 //
 // G_TimeDemo 
 //
-void G_TimeDemo (char* name) 
+void G_TimeDemo (const char* name)
 { 	 
 	::g->nodrawers = M_CheckParm ("-nodraw"); 
 	::g->noblit = M_CheckParm ("-noblit"); 
 	::g->timingdemo = true; 
 	::g->singletics = true; 
 
-	::g->defdemoname = name; 
+	::g->defdemoname = (char *)name;
 	::g->gameaction = ga_playdemo; 
 } 
 

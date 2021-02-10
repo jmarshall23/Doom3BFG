@@ -2,10 +2,10 @@
 ===========================================================================
 
 Doom 3 BFG Edition GPL Source Code
-Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
 Copyright (C) 2016-2017 Dustin Land
 
-This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
 Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,9 +26,10 @@ If you have questions concerning this license or the applicable additional terms
 
 ===========================================================================
 */
-
 #pragma hdrstop
-#include "../../framework/precompiled.h"
+#include "precompiled.h"
+
+#include "../RenderCommon.h"
 #include "../RenderBackend.h"
 #include "Staging_VK.h"
 
@@ -50,12 +51,13 @@ idVulkanStagingManager::idVulkanStagingManager
 =============
 */
 idVulkanStagingManager::idVulkanStagingManager() :
-	m_maxBufferSize( 0 ),
-	m_currentBuffer( 0 ),
-	m_mappedData( NULL ),
-	m_memory( VK_NULL_HANDLE ),
-	m_commandPool( VK_NULL_HANDLE ) {
-	
+	maxBufferSize( 0 ),
+	currentBuffer( 0 ),
+	mappedData( NULL ),
+	memory( VK_NULL_HANDLE ),
+	commandPool( VK_NULL_HANDLE )
+{
+
 }
 
 /*
@@ -63,8 +65,9 @@ idVulkanStagingManager::idVulkanStagingManager() :
 idVulkanStagingManager::~idVulkanStagingManager
 =============
 */
-idVulkanStagingManager::~idVulkanStagingManager() {
-	
+idVulkanStagingManager::~idVulkanStagingManager()
+{
+
 }
 
 /*
@@ -72,22 +75,24 @@ idVulkanStagingManager::~idVulkanStagingManager() {
 idVulkanStagingManager::Init
 =============
 */
-void idVulkanStagingManager::Init() {
-	m_maxBufferSize = (size_t)( r_vkUploadBufferSizeMB.GetInteger() * 1024 * 1024 );
+void idVulkanStagingManager::Init()
+{
+	maxBufferSize = ( size_t )( r_vkUploadBufferSizeMB.GetInteger() * 1024 * 1024 );
 
 	VkBufferCreateInfo bufferCreateInfo = {};
 	bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-	bufferCreateInfo.size = m_maxBufferSize;
+	bufferCreateInfo.size = maxBufferSize;
 	bufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
 
-	for ( int i = 0; i < NUM_FRAME_DATA; ++i ) {
-		m_buffers[ i ].offset = 0;
+	for( int i = 0; i < NUM_FRAME_DATA; ++i )
+	{
+		buffers[ i ].offset = 0;
 
-		ID_VK_CHECK( vkCreateBuffer( vkcontext.device, &bufferCreateInfo, NULL, &m_buffers[ i ].buffer ) );
+		ID_VK_CHECK( vkCreateBuffer( vkcontext.device, &bufferCreateInfo, NULL, &buffers[ i ].buffer ) );
 	}
 
 	VkMemoryRequirements memoryRequirements;
-	vkGetBufferMemoryRequirements( vkcontext.device, m_buffers[ 0 ].buffer, &memoryRequirements );
+	vkGetBufferMemoryRequirements( vkcontext.device, buffers[ 0 ].buffer, &memoryRequirements );
 
 	const VkDeviceSize alignMod = memoryRequirements.size % memoryRequirements.alignment;
 	const VkDeviceSize alignedSize = ( alignMod == 0 ) ? memoryRequirements.size : ( memoryRequirements.size + memoryRequirements.alignment - alignMod );
@@ -97,23 +102,24 @@ void idVulkanStagingManager::Init() {
 	memoryAllocateInfo.allocationSize = alignedSize * NUM_FRAME_DATA;
 	memoryAllocateInfo.memoryTypeIndex = FindMemoryTypeIndex( memoryRequirements.memoryTypeBits, VULKAN_MEMORY_USAGE_CPU_TO_GPU );
 
-	ID_VK_CHECK( vkAllocateMemory( vkcontext.device, &memoryAllocateInfo, NULL, &m_memory ) );
+	ID_VK_CHECK( vkAllocateMemory( vkcontext.device, &memoryAllocateInfo, NULL, &memory ) );
 
-	for ( int i = 0; i < NUM_FRAME_DATA; ++i ) {
-		ID_VK_CHECK( vkBindBufferMemory( vkcontext.device, m_buffers[ i ].buffer, m_memory, i * alignedSize ) );
+	for( int i = 0; i < NUM_FRAME_DATA; ++i )
+	{
+		ID_VK_CHECK( vkBindBufferMemory( vkcontext.device, buffers[ i ].buffer, memory, i * alignedSize ) );
 	}
 
-	ID_VK_CHECK( vkMapMemory( vkcontext.device, m_memory, 0, alignedSize * NUM_FRAME_DATA, 0, reinterpret_cast< void ** >( &m_mappedData ) ) );
+	ID_VK_CHECK( vkMapMemory( vkcontext.device, memory, 0, alignedSize * NUM_FRAME_DATA, 0, reinterpret_cast< void** >( &mappedData ) ) );
 
 	VkCommandPoolCreateInfo commandPoolCreateInfo = {};
 	commandPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
 	commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 	commandPoolCreateInfo.queueFamilyIndex = vkcontext.graphicsFamilyIdx;
-	ID_VK_CHECK( vkCreateCommandPool( vkcontext.device, &commandPoolCreateInfo, NULL, &m_commandPool ) );
+	ID_VK_CHECK( vkCreateCommandPool( vkcontext.device, &commandPoolCreateInfo, NULL, &commandPool ) );
 
 	VkCommandBufferAllocateInfo commandBufferAllocateInfo = {};
 	commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-	commandBufferAllocateInfo.commandPool = m_commandPool;
+	commandBufferAllocateInfo.commandPool = commandPool;
 	commandBufferAllocateInfo.commandBufferCount = 1;
 
 	VkFenceCreateInfo fenceCreateInfo = {};
@@ -122,12 +128,13 @@ void idVulkanStagingManager::Init() {
 	VkCommandBufferBeginInfo commandBufferBeginInfo = {};
 	commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
-	for ( int i = 0; i < NUM_FRAME_DATA; ++i ) {
-		ID_VK_CHECK( vkAllocateCommandBuffers( vkcontext.device, &commandBufferAllocateInfo, &m_buffers[ i ].commandBuffer ) );
-		ID_VK_CHECK( vkCreateFence( vkcontext.device, &fenceCreateInfo, NULL, &m_buffers[ i ].fence ) );
-		ID_VK_CHECK( vkBeginCommandBuffer( m_buffers[ i ].commandBuffer, &commandBufferBeginInfo ) );
+	for( int i = 0; i < NUM_FRAME_DATA; ++i )
+	{
+		ID_VK_CHECK( vkAllocateCommandBuffers( vkcontext.device, &commandBufferAllocateInfo, &buffers[ i ].commandBuffer ) );
+		ID_VK_CHECK( vkCreateFence( vkcontext.device, &fenceCreateInfo, NULL, &buffers[ i ].fence ) );
+		ID_VK_CHECK( vkBeginCommandBuffer( buffers[ i ].commandBuffer, &commandBufferBeginInfo ) );
 
-		m_buffers[ i ].data = (byte *)m_mappedData + (i * alignedSize);
+		buffers[ i ].data = ( byte* )mappedData + ( i * alignedSize );
 	}
 }
 
@@ -136,20 +143,22 @@ void idVulkanStagingManager::Init() {
 idVulkanStagingManager::Shutdown
 =============
 */
-void idVulkanStagingManager::Shutdown() {
-	vkUnmapMemory( vkcontext.device, m_memory );
-	m_memory = VK_NULL_HANDLE;
-	m_mappedData = NULL;
+void idVulkanStagingManager::Shutdown()
+{
+	vkUnmapMemory( vkcontext.device, memory );
+	memory = VK_NULL_HANDLE;
+	mappedData = NULL;
 
-	for ( int i = 0; i < NUM_FRAME_DATA; ++i ) {
-		vkDestroyFence( vkcontext.device, m_buffers[ i ].fence, NULL );
-		vkDestroyBuffer( vkcontext.device, m_buffers[ i ].buffer, NULL );
-		vkFreeCommandBuffers( vkcontext.device, m_commandPool, 1, &m_buffers[ i ].commandBuffer );
+	for( int i = 0; i < NUM_FRAME_DATA; ++i )
+	{
+		vkDestroyFence( vkcontext.device, buffers[ i ].fence, NULL );
+		vkDestroyBuffer( vkcontext.device, buffers[ i ].buffer, NULL );
+		vkFreeCommandBuffers( vkcontext.device, commandPool, 1, &buffers[ i ].commandBuffer );
 	}
-	memset( m_buffers, 0, sizeof( m_buffers ) );
+	memset( buffers, 0, sizeof( buffers ) );
 
-	m_maxBufferSize = 0;
-	m_currentBuffer = 0;
+	maxBufferSize = 0;
+	currentBuffer = 0;
 }
 
 /*
@@ -157,21 +166,25 @@ void idVulkanStagingManager::Shutdown() {
 idVulkanStagingManager::Stage
 =============
 */
-byte * idVulkanStagingManager::Stage( const int size, const int alignment, VkCommandBuffer & commandBuffer, VkBuffer & buffer, int & bufferOffset ) {
-	if ( size > m_maxBufferSize ) {
-		idLib::FatalError( "Can't allocate %d MB in gpu transfer buffer", (int)( size / 1024 / 1024 ) );
+byte* idVulkanStagingManager::Stage( const int size, const int alignment, VkCommandBuffer& commandBuffer, VkBuffer& buffer, int& bufferOffset )
+{
+	if( size > maxBufferSize )
+	{
+		idLib::FatalError( "Can't allocate %d MB in gpu transfer buffer", ( int )( size / 1024 / 1024 ) );
 	}
 
-	stagingBuffer_t * stage = &m_buffers[ m_currentBuffer ];
+	stagingBuffer_t* stage = &buffers[ currentBuffer ];
 	const int alignMod = stage->offset % alignment;
 	stage->offset = ( ( stage->offset % alignment ) == 0 ) ? stage->offset : ( stage->offset + alignment - alignMod );
 
-	if ( ( stage->offset + size ) >= ( m_maxBufferSize ) && !stage->submitted ) {
+	if( ( stage->offset + size ) >= ( maxBufferSize ) && !stage->submitted )
+	{
 		Flush();
 	}
 
-	stage = &m_buffers[ m_currentBuffer ];
-	if ( stage->submitted ) {
+	stage = &buffers[ currentBuffer ];
+	if( stage->submitted )
+	{
 		Wait( *stage );
 	}
 
@@ -179,7 +192,7 @@ byte * idVulkanStagingManager::Stage( const int size, const int alignment, VkCom
 	buffer = stage->buffer;
 	bufferOffset = stage->offset;
 
-	byte * data = stage->data + stage->offset;
+	byte* data = stage->data + stage->offset;
 	stage->offset += size;
 
 	return data;
@@ -190,9 +203,11 @@ byte * idVulkanStagingManager::Stage( const int size, const int alignment, VkCom
 idVulkanStagingManager::Flush
 =============
 */
-void idVulkanStagingManager::Flush() {
-	stagingBuffer_t & stage = m_buffers[ m_currentBuffer ];
-	if ( stage.submitted || stage.offset == 0 ) {
+void idVulkanStagingManager::Flush()
+{
+	stagingBuffer_t& stage = buffers[ currentBuffer ];
+	if( stage.submitted || stage.offset == 0 )
+	{
 		return;
 	}
 
@@ -200,17 +215,17 @@ void idVulkanStagingManager::Flush() {
 	barrier.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
 	barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
 	barrier.dstAccessMask = VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT | VK_ACCESS_INDEX_READ_BIT;
-	vkCmdPipelineBarrier( 
-		stage.commandBuffer, 
-		VK_PIPELINE_STAGE_TRANSFER_BIT, 
-		VK_PIPELINE_STAGE_VERTEX_INPUT_BIT, 
+	vkCmdPipelineBarrier(
+		stage.commandBuffer,
+		VK_PIPELINE_STAGE_TRANSFER_BIT,
+		VK_PIPELINE_STAGE_VERTEX_INPUT_BIT,
 		0, 1, &barrier, 0, NULL, 0, NULL );
 
 	vkEndCommandBuffer( stage.commandBuffer );
 
 	VkMappedMemoryRange memoryRange = {};
 	memoryRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
-	memoryRange.memory = m_memory;
+	memoryRange.memory = memory;
 	memoryRange.size = VK_WHOLE_SIZE;
 	vkFlushMappedMemoryRanges( vkcontext.device, 1, &memoryRange );
 
@@ -223,7 +238,7 @@ void idVulkanStagingManager::Flush() {
 
 	stage.submitted = true;
 
-	m_currentBuffer = ( m_currentBuffer + 1 ) % NUM_FRAME_DATA;
+	currentBuffer = ( currentBuffer + 1 ) % NUM_FRAME_DATA;
 }
 
 /*
@@ -231,8 +246,10 @@ void idVulkanStagingManager::Flush() {
 idVulkanStagingManager::Wait
 =============
 */
-void idVulkanStagingManager::Wait( stagingBuffer_t & stage ) {
-	if ( stage.submitted == false ) {
+void idVulkanStagingManager::Wait( stagingBuffer_t& stage )
+{
+	if( stage.submitted == false )
+	{
 		return;
 	}
 

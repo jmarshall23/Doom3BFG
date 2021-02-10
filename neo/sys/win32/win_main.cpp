@@ -3,7 +3,7 @@
 
 Doom 3 BFG Edition GPL Source Code
 Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
-Copyright (C) 2016-2017 Dustin Land
+Copyright (C) 2012 Robert Beckebans
 
 This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
 
@@ -28,12 +28,17 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "../../idlib/precompiled.h"
-#include "../../renderer/RenderSystem.h"
+#include "precompiled.h"
 
+#include <errno.h>
+#include <float.h>
+#include <fcntl.h>
 #include <direct.h>
 #include <io.h>
-#include <Shlobj.h>
+#include <conio.h>
+#include <mapi.h>
+#include <shellapi.h>
+#include <shlobj.h>
 
 #ifndef __MRC__
 #include <sys/types.h>
@@ -42,16 +47,22 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "../sys_local.h"
 #include "win_local.h"
+#include "../../renderer/RenderCommon.h"
 
-idCVar sys_arch( "sys_arch", "", CVAR_SYSTEM | CVAR_INIT, "" );
-idCVar sys_cpustring( "sys_cpustring", "detect", CVAR_SYSTEM | CVAR_INIT, "" );
-idCVar win_allowMultipleInstances( "win_allowMultipleInstances", "0", CVAR_SYSTEM | CVAR_BOOL, "allow multiple instances running concurrently" );
+idCVar Win32Vars_t::sys_arch( "sys_arch", "", CVAR_SYSTEM | CVAR_INIT, "" );
+idCVar Win32Vars_t::sys_cpustring( "sys_cpustring", "detect", CVAR_SYSTEM | CVAR_INIT, "" );
+idCVar Win32Vars_t::in_mouse( "in_mouse", "1", CVAR_SYSTEM | CVAR_BOOL, "enable mouse input" );
+idCVar Win32Vars_t::win_allowAltTab( "win_allowAltTab", "0", CVAR_SYSTEM | CVAR_BOOL, "allow Alt-Tab when fullscreen" );
+idCVar Win32Vars_t::win_notaskkeys( "win_notaskkeys", "0", CVAR_SYSTEM | CVAR_INTEGER, "disable windows task keys" );
+idCVar Win32Vars_t::win_username( "win_username", "", CVAR_SYSTEM | CVAR_INIT, "windows user name" );
+idCVar Win32Vars_t::win_outputEditString( "win_outputEditString", "1", CVAR_SYSTEM | CVAR_BOOL, "" );
+idCVar Win32Vars_t::win_viewlog( "win_viewlog", "0", CVAR_SYSTEM | CVAR_INTEGER, "" );
+idCVar Win32Vars_t::win_timerUpdate( "win_timerUpdate", "0", CVAR_SYSTEM | CVAR_BOOL, "allows the game to be updated while dragging the window" );
+idCVar Win32Vars_t::win_allowMultipleInstances( "win_allowMultipleInstances", "0", CVAR_SYSTEM | CVAR_BOOL, "allow multiple instances running concurrently" );
 
 Win32Vars_t	win32;
 
-extern idCVar win_viewlog;
-
-static char sys_cmdline[ MAX_STRING_CHARS ];
+static char		sys_cmdline[MAX_STRING_CHARS];
 
 static sysMemoryStats_t exeLaunchMemoryStats;
 
@@ -64,6 +75,14 @@ Sys_GetExeLaunchMemoryStatus
 */
 void Sys_GetExeLaunchMemoryStatus( sysMemoryStats_t &stats ) {
 	stats = exeLaunchMemoryStats;
+}
+
+/*
+==================
+Sys_Sentry
+==================
+*/
+void Sys_Sentry() {
 }
 
 
@@ -159,8 +178,8 @@ Sys_DebugMemory_f
 ==================
 */
 void Sys_DebugMemory_f() {
-  	idLib::Printf( "Total allocation %8dk in %d blocks\n", debug_total_alloc / 1024, debug_total_alloc_count );
-  	idLib::Printf( "Current allocation %8dk in %d blocks\n", debug_current_alloc / 1024, debug_current_alloc_count );
+  	common->Printf( "Total allocation %8dk in %d blocks\n", debug_total_alloc / 1024, debug_total_alloc_count );
+  	common->Printf( "Current allocation %8dk in %d blocks\n", debug_current_alloc / 1024, debug_current_alloc_count );
 }
 
 /*
@@ -170,7 +189,7 @@ Sys_MemFrame
 */
 void Sys_MemFrame() {
 	if( sys_showMallocs.GetInteger() ) {
-		idLib::Printf("Frame: %8dk in %5d blocks\n", debug_frame_alloc / 1024, debug_frame_alloc_count );
+		common->Printf("Frame: %8dk in %5d blocks\n", debug_frame_alloc / 1024, debug_frame_alloc_count );
 	}
 
 	debug_frame_alloc = 0;
@@ -178,6 +197,17 @@ void Sys_MemFrame() {
 }
 
 #endif
+
+/*
+==================
+Sys_FlushCacheMemory
+
+On windows, the vertex buffers are write combined, so they
+don't need to be flushed from the cache
+==================
+*/
+void Sys_FlushCacheMemory( void *base, int bytes ) {
+}
 
 /*
 =============
@@ -205,7 +235,7 @@ void Sys_Error( const char *error, ... ) {
 
 	Sys_ShutdownInput();
 
-	renderSystem->Shutdown();
+	GLimp_Shutdown();
 
 	extern idCVar com_productionMode;
 	if ( com_productionMode.GetInteger() == 0 ) {
@@ -260,7 +290,7 @@ const char * Sys_GetCmdLine() {
 Sys_ReLaunch
 ========================
 */
-void Sys_ReLaunch( void * data, const unsigned int dataSize ) {
+void Sys_ReLaunch() {
 	TCHAR				szPathOrig[MAX_PRINT_MSG];
 	STARTUPINFO			si;
 	PROCESS_INFORMATION	pi;
@@ -268,7 +298,17 @@ void Sys_ReLaunch( void * data, const unsigned int dataSize ) {
 	ZeroMemory( &si, sizeof(si) );
 	si.cb = sizeof(si);
 
-	strcpy( szPathOrig, va( "\"%s\" %s", Sys_EXEPath(), (const char *)data ) );
+	// DG: we don't have function arguments in Sys_ReLaunch() anymore, everyone only passed
+	//     the command-line +" +set com_skipIntroVideos 1" anyway and it was painful on POSIX systems
+	//     so let's just add it here.
+	idStr cmdLine = Sys_GetCmdLine();
+	if( cmdLine.Find( "com_skipIntroVideos" ) < 0 )
+	{
+		cmdLine.Append( " +set com_skipIntroVideos 1" );
+	}
+
+	strcpy( szPathOrig, va( "\"%s\" %s", Sys_EXEPath(), cmdLine.c_str() ) );
+	// DG end
 
 	CloseHandle( hProcessMutex );
 
@@ -309,7 +349,7 @@ void Sys_Printf( const char *fmt, ... ) {
 
 	OutputDebugString( msg );
 
-	if ( idLib::IsMainThread() ) {
+	if ( win32.win_outputEditString.GetBool() && idLib::IsMainThread() ) {
 		Conbuf_AppendText( msg );
 	}
 }
@@ -501,7 +541,15 @@ const char *Sys_DefaultSavePath() {
 		SHGetKnownFolderPath_t SHGetKnownFolderPath = (SHGetKnownFolderPath_t)GetProcAddress( hShell, "SHGetKnownFolderPath" );
 		if ( SHGetKnownFolderPath ) {
 			wchar_t * path;
-			if ( SUCCEEDED( SHGetKnownFolderPath( FOLDERID_SavedGames_IdTech5, CSIDL_FLAG_CREATE | CSIDL_FLAG_PER_USER_INIT, 0, &path ) ) ) {
+
+			// RB FIXME?
+#if defined(__MINGW32__)
+			if ( SUCCEEDED( SHGetKnownFolderPath( FOLDERID_SavedGames_IdTech5, CSIDL_FLAG_CREATE, 0, &path ) ) )
+#else
+			if ( SUCCEEDED( SHGetKnownFolderPath( FOLDERID_SavedGames_IdTech5, CSIDL_FLAG_CREATE | CSIDL_FLAG_PER_USER_INIT, 0, &path ) ) )
+#endif
+			// RB end
+			{
 				if ( wcstombs( savePath, path, MAX_PATH ) > MAX_PATH ) {
 					savePath[0] = 0;
 				}
@@ -511,8 +559,15 @@ const char *Sys_DefaultSavePath() {
 		FreeLibrary( hShell );
 	}
 
-	if ( savePath[0] == 0 ) {
+	if ( savePath[0] == 0 )
+	{
+		// RB: looks like a bug in the shlobj.h
+#if defined(__MINGW32__)
+		SHGetFolderPath( NULL, CSIDL_PERSONAL | CSIDL_FLAG_CREATE, NULL, 1, savePath );
+#else
 		SHGetFolderPath( NULL, CSIDL_PERSONAL | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, savePath );
+#endif
+		// RB end
 		strcat( savePath, "\\My Games" );
 	}
 
@@ -540,7 +595,9 @@ Sys_ListFiles
 int Sys_ListFiles( const char *directory, const char *extension, idStrList &list ) {
 	idStr		search;
 	struct _finddata_t findinfo;
-	int			findhandle;
+	// RB: 64 bit fixes, changed int to intptr_t
+	intptr_t	findhandle;
+	// RB end
 	int			flag;
 
 	if ( !extension) {
@@ -817,7 +874,9 @@ DLL Loading
 Sys_DLL_Load
 =====================
 */
-int Sys_DLL_Load( const char *dllName ) {
+// RB: 64 bit fixes, changed int to intptr_t
+intptr_t Sys_DLL_Load( const char *dllName )
+{
 	HINSTANCE libHandle = LoadLibrary( dllName );
 	return (int)libHandle;
 }
@@ -827,8 +886,10 @@ int Sys_DLL_Load( const char *dllName ) {
 Sys_DLL_GetProcAddress
 =====================
 */
-void *Sys_DLL_GetProcAddress( int dllHandle, const char *procName ) {
-	return GetProcAddress( (HINSTANCE)dllHandle, procName ); 
+void *Sys_DLL_GetProcAddress( intptr_t dllHandle, const char *procName )
+{
+	// RB: added missing cast
+	return ( void* ) GetProcAddress( (HINSTANCE)dllHandle, procName );
 }
 
 /*
@@ -836,11 +897,15 @@ void *Sys_DLL_GetProcAddress( int dllHandle, const char *procName ) {
 Sys_DLL_Unload
 =====================
 */
-void Sys_DLL_Unload( int dllHandle ) {
-	if ( !dllHandle ) {
+void Sys_DLL_Unload( intptr_t dllHandle )
+{
+	if( !dllHandle )
+	{
 		return;
 	}
-	if ( FreeLibrary( (HINSTANCE)dllHandle ) == 0 ) {
+	
+	if( FreeLibrary( (HINSTANCE)dllHandle ) == 0 )
+	{
 		int lastError = GetLastError();
 		LPVOID lpMsgBuf;
 		FormatMessage(
@@ -852,9 +917,11 @@ void Sys_DLL_Unload( int dllHandle ) {
 			0,
 			NULL 
 		);
+
 		Sys_Error( "Sys_DLL_Unload: FreeLibrary failed - %s (%d)", lpMsgBuf, lastError );
 	}
 }
+// RB end
 
 /*
 ========================================================================
@@ -883,7 +950,7 @@ void Sys_QueEvent( sysEventType_t type, int value, int value2, int ptrLength, vo
 	sysEvent_t * ev = &eventQue[ eventHead & MASK_QUED_EVENTS ];
 
 	if ( eventHead - eventTail >= MAX_QUED_EVENTS ) {
-		idLib::Printf("Sys_QueEvent: overflow\n");
+		common->Printf("Sys_QueEvent: overflow\n");
 		// we are discarding an event, but don't leak memory
 		if ( ev->evPtr ) {
 			Mem_Free( ev->evPtr );
@@ -920,7 +987,7 @@ void Sys_PumpEvents() {
 		// save the msg time, because wndprocs don't have access to the timestamp
 		if ( win32.sysMsgTime && win32.sysMsgTime > (int)msg.time ) {
 			// don't ever let the event times run backwards	
-//			idLib::Printf( "Sys_PumpEvents: win32.sysMsgTime (%i) > msg.time (%i)\n", win32.sysMsgTime, msg.time );
+//			common->Printf( "Sys_PumpEvents: win32.sysMsgTime (%i) > msg.time (%i)\n", win32.sysMsgTime, msg.time );
 		} else {
 			win32.sysMsgTime = msg.time;
 		}
@@ -1017,7 +1084,7 @@ returns true if there is a copy of D3 running already
 */
 bool Sys_AlreadyRunning() {
 #ifndef DEBUG
-	if ( !win_allowMultipleInstances.GetBool() ) {
+	if ( !win32.win_allowMultipleInstances.GetBool() ) {
 		hProcessMutex = ::CreateMutex( NULL, FALSE, "DOOM3" );
 		if ( ::GetLastError() == ERROR_ALREADY_EXISTS || ::GetLastError() == ERROR_ACCESS_DENIED ) {
 			return true;
@@ -1034,6 +1101,9 @@ Sys_Init
 The cvar system must already be setup
 ================
 */
+#define OSR2_BUILD_NUMBER 1111
+#define WIN98_BUILD_NUMBER 1998
+
 void Sys_Init() {
 
 	CoInitialize( NULL );
@@ -1042,6 +1112,11 @@ void Sys_Init() {
 //	SetTimer( NULL, 0, 100, NULL );
 
 	cmdSystem->AddCommand( "in_restart", Sys_In_Restart_f, CMD_FL_SYSTEM, "restarts the input system" );
+
+	//
+	// Windows user name
+	//
+	win32.win_username.SetString( Sys_GetCurrentUser() );
 
 	//
 	// Windows version
@@ -1060,48 +1135,54 @@ void Sys_Init() {
 
 	if( win32.osversion.dwPlatformId == VER_PLATFORM_WIN32_NT ) {
 		if( win32.osversion.dwMajorVersion <= 4 ) {
-			sys_arch.SetString( "WinNT (NT)" );
+			win32.sys_arch.SetString( "WinNT (NT)" );
 		} else if( win32.osversion.dwMajorVersion == 5 && win32.osversion.dwMinorVersion == 0 ) {
-			sys_arch.SetString( "Win2K (NT)" );
+			win32.sys_arch.SetString( "Win2K (NT)" );
 		} else if( win32.osversion.dwMajorVersion == 5 && win32.osversion.dwMinorVersion == 1 ) {
-			sys_arch.SetString( "WinXP (NT)" );
-		} else if ( win32.osversion.dwMajorVersion == 6 ) {
-			sys_arch.SetString( "Vista" );
+			win32.sys_arch.SetString( "WinXP (NT)" );
+		} else if( win32.osversion.dwMajorVersion == 6 ) {
+			win32.sys_arch.SetString( "Vista" );
+		} else if( win32.osversion.dwMajorVersion == 6 && win32.osversion.dwMinorVersion == 1 ) {
+			win32.sys_arch.SetString( "Win7" );
+		} else if( win32.osversion.dwMajorVersion == 6 && win32.osversion.dwMinorVersion == 2 ) {
+			win32.sys_arch.SetString( "Win8" );
+		} else if( win32.osversion.dwMajorVersion == 6 && win32.osversion.dwMinorVersion == 3 ) {
+			win32.sys_arch.SetString( "Win8.1" );
 		} else {
-			sys_arch.SetString( "Unknown NT variant" );
+			win32.sys_arch.SetString( "Unknown NT variant" );
 		}
 	} else if( win32.osversion.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS ) {
 		if( win32.osversion.dwMajorVersion == 4 && win32.osversion.dwMinorVersion == 0 ) {
 			// Win95
 			if( win32.osversion.szCSDVersion[1] == 'C' ) {
-				sys_arch.SetString( "Win95 OSR2 (95)" );
+				win32.sys_arch.SetString( "Win95 OSR2 (95)" );
 			} else {
-				sys_arch.SetString( "Win95 (95)" );
+				win32.sys_arch.SetString( "Win95 (95)" );
 			}
 		} else if( win32.osversion.dwMajorVersion == 4 && win32.osversion.dwMinorVersion == 10 ) {
 			// Win98
 			if( win32.osversion.szCSDVersion[1] == 'A' ) {
-				sys_arch.SetString( "Win98SE (95)" );
+				win32.sys_arch.SetString( "Win98SE (95)" );
 			} else {
-				sys_arch.SetString( "Win98 (95)" );
+				win32.sys_arch.SetString( "Win98 (95)" );
 			}
 		} else if( win32.osversion.dwMajorVersion == 4 && win32.osversion.dwMinorVersion == 90 ) {
 			// WinMe
-		  	sys_arch.SetString( "WinMe (95)" );
+		  	win32.sys_arch.SetString( "WinMe (95)" );
 		} else {
-		  	sys_arch.SetString( "Unknown 95 variant" );
+		  	win32.sys_arch.SetString( "Unknown 95 variant" );
 		}
 	} else {
-		sys_arch.SetString( "unknown Windows variant" );
+		win32.sys_arch.SetString( "unknown Windows variant" );
 	}
 
 	//
 	// CPU type
 	//
-	if ( !idStr::Icmp( sys_cpustring.GetString(), "detect" ) ) {
+	if ( !idStr::Icmp( win32.sys_cpustring.GetString(), "detect" ) ) {
 		idStr string;
 
-		idLib::Printf( "%1.0f MHz ", Sys_ClockTicksPerSecond() / 1000000.0f );
+		common->Printf( "%1.0f MHz ", Sys_ClockTicksPerSecond() / 1000000.0f );
 
 		win32.cpuid = Sys_GetCPUId();
 
@@ -1138,10 +1219,10 @@ void Sys_Init() {
 		}
 		string.StripTrailing( " & " );
 		string.StripTrailing( " with " );
-		sys_cpustring.SetString( string );
+		win32.sys_cpustring.SetString( string );
 	} else {
-		idLib::Printf( "forcing CPU type to " );
-		idLexer src( sys_cpustring.GetString(), idStr::Length( sys_cpustring.GetString() ), "sys_cpustring" );
+		common->Printf( "forcing CPU type to " );
+		idLexer src( win32.sys_cpustring.GetString(), idStr::Length( win32.sys_cpustring.GetString() ), "sys_cpustring" );
 		idToken token;
 
 		int id = CPUID_NONE;
@@ -1167,17 +1248,15 @@ void Sys_Init() {
 			}
 		}
 		if ( id == CPUID_NONE ) {
-			idLib::Printf( "WARNING: unknown sys_cpustring '%s'\n", sys_cpustring.GetString() );
+			common->Printf( "WARNING: unknown sys_cpustring '%s'\n", win32.sys_cpustring.GetString() );
 			id = CPUID_GENERIC;
 		}
 		win32.cpuid = (cpuid_t) id;
 	}
 
-	idLib::Printf( "%s\n", sys_cpustring.GetString() );
-	idLib::Printf( "%d MB System Memory\n", Sys_GetSystemRam() );
-	idLib::Printf( "%d MB Video Memory\n", Sys_GetVideoRam() );
+	common->Printf( "%s\n", win32.sys_cpustring.GetString() );
 	if ( ( win32.cpuid & CPUID_SSE2 ) == 0 ) {
-		idLib::Error( "SSE2 not supported!" );
+		common->Error( "SSE2 not supported!" );
 	}
 
 	win32.g_Joystick.Init();
@@ -1207,12 +1286,25 @@ Sys_GetProcessorString
 ================
 */
 const char *Sys_GetProcessorString() {
-	return sys_cpustring.GetString();
+	return win32.sys_cpustring.GetString();
 }
 
 //=======================================================================
 
 //#define SET_THREAD_AFFINITY
+
+
+/*
+====================
+Win_Frame
+====================
+*/
+void Win_Frame() {
+	// if "viewlog" has been modified, show or hide the log console
+	if ( win32.win_viewlog.IsModified() ) {
+		win32.win_viewlog.ClearModified();
+	}
+}
 
 /*
 ====================
@@ -1244,6 +1336,57 @@ const char *GetExceptionCodeInfo( UINT code ) {
 		default: return "Unknown exception";
 	}
 }
+
+/*
+====================
+EmailCrashReport
+
+  emailer originally from Raven/Quake 4
+====================
+*/
+void EmailCrashReport( LPSTR messageText ) {
+	static int lastEmailTime = 0;
+
+	if ( Sys_Milliseconds() < lastEmailTime + 10000 ) {
+		return;
+	}
+
+	lastEmailTime = Sys_Milliseconds();
+
+	HINSTANCE mapi = LoadLibrary( "MAPI32.DLL" ); 
+	if( mapi ) {
+		LPMAPISENDMAIL	MAPISendMail = ( LPMAPISENDMAIL )GetProcAddress( mapi, "MAPISendMail" );
+		if( MAPISendMail ) {
+			MapiRecipDesc toProgrammers =
+			{
+				0,										// ulReserved
+					MAPI_TO,							// ulRecipClass
+					"DOOM 3 Crash",						// lpszName
+					"SMTP:programmers@idsoftware.com",	// lpszAddress
+					0,									// ulEIDSize
+					0									// lpEntry
+			};
+
+			MapiMessage		message = {};
+			message.lpszSubject = "DOOM 3 Fatal Error";
+			message.lpszNoteText = messageText;
+			message.nRecipCount = 1;
+			message.lpRecips = &toProgrammers;
+
+			MAPISendMail(
+				0,									// LHANDLE lhSession
+				0,									// ULONG ulUIParam
+				&message,							// lpMapiMessage lpMessage
+				MAPI_DIALOG,						// FLAGS flFlags
+				0									// ULONG ulReserved
+				);
+		}
+		FreeLibrary( mapi );
+	}
+}
+
+// RB: disabled unused FPU exception debugging
+#if !defined(__MINGW32__) && !defined(_WIN64)
 
 int Sys_FPU_PrintStateFlags( char *ptr, int ctrl, int stat, int tags, int inof, int inse, int opof, int opse );
 
@@ -1311,11 +1454,14 @@ EXCEPTION_DISPOSITION __cdecl _except_handler( struct _EXCEPTION_RECORD *Excepti
 			FPUFlags
 		);
 
+	EmailCrashReport( msg );
 	common->FatalError( msg );
 
     // Tell the OS to restart the faulting instruction
     return ExceptionContinueExecution;
 }
+#endif
+// RB end
 
 #define TEST_FPU_EXCEPTIONS	/*	FPU_EXCEPTION_INVALID_OPERATION |		*/	\
 							/*	FPU_EXCEPTION_DENORMALIZED_OPERAND |	*/	\
@@ -1337,6 +1483,16 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	Sys_SetPhysicalWorkMemory( 192 << 20, 1024 << 20 );
 
 	Sys_GetCurrentMemoryStatus( exeLaunchMemoryStats );
+
+#if 0
+    DWORD handler = (DWORD)_except_handler;
+    __asm
+    {                           // Build EXCEPTION_REGISTRATION record:
+        push    handler         // Address of handler function
+        push    FS:[0]          // Address of previous handler
+        mov     FS:[0],ESP      // Install new EXECEPTION_REGISTRATION
+    }
+#endif
 
 	win32.hInstance = hInstance;
 	idStr::Copynz( sys_cmdline, lpCmdLine, sizeof( sys_cmdline ) );
@@ -1369,11 +1525,15 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	common->Init( 0, NULL, lpCmdLine );
 
 #if TEST_FPU_EXCEPTIONS != 0
-	idLib::Printf( Sys_FPU_GetState() );
+	common->Printf( Sys_FPU_GetState() );
 #endif
 
+	if ( win32.win_notaskkeys.GetInteger() ) {
+		DisableTaskKeys( TRUE, FALSE, /*( win32.win_notaskkeys.GetInteger() == 2 )*/ FALSE );
+	}
+
 	// hide or show the early console as necessary
-	if ( win_viewlog.GetInteger() ) {
+	if ( win32.win_viewlog.GetInteger() ) {
 		Sys_ShowConsole( 1, true );
 	} else {
 		Sys_ShowConsole( 0, false );
@@ -1391,10 +1551,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     // main game loop
 	while( 1 ) {
 
-		// if "viewlog" has been modified, show or hide the log console
-		if ( win_viewlog.IsModified() ) {
-			win_viewlog.ClearModified();
-		}
+		Win_Frame();
 
 #ifdef DEBUG
 		Sys_MemFrame();
@@ -1425,10 +1582,10 @@ void idSysLocal::OpenURL( const char *url, bool doexit ) {
 		return;
 	}
 
-	idLib::Printf("Open URL: %s\n", url);
+	common->Printf("Open URL: %s\n", url);
 
 	if ( !ShellExecute( NULL, "open", url, NULL, NULL, SW_RESTORE ) ) {
-		idLib::Error( "Could not open url: '%s' ", url );
+		common->Error( "Could not open url: '%s' ", url );
 		return;
 	}
 
@@ -1459,7 +1616,7 @@ void idSysLocal::StartProcess( const char *exePath, bool doexit ) {
 	strncpy( szPathOrig, exePath, _MAX_PATH );
 
 	if( !CreateProcess( NULL, szPathOrig, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi ) ) {
-        idLib::Error( "Could not start process: '%s' ", szPathOrig );
+        common->Error( "Could not start process: '%s' ", szPathOrig );
 	    return;
 	}
 
@@ -1469,17 +1626,19 @@ void idSysLocal::StartProcess( const char *exePath, bool doexit ) {
 }
 
 /*
+==================
+Sys_SetFatalError
+==================
+*/
+void Sys_SetFatalError( const char *error ) {
+}
+
+/*
 ================
 Sys_SetLanguageFromSystem
 ================
 */
 extern idCVar sys_lang;
 void Sys_SetLanguageFromSystem() {
-	const char * defaultLang = Sys_DefaultLanguage();
-	const char * desiredLang = sys_lang.GetString();
-	if ( fileSystem->GetFileLength( va( "strings/%s.lang", desiredLang ) ) ) {
-		sys_lang.SetString( desiredLang );
-	} else {
-		sys_lang.SetString( defaultLang );
-	}
+	sys_lang.SetString( Sys_DefaultLanguage() );
 }

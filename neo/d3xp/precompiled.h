@@ -43,7 +43,6 @@ If you have questions concerning this license or the applicable additional terms
 #include "../framework/DeclPDA.h"
 
 // renderer
-#include "../renderer/RenderConfig.h"
 #include "../renderer/Cinematic.h"
 #include "../renderer/Material.h"
 #include "../renderer/RenderCommon.h"

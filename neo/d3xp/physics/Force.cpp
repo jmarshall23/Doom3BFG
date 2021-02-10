@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 BFG Edition GPL Source Code
-Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
 Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,7 +27,9 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "../precompiled.h"
+#include "precompiled.h"
+
+
 #include "../Game_local.h"
 
 CLASS_DECLARATION( idClass, idForce )
@@ -40,7 +42,8 @@ idList<idForce*, TAG_IDLIB_LIST_PHYSICS> idForce::forceList;
 idForce::idForce
 ================
 */
-idForce::idForce() {
+idForce::idForce()
+{
 	forceList.Append( this );
 }
 
@@ -49,7 +52,8 @@ idForce::idForce() {
 idForce::~idForce
 ================
 */
-idForce::~idForce() {
+idForce::~idForce()
+{
 	forceList.Remove( this );
 }
 
@@ -58,10 +62,12 @@ idForce::~idForce() {
 idForce::DeletePhysics
 ================
 */
-void idForce::DeletePhysics( const idPhysics *phys ) {
+void idForce::DeletePhysics( const idPhysics* phys )
+{
 	int i;
 
-	for ( i = 0; i < forceList.Num(); i++ ) {
+	for( i = 0; i < forceList.Num(); i++ )
+	{
 		forceList[i]->RemovePhysics( phys );
 	}
 }
@@ -71,7 +77,8 @@ void idForce::DeletePhysics( const idPhysics *phys ) {
 idForce::ClearForceList
 ================
 */
-void idForce::ClearForceList() {
+void idForce::ClearForceList()
+{
 	forceList.Clear();
 }
 
@@ -80,7 +87,8 @@ void idForce::ClearForceList() {
 idForce::Evaluate
 ================
 */
-void idForce::Evaluate( int time ) {
+void idForce::Evaluate( int time )
+{
 }
 
 /*
@@ -88,5 +96,6 @@ void idForce::Evaluate( int time ) {
 idForce::RemovePhysics
 ================
 */
-void idForce::RemovePhysics( const idPhysics *phys ) {
+void idForce::RemovePhysics( const idPhysics* phys )
+{
 }

@@ -1,4 +1,4 @@
-#include "../idlib/precompiled.h"
+#include "precompiled.h"
 #include "../sys/sys_local.h"
 #include "../framework/EventLoop.h"
 #include "../framework/DeclManager.h"
@@ -60,7 +60,9 @@ Sys_ListFiles
 int Sys_ListFiles(const char* directory, const char* extension, idStrList& list) {
 	idStr		search;
 	struct _finddata_t findinfo;
-	int			findhandle;
+	// RB: 64 bit fixes, changed int to intptr_t
+	intptr_t	findhandle;
+	// RB end
 	int			flag;
 
 	if (!extension) {
@@ -98,9 +100,6 @@ int Sys_ListFiles(const char* directory, const char* extension, idStrList& list)
 }
 
 
-class idCommonDialog {
-
-};
 
 int idEventLoop::JournalLevel(void) const  {
 	return 0;
@@ -336,11 +335,14 @@ public:
 	virtual bool				JapaneseCensorship() const { return false; };
 	
 	virtual void				QueueShowShell() { };		// Will activate the shell on the next frame.
-	
-	virtual currentGame_t		GetCurrentGame() const {
-		return DOOM_CLASSIC;
-	};
-	virtual void				SwitchToGame(currentGame_t newGame) { };
+	virtual void idCommon::UpdateScreen(bool, bool) { }
+	void idCommon::InitTool(const toolFlag_t, const idDict*, idEntity*) { }
+	idDemoFile* idCommon::ReadDemo(void) { return NULL; }
+	idDemoFile* idCommon::WriteDemo(void) { return NULL; }
+	//virtual currentGame_t		GetCurrentGame() const {
+	//	return DOOM_CLASSIC;
+	//};
+	//virtual void				SwitchToGame(currentGame_t newGame) { };
 };
 
 idCommonLocal		commonLocal;

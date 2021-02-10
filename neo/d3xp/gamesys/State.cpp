@@ -1,5 +1,4 @@
-#pragma hdrstop
-#include "../precompiled.h"
+#include "precompiled.h"
 
 #include "../Game_local.h"
 
@@ -167,7 +166,7 @@ void rvStateThread::Clear ( bool ignoreStateCalls ) {
 	for( call = states.Next(); call != NULL; call = states.Next() ) {
 		if ( !ignoreStateCalls && (call->flags & (SFLAG_ONCLEAR|SFLAG_ONCLEARONLY) ) ) {
 			//owner->ProcessState ( call->state, call->parms );
-			owner->SetStateParms(call->parms);
+			//owner->SetStateParms(call->parms);
 			owner->Invoke(call->state);
 		}
 		call->node.Remove();
@@ -178,7 +177,7 @@ void rvStateThread::Clear ( bool ignoreStateCalls ) {
 	for( call = interrupted.Next(); call != NULL; call = interrupted.Next() ) {
 		if ( !ignoreStateCalls && (call->flags & (SFLAG_ONCLEAR|SFLAG_ONCLEARONLY) ) ) {
 			//owner->ProcessState ( call->state, call->parms );
-			owner->SetStateParms(call->parms);
+		//	owner->SetStateParms(call->parms);
 			owner->Invoke(call->state);
 		}
 		call->node.Remove();
@@ -276,7 +275,7 @@ stateResult_t rvStateThread::Execute ( void ) {
 		stateStage = call->parms.stage;
 		
 		// Actually call the state function 		
-		owner->SetStateParms(call->parms);
+		//owner->SetStateParms(call->parms);
 		lastResult = (stateResult_t)owner->Invoke ( call->state );		
 		switch ( lastResult ) {
 			case SRESULT_WAIT:

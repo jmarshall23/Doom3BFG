@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 BFG Edition GPL Source Code
-Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").  
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
 Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +29,8 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __HEAP_VK_H__
 #define __HEAP_VK_H__
 
-enum vulkanMemoryUsage_t {
+enum vulkanMemoryUsage_t
+{
 	VULKAN_MEMORY_USAGE_UNKNOWN,
 	VULKAN_MEMORY_USAGE_GPU_ONLY,
 	VULKAN_MEMORY_USAGE_CPU_ONLY,
@@ -38,7 +39,8 @@ enum vulkanMemoryUsage_t {
 	VULKAN_MEMORY_USAGES,
 };
 
-enum vulkanAllocationType_t {
+enum vulkanAllocationType_t
+{
 	VULKAN_ALLOCATION_TYPE_FREE,
 	VULKAN_ALLOCATION_TYPE_BUFFER,
 	VULKAN_ALLOCATION_TYPE_IMAGE,
@@ -50,22 +52,24 @@ enum vulkanAllocationType_t {
 uint32 FindMemoryTypeIndex( const uint32 memoryTypeBits, const vulkanMemoryUsage_t usage );
 
 class idVulkanBlock;
-struct vulkanAllocation_t {
-	vulkanAllocation_t() : 
+struct vulkanAllocation_t
+{
+	vulkanAllocation_t() :
 		block( NULL ),
 		id( 0 ),
-		deviceMemory( VK_NULL_HANDLE ), 
-		offset( 0 ), 
+		deviceMemory( VK_NULL_HANDLE ),
+		offset( 0 ),
 		size( 0 ),
-		data( NULL ) {
+		data( NULL )
+	{
 	}
 
-	idVulkanBlock * block;
+	idVulkanBlock* block;
 	uint32			id;
 	VkDeviceMemory	deviceMemory;
 	VkDeviceSize	offset;
 	VkDeviceSize	size;
-	byte *			data;
+	byte* 			data;
 };
 
 /*
@@ -76,8 +80,9 @@ idVulkanBlock
 ================================================================================================
 */
 
-class idVulkanBlock {
-friend class idVulkanAllocator;
+class idVulkanBlock
+{
+	friend class idVulkanAllocator;
 public:
 	idVulkanBlock( const uint32 memoryTypeIndex, const VkDeviceSize size, vulkanMemoryUsage_t usage );
 	~idVulkanBlock();
@@ -85,39 +90,43 @@ public:
 	bool				Init();
 	void				Shutdown();
 
-	bool				IsHostVisible() const { return m_usage != VULKAN_MEMORY_USAGE_GPU_ONLY; }
+	bool				IsHostVisible() const
+	{
+		return usage != VULKAN_MEMORY_USAGE_GPU_ONLY;
+	}
 
-	bool				Allocate( 
-							const uint32 size, 
-							const uint32 align, 
-							const VkDeviceSize granularity,
-							const vulkanAllocationType_t allocType,
-							vulkanAllocation_t & allocation );
-	void				Free( vulkanAllocation_t & allocation );
+	bool				Allocate(
+		const uint32 size,
+		const uint32 align,
+		const VkDeviceSize granularity,
+		const vulkanAllocationType_t allocType,
+		vulkanAllocation_t& allocation );
+	void				Free( vulkanAllocation_t& allocation );
 
 	void				Print();
 
 private:
-	struct chunk_t {
+	struct chunk_t
+	{
 		uint32					id;
 		VkDeviceSize			size;
 		VkDeviceSize			offset;
-		chunk_t *				prev;
-		chunk_t *				next;
+		chunk_t* 				prev;
+		chunk_t* 				next;
 		vulkanAllocationType_t	type;
 	};
-	chunk_t *			m_head;
+	chunk_t* 			head;
 
-	uint32				m_nextBlockId;
-	uint32				m_memoryTypeIndex;
-	vulkanMemoryUsage_t	m_usage;
-	VkDeviceMemory		m_deviceMemory;
-	VkDeviceSize		m_size;
-	VkDeviceSize		m_allocated;
-	byte *				m_data;
+	uint32				nextBlockId;
+	uint32				memoryTypeIndex;
+	vulkanMemoryUsage_t	usage;
+	VkDeviceMemory		deviceMemory;
+	VkDeviceSize		size;
+	VkDeviceSize		allocated;
+	byte* 				data;
 };
 
-typedef idArray< idList< idVulkanBlock * >, VK_MAX_MEMORY_TYPES > idVulkanBlocks;
+typedef idArray< idList< idVulkanBlock* >, VK_MAX_MEMORY_TYPES > idVulkanBlocks;
 
 /*
 ================================================================================================
@@ -127,39 +136,40 @@ idVulkanAllocator
 ================================================================================================
 */
 
-class idVulkanAllocator {
+class idVulkanAllocator
+{
 public:
 	idVulkanAllocator();
 
 	void					Init();
 	void					Shutdown();
 
-	vulkanAllocation_t			Allocate( 
-								const uint32 size, 
-								const uint32 align, 
-								const uint32 memoryTypeBits, 
-								const vulkanMemoryUsage_t usage,
-								const vulkanAllocationType_t allocType );
+	vulkanAllocation_t			Allocate(
+		const uint32 size,
+		const uint32 align,
+		const uint32 memoryTypeBits,
+		const vulkanMemoryUsage_t usage,
+		const vulkanAllocationType_t allocType );
 	void					Free( const vulkanAllocation_t allocation );
 	void					EmptyGarbage();
 
 	void					Print();
 
 private:
-	int							m_garbageIndex;
+	int							garbageIndex;
 
-	int							m_deviceLocalMemoryBytes;
-	int							m_hostVisibleMemoryBytes;
-	VkDeviceSize				m_bufferImageGranularity;
+	int							deviceLocalMemoryBytes;
+	int							hostVisibleMemoryBytes;
+	VkDeviceSize				bufferImageGranularity;
 
-	idVulkanBlocks				m_blocks;
-	idList<vulkanAllocation_t>	m_garbage[ NUM_FRAME_DATA ];
+	idVulkanBlocks				blocks;
+	idList<vulkanAllocation_t>	garbage[ NUM_FRAME_DATA ];
 };
 
-#if defined( ID_USE_AMD_ALLOCATOR )
-extern VmaAllocator vmaAllocator;
+#if defined( USE_AMD_ALLOCATOR )
+	extern VmaAllocator vmaAllocator;
 #else
-extern idVulkanAllocator vulkanAllocator;
+	extern idVulkanAllocator vulkanAllocator;
 #endif
 
 #endif
