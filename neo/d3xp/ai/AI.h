@@ -766,12 +766,12 @@ private:
 	bool inCustomAnim;
 	idEntity* leader;
 private:
-	void state_idle( void );
-	void state_idle_frame( void );
-	void state_follow( void );
-	void state_follow_frame( void );
-	void state_get_closer( void );
-	void state_killed( void );
+	stateResult_t state_idle( void );
+	stateResult_t state_idle_frame( void );
+	stateResult_t state_follow( void );
+	stateResult_t state_follow_frame( void );
+	stateResult_t state_get_closer( void );
+	stateResult_t state_killed( void );
 };
 
 #endif /* !__AI_H__ */

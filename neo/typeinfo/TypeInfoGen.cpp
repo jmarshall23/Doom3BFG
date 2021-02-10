@@ -1365,7 +1365,7 @@ void idTypeInfoGen::WriteTypeInfo( const char* fileName ) const
 				int hash = idStr::Hash( varName );
 				filecpp->WriteFloatString( "\tif(functionNameHash == %d) { // %s\n", hash, varName );
 
-				if( !strstr( info->functions[j].returnType.c_str(), "*" ) && info->functions[j].returnType != "int " && info->functions[j].returnType != "short " && info->functions[j].returnType != "bool " )
+				if( !strstr( info->functions[j].returnType.c_str(), "*" ) && info->functions[j].returnType != "stateResult_t " && info->functions[j].returnType != "int " && info->functions[j].returnType != "short " && info->functions[j].returnType != "bool " )
 				{
 					filecpp->WriteFloatString( "\t\t%s();\n", varName );
 					filecpp->WriteFloatString( "\t\treturn 0;\n", varName );

@@ -45,11 +45,12 @@ void rvmAI_Follower::Init( void )
 rvmAI_Follower::state_idle
 ================
 */
-void rvmAI_Follower::state_idle( void )
+stateResult_t rvmAI_Follower::state_idle( void )
 {
 	Event_StopMove();
 	Event_SetTalkTarget( NULL );
 	stateThread.SetState( "state_idle_frame" );
+	return SRESULT_DONE;
 }
 
 /*
@@ -57,12 +58,15 @@ void rvmAI_Follower::state_idle( void )
 rvmAI_Follower::state_idle_frame
 ================
 */
-void rvmAI_Follower::state_idle_frame( void )
+stateResult_t rvmAI_Follower::state_idle_frame( void )
 {
 	if( AI_TALK )
 	{
 		stateThread.SetState( "state_follow" );
+		return SRESULT_DONE;
 	}
+
+	return SRESULT_WAIT;
 }
 
 /*
@@ -70,7 +74,7 @@ void rvmAI_Follower::state_idle_frame( void )
 rvmAI_Follower::state_follow
 ================
 */
-void rvmAI_Follower::state_follow( void )
+stateResult_t rvmAI_Follower::state_follow( void )
 {
 	leader = talkTarget.GetEntity();
 	if( !leader )
@@ -81,6 +85,7 @@ void rvmAI_Follower::state_follow( void )
 	Event_SetTalkTarget( NULL );
 
 	stateThread.SetState( "state_follow_frame" );
+	return SRESULT_DONE;
 }
 
 /*
@@ -88,14 +93,14 @@ void rvmAI_Follower::state_follow( void )
 rvmAI_Follower::state_follow_frame
 ================
 */
-void rvmAI_Follower::state_follow_frame( void )
+stateResult_t rvmAI_Follower::state_follow_frame( void )
 {
 	Event_LookAtEntity( leader, 0.1f );
 
 	if( AI_TALK )
 	{
 		stateThread.SetState( "state_idle" );
-		return;
+		return SRESULT_DONE;
 	}
 
 	if( DistanceTo( leader ) > FOLLOW_MAXDIST )
@@ -114,6 +119,7 @@ void rvmAI_Follower::state_follow_frame( void )
 	{
 		Event_FaceEntity( leader );
 	}
+	return SRESULT_WAIT;
 }
 
 /*
@@ -121,14 +127,14 @@ void rvmAI_Follower::state_follow_frame( void )
 rvmAI_Follower::state_get_closer
 ================
 */
-void rvmAI_Follower::state_get_closer( void )
+stateResult_t rvmAI_Follower::state_get_closer( void )
 {
 	bool switchState = !( !AI_DEST_UNREACHABLE && !AI_MOVE_DONE && ( DistanceTo( leader ) > FOLLOW_MINDIST ) );
 	if( switchState )
 	{
 		stateThread.SetState( "state_follow_frame" );
 		Event_StopMove();
-		return;
+		return SRESULT_DONE;
 	}
 
 	Event_LookAtEntity( leader, 0.1f );
@@ -144,6 +150,7 @@ void rvmAI_Follower::state_get_closer( void )
 	{
 		stateThread.SetState( "state_Idle" );
 	}
+	return SRESULT_WAIT;
 }
 
 /*
@@ -151,8 +158,8 @@ void rvmAI_Follower::state_get_closer( void )
 rvmAI_Follower::state_killed
 ================
 */
-void rvmAI_Follower::state_killed( void )
+stateResult_t rvmAI_Follower::state_killed( void )
 {
 	Event_StopMove();
-
+	return SRESULT_DONE;
 }
