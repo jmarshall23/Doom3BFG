@@ -646,6 +646,10 @@ intptr_t idPhysics_Parametric::Invoke(const char *functionName) {
 	if(functionNameHash == 213576) { // GetAngularEndTime
 		return (intptr_t)GetAngularEndTime();
 	};
+	if(functionNameHash == 147808) { // TestIfAtRest
+		TestIfAtRest();
+		return 0;
+	};
 	if(functionNameHash == 49945) { // Rest
 		Rest();
 		return 0;
@@ -825,6 +829,10 @@ intptr_t idPhysics_AF::Invoke(const char *functionName) {
 	};
 	if(functionNameHash == 209529) { // EvaluateContacts
 		return (intptr_t)EvaluateContacts();
+	};
+	if(functionNameHash == 125014) { // BuildTrees
+		BuildTrees();
+		return 0;
 	};
 	if(functionNameHash == 168534) { // PrimaryFactor
 		PrimaryFactor();
@@ -1270,6 +1278,10 @@ intptr_t idHarvestable::Invoke(const char *functionName) {
 		Gib();
 		return 0;
 	};
+	if(functionNameHash == 109920) { // BeginBurn
+		BeginBurn();
+		return 0;
+	};
 	if(functionNameHash == 78457) { // BeginFX
 		BeginFX();
 		return 0;
@@ -1290,6 +1302,10 @@ intptr_t idAFEntity_Harvest::Invoke(const char *functionName) {
 	};
 	if(functionNameHash == 61762) { // Think
 		Think();
+		return 0;
+	};
+	if(functionNameHash == 326927) { // Event_SpawnHarvestEntity
+		Event_SpawnHarvestEntity();
 		return 0;
 	};
 	return 0;
@@ -1334,6 +1350,10 @@ intptr_t idPathCorner::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
+		return 0;
+	};
+	if(functionNameHash == 204439) { // Event_RandomPath
+		Event_RandomPath();
 		return 0;
 	};
 	return 0;
@@ -1600,6 +1620,10 @@ intptr_t idBeam::Invoke(const char *functionName) {
 	};
 	if(functionNameHash == 50306) { // Show
 		Show();
+		return 0;
+	};
+	if(functionNameHash == 218295) { // Event_MatchTarget
+		Event_MatchTarget();
 		return 0;
 	};
 	return 0;
@@ -2505,6 +2529,10 @@ intptr_t idLight::Invoke(const char *functionName) {
 		ClientPredictionThink();
 		return 0;
 	};
+	if(functionNameHash == 269944) { // PresentLightDefChange
+		PresentLightDefChange();
+		return 0;
+	};
 	if(functionNameHash == 269021) { // PresentModelDefChange
 		PresentModelDefChange();
 		return 0;
@@ -2579,6 +2607,10 @@ intptr_t EnvironmentProbe::Invoke(const char *functionName) {
 		ClientPredictionThink();
 		return 0;
 	};
+	if(functionNameHash == 315858) { // PresentEnvprobeDefChange
+		PresentEnvprobeDefChange();
+		return 0;
+	};
 	if(functionNameHash == 121918) { // Event_Hide
 		Event_Hide();
 		return 0;
@@ -2605,6 +2637,10 @@ intptr_t idWorldspawn::Invoke(const char *functionName) {
 		Spawn();
 		return 0;
 	};
+	if(functionNameHash == 153439) { // Event_Remove
+		Event_Remove();
+		return 0;
+	};
 	return 0;
 
 };
@@ -2625,6 +2661,10 @@ intptr_t idItem::Invoke(const char *functionName) {
 	};
 	if(functionNameHash == 278761) { // ClientPredictionThink
 		ClientPredictionThink();
+		return 0;
+	};
+	if(functionNameHash == 382066) { // GetPredictPickupMilliseconds
+		GetPredictPickupMilliseconds();
 		return 0;
 	};
 	if(functionNameHash == 219076) { // Event_DropToFloor
@@ -3251,6 +3291,10 @@ intptr_t idPlayer::Invoke(const char *functionName) {
 		UseVehicle();
 		return 0;
 	};
+	if(functionNameHash == 208902) { // Event_GetButtons
+		Event_GetButtons();
+		return 0;
+	};
 	if(functionNameHash == 163139) { // Event_GetMove
 		Event_GetMove();
 		return 0;
@@ -3423,6 +3467,10 @@ intptr_t idElevator::Invoke(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
+		return 0;
+	};
+	if(functionNameHash == 125413) { // DoneMoving
+		DoneMoving();
 		return 0;
 	};
 	if(functionNameHash == 61762) { // Think
@@ -4136,6 +4184,10 @@ intptr_t idTrigger::Invoke(const char *functionName) {
 		Disable();
 		return 0;
 	};
+	if(functionNameHash == 124894) { // CallScript
+		CallScript();
+		return 0;
+	};
 	if(functionNameHash == 148470) { // Event_Enable
 		Event_Enable();
 		return 0;
@@ -4436,6 +4488,10 @@ intptr_t idAI::Invoke(const char *functionName) {
 	};
 	if(functionNameHash == 149251) { // GetTalkState
 		GetTalkState();
+		return 0;
+	};
+	if(functionNameHash == 48744) { // Init
+		Init();
 		return 0;
 	};
 	if(functionNameHash == 62250) { // SetAAS
@@ -4883,6 +4939,10 @@ intptr_t rvmAI_Follower::Invoke(const char *functionName) {
 		Init();
 		return 0;
 	};
+	if(functionNameHash == 130066) { // state_idle
+		state_idle();
+		return 0;
+	};
 	if(functionNameHash == 211350) { // state_idle_frame
 		state_idle_frame();
 		return 0;
@@ -4951,6 +5011,9 @@ intptr_t rvmWeaponFist::Invoke(const char *functionName) {
 		Reload();
 		return 0;
 	};
+	if(functionNameHash == 132482) { // GetFireAnim
+		return (intptr_t)GetFireAnim();
+	};
 	return 0;
 
 };
@@ -5005,6 +5068,10 @@ intptr_t rvmWeaponFlashlight::Invoke(const char *functionName) {
 	};
 	if(functionNameHash == 72819) { // Reload
 		Reload();
+		return 0;
+	};
+	if(functionNameHash == 125553) { // UpdateSkin
+		UpdateSkin();
 		return 0;
 	};
 	if(functionNameHash == 268148) { // UpdateLightIntensity
@@ -5187,6 +5254,10 @@ intptr_t rvmWeaponChainGun::Invoke(const char *functionName) {
 		HasWaitSignal();
 		return 0;
 	};
+	if(functionNameHash == 150892) { // UpdateBarrel
+		UpdateBarrel();
+		return 0;
+	};
 	if(functionNameHash == 73785) { // SpinUp
 		SpinUp();
 		return 0;
@@ -5221,6 +5292,10 @@ intptr_t rvmWeaponRocketLauncher::Invoke(const char *functionName) {
 		Reload();
 		return 0;
 	};
+	if(functionNameHash == 125553) { // UpdateSkin
+		UpdateSkin();
+		return 0;
+	};
 	return 0;
 
 };
@@ -5245,6 +5320,10 @@ intptr_t rvmWeaponBFG::Invoke(const char *functionName) {
 	};
 	if(functionNameHash == 72819) { // Reload
 		Reload();
+		return 0;
+	};
+	if(functionNameHash == 123325) { // OverCharge
+		OverCharge();
 		return 0;
 	};
 	return 0;
@@ -5279,6 +5358,10 @@ intptr_t rvmWeaponGrabber::Invoke(const char *functionName) {
 	};
 	if(functionNameHash == 162113) { // HasWaitSignal
 		HasWaitSignal();
+		return 0;
+	};
+	if(functionNameHash == 140229) { // StartActive
+		StartActive();
 		return 0;
 	};
 	if(functionNameHash == 126807) { // StopActive
