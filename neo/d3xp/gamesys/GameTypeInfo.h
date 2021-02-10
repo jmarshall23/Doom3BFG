@@ -4742,7 +4742,7 @@ static classVariableInfo_t FullscreenFX_typeInfo[] = {
 };
 
 static classVariableInfo_t FullscreenFX_Helltime_typeInfo[] = {
-	{ "const idMaterial *", "initMaterial", (intptr_t)(&((FullscreenFX_Helltime *)0)->initMaterial), sizeof( ((FullscreenFX_Helltime *)0)->initMaterial ) },
+	{ ": const idMaterial *", "initMaterial", (intptr_t)(&((FullscreenFX_Helltime *)0)->initMaterial), sizeof( ((FullscreenFX_Helltime *)0)->initMaterial ) },
 	{ "const idMaterial *[3]", "captureMaterials", (intptr_t)(&((FullscreenFX_Helltime *)0)->captureMaterials), sizeof( ((FullscreenFX_Helltime *)0)->captureMaterials ) },
 	{ "const idMaterial *", "drawMaterial", (intptr_t)(&((FullscreenFX_Helltime *)0)->drawMaterial), sizeof( ((FullscreenFX_Helltime *)0)->drawMaterial ) },
 	{ "bool", "clearAccumBuffer", (intptr_t)(&((FullscreenFX_Helltime *)0)->clearAccumBuffer), sizeof( ((FullscreenFX_Helltime *)0)->clearAccumBuffer ) },
@@ -4750,7 +4750,7 @@ static classVariableInfo_t FullscreenFX_Helltime_typeInfo[] = {
 };
 
 static classVariableInfo_t FullscreenFX_Multiplayer_typeInfo[] = {
-	{ "const idMaterial *", "initMaterial", (intptr_t)(&((FullscreenFX_Multiplayer *)0)->initMaterial), sizeof( ((FullscreenFX_Multiplayer *)0)->initMaterial ) },
+	{ ": const idMaterial *", "initMaterial", (intptr_t)(&((FullscreenFX_Multiplayer *)0)->initMaterial), sizeof( ((FullscreenFX_Multiplayer *)0)->initMaterial ) },
 	{ "const idMaterial *", "captureMaterial", (intptr_t)(&((FullscreenFX_Multiplayer *)0)->captureMaterial), sizeof( ((FullscreenFX_Multiplayer *)0)->captureMaterial ) },
 	{ "const idMaterial *", "drawMaterial", (intptr_t)(&((FullscreenFX_Multiplayer *)0)->drawMaterial), sizeof( ((FullscreenFX_Multiplayer *)0)->drawMaterial ) },
 	{ "bool", "clearAccumBuffer", (intptr_t)(&((FullscreenFX_Multiplayer *)0)->clearAccumBuffer), sizeof( ((FullscreenFX_Multiplayer *)0)->clearAccumBuffer ) },
@@ -4758,19 +4758,19 @@ static classVariableInfo_t FullscreenFX_Multiplayer_typeInfo[] = {
 };
 
 static classVariableInfo_t FullscreenFX_Warp_typeInfo[] = {
-	{ "const idMaterial *", "material", (intptr_t)(&((FullscreenFX_Warp *)0)->material), sizeof( ((FullscreenFX_Warp *)0)->material ) },
+	{ ": const idMaterial *", "material", (intptr_t)(&((FullscreenFX_Warp *)0)->material), sizeof( ((FullscreenFX_Warp *)0)->material ) },
 	{ "bool", "grabberEnabled", (intptr_t)(&((FullscreenFX_Warp *)0)->grabberEnabled), sizeof( ((FullscreenFX_Warp *)0)->grabberEnabled ) },
 	{ "int", "startWarpTime", (intptr_t)(&((FullscreenFX_Warp *)0)->startWarpTime), sizeof( ((FullscreenFX_Warp *)0)->startWarpTime ) },
 	{ NULL, 0 }
 };
 
 static classVariableInfo_t FullscreenFX_EnviroSuit_typeInfo[] = {
-	{ "const idMaterial *", "material", (intptr_t)(&((FullscreenFX_EnviroSuit *)0)->material), sizeof( ((FullscreenFX_EnviroSuit *)0)->material ) },
+	{ ": const idMaterial *", "material", (intptr_t)(&((FullscreenFX_EnviroSuit *)0)->material), sizeof( ((FullscreenFX_EnviroSuit *)0)->material ) },
 	{ NULL, 0 }
 };
 
 static classVariableInfo_t FullscreenFX_DoubleVision_typeInfo[] = {
-	{ "const idMaterial *", "material", (intptr_t)(&((FullscreenFX_DoubleVision *)0)->material), sizeof( ((FullscreenFX_DoubleVision *)0)->material ) },
+	{ ": const idMaterial *", "material", (intptr_t)(&((FullscreenFX_DoubleVision *)0)->material), sizeof( ((FullscreenFX_DoubleVision *)0)->material ) },
 	{ NULL, 0 }
 };
 
@@ -4779,7 +4779,7 @@ static classVariableInfo_t FullscreenFX_InfluenceVision_typeInfo[] = {
 };
 
 static classVariableInfo_t FullscreenFX_Bloom_typeInfo[] = {
-	{ "const idMaterial *", "drawMaterial", (intptr_t)(&((FullscreenFX_Bloom *)0)->drawMaterial), sizeof( ((FullscreenFX_Bloom *)0)->drawMaterial ) },
+	{ ": const idMaterial *", "drawMaterial", (intptr_t)(&((FullscreenFX_Bloom *)0)->drawMaterial), sizeof( ((FullscreenFX_Bloom *)0)->drawMaterial ) },
 	{ "const idMaterial *", "initMaterial", (intptr_t)(&((FullscreenFX_Bloom *)0)->initMaterial), sizeof( ((FullscreenFX_Bloom *)0)->initMaterial ) },
 	{ "float", "currentIntensity", (intptr_t)(&((FullscreenFX_Bloom *)0)->currentIntensity), sizeof( ((FullscreenFX_Bloom *)0)->currentIntensity ) },
 	{ "float", "targetIntensity", (intptr_t)(&((FullscreenFX_Bloom *)0)->targetIntensity), sizeof( ((FullscreenFX_Bloom *)0)->targetIntensity ) },
@@ -4787,7 +4787,7 @@ static classVariableInfo_t FullscreenFX_Bloom_typeInfo[] = {
 };
 
 static classVariableInfo_t FullscreenFXManager_typeInfo[] = {
-	{ "idList < FullscreenFX * , TAG_FX >", "fx", (intptr_t)(&((FullscreenFXManager *)0)->fx), sizeof( ((FullscreenFXManager *)0)->fx ) },
+	{ ": idList < FullscreenFX * , TAG_FX >", "fx", (intptr_t)(&((FullscreenFXManager *)0)->fx), sizeof( ((FullscreenFXManager *)0)->fx ) },
 	{ "idPlayerView *", "playerView", (intptr_t)(&((FullscreenFXManager *)0)->playerView), sizeof( ((FullscreenFXManager *)0)->playerView ) },
 	{ "const idMaterial *", "blendBackMaterial", (intptr_t)(&((FullscreenFXManager *)0)->blendBackMaterial), sizeof( ((FullscreenFXManager *)0)->blendBackMaterial ) },
 	{ NULL, 0 }

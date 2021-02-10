@@ -450,7 +450,6 @@ protected:
 public:
 	int						ReactionTo( const idEntity *ent );
 protected:
-	bool					CheckForEnemy();
 	void					EnemyDead();
 	virtual bool			CanPlayChatterSounds() const;
 	void					SetChatSound();

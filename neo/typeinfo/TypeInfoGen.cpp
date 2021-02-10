@@ -654,9 +654,13 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 				function.returnType = varType;
 				function.isConst = isConst;
 				function.isStatic = isStatic;
-				function.name = token;				
+				function.name = token;			
 
-				if (varType[0] == ':' || classValid == false) {
+				if (function.returnType[0] == ':') {
+					function.returnType = function.returnType.c_str() + 1;
+				}
+
+				if (classValid == false) {
 					function.isValidFunction = false;
 				}
 				else {
