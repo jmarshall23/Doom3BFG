@@ -248,6 +248,21 @@ struct rvmGameDelayRemoveEntry_t {
 	idEntity* entity;
 };
 
+struct netInterpolationInfo_t {		// Was in GameTimeManager.h in id5, needed common place to put this.
+	netInterpolationInfo_t()
+		: pct(0.0f)
+		, serverGameMs(0)
+		, previousServerGameMs(0)
+		, ssStartTime(0)
+		, ssEndTime(0)
+	{}
+	float	pct;					// % of current interpolation
+	int		serverGameMs;			// Interpolated server game time
+	int		previousServerGameMs;	// last frame's interpolated server game time
+	int		ssStartTime;			// Server time of old snapshot
+	int		ssEndTime;				// Server time of next snapshot
+};
+
 //============================================================================
 
 class idGameLocal : public idGame {
@@ -585,21 +600,6 @@ private:
 	idStaticList<spawnSpot_t, MAX_GENTITIES> teamSpawnSpots[2];
 	idStaticList<idEntity *, MAX_GENTITIES> teamInitialSpots[2];
 	int						teamCurrentInitialSpot[2];
-
-	struct netInterpolationInfo_t {		// Was in GameTimeManager.h in id5, needed common place to put this.
-		netInterpolationInfo_t()
-			: pct( 0.0f )
-			, serverGameMs( 0 )
-			, previousServerGameMs( 0 )
-			, ssStartTime( 0 )
-			, ssEndTime( 0 )
-		{}
-		float	pct;					// % of current interpolation
-		int		serverGameMs;			// Interpolated server game time
-		int		previousServerGameMs;	// last frame's interpolated server game time
-		int		ssStartTime;			// Server time of old snapshot
-		int		ssEndTime;				// Server time of next snapshot
-	};
 
 	netInterpolationInfo_t	netInterpolationInfo;
 

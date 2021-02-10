@@ -666,6 +666,7 @@ public:
 
 
 class SetTimeState {
+private:
 	bool					activated;
 	bool					previousFast;
 	bool					fast;

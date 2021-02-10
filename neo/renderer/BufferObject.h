@@ -60,7 +60,7 @@ idBufferObject
 class idBufferObject {
 public:
 						idBufferObject();
-
+#if !defined(TYPEINFO) && !defined(TYPEINFOPROJECT)
 	int					GetSize() const { return ( m_size & ~MAPPED_FLAG ); }
 	int					GetAllocedSize() const { return ( ( m_size & ~MAPPED_FLAG ) + 15 ) & ~15; }
 	bufferUsageType_t	GetUsage() const { return m_usage; }
@@ -86,7 +86,7 @@ protected:
 #else
 	vulkanAllocation_t	m_allocation;
 #endif
-
+#endif
 	// sizeof() confuses typeinfo...
 	static const int	MAPPED_FLAG			= 1 << ( 4 /* sizeof( int ) */ * 8 - 1 );
 	static const int	OWNS_BUFFER_FLAG	= 1 << ( 4 /* sizeof( int ) */ * 8 - 1 );	

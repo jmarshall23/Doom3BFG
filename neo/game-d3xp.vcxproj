@@ -100,11 +100,15 @@
     <ClCompile Include="d3xp\anim\Anim.cpp" />
     <ClCompile Include="d3xp\anim\Anim_Blend.cpp" />
     <ClCompile Include="d3xp\anim\Anim_Testmodel.cpp" />
-    <ClCompile Include="d3xp\gamesys\Class.cpp" />
+    <ClCompile Include="d3xp\gamesys\Class.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="d3xp\gamesys\Event.cpp" />
     <ClCompile Include="d3xp\gamesys\SaveGame.cpp" />
     <ClCompile Include="d3xp\gamesys\SysCmds.cpp" />
     <ClCompile Include="d3xp\gamesys\SysCvar.cpp" />
+    <ClCompile Include="d3xp\Game_Precompiled.cpp" />
     <ClCompile Include="d3xp\Leaderboards.cpp" />
     <ClCompile Include="d3xp\menus\MenuHandler.cpp" />
     <ClCompile Include="d3xp\menus\MenuHandler_HUD.cpp" />
@@ -242,6 +246,7 @@
     <ClInclude Include="d3xp\anim\Anim_Testmodel.h" />
     <ClInclude Include="d3xp\gamesys\Class.h" />
     <ClInclude Include="d3xp\gamesys\Event.h" />
+    <ClInclude Include="d3xp\gamesys\GameTypeInfo.h" />
     <ClInclude Include="d3xp\gamesys\SaveGame.h" />
     <ClInclude Include="d3xp\gamesys\SysCmds.h" />
     <ClInclude Include="d3xp\gamesys\SysCvar.h" />

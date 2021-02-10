@@ -1468,11 +1468,13 @@ int idParser::EvaluateTokens( idToken *tokens, signed long int *intvalue, double
 			}
 			case TT_NUMBER:
 			{
-				if (lastwasvalue) {
-					idParser::Error( "syntax error in #if/#elif" );
-					error = 1;
-					break;
-				}
+// jmarshall - I don't like this change; but required for TypeInfo.
+				//if (lastwasvalue) {
+				//	idParser::Error( "syntax error in #if/#elif" );
+				//	error = 1;
+				//	break;
+				//}
+// jmarshal lend
 				//v = (value_t *) GetClearedMemory(sizeof(value_t));
 				AllocValue(v);
 				if (negativevalue) {

@@ -722,6 +722,21 @@ protected:
 	bool						bindingsChanged;
 };
 
+struct devOption_t {
+	devOption_t() {
+		map = "";
+		name = "";
+	};
+
+	devOption_t(const char* m, const char* n) {
+		map = m;
+		name = n;
+	}
+
+	const char* map;
+	const char* name;
+};
+
 //*
 //================================================	
 //idMenuScreen_Shell_Dev
@@ -729,22 +744,6 @@ protected:
 //*/
 class idMenuScreen_Shell_Dev : public idMenuScreen {
 public:
-
-	struct devOption_t {
-		devOption_t() {
-			map = "";
-			name = "";
-		};
-
-		devOption_t( const char * m, const char * n ) {
-			map = m;
-			name = n;
-		}
-
-		const char *	map;
-		const char *	name;
-	};
-
 	idMenuScreen_Shell_Dev() : 
 		options( NULL ),
 		btnBack( NULL ) {

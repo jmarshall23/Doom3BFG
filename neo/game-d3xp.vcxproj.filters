@@ -379,6 +379,7 @@
     <ClCompile Include="d3xp\weapons\Weapon_grabber.cpp">
       <Filter>Weapons</Filter>
     </ClCompile>
+    <ClCompile Include="d3xp\Game_Precompiled.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3xp\ai\AAS.h">
@@ -557,6 +558,9 @@
     </ClInclude>
     <ClInclude Include="d3xp\weapons\Weapon_grabber.h">
       <Filter>Weapons</Filter>
+    </ClInclude>
+    <ClInclude Include="d3xp\gamesys\GameTypeInfo.h">
+      <Filter>GameSys</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

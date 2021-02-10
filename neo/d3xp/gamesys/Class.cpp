@@ -32,10 +32,18 @@ instancing of objects.
 
 */
 
+
+#define private		public
+#define protected	public
+#define _ALLOW_KEYWORD_MACROS
+
+#pragma warning(disable : 4189)
+#pragma warning(disable : 4505)
 #pragma hdrstop
 #include "../precompiled.h"
 #include "../Game_local.h"
 //#include "TypeInfo.h"
+#include "GameTypeInfo.h"
 
 
 /***********************************************************************
