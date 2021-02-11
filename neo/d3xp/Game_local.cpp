@@ -6081,3 +6081,33 @@ bool idGameLocal::InfluenceActive(void) const {
 
 	return false;
 }
+
+
+/*
+================
+idGameLocal::GetEntity
+================
+*/
+idEntity *idGameLocal::GetEntity(const char* name)
+{
+	int			entnum;
+	idEntity* ent;
+
+	assert(name);
+
+	if (name[0] == '*')
+	{
+		entnum = atoi(&name[1]);
+		if ((entnum < 0) || (entnum >= MAX_GENTITIES))
+		{
+			Error("Entity number in string out of range.");
+			return NULL;
+		}
+		return entities[entnum];
+	}
+	else
+	{
+		ent = gameLocal.FindEntity(name);
+		return ent;
+	}
+}

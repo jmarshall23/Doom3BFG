@@ -133,7 +133,7 @@ public:																	\
 	static	idTypeInfo						Type;						\
 	static	idClass							*CreateInstance();	\
 	virtual	idTypeInfo						*GetType() const;		\
-	virtual intptr_t Invoke(const char* functionName) override; \
+	virtual intptr_t Invoke(const char* functionName, void *param1) override; \
 	static	idEventFunc<nameofclass>		eventCallbacks[]
 
 
@@ -247,7 +247,7 @@ public:
 	const char* 				GetSuperclass() const;
 	void						FindUninitializedMemory();
 
-	virtual intptr_t Invoke( const char* functionName );
+	virtual intptr_t Invoke( const char* functionName, void* param1);
 
 	void						Save( idSaveGame* savefile ) const {};
 	void						Restore( idRestoreGame* savefile ) {};

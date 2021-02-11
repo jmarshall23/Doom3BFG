@@ -185,7 +185,7 @@ void rvStateThread::Clear( bool ignoreStateCalls )
 		{
 			//owner->ProcessState ( call->state, call->parms );
 			//owner->SetStateParms(call->parms);
-			owner->Invoke( call->state );
+			owner->Invoke( call->state, &call->parms);
 		}
 		call->node.Remove();
 		delete call;
@@ -198,7 +198,7 @@ void rvStateThread::Clear( bool ignoreStateCalls )
 		{
 			//owner->ProcessState ( call->state, call->parms );
 			//	owner->SetStateParms(call->parms);
-			owner->Invoke( call->state );
+			owner->Invoke( call->state, &call->parms );
 		}
 		call->node.Remove();
 		delete call;
@@ -306,7 +306,7 @@ stateResult_t rvStateThread::Execute( void )
 
 		// Actually call the state function
 		//owner->SetStateParms(call->parms);
-		lastResult = ( stateResult_t )owner->Invoke( call->state );
+		lastResult = ( stateResult_t )owner->Invoke( call->state, &call->parms );
 		switch( lastResult )
 		{
 			case SRESULT_WAIT:

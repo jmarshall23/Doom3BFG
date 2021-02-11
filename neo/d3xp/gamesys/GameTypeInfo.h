@@ -5,7 +5,7 @@
 /*
 ===================================================================================
 
-	This file has been generated with the Type Info Generator v1.0 (c) 2004 id Software
+	This file has been generated with the Type Info Generator v1.1 (c) 2004 id Software
 
 	943 constants
 	90 enums

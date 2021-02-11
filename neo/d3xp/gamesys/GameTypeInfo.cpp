@@ -4,7 +4,7 @@
 #pragma warning(disable : 4505)
 #include "precompiled.h"
 #include "../Game_local.h"
-intptr_t idClass::Invoke(const char *functionName) {
+intptr_t idClass::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 153439) { // Event_Remove
 		Event_Remove();
@@ -18,19 +18,19 @@ intptr_t idClass::Invoke(const char *functionName) {
 
 };
 
-intptr_t idForce::Invoke(const char *functionName) {
+intptr_t idForce::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idForce_Constant::Invoke(const char *functionName) {
+intptr_t idForce_Constant::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idForce_Drag::Invoke(const char *functionName) {
+intptr_t idForce_Drag::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 192385) { // GetDragPosition
 		GetDragPosition();
@@ -40,119 +40,33 @@ intptr_t idForce_Drag::Invoke(const char *functionName) {
 		GetDraggedPosition();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idForce_Grab::Invoke(const char *functionName) {
+intptr_t idForce_Grab::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 213643) { // GetDistanceToGoal
 		GetDistanceToGoal();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idForce_Field::Invoke(const char *functionName) {
+intptr_t idForce_Field::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idForce_Spring::Invoke(const char *functionName) {
+intptr_t idForce_Spring::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPhysics_Static::Invoke(const char *functionName) {
-	int functionNameHash = idStr::Hash(functionName);
-	if(functionNameHash == 202251) { // GetNumClipModels
-		return (intptr_t)GetNumClipModels();
-	};
-	if(functionNameHash == 83909) { // GetTime
-		return (intptr_t)GetTime();
-	};
-	if(functionNameHash == 100229) { // Activate
-		Activate();
-		return 0;
-	};
-	if(functionNameHash == 113512) { // PutToRest
-		PutToRest();
-		return 0;
-	};
-	if(functionNameHash == 96105) { // IsAtRest
-		return (intptr_t)IsAtRest();
-	};
-	if(functionNameHash == 206079) { // GetRestStartTime
-		return (intptr_t)GetRestStartTime();
-	};
-	if(functionNameHash == 124599) { // IsPushable
-		return (intptr_t)IsPushable();
-	};
-	if(functionNameHash == 112278) { // SaveState
-		SaveState();
-		return 0;
-	};
-	if(functionNameHash == 156059) { // RestoreState
-		RestoreState();
-		return 0;
-	};
-	if(functionNameHash == 127517) { // GetGravity
-		GetGravity();
-		return 0;
-	};
-	if(functionNameHash == 208704) { // GetGravityNormal
-		GetGravityNormal();
-		return 0;
-	};
-	if(functionNameHash == 134558) { // DisableClip
-		DisableClip();
-		return 0;
-	};
-	if(functionNameHash == 120566) { // EnableClip
-		EnableClip();
-		return 0;
-	};
-	if(functionNameHash == 125645) { // UnlinkClip
-		UnlinkClip();
-		return 0;
-	};
-	if(functionNameHash == 96878) { // LinkClip
-		LinkClip();
-		return 0;
-	};
-	if(functionNameHash == 209529) { // EvaluateContacts
-		return (intptr_t)EvaluateContacts();
-	};
-	if(functionNameHash == 178966) { // GetNumContacts
-		return (intptr_t)GetNumContacts();
-	};
-	if(functionNameHash == 165117) { // ClearContacts
-		ClearContacts();
-		return 0;
-	};
-	if(functionNameHash == 221187) { // HasGroundContacts
-		return (intptr_t)HasGroundContacts();
-	};
-	if(functionNameHash == 188391) { // GetBlockingInfo
-		return (intptr_t)GetBlockingInfo();
-	};
-	if(functionNameHash == 220800) { // GetBlockingEntity
-		return (intptr_t)GetBlockingEntity();
-	};
-	if(functionNameHash == 198674) { // GetLinearEndTime
-		return (intptr_t)GetLinearEndTime();
-	};
-	if(functionNameHash == 213576) { // GetAngularEndTime
-		return (intptr_t)GetAngularEndTime();
-	};
-	return __super::Invoke(functionName);
-
-};
-
-intptr_t idPhysics_StaticMulti::Invoke(const char *functionName) {
+intptr_t idPhysics_Static::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 202251) { // GetNumClipModels
 		return (intptr_t)GetNumClipModels();
@@ -234,11 +148,97 @@ intptr_t idPhysics_StaticMulti::Invoke(const char *functionName) {
 	if(functionNameHash == 213576) { // GetAngularEndTime
 		return (intptr_t)GetAngularEndTime();
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPhysics_Base::Invoke(const char *functionName) {
+intptr_t idPhysics_StaticMulti::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 202251) { // GetNumClipModels
+		return (intptr_t)GetNumClipModels();
+	};
+	if(functionNameHash == 83909) { // GetTime
+		return (intptr_t)GetTime();
+	};
+	if(functionNameHash == 100229) { // Activate
+		Activate();
+		return 0;
+	};
+	if(functionNameHash == 113512) { // PutToRest
+		PutToRest();
+		return 0;
+	};
+	if(functionNameHash == 96105) { // IsAtRest
+		return (intptr_t)IsAtRest();
+	};
+	if(functionNameHash == 206079) { // GetRestStartTime
+		return (intptr_t)GetRestStartTime();
+	};
+	if(functionNameHash == 124599) { // IsPushable
+		return (intptr_t)IsPushable();
+	};
+	if(functionNameHash == 112278) { // SaveState
+		SaveState();
+		return 0;
+	};
+	if(functionNameHash == 156059) { // RestoreState
+		RestoreState();
+		return 0;
+	};
+	if(functionNameHash == 127517) { // GetGravity
+		GetGravity();
+		return 0;
+	};
+	if(functionNameHash == 208704) { // GetGravityNormal
+		GetGravityNormal();
+		return 0;
+	};
+	if(functionNameHash == 134558) { // DisableClip
+		DisableClip();
+		return 0;
+	};
+	if(functionNameHash == 120566) { // EnableClip
+		EnableClip();
+		return 0;
+	};
+	if(functionNameHash == 125645) { // UnlinkClip
+		UnlinkClip();
+		return 0;
+	};
+	if(functionNameHash == 96878) { // LinkClip
+		LinkClip();
+		return 0;
+	};
+	if(functionNameHash == 209529) { // EvaluateContacts
+		return (intptr_t)EvaluateContacts();
+	};
+	if(functionNameHash == 178966) { // GetNumContacts
+		return (intptr_t)GetNumContacts();
+	};
+	if(functionNameHash == 165117) { // ClearContacts
+		ClearContacts();
+		return 0;
+	};
+	if(functionNameHash == 221187) { // HasGroundContacts
+		return (intptr_t)HasGroundContacts();
+	};
+	if(functionNameHash == 188391) { // GetBlockingInfo
+		return (intptr_t)GetBlockingInfo();
+	};
+	if(functionNameHash == 220800) { // GetBlockingEntity
+		return (intptr_t)GetBlockingEntity();
+	};
+	if(functionNameHash == 198674) { // GetLinearEndTime
+		return (intptr_t)GetLinearEndTime();
+	};
+	if(functionNameHash == 213576) { // GetAngularEndTime
+		return (intptr_t)GetAngularEndTime();
+	};
+	return __super::Invoke(functionName, param1);
+
+};
+
+intptr_t idPhysics_Base::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 202251) { // GetNumClipModels
 		return (intptr_t)GetNumClipModels();
@@ -331,11 +331,11 @@ intptr_t idPhysics_Base::Invoke(const char *functionName) {
 	if(functionNameHash == 181023) { // IsOutsideWorld
 		return (intptr_t)IsOutsideWorld();
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPhysics_Actor::Invoke(const char *functionName) {
+intptr_t idPhysics_Actor::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 216567) { // GetMasterDeltaYaw
 		GetMasterDeltaYaw();
@@ -377,11 +377,11 @@ intptr_t idPhysics_Actor::Invoke(const char *functionName) {
 	if(functionNameHash == 209529) { // EvaluateContacts
 		return (intptr_t)EvaluateContacts();
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPhysics_Monster::Invoke(const char *functionName) {
+intptr_t idPhysics_Monster::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 202109) { // GetMaxStepHeight
 		GetMaxStepHeight();
@@ -434,11 +434,11 @@ intptr_t idPhysics_Monster::Invoke(const char *functionName) {
 		Rest();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPhysics_Player::Invoke(const char *functionName) {
+intptr_t idPhysics_Player::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 202109) { // GetMaxStepHeight
 		GetMaxStepHeight();
@@ -562,11 +562,11 @@ intptr_t idPhysics_Player::Invoke(const char *functionName) {
 		DropTimers();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPhysics_Parametric::Invoke(const char *functionName) {
+intptr_t idPhysics_Parametric::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 100471) { // IsPusher
 		return (intptr_t)IsPusher();
@@ -654,11 +654,11 @@ intptr_t idPhysics_Parametric::Invoke(const char *functionName) {
 		Rest();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPhysics_RigidBody::Invoke(const char *functionName) {
+intptr_t idPhysics_RigidBody::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 138332) { // DropToFloor
 		DropToFloor();
@@ -741,11 +741,11 @@ intptr_t idPhysics_RigidBody::Invoke(const char *functionName) {
 		DebugDraw();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPhysics_AF::Invoke(const char *functionName) {
+intptr_t idPhysics_AF::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 148383) { // GetNumBodies
 		return (intptr_t)GetNumBodies();
@@ -878,11 +878,11 @@ intptr_t idPhysics_AF::Invoke(const char *functionName) {
 		DebugDraw();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAnimatedEntity::Invoke(const char *functionName) {
+intptr_t idAnimatedEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 278761) { // ClientPredictionThink
 		ClientPredictionThink();
@@ -911,11 +911,11 @@ intptr_t idAnimatedEntity::Invoke(const char *functionName) {
 		Event_ClearAllJoints();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idCursor3D::Invoke(const char *functionName) {
+intptr_t idCursor3D::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -929,11 +929,11 @@ intptr_t idCursor3D::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idGrabber::Invoke(const char *functionName) {
+intptr_t idGrabber::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 128839) { // Initialize
 		Initialize();
@@ -947,11 +947,11 @@ intptr_t idGrabber::Invoke(const char *functionName) {
 		ApplyShake();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idMultiModelAF::Invoke(const char *functionName) {
+intptr_t idMultiModelAF::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -965,21 +965,21 @@ intptr_t idMultiModelAF::Invoke(const char *functionName) {
 		Present();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idChain::Invoke(const char *functionName) {
+intptr_t idChain::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFAttachment::Invoke(const char *functionName) {
+intptr_t idAFAttachment::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1019,11 +1019,11 @@ intptr_t idAFAttachment::Invoke(const char *functionName) {
 		UnlinkCombat();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_Base::Invoke(const char *functionName) {
+intptr_t idAFEntity_Base::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1081,11 +1081,11 @@ intptr_t idAFEntity_Base::Invoke(const char *functionName) {
 		ShowEditingDialog();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_Gibbable::Invoke(const char *functionName) {
+intptr_t idAFEntity_Gibbable::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1102,11 +1102,11 @@ intptr_t idAFEntity_Gibbable::Invoke(const char *functionName) {
 		InitSkeletonModel();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_Generic::Invoke(const char *functionName) {
+intptr_t idAFEntity_Generic::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1120,11 +1120,11 @@ intptr_t idAFEntity_Generic::Invoke(const char *functionName) {
 		KeepRunningPhysics();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_WithAttachedHead::Invoke(const char *functionName) {
+intptr_t idAFEntity_WithAttachedHead::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1154,11 +1154,11 @@ intptr_t idAFEntity_WithAttachedHead::Invoke(const char *functionName) {
 		UnlinkCombat();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_Vehicle::Invoke(const char *functionName) {
+intptr_t idAFEntity_Vehicle::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1168,11 +1168,11 @@ intptr_t idAFEntity_Vehicle::Invoke(const char *functionName) {
 		GetSteerAngle();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_VehicleSimple::Invoke(const char *functionName) {
+intptr_t idAFEntity_VehicleSimple::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1182,11 +1182,11 @@ intptr_t idAFEntity_VehicleSimple::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_VehicleFourWheels::Invoke(const char *functionName) {
+intptr_t idAFEntity_VehicleFourWheels::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1196,11 +1196,11 @@ intptr_t idAFEntity_VehicleFourWheels::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_VehicleSixWheels::Invoke(const char *functionName) {
+intptr_t idAFEntity_VehicleSixWheels::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1210,11 +1210,11 @@ intptr_t idAFEntity_VehicleSixWheels::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_VehicleAutomated::Invoke(const char *functionName) {
+intptr_t idAFEntity_VehicleAutomated::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1228,11 +1228,11 @@ intptr_t idAFEntity_VehicleAutomated::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_SteamPipe::Invoke(const char *functionName) {
+intptr_t idAFEntity_SteamPipe::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1246,11 +1246,11 @@ intptr_t idAFEntity_SteamPipe::Invoke(const char *functionName) {
 		InitSteamRenderEntity();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_ClawFourFingers::Invoke(const char *functionName) {
+intptr_t idAFEntity_ClawFourFingers::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1260,11 +1260,11 @@ intptr_t idAFEntity_ClawFourFingers::Invoke(const char *functionName) {
 		Event_StopFingers();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idHarvestable::Invoke(const char *functionName) {
+intptr_t idHarvestable::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1290,11 +1290,11 @@ intptr_t idHarvestable::Invoke(const char *functionName) {
 		Event_SpawnHarvestTrigger();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAFEntity_Harvest::Invoke(const char *functionName) {
+intptr_t idAFEntity_Harvest::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1308,31 +1308,31 @@ intptr_t idAFEntity_Harvest::Invoke(const char *functionName) {
 		Event_SpawnHarvestEntity();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idSpawnableEntity::Invoke(const char *functionName) {
+intptr_t idSpawnableEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPlayerStart::Invoke(const char *functionName) {
+intptr_t idPlayerStart::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idActivator::Invoke(const char *functionName) {
+intptr_t idActivator::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1342,11 +1342,11 @@ intptr_t idActivator::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPathCorner::Invoke(const char *functionName) {
+intptr_t idPathCorner::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1356,11 +1356,11 @@ intptr_t idPathCorner::Invoke(const char *functionName) {
 		Event_RandomPath();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idDamagable::Invoke(const char *functionName) {
+intptr_t idDamagable::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1378,21 +1378,21 @@ intptr_t idDamagable::Invoke(const char *functionName) {
 		Event_RestoreDamagable();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idExplodable::Invoke(const char *functionName) {
+intptr_t idExplodable::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idSpring::Invoke(const char *functionName) {
+intptr_t idSpring::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1406,11 +1406,11 @@ intptr_t idSpring::Invoke(const char *functionName) {
 		Event_LinkSpring();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idForceField::Invoke(const char *functionName) {
+intptr_t idForceField::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1432,11 +1432,11 @@ intptr_t idForceField::Invoke(const char *functionName) {
 		Event_FindTargets();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAnimated::Invoke(const char *functionName) {
+intptr_t idAnimated::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1469,11 +1469,11 @@ intptr_t idAnimated::Invoke(const char *functionName) {
 		Event_GetAnimationLength();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idStaticEntity::Invoke(const char *functionName) {
+intptr_t idStaticEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1495,35 +1495,21 @@ intptr_t idStaticEntity::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idFuncEmitter::Invoke(const char *functionName) {
+intptr_t idFuncEmitter::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idFuncShootProjectile::Invoke(const char *functionName) {
-	int functionNameHash = idStr::Hash(functionName);
-	if(functionNameHash == 63102) { // Spawn
-		Spawn();
-		return 0;
-	};
-	if(functionNameHash == 61762) { // Think
-		Think();
-		return 0;
-	};
-	return __super::Invoke(functionName);
-
-};
-
-intptr_t idFuncSmoke::Invoke(const char *functionName) {
+intptr_t idFuncShootProjectile::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1533,11 +1519,25 @@ intptr_t idFuncSmoke::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idFuncSplat::Invoke(const char *functionName) {
+intptr_t idFuncSmoke::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		Spawn();
+		return 0;
+	};
+	if(functionNameHash == 61762) { // Think
+		Think();
+		return 0;
+	};
+	return __super::Invoke(functionName, param1);
+
+};
+
+intptr_t idFuncSplat::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1547,11 +1547,11 @@ intptr_t idFuncSplat::Invoke(const char *functionName) {
 		Event_Splat();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTextEntity::Invoke(const char *functionName) {
+intptr_t idTextEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1561,11 +1561,11 @@ intptr_t idTextEntity::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idLocationEntity::Invoke(const char *functionName) {
+intptr_t idLocationEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1574,41 +1574,41 @@ intptr_t idLocationEntity::Invoke(const char *functionName) {
 	if(functionNameHash == 138280) { // GetLocation
 		return (intptr_t)GetLocation();
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idLocationSeparatorEntity::Invoke(const char *functionName) {
+intptr_t idLocationSeparatorEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idVacuumSeparatorEntity::Invoke(const char *functionName) {
+intptr_t idVacuumSeparatorEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idVacuumEntity::Invoke(const char *functionName) {
+intptr_t idVacuumEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idBeam::Invoke(const char *functionName) {
+intptr_t idBeam::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1626,21 +1626,21 @@ intptr_t idBeam::Invoke(const char *functionName) {
 		Event_MatchTarget();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idLiquid::Invoke(const char *functionName) {
+intptr_t idLiquid::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idShaking::Invoke(const char *functionName) {
+intptr_t idShaking::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1650,11 +1650,11 @@ intptr_t idShaking::Invoke(const char *functionName) {
 		BeginShaking();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idEarthQuake::Invoke(const char *functionName) {
+intptr_t idEarthQuake::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1664,65 +1664,51 @@ intptr_t idEarthQuake::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idFuncPortal::Invoke(const char *functionName) {
+intptr_t idFuncPortal::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idFuncAASPortal::Invoke(const char *functionName) {
+intptr_t idFuncAASPortal::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idFuncAASObstacle::Invoke(const char *functionName) {
+intptr_t idFuncAASObstacle::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idFuncRadioChatter::Invoke(const char *functionName) {
+intptr_t idFuncRadioChatter::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPhantomObjects::Invoke(const char *functionName) {
-	int functionNameHash = idStr::Hash(functionName);
-	if(functionNameHash == 63102) { // Spawn
-		Spawn();
-		return 0;
-	};
-	if(functionNameHash == 61762) { // Think
-		Think();
-		return 0;
-	};
-	return __super::Invoke(functionName);
-
-};
-
-intptr_t idShockwave::Invoke(const char *functionName) {
+intptr_t idPhantomObjects::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1732,11 +1718,11 @@ intptr_t idShockwave::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idFuncMountedObject::Invoke(const char *functionName) {
+intptr_t idShockwave::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1746,11 +1732,25 @@ intptr_t idFuncMountedObject::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idFuncMountedWeapon::Invoke(const char *functionName) {
+intptr_t idFuncMountedObject::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		Spawn();
+		return 0;
+	};
+	if(functionNameHash == 61762) { // Think
+		Think();
+		return 0;
+	};
+	return __super::Invoke(functionName, param1);
+
+};
+
+intptr_t idFuncMountedWeapon::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1764,11 +1764,11 @@ intptr_t idFuncMountedWeapon::Invoke(const char *functionName) {
 		Event_PostSpawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPortalSky::Invoke(const char *functionName) {
+intptr_t idPortalSky::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1778,11 +1778,11 @@ intptr_t idPortalSky::Invoke(const char *functionName) {
 		Event_PostSpawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idActor::Invoke(const char *functionName) {
+intptr_t idActor::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -1972,11 +1972,11 @@ intptr_t idActor::Invoke(const char *functionName) {
 		Event_GetWaitState();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idProjectile::Invoke(const char *functionName) {
+intptr_t idProjectile::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2023,11 +2023,11 @@ intptr_t idProjectile::Invoke(const char *functionName) {
 		Event_GetProjectileState();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idGuidedProjectile::Invoke(const char *functionName) {
+intptr_t idGuidedProjectile::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2037,11 +2037,11 @@ intptr_t idGuidedProjectile::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idSoulCubeMissile::Invoke(const char *functionName) {
+intptr_t idSoulCubeMissile::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2055,11 +2055,11 @@ intptr_t idSoulCubeMissile::Invoke(const char *functionName) {
 		ReturnToOwner();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idBFGProjectile::Invoke(const char *functionName) {
+intptr_t idBFGProjectile::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2077,11 +2077,11 @@ intptr_t idBFGProjectile::Invoke(const char *functionName) {
 		Event_RemoveBeams();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idHomingProjectile::Invoke(const char *functionName) {
+intptr_t idHomingProjectile::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2091,11 +2091,11 @@ intptr_t idHomingProjectile::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idDebris::Invoke(const char *functionName) {
+intptr_t idDebris::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2125,11 +2125,11 @@ intptr_t idDebris::Invoke(const char *functionName) {
 		Event_Fizzle();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponObject::Invoke(const char *functionName) {
+intptr_t rvmWeaponObject::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -2175,11 +2175,11 @@ intptr_t rvmWeaponObject::Invoke(const char *functionName) {
 		IsRisen();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idWeapon::Invoke(const char *functionName) {
+intptr_t idWeapon::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2479,11 +2479,11 @@ intptr_t idWeapon::Invoke(const char *functionName) {
 		Event_StopWeaponSmoke();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idLight::Invoke(const char *functionName) {
+intptr_t idLight::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2557,11 +2557,11 @@ intptr_t idLight::Invoke(const char *functionName) {
 		Event_SetSoundHandles();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t EnvironmentProbe::Invoke(const char *functionName) {
+intptr_t EnvironmentProbe::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2627,11 +2627,11 @@ intptr_t EnvironmentProbe::Invoke(const char *functionName) {
 		Event_Off();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idWorldspawn::Invoke(const char *functionName) {
+intptr_t idWorldspawn::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2641,11 +2641,11 @@ intptr_t idWorldspawn::Invoke(const char *functionName) {
 		Event_Remove();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idItem::Invoke(const char *functionName) {
+intptr_t idItem::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2679,21 +2679,21 @@ intptr_t idItem::Invoke(const char *functionName) {
 		Event_RespawnFx();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idItemPowerup::Invoke(const char *functionName) {
+intptr_t idItemPowerup::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idObjective::Invoke(const char *functionName) {
+intptr_t idObjective::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2703,23 +2703,23 @@ intptr_t idObjective::Invoke(const char *functionName) {
 		Event_GetPlayerPos();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idVideoCDItem::Invoke(const char *functionName) {
+intptr_t idVideoCDItem::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPDAItem::Invoke(const char *functionName) {
+intptr_t idPDAItem::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idMoveableItem::Invoke(const char *functionName) {
+intptr_t idMoveableItem::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2733,11 +2733,11 @@ intptr_t idMoveableItem::Invoke(const char *functionName) {
 		Event_DropToFloor();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idItemTeam::Invoke(const char *functionName) {
+intptr_t idItemTeam::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2771,27 +2771,27 @@ intptr_t idItemTeam::Invoke(const char *functionName) {
 		UpdateGuis();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idMoveablePDAItem::Invoke(const char *functionName) {
+intptr_t idMoveablePDAItem::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idItemRemover::Invoke(const char *functionName) {
+intptr_t idItemRemover::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idObjectiveComplete::Invoke(const char *functionName) {
+intptr_t idObjectiveComplete::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -2801,11 +2801,11 @@ intptr_t idObjectiveComplete::Invoke(const char *functionName) {
 		Event_GetPlayerPos();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPlayer::Invoke(const char *functionName) {
+intptr_t idPlayer::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3359,11 +3359,11 @@ intptr_t idPlayer::Invoke(const char *functionName) {
 		Event_StartWarp();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idMover::Invoke(const char *functionName) {
+intptr_t idMover::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3449,21 +3449,21 @@ intptr_t idMover::Invoke(const char *functionName) {
 		Event_IsRotating();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idSplinePath::Invoke(const char *functionName) {
+intptr_t idSplinePath::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idElevator::Invoke(const char *functionName) {
+intptr_t idElevator::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3501,11 +3501,11 @@ intptr_t idElevator::Invoke(const char *functionName) {
 		Event_SetGuiStates();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idMover_Binary::Invoke(const char *functionName) {
+intptr_t idMover_Binary::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3583,11 +3583,11 @@ intptr_t idMover_Binary::Invoke(const char *functionName) {
 		Event_InitGuiTargets();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idDoor::Invoke(const char *functionName) {
+intptr_t idDoor::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3670,11 +3670,11 @@ intptr_t idDoor::Invoke(const char *functionName) {
 		Event_ClosePortal();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPlat::Invoke(const char *functionName) {
+intptr_t idPlat::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3696,11 +3696,11 @@ intptr_t idPlat::Invoke(const char *functionName) {
 		PostBind();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idMover_Periodic::Invoke(const char *functionName) {
+intptr_t idMover_Periodic::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3710,51 +3710,51 @@ intptr_t idMover_Periodic::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idRotater::Invoke(const char *functionName) {
+intptr_t idRotater::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idBobber::Invoke(const char *functionName) {
+intptr_t idBobber::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idPendulum::Invoke(const char *functionName) {
+intptr_t idPendulum::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idRiser::Invoke(const char *functionName) {
+intptr_t idRiser::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idCameraView::Invoke(const char *functionName) {
+intptr_t idCameraView::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3768,11 +3768,11 @@ intptr_t idCameraView::Invoke(const char *functionName) {
 		Event_SetAttachments();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idCameraAnim::Invoke(const char *functionName) {
+intptr_t idCameraAnim::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3806,11 +3806,11 @@ intptr_t idCameraAnim::Invoke(const char *functionName) {
 		Event_SetCallback();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idMoveable::Invoke(const char *functionName) {
+intptr_t idMoveable::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3856,11 +3856,11 @@ intptr_t idMoveable::Invoke(const char *functionName) {
 		Event_IsAtRest();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idBarrel::Invoke(const char *functionName) {
+intptr_t idBarrel::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3874,11 +3874,11 @@ intptr_t idBarrel::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idExplodingBarrel::Invoke(const char *functionName) {
+intptr_t idExplodingBarrel::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -3919,123 +3919,123 @@ intptr_t idExplodingBarrel::Invoke(const char *functionName) {
 		Event_TriggerTargets();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget::Invoke(const char *functionName) {
+intptr_t idTarget::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_Remove::Invoke(const char *functionName) {
+intptr_t idTarget_Remove::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_Show::Invoke(const char *functionName) {
+intptr_t idTarget_Show::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_Damage::Invoke(const char *functionName) {
+intptr_t idTarget_Damage::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_SessionCommand::Invoke(const char *functionName) {
+intptr_t idTarget_SessionCommand::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_EndLevel::Invoke(const char *functionName) {
+intptr_t idTarget_EndLevel::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_WaitForButton::Invoke(const char *functionName) {
-	int functionNameHash = idStr::Hash(functionName);
-	if(functionNameHash == 61762) { // Think
-		Think();
-		return 0;
-	};
-	return __super::Invoke(functionName);
-
-};
-
-intptr_t idTarget_SetGlobalShaderTime::Invoke(const char *functionName) {
-	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
-
-};
-
-intptr_t idTarget_SetShaderParm::Invoke(const char *functionName) {
-	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
-
-};
-
-intptr_t idTarget_SetShaderTime::Invoke(const char *functionName) {
-	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
-
-};
-
-intptr_t idTarget_FadeEntity::Invoke(const char *functionName) {
+intptr_t idTarget_WaitForButton::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 61762) { // Think
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_LightFadeIn::Invoke(const char *functionName) {
+intptr_t idTarget_SetGlobalShaderTime::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_LightFadeOut::Invoke(const char *functionName) {
+intptr_t idTarget_SetShaderParm::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_Give::Invoke(const char *functionName) {
+intptr_t idTarget_SetShaderTime::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::Invoke(functionName, param1);
+
+};
+
+intptr_t idTarget_FadeEntity::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 61762) { // Think
+		Think();
+		return 0;
+	};
+	return __super::Invoke(functionName, param1);
+
+};
+
+intptr_t idTarget_LightFadeIn::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::Invoke(functionName, param1);
+
+};
+
+intptr_t idTarget_LightFadeOut::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::Invoke(functionName, param1);
+
+};
+
+intptr_t idTarget_Give::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_GiveEmail::Invoke(const char *functionName) {
+intptr_t idTarget_GiveEmail::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_SetModel::Invoke(const char *functionName) {
+intptr_t idTarget_SetModel::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_SetInfluence::Invoke(const char *functionName) {
+intptr_t idTarget_SetInfluence::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -4053,51 +4053,51 @@ intptr_t idTarget_SetInfluence::Invoke(const char *functionName) {
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_SetKeyVal::Invoke(const char *functionName) {
+intptr_t idTarget_SetKeyVal::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_SetFov::Invoke(const char *functionName) {
+intptr_t idTarget_SetFov::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 61762) { // Think
 		Think();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_SetPrimaryObjective::Invoke(const char *functionName) {
+intptr_t idTarget_SetPrimaryObjective::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_LockDoor::Invoke(const char *functionName) {
+intptr_t idTarget_LockDoor::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_CallObjectFunction::Invoke(const char *functionName) {
+intptr_t idTarget_CallObjectFunction::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_EnableLevelWeapons::Invoke(const char *functionName) {
+intptr_t idTarget_EnableLevelWeapons::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_Tip::Invoke(const char *functionName) {
+intptr_t idTarget_Tip::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -4111,63 +4111,63 @@ intptr_t idTarget_Tip::Invoke(const char *functionName) {
 		Event_GetPlayerPos();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_GiveSecurity::Invoke(const char *functionName) {
+intptr_t idTarget_GiveSecurity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_RemoveWeapons::Invoke(const char *functionName) {
+intptr_t idTarget_RemoveWeapons::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_LevelTrigger::Invoke(const char *functionName) {
+intptr_t idTarget_LevelTrigger::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_Checkpoint::Invoke(const char *functionName) {
+intptr_t idTarget_Checkpoint::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_EnableStamina::Invoke(const char *functionName) {
+intptr_t idTarget_EnableStamina::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_FadeSoundClass::Invoke(const char *functionName) {
+intptr_t idTarget_FadeSoundClass::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 253902) { // Event_RestoreVolume
 		Event_RestoreVolume();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_RumbleJoystick::Invoke(const char *functionName) {
+intptr_t idTarget_RumbleJoystick::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTarget_Achievement::Invoke(const char *functionName) {
+intptr_t idTarget_Achievement::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTrigger::Invoke(const char *functionName) {
+intptr_t idTrigger::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -4196,31 +4196,31 @@ intptr_t idTrigger::Invoke(const char *functionName) {
 		Event_Disable();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTrigger_Multi::Invoke(const char *functionName) {
+intptr_t idTrigger_Multi::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTrigger_EntityName::Invoke(const char *functionName) {
+intptr_t idTrigger_EntityName::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTrigger_Timer::Invoke(const char *functionName) {
+intptr_t idTrigger_Timer::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -4238,37 +4238,37 @@ intptr_t idTrigger_Timer::Invoke(const char *functionName) {
 		Event_Timer();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTrigger_Count::Invoke(const char *functionName) {
+intptr_t idTrigger_Count::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTrigger_Hurt::Invoke(const char *functionName) {
+intptr_t idTrigger_Hurt::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTrigger_Fade::Invoke(const char *functionName) {
+intptr_t idTrigger_Fade::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTrigger_Touch::Invoke(const char *functionName) {
+intptr_t idTrigger_Touch::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -4290,21 +4290,21 @@ intptr_t idTrigger_Touch::Invoke(const char *functionName) {
 		TouchEntities();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTrigger_Flag::Invoke(const char *functionName) {
+intptr_t idTrigger_Flag::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idSound::Invoke(const char *functionName) {
+intptr_t idSound::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -4330,11 +4330,11 @@ intptr_t idSound::Invoke(const char *functionName) {
 		Event_Off();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idEntityFx::Invoke(const char *functionName) {
+intptr_t idEntityFx::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -4374,17 +4374,17 @@ intptr_t idEntityFx::Invoke(const char *functionName) {
 		CleanUp();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTeleporter::Invoke(const char *functionName) {
+intptr_t idTeleporter::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idSecurityCamera::Invoke(const char *functionName) {
+intptr_t idSecurityCamera::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -4440,11 +4440,11 @@ intptr_t idSecurityCamera::Invoke(const char *functionName) {
 		Event_AddLight();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idBrittleFracture::Invoke(const char *functionName) {
+intptr_t idBrittleFracture::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -4473,11 +4473,11 @@ intptr_t idBrittleFracture::Invoke(const char *functionName) {
 		FindNeighbours();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAI::Invoke(const char *functionName) {
+intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -4913,11 +4913,11 @@ intptr_t idAI::Invoke(const char *functionName) {
 		Event_CanReachEnemy();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idCombatNode::Invoke(const char *functionName) {
+intptr_t idCombatNode::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -4930,49 +4930,49 @@ intptr_t idCombatNode::Invoke(const char *functionName) {
 		Event_MarkUsed();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idAI_Vagary::Invoke(const char *functionName) {
+intptr_t idAI_Vagary::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmAI_Follower::Invoke(const char *functionName) {
+intptr_t rvmAI_Follower::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 48744) { // Init
 		Init();
 		return 0;
 	};
 	if(functionNameHash == 130066) { // state_idle
-		state_idle();
+		state_idle((stateParms_t *)param1);
 		return 0;
 	};
 	if(functionNameHash == 211350) { // state_idle_frame
-		return (intptr_t)state_idle_frame();
+		return (intptr_t)state_idle_frame((stateParms_t *)param1);
 	};
 	if(functionNameHash == 161762) { // state_follow
-		return (intptr_t)state_follow();
+		return (intptr_t)state_follow((stateParms_t *)param1);
 	};
 	if(functionNameHash == 244282) { // state_follow_frame
-		return (intptr_t)state_follow_frame();
+		return (intptr_t)state_follow_frame((stateParms_t *)param1);
 	};
 	if(functionNameHash == 215431) { // state_get_closer
-		return (intptr_t)state_get_closer();
+		return (intptr_t)state_get_closer((stateParms_t *)param1);
 	};
 	if(functionNameHash == 157871) { // state_killed
-		return (intptr_t)state_killed();
+		return (intptr_t)state_killed((stateParms_t *)param1);
 	};
 	if(functionNameHash == 199463) { // state_talk_anim
-		return (intptr_t)state_talk_anim();
+		return (intptr_t)state_talk_anim((stateParms_t *)param1);
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmMonsterBase::Invoke(const char *functionName) {
+intptr_t rvmMonsterBase::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 48744) { // Init
 		Init();
@@ -4989,11 +4989,11 @@ intptr_t rvmMonsterBase::Invoke(const char *functionName) {
 	if(functionNameHash == 173364) { // monster_begin
 		return (intptr_t)monster_begin();
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idTestModel::Invoke(const char *functionName) {
+intptr_t idTestModel::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
 		Spawn();
@@ -5011,11 +5011,11 @@ intptr_t idTestModel::Invoke(const char *functionName) {
 		Event_Footstep();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponFist::Invoke(const char *functionName) {
+intptr_t rvmWeaponFist::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -5040,11 +5040,11 @@ intptr_t rvmWeaponFist::Invoke(const char *functionName) {
 	if(functionNameHash == 132482) { // GetFireAnim
 		return (intptr_t)GetFireAnim();
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponPistol::Invoke(const char *functionName) {
+intptr_t rvmWeaponPistol::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -5070,11 +5070,11 @@ intptr_t rvmWeaponPistol::Invoke(const char *functionName) {
 		HasWaitSignal();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponFlashlight::Invoke(const char *functionName) {
+intptr_t rvmWeaponFlashlight::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -5104,11 +5104,11 @@ intptr_t rvmWeaponFlashlight::Invoke(const char *functionName) {
 		UpdateLightIntensity();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponPDA::Invoke(const char *functionName) {
+intptr_t rvmWeaponPDA::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -5130,41 +5130,11 @@ intptr_t rvmWeaponPDA::Invoke(const char *functionName) {
 		Reload();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponShotgun::Invoke(const char *functionName) {
-	int functionNameHash = idStr::Hash(functionName);
-	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
-	};
-	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
-	};
-	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
-		HasWaitSignal();
-		return 0;
-	};
-	return __super::Invoke(functionName);
-
-};
-
-intptr_t rvmWeaponDoubleShotgun::Invoke(const char *functionName) {
+intptr_t rvmWeaponShotgun::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -5190,11 +5160,11 @@ intptr_t rvmWeaponDoubleShotgun::Invoke(const char *functionName) {
 		HasWaitSignal();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponMachineGun::Invoke(const char *functionName) {
+intptr_t rvmWeaponDoubleShotgun::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -5220,11 +5190,11 @@ intptr_t rvmWeaponMachineGun::Invoke(const char *functionName) {
 		HasWaitSignal();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponPlasmaGun::Invoke(const char *functionName) {
+intptr_t rvmWeaponMachineGun::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -5250,11 +5220,41 @@ intptr_t rvmWeaponPlasmaGun::Invoke(const char *functionName) {
 		HasWaitSignal();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponChainGun::Invoke(const char *functionName) {
+intptr_t rvmWeaponPlasmaGun::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		Raise();
+		return 0;
+	};
+	if(functionNameHash == 46077) { // Idle
+		Idle();
+		return 0;
+	};
+	if(functionNameHash == 47046) { // Fire
+		Fire();
+		return 0;
+	};
+	if(functionNameHash == 63107) { // Lower
+		Lower();
+		return 0;
+	};
+	if(functionNameHash == 72819) { // Reload
+		Reload();
+		return 0;
+	};
+	if(functionNameHash == 162113) { // HasWaitSignal
+		HasWaitSignal();
+		return 0;
+	};
+	return __super::Invoke(functionName, param1);
+
+};
+
+intptr_t rvmWeaponChainGun::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -5292,11 +5292,11 @@ intptr_t rvmWeaponChainGun::Invoke(const char *functionName) {
 		SpinDown();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponRocketLauncher::Invoke(const char *functionName) {
+intptr_t rvmWeaponRocketLauncher::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -5322,11 +5322,11 @@ intptr_t rvmWeaponRocketLauncher::Invoke(const char *functionName) {
 		UpdateSkin();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponBFG::Invoke(const char *functionName) {
+intptr_t rvmWeaponBFG::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -5352,11 +5352,11 @@ intptr_t rvmWeaponBFG::Invoke(const char *functionName) {
 		OverCharge();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t rvmWeaponGrabber::Invoke(const char *functionName) {
+intptr_t rvmWeaponGrabber::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
 		Raise();
@@ -5406,11 +5406,11 @@ intptr_t rvmWeaponGrabber::Invoke(const char *functionName) {
 		UpdateGuiLight();
 		return 0;
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 
-intptr_t idThread::Invoke(const char *functionName) {
+intptr_t idThread::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 149674) { // ManualDelete
 		ManualDelete();
@@ -5483,7 +5483,7 @@ intptr_t idThread::Invoke(const char *functionName) {
 	if(functionNameHash == 159226) { // GetThreadName
 		return (intptr_t)GetThreadName();
 	};
-	return __super::Invoke(functionName);
+	return __super::Invoke(functionName, param1);
 
 };
 

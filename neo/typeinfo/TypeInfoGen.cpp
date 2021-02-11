@@ -30,7 +30,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "TypeInfoGen.h"
 
-#define TYPE_INFO_GEN_VERSION		"1.0"
+#define TYPE_INFO_GEN_VERSION		"1.1"
 
 /*
 ================
@@ -854,8 +854,14 @@ void idTypeInfoGen::ParseScope( const char* scope, bool isTemplate, idParser& sr
 					}
 					else if( token == "void" )
 					{
-
+						
 					}
+					else if (token == "stateParms_t")
+					{
+						function.paramStateInput = "stateParms_t";
+						src.ReadToken(&token); // *
+						src.ReadToken(&token); // variable name
+					}					
 					else
 					{
 						function.isValidFunction = false;
@@ -1290,7 +1296,7 @@ void idTypeInfoGen::WriteTypeInfo( const char* fileName ) const
 
 		if( info->functions.Num() > 0 )
 		{
-			filecpp->WriteFloatString( "intptr_t %s::Invoke(const char *functionName) {\n", typeInfoName.c_str(), typeName.c_str() );
+			filecpp->WriteFloatString( "intptr_t %s::Invoke(const char *functionName, void *param1) {\n", typeInfoName.c_str(), typeName.c_str() );
 			//file->WriteFloatString("\tTypeInfoVariableArgs();\n");
 			filecpp->WriteFloatString( "\tint functionNameHash = idStr::Hash(functionName);\n" );
 			for( j = 0; j < info->functions.Num(); j++ )
@@ -1365,14 +1371,24 @@ void idTypeInfoGen::WriteTypeInfo( const char* fileName ) const
 				int hash = idStr::Hash( varName );
 				filecpp->WriteFloatString( "\tif(functionNameHash == %d) { // %s\n", hash, varName );
 
+				idStr functionCall = varName;
+				if (info->functions[j].paramStateInput != "")
+				{
+					functionCall += va("((%s *)param1)", info->functions[j].paramStateInput.c_str());
+				}
+				else
+				{
+					functionCall += "()";
+				}
+
 				if( !strstr( info->functions[j].returnType.c_str(), "*" ) && info->functions[j].returnType != "stateResult_t " && info->functions[j].returnType != "int " && info->functions[j].returnType != "short " && info->functions[j].returnType != "bool " )
 				{
-					filecpp->WriteFloatString( "\t\t%s();\n", varName );
+					filecpp->WriteFloatString( "\t\t%s;\n", functionCall.c_str());
 					filecpp->WriteFloatString( "\t\treturn 0;\n", varName );
 				}
 				else
 				{
-					filecpp->WriteFloatString( "\t\treturn (intptr_t)%s();\n", varName );
+					filecpp->WriteFloatString( "\t\treturn (intptr_t)%s;\n", functionCall.c_str());
 				}
 				filecpp->WriteFloatString( "\t};\n" );
 			}
@@ -1381,7 +1397,7 @@ void idTypeInfoGen::WriteTypeInfo( const char* fileName ) const
 				filecpp->WriteFloatString("\treturn 0;\n\n");
 			}
 			else {
-				filecpp->WriteFloatString("\treturn __super::Invoke(functionName);\n\n");
+				filecpp->WriteFloatString("\treturn __super::Invoke(functionName, param1);\n\n");
 			}
 			filecpp->WriteFloatString( "};\n\n" );
 		}

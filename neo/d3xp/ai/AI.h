@@ -773,13 +773,13 @@ private:
 	bool inCustomAnim;
 	idEntity* leader;
 private:
-	stateResult_t state_idle( void );
-	stateResult_t state_idle_frame( void );
-	stateResult_t state_follow( void );
-	stateResult_t state_follow_frame( void );
-	stateResult_t state_get_closer( void );
-	stateResult_t state_killed( void );
-	stateResult_t state_talk_anim(void);
+	stateResult_t state_idle(stateParms_t *parms);
+	stateResult_t state_idle_frame(stateParms_t* parms);
+	stateResult_t state_follow(stateParms_t* parms);
+	stateResult_t state_follow_frame(stateParms_t* parms);
+	stateResult_t state_get_closer(stateParms_t* parms);
+	stateResult_t state_killed(stateParms_t* parms);
+	stateResult_t state_talk_anim(stateParms_t* parms);
 };
 
 #include "Monster_base.h"
