@@ -4309,6 +4309,20 @@ bool idAI::EnemyPositionValid() const
 }
 
 /*
+================
+idAI::PlayCustomAnim
+================
+*/
+void idAI::PlayCustomAnim(idStr animname, float blendIn, float blendOut) {	
+	scriptThread->ClearStack();
+	scriptThread->PushEntity(this);
+	scriptThread->PushString(animname);
+	scriptThread->PushFloat(blendIn);
+	scriptThread->PushFloat(blendOut);
+	scriptThread->CallFunction(scriptObject.GetFunction("playCustomAnim"), false);
+}
+
+/*
 =====================
 idAI::SetEnemyPosition
 =====================

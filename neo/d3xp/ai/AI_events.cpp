@@ -342,6 +342,44 @@ void idAI::Event_Touch( idEntity* other, trace_t* trace )
 idAI::Event_FindEnemy
 =====================
 */
+idActor *idAI::FindEnemy(int useFOV)
+{
+	int			i;
+	idEntity* ent;
+	idActor* actor;
+
+	if (gameLocal.InPlayerPVS(this))
+	{
+		for (i = 0; i < gameLocal.numClients; i++)
+		{
+			ent = gameLocal.entities[i];
+
+			if (!ent || !ent->IsType(idActor::Type))
+			{
+				continue;
+			}
+
+			actor = static_cast<idActor*>(ent);
+			if ((actor->health <= 0) || !(ReactionTo(actor) & ATTACK_ON_SIGHT))
+			{
+				continue;
+			}
+
+			if (CanSee(actor, useFOV != 0))
+			{
+				return actor;
+			}
+		}
+	}
+
+	return NULL;
+}
+
+/*
+=====================
+idAI::Event_FindEnemy
+=====================
+*/
 void idAI::Event_FindEnemy( int useFOV )
 {
 	int			i;
@@ -531,6 +569,29 @@ void idAI::Event_ClosestReachableEnemyOfEntity( idEntity* team_mate )
 	}
 
 	idThread::ReturnEntity( bestEnt );
+}
+
+/*
+=====================
+idAI::HeardSound
+=====================
+*/
+idEntity *idAI::HeardSound(int ignore_team)
+{
+	// check if we heard any sounds in the last frame
+	idActor* actor = gameLocal.GetAlertEntity();
+	if (actor != NULL && (!ignore_team || (ReactionTo(actor) & ATTACK_ON_SIGHT)) && gameLocal.InPlayerPVS(this))
+	{
+		idVec3 pos = actor->GetPhysics()->GetOrigin();
+		idVec3 org = physicsObj.GetOrigin();
+		float dist = (pos - org).LengthSqr();
+		if (dist < Square(AI_HEARING_RANGE))
+		{
+			return actor;
+		}
+	}
+
+	return NULL;
 }
 
 /*
@@ -921,45 +982,46 @@ void idAI::Event_MeleeAttackToJoint( const char* jointname, const char* meleeDef
 	idThread::ReturnInt( false );
 }
 
+
 /*
 =====================
-idAI::Event_CanBecomeSolid
+idAI::CanBecomeSolid
 =====================
 */
-void idAI::Event_CanBecomeSolid()
+bool idAI::CanBecomeSolid()
 {
 	int			i;
 	int			num;
 	bool		returnValue = true;
-	idEntity* 	hit;
+	idEntity* hit;
 	idClipModel* cm;
-	idClipModel* clipModels[ MAX_GENTITIES ];
+	idClipModel* clipModels[MAX_GENTITIES];
 
-	num = gameLocal.clip.ClipModelsTouchingBounds( physicsObj.GetAbsBounds(), MASK_MONSTERSOLID, clipModels, MAX_GENTITIES );
-	for( i = 0; i < num; i++ )
+	num = gameLocal.clip.ClipModelsTouchingBounds(physicsObj.GetAbsBounds(), MASK_MONSTERSOLID, clipModels, MAX_GENTITIES);
+	for (i = 0; i < num; i++)
 	{
-		cm = clipModels[ i ];
+		cm = clipModels[i];
 
 		// don't check render entities
-		if( cm->IsRenderModel() )
+		if (cm->IsRenderModel())
 		{
 			continue;
 		}
 
 		hit = cm->GetEntity();
-		if( ( hit == this ) || !hit->fl.takedamage )
+		if ((hit == this) || !hit->fl.takedamage)
 		{
 			continue;
 		}
 
 		// DG: add parenthesis to make precedence obvious and to appease compiler
-		if( ( spawnClearMoveables && hit->IsType( idMoveable::Type ) ) || hit->IsType( idBarrel::Type ) || hit->IsType( idExplodingBarrel::Type ) )
+		if ((spawnClearMoveables && hit->IsType(idMoveable::Type)) || hit->IsType(idBarrel::Type) || hit->IsType(idExplodingBarrel::Type))
 		{
 			idVec3 push;
 			push = hit->GetPhysics()->GetOrigin() - GetPhysics()->GetOrigin();
 			push.z = 30.f;
 			push.NormalizeFast();
-			if( ( idMath::Fabs( push.x ) < 0.15f ) && ( idMath::Fabs( push.y ) < 0.15f ) )
+			if ((idMath::Fabs(push.x) < 0.15f) && (idMath::Fabs(push.y) < 0.15f))
 			{
 				push.x = 10.f;
 				push.y = 10.f;
@@ -967,16 +1029,26 @@ void idAI::Event_CanBecomeSolid()
 				push.NormalizeFast();
 			}
 			push *= 300.f;
-			hit->GetPhysics()->SetLinearVelocity( push );
+			hit->GetPhysics()->SetLinearVelocity(push);
 		}
 
-		if( physicsObj.ClipContents( cm ) )
+		if (physicsObj.ClipContents(cm))
 		{
 			returnValue = false;
 		}
 	}
 
-	idThread::ReturnFloat( returnValue );
+	return returnValue;
+}
+
+/*
+=====================
+idAI::Event_CanBecomeSolid
+=====================
+*/
+void idAI::Event_CanBecomeSolid()
+{	
+	idThread::ReturnFloat(CanBecomeSolid());
 }
 
 /*
@@ -1647,6 +1719,29 @@ void idAI::Event_EnemyRange()
 	}
 
 	idThread::ReturnFloat( dist );
+}
+
+/*
+=====================
+idAI::EnemyRange
+=====================
+*/
+float idAI::EnemyRange(void)
+{
+	float dist;
+	idActor* enemyEnt = enemy.GetEntity();
+
+	if (enemyEnt)
+	{
+		dist = (enemyEnt->GetPhysics()->GetOrigin() - GetPhysics()->GetOrigin()).Length();
+	}
+	else
+	{
+		// Just some really high number
+		dist = idMath::INFINITY;
+	}
+
+	return dist;
 }
 
 /*

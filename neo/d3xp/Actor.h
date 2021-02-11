@@ -205,6 +205,7 @@ public:
 	void					UpdateAnimState();
 	void					SetAnimState( int channel, const char* name, int blendFrames );
 	const char* 			GetAnimState( int channel ) const;
+	idAnimState&			GetAnimStateVar(int channel);
 	bool					InAnimState( int channel, const char* name ) const;
 	const char* 			WaitState() const;
 	void					SetWaitState( const char* _waitstate );
@@ -218,6 +219,8 @@ public:
 
 protected:
 	friend class			idAnimState;
+
+	bool					AnimDone(int channel, int blendFrames);
 
 	float					fovDot;				// cos( fovDegrees )
 	idVec3					eyeOffset;			// offset of eye relative to physics origin

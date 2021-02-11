@@ -458,6 +458,8 @@ public:
 	const char* 			GetMapName() const;
 	void					DelayRemoveEntity( idEntity* entity, int delay );
 
+	bool					InfluenceActive(void) const;
+
 	int						NumAAS() const;
 	idAAS* 					GetAAS( int num ) const;
 	idAAS* 					GetAAS( const char* name ) const;

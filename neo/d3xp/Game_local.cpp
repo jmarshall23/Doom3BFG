@@ -6065,3 +6065,19 @@ void idGameLocal::DelayRemoveEntity( idEntity* entity, int delay )
 	delayRemoveEntities.Append( entry );
 }
 // jmarshall end
+
+/*
+===============
+idGameLocal::InfluenceActive
+===============
+*/
+bool idGameLocal::InfluenceActive(void) const {
+	idPlayer* player;
+
+	player = gameLocal.GetLocalPlayer();
+	if (player != NULL && player->GetInfluenceLevel()) {
+		return true;
+	}
+
+	return false;
+}

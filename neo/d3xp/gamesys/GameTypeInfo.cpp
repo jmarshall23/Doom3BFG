@@ -4490,6 +4490,10 @@ intptr_t idAI::Invoke(const char *functionName) {
 		GetTalkState();
 		return 0;
 	};
+	if(functionNameHash == 123975) { // EnemyRange
+		EnemyRange();
+		return 0;
+	};
 	if(functionNameHash == 48744) { // Init
 		Init();
 		return 0;
@@ -4685,6 +4689,9 @@ intptr_t idAI::Invoke(const char *functionName) {
 	if(functionNameHash == 254316) { // Event_CanBecomeSolid
 		Event_CanBecomeSolid();
 		return 0;
+	};
+	if(functionNameHash == 172048) { // CanBecomeSolid
+		return (intptr_t)CanBecomeSolid();
 	};
 	if(functionNameHash == 216467) { // Event_BecomeSolid
 		Event_BecomeSolid();
@@ -4957,6 +4964,30 @@ intptr_t rvmAI_Follower::Invoke(const char *functionName) {
 	};
 	if(functionNameHash == 157871) { // state_killed
 		return (intptr_t)state_killed();
+	};
+	if(functionNameHash == 199463) { // state_talk_anim
+		return (intptr_t)state_talk_anim();
+	};
+	return __super::Invoke(functionName);
+
+};
+
+intptr_t rvmMonsterBase::Invoke(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 48744) { // Init
+		Init();
+		return 0;
+	};
+	if(functionNameHash == 305792) { // trigger_wakeup_targets
+		trigger_wakeup_targets();
+		return 0;
+	};
+	if(functionNameHash == 171989) { // state_Spawner
+		state_Spawner();
+		return 0;
+	};
+	if(functionNameHash == 173364) { // monster_begin
+		return (intptr_t)monster_begin();
 	};
 	return __super::Invoke(functionName);
 

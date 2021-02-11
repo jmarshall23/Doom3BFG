@@ -532,6 +532,21 @@ protected:
 		return axisDelta;
 	}
 
+
+	int GetIntKey(const char* key)
+	{
+		int value;
+		spawnArgs.GetInt(key, "0", value);
+		return value;
+	}
+
+	float GetFloatKey(const char* key)
+	{
+		float value;
+		spawnArgs.GetFloat(key, "0", value);
+		return value;
+	}
+
 private:
 	idPhysics_Static		defaultPhysicsObj;					// default physics object
 	idPhysics* 				physics;							// physics used for this entity
@@ -585,6 +600,7 @@ public:
 	idVec3					GetOrigin( void );
 	float					DistanceTo( idEntity* ent );
 	float					DistanceTo( const idVec3& pos ) const;
+	idStr					GetNextKey(const char* prefix, const char* lastMatch);
 // jmarshall end
 
 	void					Event_GetName();
@@ -626,6 +642,7 @@ public:
 	void					Event_GetAngularVelocity();
 	void					Event_SetSize( const idVec3& mins, const idVec3& maxs );
 	void					Event_GetSize();
+	idVec3					GetSize();
 	void					Event_GetMins();
 	void					Event_GetMaxs();
 	void					Event_Touches( idEntity* ent );

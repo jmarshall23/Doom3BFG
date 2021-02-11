@@ -2048,6 +2048,14 @@ bool idActor::HasEnemies() const
 
 	return false;
 }
+/*
+================
+idActor::AnimDone
+================
+*/
+bool idActor::AnimDone(int channel, int blendFrames) {
+	return GetAnimStateVar(channel).AnimDone(blendFrames);
+}
 
 /*
 ================
@@ -2218,6 +2226,22 @@ const char* idActor::GetAnimState( int channel ) const
 			gameLocal.Error( "idActor::GetAnimState: Unknown anim group" );
 			return NULL;
 			break;
+	}
+}
+
+/*
+=====================
+idActor::GetAnimStateVar
+=====================
+*/
+idAnimState& idActor::GetAnimStateVar(int channel) {
+	switch (channel) {
+	case ANIMCHANNEL_LEGS:		return legsAnim;
+	case ANIMCHANNEL_TORSO:		return torsoAnim;
+	case ANIMCHANNEL_HEAD:		return headAnim;
+	default:
+		gameLocal.Error("idActor::GetAnimState: Unknown anim channel");
+		return torsoAnim;
 	}
 }
 

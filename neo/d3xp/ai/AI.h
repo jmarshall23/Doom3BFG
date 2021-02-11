@@ -281,9 +281,12 @@ public:
 
 	void					Spawn();
 	void					HeardSound( idEntity* ent, const char* action );
+	idEntity*				HeardSound(int ignore_team);
 	idActor*					GetEnemy() const;
 	void					TalkTo( idActor* actor );
 	talkState_t				GetTalkState() const;
+
+	float					EnemyRange(void);
 
 	bool					GetAimDir( const idVec3& firePos, idEntity* aimAtEnt, const idEntity* ignore, idVec3& aimDir ) const;
 
@@ -466,6 +469,8 @@ protected:
 public:
 	int						ReactionTo( const idEntity* ent );
 protected:
+	void					PlayCustomAnim(idStr animname, float blendIn, float blendOut);
+
 	void					EnemyDead();
 	virtual bool			CanPlayChatterSounds() const;
 	void					SetChatSound();
@@ -577,6 +582,7 @@ protected:
 	// ai/ai_events.cpp
 	//
 	void					Event_Activate( idEntity* activator );
+	idActor*				FindEnemy(int useFOV);
 	void					Event_Touch( idEntity* other, trace_t* trace );
 	void					Event_FindEnemy( int useFOV );
 	void					Event_FindEnemyAI( int useFOV );
@@ -601,6 +607,7 @@ protected:
 	void					Event_MeleeAttackToJoint( const char* jointname, const char* meleeDefName );
 	void					Event_RandomPath();
 	void					Event_CanBecomeSolid();
+	bool					CanBecomeSolid();
 	void					Event_BecomeSolid();
 	void					Event_BecomeNonSolid();
 	void					Event_BecomeRagdoll();
@@ -772,6 +779,9 @@ private:
 	stateResult_t state_follow_frame( void );
 	stateResult_t state_get_closer( void );
 	stateResult_t state_killed( void );
+	stateResult_t state_talk_anim(void);
 };
+
+#include "Monster_base.h"
 
 #endif /* !__AI_H__ */

@@ -61,11 +61,28 @@ rvmAI_Follower::state_idle_frame
 stateResult_t rvmAI_Follower::state_idle_frame( void )
 {
 	if( AI_TALK )
-	{
-		stateThread.SetState( "state_follow" );
+	{		
+		PlayCustomAnim("melee_attack1", 0, 0);
+		stateThread.SetState("state_talk_anim");
 		return SRESULT_DONE;
 	}
 
+	return SRESULT_WAIT;
+}
+
+
+/*
+================
+rvmAI_Follower::state_idle_frame
+================
+*/
+stateResult_t rvmAI_Follower::state_talk_anim(void) {
+	if (AnimDone(ANIMCHANNEL_TORSO, 0)) {
+		stateThread.SetState("state_follow");
+		Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Idle", 0);
+		Event_AnimState(ANIMCHANNEL_LEGS, "Legs_Idle", 0);
+		return SRESULT_DONE;
+	}
 	return SRESULT_WAIT;
 }
 
@@ -163,3 +180,4 @@ stateResult_t rvmAI_Follower::state_killed( void )
 	Event_StopMove();
 	return SRESULT_DONE;
 }
+

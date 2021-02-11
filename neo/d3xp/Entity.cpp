@@ -5173,6 +5173,19 @@ void idEntity::Event_GetSize()
 
 /*
 ================
+idEntity::Event_GetSize
+================
+*/
+idVec3 idEntity::GetSize()
+{
+	idBounds bounds;
+
+	bounds = GetPhysics()->GetBounds();
+	return (bounds[1] - bounds[0]);
+}
+
+/*
+================
 idEntity::Event_GetMins
 ================
 */
@@ -5276,6 +5289,32 @@ void idEntity::Event_GetNextKey( const char* prefix, const char* lastMatch )
 	{
 		idThread::ReturnString( kv->GetKey() );
 	}
+}
+
+/*
+================
+idEntity::GetNextKey
+================
+*/
+idStr idEntity::GetNextKey(const char* prefix, const char* lastMatch) {
+	const idKeyValue* kv;
+	const idKeyValue* previous;
+
+	if (*lastMatch)
+	{
+		previous = spawnArgs.FindKey(lastMatch);
+	}
+	else
+	{
+		previous = NULL;
+	}
+
+	kv = spawnArgs.MatchPrefix(prefix, previous);
+	if (!kv)
+	{
+		return "";
+	}	
+	return kv->GetKey();
 }
 
 /*
