@@ -92,12 +92,12 @@ if(MSVC)
         COMPILE_FLAGS "/Ycprecompiled.h"
         OBJECT_OUTPUTS "precompiled.pch"
         )
-        set_source_files_properties(
-            ${ID_PRECOMPILED_SOURCES}
-            PROPERTIES
-            COMPILE_FLAGS "/Yuprecompiled.h"
-            OBJECT_DEPENDS "precompiled.pch"
-            )
+	set_source_files_properties(
+		${ID_PRECOMPILED_SOURCES}
+		PROPERTIES
+		COMPILE_FLAGS "/Yuprecompiled.h"
+		OBJECT_DEPENDS "precompiled.pch"
+		)
 
     add_library(idlib ${ID_SOURCES_ALL} ${ID_INCLUDES_ALL})
 else()
