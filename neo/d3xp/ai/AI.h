@@ -313,6 +313,13 @@ protected:
 
 	bool					checkForEnemy(float use_fov);
 
+private:
+	stateResult_t			state_Spawner(stateParms_t* parms);
+	stateResult_t			wake_on_enemy(stateParms_t* parms);
+
+	void					idle_followPathEntities(idEntity* pathnode);
+protected:
+
 	idScriptBool			ambush;
 	idScriptBool			ignoreEnemies;			// used to disable enemy checks during attack_path
 	idScriptBool			stay_on_attackpath;		// used to disable enemy checks during attack_path
@@ -478,6 +485,11 @@ public:
 	int						ReactionTo( const idEntity* ent );
 protected:
 	void					PlayCustomAnim(idStr animname, float blendIn, float blendOut);
+	void					PlayCustomCycle(idStr animname, float blendTime);
+
+	void					trigger_wakeup_targets(void);
+
+	void					sight_enemy(void);
 
 	void					EnemyDead();
 	virtual bool			CanPlayChatterSounds() const;
@@ -585,6 +597,8 @@ protected:
 	// AI script state management
 	void					LinkScriptVariables();
 	void					UpdateAIScript();
+
+	stateResult_t			State_WakeUp(stateParms_t* parms);
 
 	//
 	// ai/ai_events.cpp

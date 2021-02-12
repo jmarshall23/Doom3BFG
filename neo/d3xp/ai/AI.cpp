@@ -4401,6 +4401,67 @@ void idAI::PlayCustomAnim(idStr animname, float blendIn, float blendOut) {
 	scriptThread->PushFloat(blendOut);
 	scriptThread->CallFunction(scriptObject.GetFunction("playCustomAnim"), false);
 }
+/*
+================
+idAI::PlayCustomCycle
+================
+*/
+void idAI::PlayCustomCycle(idStr animname, float blendTime) {
+	scriptThread->ClearStack();
+	scriptThread->PushEntity(this);
+	scriptThread->PushString(animname);
+	scriptThread->PushFloat(blendTime);
+	scriptThread->CallFunction(scriptObject.GetFunction("playCustomCycle"), false);
+}
+
+/*
+======================
+idAI::trigger_wakeup_targets
+======================
+*/
+void idAI::trigger_wakeup_targets(void) {
+	idStr key;
+	idStr name;
+	idEntity* ent;
+
+	key = GetNextKey("wakeup_target", "");
+	while (key != "") {
+		name = GetKey(key);
+		ent = gameLocal.FindEntity(name);
+		if (!ent) {
+			idLib::Warning("Unknown wakeup_target '" + name + "' on entity '" + GetName() + "'");
+		}
+		else {
+			ent->Signal(SIG_TRIGGER);
+			ent->ProcessEvent(&EV_Activate, gameLocal.GetLocalPlayer());
+			ent->TriggerGuis();
+		}
+		key = GetNextKey("wakeup_target", key);
+	}
+}
+
+/*
+======================
+idAI::checkForEnemy
+======================
+*/
+void idAI::sight_enemy(void) {
+	idStr animname;
+
+	Event_FaceEnemy();
+	animname = GetKey("on_activate");
+	if (animname != "") {
+		// don't go dormant during on_activate anims since they
+		// may end up floating in air during no gravity anims.
+		Event_SetNeverDormant(true);
+		if (GetIntKey("walk_on_sight")) {
+			Event_MoveToEnemy();
+		}
+		Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Sight", 4);
+		//waitAction("sight"); // jmarshall implement this?
+		Event_SetNeverDormant(GetFloatKey("neverdormant"));
+	}
+}
 
 /*
 =====================

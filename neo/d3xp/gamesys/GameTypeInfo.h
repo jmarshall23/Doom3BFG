@@ -5777,7 +5777,7 @@ static classVariableInfo_t idAASFindAttackPosition_typeInfo[] = {
 };
 
 static classVariableInfo_t idAI_typeInfo[] = {
-	{ "idScriptBool", "ambush", (intptr_t)(&((idAI *)0)->ambush), sizeof( ((idAI *)0)->ambush ) },
+	{ ": idScriptBool", "ambush", (intptr_t)(&((idAI *)0)->ambush), sizeof( ((idAI *)0)->ambush ) },
 	{ "idScriptBool", "ignoreEnemies", (intptr_t)(&((idAI *)0)->ignoreEnemies), sizeof( ((idAI *)0)->ignoreEnemies ) },
 	{ "idScriptBool", "stay_on_attackpath", (intptr_t)(&((idAI *)0)->stay_on_attackpath), sizeof( ((idAI *)0)->stay_on_attackpath ) },
 	{ "idScriptBool", "ignore_sight", (intptr_t)(&((idAI *)0)->ignore_sight), sizeof( ((idAI *)0)->ignore_sight ) },

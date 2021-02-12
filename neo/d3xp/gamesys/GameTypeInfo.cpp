@@ -4498,6 +4498,13 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 		Init();
 		return 0;
 	};
+	if(functionNameHash == 171989) { // state_Spawner
+		state_Spawner((stateParms_t *)param1);
+		return 0;
+	};
+	if(functionNameHash == 172196) { // wake_on_enemy
+		return (intptr_t)wake_on_enemy((stateParms_t *)param1);
+	};
 	if(functionNameHash == 62250) { // SetAAS
 		SetAAS();
 		return 0;
@@ -4512,6 +4519,14 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	};
 	if(functionNameHash == 61762) { // Think
 		Think();
+		return 0;
+	};
+	if(functionNameHash == 305792) { // trigger_wakeup_targets
+		trigger_wakeup_targets();
+		return 0;
+	};
+	if(functionNameHash == 146357) { // sight_enemy
+		sight_enemy();
 		return 0;
 	};
 	if(functionNameHash == 107792) { // EnemyDead
@@ -4661,6 +4676,9 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	if(functionNameHash == 173157) { // UpdateAIScript
 		UpdateAIScript();
 		return 0;
+	};
+	if(functionNameHash == 149028) { // State_WakeUp
+		return (intptr_t)State_WakeUp((stateParms_t *)param1);
 	};
 	if(functionNameHash == 370058) { // Event_FindEnemyInCombatNodes
 		Event_FindEnemyInCombatNodes();
