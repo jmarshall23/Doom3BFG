@@ -170,10 +170,12 @@ const idEventDef AI_TriggerFX( "triggerFX", "ss" );
 const idEventDef AI_StartEmitter( "startEmitter", "sss", 'e' );
 const idEventDef AI_GetEmitter( "getEmitter", "s", 'e' );
 const idEventDef AI_StopEmitter( "stopEmitter", "s" );
+const idEventDef AI_checkForEnemy("checkForEnemy", "f", 'f');
 
 
 
 CLASS_DECLARATION( idActor, idAI )
+EVENT(AI_checkForEnemy,						idAI::Event_CheckForEnemy)
 EVENT( EV_Activate,							idAI::Event_Activate )
 EVENT( EV_Touch,							idAI::Event_Touch )
 EVENT( AI_FindEnemy,						idAI::Event_FindEnemy )
@@ -412,6 +414,14 @@ void idAI::Event_FindEnemy( int useFOV )
 	}
 
 	idThread::ReturnEntity( NULL );
+}
+/*
+=====================
+idAI::Event_CheckForEnemy
+=====================
+*/
+void idAI::Event_CheckForEnemy(float use_fov) {
+	idThread::ReturnFloat(checkForEnemy(use_fov));
 }
 
 /*

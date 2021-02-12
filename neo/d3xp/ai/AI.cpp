@@ -1191,6 +1191,81 @@ void idAI::DormantEnd()
 }
 
 /*
+======================
+idAI::checkForEnemy
+======================
+*/
+bool idAI::checkForEnemy(float use_fov) {
+	idEntity* enemy;
+	idVec3 size;
+	float dist;
+
+	if (gameLocal.InfluenceActive()) {
+		return false;
+	}
+
+	if (AI_PAIN) {
+		// get out of ambush mode when shot
+		ambush = false;
+	}
+
+	if (ignoreEnemies) {
+		// while we're following paths, we only respond to enemies on pain, or when close enough to them
+		if (stay_on_attackpath) {
+			// don't exit attack_path when close to enemy
+			return false;
+		}
+
+		enemy = this->enemy.GetEntity();
+		if (!enemy) {
+			enemy = FindEnemy(false);
+		}
+
+		if (!enemy) {
+			return false;
+		}
+
+		size = GetSize();
+		dist = (size.x * 1.414) + 16;  // diagonal distance plus 16 units
+		if (EnemyRange() > dist) {
+			return false;
+		}
+	}
+	else {
+		if (this->enemy.GetEntity()) {
+			// we were probably triggered (which sets our enemy)
+			return true;
+		}
+
+		if (!ignore_sight) {
+			enemy = FindEnemy(use_fov);
+		}
+
+		if (!enemy) {
+			if (ambush) {
+				return false;
+			}
+
+			enemy = HeardSound(true);
+			if (!enemy) {
+				return false;
+			}
+		}
+	}
+
+	ignoreEnemies = false;
+
+	// once we've woken up, get out of ambush mode
+	ambush = false;
+
+	// don't use the fov for sight anymore
+	idle_sight_fov = false;
+
+	Event_SetEnemy(enemy);
+	return true;
+}
+
+/*
 =====================
 idAI::Think
 =====================
@@ -1345,6 +1420,11 @@ idAI::LinkScriptVariables
 */
 void idAI::LinkScriptVariables()
 {
+	ambush.LinkTo(scriptObject, "ambush");
+	ignoreEnemies.LinkTo(scriptObject, "ignoreEnemies");
+	stay_on_attackpath.LinkTo(scriptObject, "stay_on_attackpath");
+	ignore_sight.LinkTo(scriptObject, "ignore_sight");
+	idle_sight_fov.LinkTo(scriptObject, "idle_sight_fov");
 	AI_TALK.LinkTo(	scriptObject, "AI_TALK" );
 	AI_DAMAGE.LinkTo(	scriptObject, "AI_DAMAGE" );
 	AI_PAIN.LinkTo(	scriptObject, "AI_PAIN" );

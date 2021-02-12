@@ -311,6 +311,14 @@ public:
 protected:
 	virtual void			Init() { }
 
+	bool					checkForEnemy(float use_fov);
+
+	idScriptBool			ambush;
+	idScriptBool			ignoreEnemies;			// used to disable enemy checks during attack_path
+	idScriptBool			stay_on_attackpath;		// used to disable enemy checks during attack_path
+	idScriptBool			ignore_sight;
+	idScriptBool			idle_sight_fov;
+
 	// navigation
 	idAAS* 					aas;
 	int						travelFlags;
@@ -586,6 +594,7 @@ protected:
 	void					Event_Touch( idEntity* other, trace_t* trace );
 	void					Event_FindEnemy( int useFOV );
 	void					Event_FindEnemyAI( int useFOV );
+	void					Event_CheckForEnemy(float use_fov);
 	void					Event_FindEnemyInCombatNodes();
 	void					Event_ClosestReachableEnemyOfEntity( idEntity* team_mate );
 	void					Event_HeardSound( int ignore_team );
@@ -781,7 +790,5 @@ private:
 	stateResult_t state_killed(stateParms_t* parms);
 	stateResult_t state_talk_anim(stateParms_t* parms);
 };
-
-#include "Monster_base.h"
 
 #endif /* !__AI_H__ */

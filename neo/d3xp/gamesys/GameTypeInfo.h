@@ -9,7 +9,7 @@
 
 	943 constants
 	90 enums
-	439 classes/structs/unions
+	438 classes/structs/unions
 	3 templates
 	7 max inheritance level for 'idAI_Vagary'
 
@@ -5777,6 +5777,11 @@ static classVariableInfo_t idAASFindAttackPosition_typeInfo[] = {
 };
 
 static classVariableInfo_t idAI_typeInfo[] = {
+	{ "idScriptBool", "ambush", (intptr_t)(&((idAI *)0)->ambush), sizeof( ((idAI *)0)->ambush ) },
+	{ "idScriptBool", "ignoreEnemies", (intptr_t)(&((idAI *)0)->ignoreEnemies), sizeof( ((idAI *)0)->ignoreEnemies ) },
+	{ "idScriptBool", "stay_on_attackpath", (intptr_t)(&((idAI *)0)->stay_on_attackpath), sizeof( ((idAI *)0)->stay_on_attackpath ) },
+	{ "idScriptBool", "ignore_sight", (intptr_t)(&((idAI *)0)->ignore_sight), sizeof( ((idAI *)0)->ignore_sight ) },
+	{ "idScriptBool", "idle_sight_fov", (intptr_t)(&((idAI *)0)->idle_sight_fov), sizeof( ((idAI *)0)->idle_sight_fov ) },
 	{ "idAAS *", "aas", (intptr_t)(&((idAI *)0)->aas), sizeof( ((idAI *)0)->aas ) },
 	{ "int", "travelFlags", (intptr_t)(&((idAI *)0)->travelFlags), sizeof( ((idAI *)0)->travelFlags ) },
 	{ "idMoveState", "move", (intptr_t)(&((idAI *)0)->move), sizeof( ((idAI *)0)->move ) },
@@ -5916,25 +5921,6 @@ static classVariableInfo_t idAI_Vagary_typeInfo[] = {
 static classVariableInfo_t rvmAI_Follower_typeInfo[] = {
 	{ ": bool", "inCustomAnim", (intptr_t)(&((rvmAI_Follower *)0)->inCustomAnim), sizeof( ((rvmAI_Follower *)0)->inCustomAnim ) },
 	{ "idEntity *", "leader", (intptr_t)(&((rvmAI_Follower *)0)->leader), sizeof( ((rvmAI_Follower *)0)->leader ) },
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t rvmMonsterBase_typeInfo[] = {
-	{ ": float", "run_distance", (intptr_t)(&((rvmMonsterBase *)0)->run_distance), sizeof( ((rvmMonsterBase *)0)->run_distance ) },
-	{ "float", "walk_turn", (intptr_t)(&((rvmMonsterBase *)0)->walk_turn), sizeof( ((rvmMonsterBase *)0)->walk_turn ) },
-	{ "bool", "run", (intptr_t)(&((rvmMonsterBase *)0)->run), sizeof( ((rvmMonsterBase *)0)->run ) },
-	{ "bool", "ambush", (intptr_t)(&((rvmMonsterBase *)0)->ambush), sizeof( ((rvmMonsterBase *)0)->ambush ) },
-	{ "bool", "ignoreEnemies", (intptr_t)(&((rvmMonsterBase *)0)->ignoreEnemies), sizeof( ((rvmMonsterBase *)0)->ignoreEnemies ) },
-	{ "bool", "stay_on_attackpath", (intptr_t)(&((rvmMonsterBase *)0)->stay_on_attackpath), sizeof( ((rvmMonsterBase *)0)->stay_on_attackpath ) },
-	{ "bool", "idle_sight_fov", (intptr_t)(&((rvmMonsterBase *)0)->idle_sight_fov), sizeof( ((rvmMonsterBase *)0)->idle_sight_fov ) },
-	{ "float", "customBlendOut", (intptr_t)(&((rvmMonsterBase *)0)->customBlendOut), sizeof( ((rvmMonsterBase *)0)->customBlendOut ) },
-	{ "idEntity *", "current_path", (intptr_t)(&((rvmMonsterBase *)0)->current_path), sizeof( ((rvmMonsterBase *)0)->current_path ) },
-	{ "idEntity *", "next_path", (intptr_t)(&((rvmMonsterBase *)0)->next_path), sizeof( ((rvmMonsterBase *)0)->next_path ) },
-	{ "bool", "resurrect", (intptr_t)(&((rvmMonsterBase *)0)->resurrect), sizeof( ((rvmMonsterBase *)0)->resurrect ) },
-	{ "bool", "ignore_lostcombat", (intptr_t)(&((rvmMonsterBase *)0)->ignore_lostcombat), sizeof( ((rvmMonsterBase *)0)->ignore_lostcombat ) },
-	{ "bool", "blocked", (intptr_t)(&((rvmMonsterBase *)0)->blocked), sizeof( ((rvmMonsterBase *)0)->blocked ) },
-	{ "bool", "ignore_sight", (intptr_t)(&((rvmMonsterBase *)0)->ignore_sight), sizeof( ((rvmMonsterBase *)0)->ignore_sight ) },
-	{ "idStr", "playingTriggerAnim", (intptr_t)(&((rvmMonsterBase *)0)->playingTriggerAnim), sizeof( ((rvmMonsterBase *)0)->playingTriggerAnim ) },
 	{ NULL, 0 }
 };
 
@@ -7262,7 +7248,6 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "idCombatNode", "idEntity", sizeof(idCombatNode), idCombatNode_typeInfo },
 	{ "idAI_Vagary", "idAI", sizeof(idAI_Vagary), idAI_Vagary_typeInfo },
 	{ "rvmAI_Follower", "idAI", sizeof(rvmAI_Follower), rvmAI_Follower_typeInfo },
-	{ "rvmMonsterBase", "idAI", sizeof(rvmMonsterBase), rvmMonsterBase_typeInfo },
 	{ "idTestModel", "idAnimatedEntity", sizeof(idTestModel), idTestModel_typeInfo },
 	{ "rvmWeaponFist", "rvmWeaponObject", sizeof(rvmWeaponFist), rvmWeaponFist_typeInfo },
 	{ "rvmWeaponPistol", "rvmWeaponObject", sizeof(rvmWeaponPistol), rvmWeaponPistol_typeInfo },

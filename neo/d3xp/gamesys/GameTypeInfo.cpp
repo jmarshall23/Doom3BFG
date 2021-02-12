@@ -4972,27 +4972,6 @@ intptr_t rvmAI_Follower::Invoke(const char *functionName, void *param1) {
 
 };
 
-intptr_t rvmMonsterBase::Invoke(const char *functionName, void *param1) {
-	int functionNameHash = idStr::Hash(functionName);
-	if(functionNameHash == 48744) { // Init
-		Init();
-		return 0;
-	};
-	if(functionNameHash == 305792) { // trigger_wakeup_targets
-		trigger_wakeup_targets();
-		return 0;
-	};
-	if(functionNameHash == 171989) { // state_Spawner
-		state_Spawner();
-		return 0;
-	};
-	if(functionNameHash == 173364) { // monster_begin
-		return (intptr_t)monster_begin();
-	};
-	return __super::Invoke(functionName, param1);
-
-};
-
 intptr_t idTestModel::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
