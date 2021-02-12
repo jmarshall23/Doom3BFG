@@ -12,6 +12,10 @@ float GAME_FPS = 60.0f;
 scriptEvent	void	setHomingMissileGoal();
 scriptEvent	void	launchHomingMissile();
 
+// jmarshall
+scriptEvent	float checkForEnemy(float use_fov);
+// jmarshall end
+
 // DEFINES to be used in our scripts
 #define BERSERK 0
 #define INVISIBILITY 1

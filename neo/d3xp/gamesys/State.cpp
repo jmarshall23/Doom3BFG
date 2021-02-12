@@ -6,6 +6,15 @@ const int HISTORY_COUNT = 50;
 
 /*
 =====================
+stateParms_t::Wait
+=====================
+*/
+void stateParms_t::Wait(float seconds) { 
+	time = gameLocal.time + SEC2MS(seconds); 
+}
+
+/*
+=====================
 stateParms_t::Save
 =====================
 */
@@ -107,6 +116,7 @@ stateResult_t rvStateThread::PostState( const char* name, int blendFrames, int d
 	call->parms.blendFrames = blendFrames;
 	call->parms.time		= -1;
 	call->parms.stage		= 0;
+	call->parms.param1		= 0;
 
 	call->node.SetOwner( call );
 
@@ -185,7 +195,7 @@ void rvStateThread::Clear( bool ignoreStateCalls )
 		{
 			//owner->ProcessState ( call->state, call->parms );
 			//owner->SetStateParms(call->parms);
-			owner->Invoke( call->state );
+			owner->Invoke( call->state, &call->parms);
 		}
 		call->node.Remove();
 		delete call;
@@ -198,7 +208,7 @@ void rvStateThread::Clear( bool ignoreStateCalls )
 		{
 			//owner->ProcessState ( call->state, call->parms );
 			//	owner->SetStateParms(call->parms);
-			owner->Invoke( call->state );
+			owner->Invoke( call->state, &call->parms );
 		}
 		call->node.Remove();
 		delete call;
@@ -306,7 +316,7 @@ stateResult_t rvStateThread::Execute( void )
 
 		// Actually call the state function
 		//owner->SetStateParms(call->parms);
-		lastResult = ( stateResult_t )owner->Invoke( call->state );
+		lastResult = ( stateResult_t )owner->Invoke( call->state, &call->parms );
 		switch( lastResult )
 		{
 			case SRESULT_WAIT:

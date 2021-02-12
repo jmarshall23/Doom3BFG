@@ -532,7 +532,7 @@ protected:
 		return axisDelta;
 	}
 
-
+public:
 	int GetIntKey(const char* key)
 	{
 		int value;
@@ -655,6 +655,7 @@ public:
 	void					Event_GetFloatKey( const char* key );
 	void					Event_GetVectorKey( const char* key );
 	void					Event_GetEntityKey( const char* key );
+	idEntity*				GetEntityKey(const char* key);
 	void					Event_RestorePosition();
 	void					Event_UpdateCameraTarget();
 	void					Event_DistanceTo( idEntity* ent );

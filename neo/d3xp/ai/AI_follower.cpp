@@ -45,7 +45,7 @@ void rvmAI_Follower::Init( void )
 rvmAI_Follower::state_idle
 ================
 */
-stateResult_t rvmAI_Follower::state_idle( void )
+stateResult_t rvmAI_Follower::state_idle(stateParms_t* parms)
 {
 	Event_StopMove();
 	Event_SetTalkTarget( NULL );
@@ -58,7 +58,7 @@ stateResult_t rvmAI_Follower::state_idle( void )
 rvmAI_Follower::state_idle_frame
 ================
 */
-stateResult_t rvmAI_Follower::state_idle_frame( void )
+stateResult_t rvmAI_Follower::state_idle_frame(stateParms_t* parms)
 {
 	if( AI_TALK )
 	{		
@@ -76,7 +76,7 @@ stateResult_t rvmAI_Follower::state_idle_frame( void )
 rvmAI_Follower::state_idle_frame
 ================
 */
-stateResult_t rvmAI_Follower::state_talk_anim(void) {
+stateResult_t rvmAI_Follower::state_talk_anim(stateParms_t* parms) {
 	if (AnimDone(ANIMCHANNEL_TORSO, 0)) {
 		stateThread.SetState("state_follow");
 		Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Idle", 0);
@@ -91,7 +91,7 @@ stateResult_t rvmAI_Follower::state_talk_anim(void) {
 rvmAI_Follower::state_follow
 ================
 */
-stateResult_t rvmAI_Follower::state_follow( void )
+stateResult_t rvmAI_Follower::state_follow(stateParms_t* parms)
 {
 	leader = talkTarget.GetEntity();
 	if( !leader )
@@ -110,7 +110,7 @@ stateResult_t rvmAI_Follower::state_follow( void )
 rvmAI_Follower::state_follow_frame
 ================
 */
-stateResult_t rvmAI_Follower::state_follow_frame( void )
+stateResult_t rvmAI_Follower::state_follow_frame(stateParms_t* parms)
 {
 	Event_LookAtEntity( leader, 0.1f );
 
@@ -144,7 +144,7 @@ stateResult_t rvmAI_Follower::state_follow_frame( void )
 rvmAI_Follower::state_get_closer
 ================
 */
-stateResult_t rvmAI_Follower::state_get_closer( void )
+stateResult_t rvmAI_Follower::state_get_closer(stateParms_t* parms)
 {
 	bool switchState = !( !AI_DEST_UNREACHABLE && !AI_MOVE_DONE && ( DistanceTo( leader ) > FOLLOW_MINDIST ) );
 	if( switchState )
@@ -175,7 +175,7 @@ stateResult_t rvmAI_Follower::state_get_closer( void )
 rvmAI_Follower::state_killed
 ================
 */
-stateResult_t rvmAI_Follower::state_killed( void )
+stateResult_t rvmAI_Follower::state_killed(stateParms_t* parms)
 {
 	Event_StopMove();
 	return SRESULT_DONE;

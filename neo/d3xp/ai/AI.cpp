@@ -777,6 +777,60 @@ void idAI::Restore( idRestoreGame* savefile )
 
 }
 
+
+/*
+=====================
+idAI::FindEnemyInCombatNodes
+=====================
+*/
+idEntity* idAI::FindEnemyInCombatNodes(void) {
+	int				i, j;
+	idCombatNode* node;
+	idEntity* ent;
+	idEntity* targetEnt;
+	idActor* actor;
+
+	if (!gameLocal.InPlayerPVS(this))
+	{
+		// don't locate the player when we're not in his PVS
+		return NULL;
+	}
+
+	for (i = 0; i < gameLocal.numClients; i++)
+	{
+		ent = gameLocal.entities[i];
+
+		if (!ent || !ent->IsType(idActor::Type))
+		{
+			continue;
+		}
+
+		actor = static_cast<idActor*>(ent);
+		if ((actor->health <= 0) || !(ReactionTo(actor) & ATTACK_ON_SIGHT))
+		{
+			continue;
+		}
+
+		for (j = 0; j < targets.Num(); j++)
+		{
+			targetEnt = targets[j].GetEntity();
+			if (!targetEnt || !targetEnt->IsType(idCombatNode::Type))
+			{
+				continue;
+			}
+
+			node = static_cast<idCombatNode*>(targetEnt);
+			if (!node->IsDisabled() && node->EntityInView(actor, actor->GetPhysics()->GetOrigin()))
+			{
+				return actor;
+			}
+		}
+	}
+
+	return NULL;
+}
+
+
 /*
 =====================
 idAI::Spawn
@@ -791,6 +845,8 @@ void idAI::Spawn()
 	jointHandle_t		joint;
 	idVec3				local_dir;
 	bool				talks;
+	float				teleportType;
+	idStr				triggerAnim;
 
 	if( !g_monsters.GetBool() )
 	{
@@ -1052,6 +1108,31 @@ void idAI::Spawn()
 	stateThread.SetOwner( this );
 	Init();
 
+	teleportType = GetIntKey("teleport");
+	triggerAnim = GetKey("trigger_anim");
+
+	if (GetIntKey("spawner")) {
+		stateThread.SetState("state_Spawner");
+	}
+
+	if (!GetIntKey("ignore_flashlight")) {
+		// allow waking up from the flashlight
+		Event_WakeOnFlashlight(true);
+	}
+
+	//if (triggerAnim != "") {
+	//	stateThread.SetState("State_TriggerHidden");
+	//}
+	//else if (teleportType > 0) {
+	//	stateThread.SetState("State_TeleportTriggered");
+	//}
+	//else if (GetIntKey("hide")) {
+	//	stateThread.SetState("State_TriggerAnim");
+	//}
+	//else {
+	//	stateThread.SetState("State_WakeUp");
+	//}
+
 	spawnArgs.GetBool( "spawnClearMoveables", "0", spawnClearMoveables );
 }
 
@@ -1188,6 +1269,81 @@ void idAI::DormantEnd()
 	}
 
 	idActor::DormantEnd();
+}
+
+/*
+======================
+idAI::checkForEnemy
+======================
+*/
+bool idAI::checkForEnemy(float use_fov) {
+	idEntity* enemy;
+	idVec3 size;
+	float dist;
+
+	if (gameLocal.InfluenceActive()) {
+		return false;
+	}
+
+	if (AI_PAIN) {
+		// get out of ambush mode when shot
+		ambush = false;
+	}
+
+	if (ignoreEnemies) {
+		// while we're following paths, we only respond to enemies on pain, or when close enough to them
+		if (stay_on_attackpath) {
+			// don't exit attack_path when close to enemy
+			return false;
+		}
+
+		enemy = this->enemy.GetEntity();
+		if (!enemy) {
+			enemy = FindEnemy(false);
+		}
+
+		if (!enemy) {
+			return false;
+		}
+
+		size = GetSize();
+		dist = (size.x * 1.414) + 16;  // diagonal distance plus 16 units
+		if (EnemyRange() > dist) {
+			return false;
+		}
+	}
+	else {
+		if (this->enemy.GetEntity()) {
+			// we were probably triggered (which sets our enemy)
+			return true;
+		}
+
+		if (!ignore_sight) {
+			enemy = FindEnemy(use_fov);
+		}
+
+		if (!enemy) {
+			if (ambush) {
+				return false;
+			}
+
+			enemy = HeardSound(true);
+			if (!enemy) {
+				return false;
+			}
+		}
+	}
+
+	ignoreEnemies = false;
+
+	// once we've woken up, get out of ambush mode
+	ambush = false;
+
+	// don't use the fov for sight anymore
+	idle_sight_fov = false;
+
+	Event_SetEnemy(enemy);
+	return true;
 }
 
 /*
@@ -1345,6 +1501,11 @@ idAI::LinkScriptVariables
 */
 void idAI::LinkScriptVariables()
 {
+	ambush.LinkTo(scriptObject, "ambush");
+	ignoreEnemies.LinkTo(scriptObject, "ignoreEnemies");
+	stay_on_attackpath.LinkTo(scriptObject, "stay_on_attackpath");
+	ignore_sight.LinkTo(scriptObject, "ignore_sight");
+	idle_sight_fov.LinkTo(scriptObject, "idle_sight_fov");
 	AI_TALK.LinkTo(	scriptObject, "AI_TALK" );
 	AI_DAMAGE.LinkTo(	scriptObject, "AI_DAMAGE" );
 	AI_PAIN.LinkTo(	scriptObject, "AI_PAIN" );
@@ -4320,6 +4481,67 @@ void idAI::PlayCustomAnim(idStr animname, float blendIn, float blendOut) {
 	scriptThread->PushFloat(blendIn);
 	scriptThread->PushFloat(blendOut);
 	scriptThread->CallFunction(scriptObject.GetFunction("playCustomAnim"), false);
+}
+/*
+================
+idAI::PlayCustomCycle
+================
+*/
+void idAI::PlayCustomCycle(idStr animname, float blendTime) {
+	scriptThread->ClearStack();
+	scriptThread->PushEntity(this);
+	scriptThread->PushString(animname);
+	scriptThread->PushFloat(blendTime);
+	scriptThread->CallFunction(scriptObject.GetFunction("playCustomCycle"), false);
+}
+
+/*
+======================
+idAI::trigger_wakeup_targets
+======================
+*/
+void idAI::trigger_wakeup_targets(void) {
+	idStr key;
+	idStr name;
+	idEntity* ent;
+
+	key = GetNextKey("wakeup_target", "");
+	while (key != "") {
+		name = GetKey(key);
+		ent = gameLocal.FindEntity(name);
+		if (!ent) {
+			idLib::Warning("Unknown wakeup_target '" + name + "' on entity '" + GetName() + "'");
+		}
+		else {
+			ent->Signal(SIG_TRIGGER);
+			ent->ProcessEvent(&EV_Activate, gameLocal.GetLocalPlayer());
+			ent->TriggerGuis();
+		}
+		key = GetNextKey("wakeup_target", key);
+	}
+}
+
+/*
+======================
+idAI::checkForEnemy
+======================
+*/
+void idAI::sight_enemy(void) {
+	idStr animname;
+
+	Event_FaceEnemy();
+	animname = GetKey("on_activate");
+	if (animname != "") {
+		// don't go dormant during on_activate anims since they
+		// may end up floating in air during no gravity anims.
+		Event_SetNeverDormant(true);
+		if (GetIntKey("walk_on_sight")) {
+			Event_MoveToEnemy();
+		}
+		Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Sight", 4);
+		//waitAction("sight"); // jmarshall implement this?
+		Event_SetNeverDormant(GetFloatKey("neverdormant"));
+	}
 }
 
 /*

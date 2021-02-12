@@ -25,6 +25,9 @@ struct stateParms_t
 	int		blendFrames;
 	int		time;
 	int		stage;
+	int		param1;
+
+	void	Wait(float seconds);
 
 	void	Save( idSaveGame* saveFile ) const;
 	void	Restore( idRestoreGame* saveFile );

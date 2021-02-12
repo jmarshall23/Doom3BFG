@@ -459,6 +459,7 @@ public:
 	void					DelayRemoveEntity( idEntity* entity, int delay );
 
 	bool					InfluenceActive(void) const;
+	idEntity				*GetEntity(const char* name);
 
 	int						NumAAS() const;
 	idAAS* 					GetAAS( int num ) const;

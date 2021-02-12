@@ -5384,27 +5384,35 @@ void idEntity::Event_GetVectorKey( const char* key )
 
 /*
 ================
-idEntity::Event_GetEntityKey
+idEntity::GetEntityKey
 ================
 */
-void idEntity::Event_GetEntityKey( const char* key )
-{
+idEntity* idEntity::GetEntityKey(const char* key) {
 	idEntity* ent;
 	const char* entname;
 
-	if( !spawnArgs.GetString( key, NULL, &entname ) )
+	if (!spawnArgs.GetString(key, NULL, &entname))
 	{
-		idThread::ReturnEntity( NULL );
-		return;
+		idThread::ReturnEntity(NULL);
+		return NULL;
 	}
 
-	ent = gameLocal.FindEntity( entname );
-	if( !ent )
+	ent = gameLocal.FindEntity(entname);
+	if (!ent)
 	{
-		gameLocal.Warning( "Couldn't find entity '%s' specified in '%s' key in entity '%s'", entname, key, name.c_str() );
+		gameLocal.Warning("Couldn't find entity '%s' specified in '%s' key in entity '%s'", entname, key, name.c_str());
 	}
 
-	idThread::ReturnEntity( ent );
+	return ent;
+}
+
+/*
+================
+idEntity::Event_GetEntityKey
+================
+*/
+void idEntity::Event_GetEntityKey( const char* key ) {
+	idThread::ReturnEntity(GetEntityKey(key));
 }
 
 /*

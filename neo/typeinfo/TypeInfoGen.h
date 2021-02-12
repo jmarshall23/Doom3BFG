@@ -82,6 +82,7 @@ public:
 	idStr						name;
 	bool						isConst;
 	bool						isStatic;
+	idStr						paramStateInput;
 	bool						isValidFunction;
 };
 

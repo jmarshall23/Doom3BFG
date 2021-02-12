@@ -311,6 +311,18 @@ public:
 protected:
 	virtual void			Init() { }
 
+	bool					checkForEnemy(float use_fov);
+
+private:
+	void					idle_followPathEntities(idEntity* pathnode);
+protected:
+
+	idScriptBool			ambush;
+	idScriptBool			ignoreEnemies;			// used to disable enemy checks during attack_path
+	idScriptBool			stay_on_attackpath;		// used to disable enemy checks during attack_path
+	idScriptBool			ignore_sight;
+	idScriptBool			idle_sight_fov;
+
 	// navigation
 	idAAS* 					aas;
 	int						travelFlags;
@@ -470,6 +482,11 @@ public:
 	int						ReactionTo( const idEntity* ent );
 protected:
 	void					PlayCustomAnim(idStr animname, float blendIn, float blendOut);
+	void					PlayCustomCycle(idStr animname, float blendTime);
+
+	void					trigger_wakeup_targets(void);
+
+	void					sight_enemy(void);
 
 	void					EnemyDead();
 	virtual bool			CanPlayChatterSounds() const;
@@ -574,9 +591,22 @@ protected:
 	idEntity*				GetEmitter( const char* name );
 	void					StopEmitter( const char* name );
 
+	idEntity*				FindEnemyInCombatNodes(void);
+
 	// AI script state management
 	void					LinkScriptVariables();
 	void					UpdateAIScript();
+
+	// AI States
+	stateResult_t			state_Spawner(stateParms_t* parms);
+	stateResult_t			State_WakeUp(stateParms_t* parms);
+	stateResult_t			wake_on_attackcone(stateParms_t* parms);
+	stateResult_t			walk_on_trigger(stateParms_t* parms);
+	stateResult_t			wake_on_trigger(stateParms_t* parms);	
+	stateResult_t			wake_on_enemy(stateParms_t* parms);
+	stateResult_t			State_TriggerAnim(stateParms_t* parms);
+	stateResult_t			State_TeleportTriggered(stateParms_t* parms);
+	stateResult_t			State_TriggerHidden(stateParms_t* parms);
 
 	//
 	// ai/ai_events.cpp
@@ -586,6 +616,7 @@ protected:
 	void					Event_Touch( idEntity* other, trace_t* trace );
 	void					Event_FindEnemy( int useFOV );
 	void					Event_FindEnemyAI( int useFOV );
+	void					Event_CheckForEnemy(float use_fov);
 	void					Event_FindEnemyInCombatNodes();
 	void					Event_ClosestReachableEnemyOfEntity( idEntity* team_mate );
 	void					Event_HeardSound( int ignore_team );
@@ -773,15 +804,13 @@ private:
 	bool inCustomAnim;
 	idEntity* leader;
 private:
-	stateResult_t state_idle( void );
-	stateResult_t state_idle_frame( void );
-	stateResult_t state_follow( void );
-	stateResult_t state_follow_frame( void );
-	stateResult_t state_get_closer( void );
-	stateResult_t state_killed( void );
-	stateResult_t state_talk_anim(void);
+	stateResult_t state_idle(stateParms_t *parms);
+	stateResult_t state_idle_frame(stateParms_t* parms);
+	stateResult_t state_follow(stateParms_t* parms);
+	stateResult_t state_follow_frame(stateParms_t* parms);
+	stateResult_t state_get_closer(stateParms_t* parms);
+	stateResult_t state_killed(stateParms_t* parms);
+	stateResult_t state_talk_anim(stateParms_t* parms);
 };
-
-#include "Monster_base.h"
 
 #endif /* !__AI_H__ */

@@ -112,7 +112,7 @@ public:
 	void						PushFloat(float value);
 	void						PushInt(int value);
 	void						ClearStack();
-private:
+public:
 	//
 	// script callable Events
 	//

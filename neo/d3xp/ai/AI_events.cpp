@@ -170,10 +170,12 @@ const idEventDef AI_TriggerFX( "triggerFX", "ss" );
 const idEventDef AI_StartEmitter( "startEmitter", "sss", 'e' );
 const idEventDef AI_GetEmitter( "getEmitter", "s", 'e' );
 const idEventDef AI_StopEmitter( "stopEmitter", "s" );
+const idEventDef AI_checkForEnemy("checkForEnemy", "f", 'f');
 
 
 
 CLASS_DECLARATION( idActor, idAI )
+EVENT(AI_checkForEnemy,						idAI::Event_CheckForEnemy)
 EVENT( EV_Activate,							idAI::Event_Activate )
 EVENT( EV_Touch,							idAI::Event_Touch )
 EVENT( AI_FindEnemy,						idAI::Event_FindEnemy )
@@ -413,6 +415,14 @@ void idAI::Event_FindEnemy( int useFOV )
 
 	idThread::ReturnEntity( NULL );
 }
+/*
+=====================
+idAI::Event_CheckForEnemy
+=====================
+*/
+void idAI::Event_CheckForEnemy(float use_fov) {
+	idThread::ReturnFloat(checkForEnemy(use_fov));
+}
 
 /*
 =====================
@@ -471,52 +481,7 @@ idAI::Event_FindEnemyInCombatNodes
 */
 void idAI::Event_FindEnemyInCombatNodes()
 {
-	int				i, j;
-	idCombatNode*	node;
-	idEntity*		ent;
-	idEntity*		targetEnt;
-	idActor*			actor;
-
-	if( !gameLocal.InPlayerPVS( this ) )
-	{
-		// don't locate the player when we're not in his PVS
-		idThread::ReturnEntity( NULL );
-		return;
-	}
-
-	for( i = 0; i < gameLocal.numClients ; i++ )
-	{
-		ent = gameLocal.entities[ i ];
-
-		if( !ent || !ent->IsType( idActor::Type ) )
-		{
-			continue;
-		}
-
-		actor = static_cast<idActor*>( ent );
-		if( ( actor->health <= 0 ) || !( ReactionTo( actor ) & ATTACK_ON_SIGHT ) )
-		{
-			continue;
-		}
-
-		for( j = 0; j < targets.Num(); j++ )
-		{
-			targetEnt = targets[ j ].GetEntity();
-			if( !targetEnt || !targetEnt->IsType( idCombatNode::Type ) )
-			{
-				continue;
-			}
-
-			node = static_cast<idCombatNode*>( targetEnt );
-			if( !node->IsDisabled() && node->EntityInView( actor, actor->GetPhysics()->GetOrigin() ) )
-			{
-				idThread::ReturnEntity( actor );
-				return;
-			}
-		}
-	}
-
-	idThread::ReturnEntity( NULL );
+	idThread::ReturnEntity(FindEnemyInCombatNodes());
 }
 
 /*
