@@ -444,6 +444,8 @@ protected:
 
 	bool					spawnClearMoveables;
 
+	bool					isAwake;
+
 	idHashTable<funcEmitter_t> funcEmitters;
 
 	idEntityPtr<idHarvestable>	harvestEnt;
@@ -480,6 +482,8 @@ protected:
 	void					Activate( idEntity* activator );
 public:
 	int						ReactionTo( const idEntity* ent );
+
+	virtual idThread*		ConstructScriptObject();
 protected:
 	void					PlayCustomAnim(idStr animname, float blendIn, float blendOut);
 	void					PlayCustomCycle(idStr animname, float blendTime);
@@ -487,6 +491,8 @@ protected:
 	void					trigger_wakeup_targets(void);
 
 	void					sight_enemy(void);
+
+	void					CallConstructor(void);
 
 	void					EnemyDead();
 	virtual bool			CanPlayChatterSounds() const;
@@ -607,7 +613,7 @@ protected:
 	stateResult_t			State_TriggerAnim(stateParms_t* parms);
 	stateResult_t			State_TeleportTriggered(stateParms_t* parms);
 	stateResult_t			State_TriggerHidden(stateParms_t* parms);
-
+	stateResult_t			wake_call_constructor(stateParms_t* parms);
 	//
 	// ai/ai_events.cpp
 	//
@@ -677,6 +683,7 @@ protected:
 	void					Event_SetTalkState( int state );
 	void					Event_EnemyRange();
 	void					Event_EnemyRange2D();
+	void					Event_IsAwake(void);
 	void					Event_GetEnemy();
 	void					Event_GetEnemyPos();
 	void					Event_GetEnemyEyePos();

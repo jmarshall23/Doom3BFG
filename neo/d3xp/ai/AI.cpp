@@ -1108,6 +1108,8 @@ void idAI::Spawn()
 	stateThread.SetOwner( this );
 	Init();
 
+	isAwake = false;
+
 	teleportType = GetIntKey("teleport");
 	triggerAnim = GetKey("trigger_anim");
 
@@ -1120,18 +1122,18 @@ void idAI::Spawn()
 		Event_WakeOnFlashlight(true);
 	}
 
-	//if (triggerAnim != "") {
-	//	stateThread.SetState("State_TriggerHidden");
-	//}
-	//else if (teleportType > 0) {
-	//	stateThread.SetState("State_TeleportTriggered");
-	//}
-	//else if (GetIntKey("hide")) {
-	//	stateThread.SetState("State_TriggerAnim");
-	//}
-	//else {
-	//	stateThread.SetState("State_WakeUp");
-	//}
+	if (triggerAnim != "") {
+		stateThread.SetState("State_TriggerAnim");
+	}
+	else if (teleportType > 0) {
+		stateThread.SetState("State_TeleportTriggered");
+	}
+	else if (GetIntKey("hide")) {
+		stateThread.SetState("State_TriggerHidden");
+	}
+	else {
+		stateThread.SetState("State_WakeUp");
+	}
 
 	spawnArgs.GetBool( "spawnClearMoveables", "0", spawnClearMoveables );
 }
@@ -1277,7 +1279,7 @@ idAI::checkForEnemy
 ======================
 */
 bool idAI::checkForEnemy(float use_fov) {
-	idEntity* enemy;
+	idEntity* enemy = NULL;
 	idVec3 size;
 	float dist;
 
@@ -5810,6 +5812,60 @@ void idAI::TriggerParticles( const char* jointName )
 			particles[i].time = gameLocal.time;
 			BecomeActive( TH_UPDATEPARTICLES );
 		}
+	}
+}
+
+
+/*
+================
+idActor::ConstructScriptObject
+
+Called during idEntity::Spawn.  Calls the constructor on the script object.
+Can be overridden by subclasses when a thread doesn't need to be allocated.
+================
+*/
+idThread* idAI::ConstructScriptObject()
+{
+	// make sure we have a scriptObject
+	if (!scriptObject.HasObject())
+	{
+		gameLocal.Error("No scriptobject set on '%s'.  Check the '%s' entityDef.", name.c_str(), GetEntityDefName());
+	}
+
+	if (!scriptThread)
+	{
+		// create script thread
+		scriptThread = new idThread();
+		scriptThread->ManualDelete();
+		scriptThread->ManualControl();
+		scriptThread->SetThreadName(name.c_str());
+	}
+	else
+	{
+		scriptThread->EndThread();
+	}	
+
+	return scriptThread;
+}
+
+/*
+================
+CallConstructor
+================
+*/
+void idAI::CallConstructor(void) {
+	const function_t* constructor;
+
+	// call script object's constructor
+	constructor = scriptObject.GetConstructor();
+	if (constructor)
+	{
+		//gameLocal.Error( "Missing constructor on '%s' for entity '%s'", scriptObject.GetTypeName(), name.c_str() );
+		// init the script object's data
+		scriptObject.ClearObject();
+
+		// just set the current function on the script.  we'll execute in the subclasses.
+		scriptThread->CallFunction(this, constructor, true);
 	}
 }
 

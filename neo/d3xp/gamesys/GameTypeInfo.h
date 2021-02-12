@@ -5877,6 +5877,7 @@ static classVariableInfo_t idAI_typeInfo[] = {
 	{ "idVec3", "lastReachableEnemyPos", (intptr_t)(&((idAI *)0)->lastReachableEnemyPos), sizeof( ((idAI *)0)->lastReachableEnemyPos ) },
 	{ "bool", "wakeOnFlashlight", (intptr_t)(&((idAI *)0)->wakeOnFlashlight), sizeof( ((idAI *)0)->wakeOnFlashlight ) },
 	{ "bool", "spawnClearMoveables", (intptr_t)(&((idAI *)0)->spawnClearMoveables), sizeof( ((idAI *)0)->spawnClearMoveables ) },
+	{ "bool", "isAwake", (intptr_t)(&((idAI *)0)->isAwake), sizeof( ((idAI *)0)->isAwake ) },
 	{ "idHashTable < funcEmitter_t >", "funcEmitters", (intptr_t)(&((idAI *)0)->funcEmitters), sizeof( ((idAI *)0)->funcEmitters ) },
 	{ "idEntityPtr < idHarvestable >", "harvestEnt", (intptr_t)(&((idAI *)0)->harvestEnt), sizeof( ((idAI *)0)->harvestEnt ) },
 	{ "idScriptBool", "AI_TALK", (intptr_t)(&((idAI *)0)->AI_TALK), sizeof( ((idAI *)0)->AI_TALK ) },

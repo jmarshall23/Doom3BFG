@@ -4514,12 +4514,19 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 		Think();
 		return 0;
 	};
+	if(functionNameHash == 282905) { // ConstructScriptObject
+		return (intptr_t)ConstructScriptObject();
+	};
 	if(functionNameHash == 305792) { // trigger_wakeup_targets
 		trigger_wakeup_targets();
 		return 0;
 	};
 	if(functionNameHash == 146357) { // sight_enemy
 		sight_enemy();
+		return 0;
+	};
+	if(functionNameHash == 198399) { // CallConstructor
+		CallConstructor();
 		return 0;
 	};
 	if(functionNameHash == 107792) { // EnemyDead
@@ -4700,6 +4707,9 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	if(functionNameHash == 245798) { // State_TriggerHidden
 		return (intptr_t)State_TriggerHidden((stateParms_t *)param1);
 	};
+	if(functionNameHash == 290450) { // wake_call_constructor
+		return (intptr_t)wake_call_constructor((stateParms_t *)param1);
+	};
 	if(functionNameHash == 370058) { // Event_FindEnemyInCombatNodes
 		Event_FindEnemyInCombatNodes();
 		return 0;
@@ -4813,6 +4823,10 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	};
 	if(functionNameHash == 220051) { // Event_EnemyRange2D
 		Event_EnemyRange2D();
+		return 0;
+	};
+	if(functionNameHash == 160816) { // Event_IsAwake
+		Event_IsAwake();
 		return 0;
 	};
 	if(functionNameHash == 176796) { // Event_GetEnemy

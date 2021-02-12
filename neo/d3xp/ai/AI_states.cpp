@@ -167,7 +167,7 @@ idAI::State_TriggerHidden
 */
 stateResult_t idAI::State_TriggerHidden(stateParms_t* parms) {
 	enum rvmStateType_t {
-		STATE_TRIGGER_HIDE_INIT,
+		STATE_TRIGGER_HIDE_INIT = 0,
 		STATE_TRIGGER_HIDE_WAIT_FOR_ACTIVATION,
 		STATE_TRIGGER_HIDE_SHOW,
 	};
@@ -382,6 +382,16 @@ stateResult_t idAI::wake_on_trigger(stateParms_t* parms) {
 		sight_enemy();
 	}
 
+	stateThread.SetState("wake_call_constructor");
+
+	isAwake = true;
+
+	// allow him to see after he's woken up
+	ignore_sight = false;
+
+	// ignore the flashlight from now on
+	Event_WakeOnFlashlight(false);
+
 	return SRESULT_DONE;
 }
 
@@ -476,6 +486,16 @@ stateResult_t idAI::walk_on_trigger(stateParms_t* parms) {
 		trigger_wakeup_targets();
 		sight_enemy();
 
+		stateThread.SetState("wake_call_constructor");
+
+		isAwake = true;
+
+		// allow him to see after he's woken up
+		ignore_sight = false;
+
+		// ignore the flashlight from now on
+		Event_WakeOnFlashlight(false);
+
 		return SRESULT_DONE;
 	}
 
@@ -551,12 +571,34 @@ stateResult_t idAI::wake_on_enemy(stateParms_t* parms) {
 		sight_enemy();
 	}
 
+	stateThread.SetState("wake_call_constructor");
+
+	isAwake = true;
+
 	// allow him to see after he's woken up
 	ignore_sight = false;
 
 	// ignore the flashlight from now on
 	Event_WakeOnFlashlight(false);
 
+	return SRESULT_DONE;
+}
+/*
+================
+idAI::wake_call_constructor
+================
+*/
+stateResult_t idAI::wake_call_constructor(stateParms_t* parms) {
+	if (parms->stage == 0)
+	{
+		if (AnimDone(ANIMCHANNEL_TORSO, 0))
+		{
+			parms->stage = 1;
+		}
+		return SRESULT_WAIT;
+	}
+	
+	CallConstructor();
 	return SRESULT_DONE;
 }
 
@@ -669,6 +711,16 @@ stateResult_t idAI::wake_on_attackcone(stateParms_t* parms) {
 		else {
 			sight_enemy();
 		}
+
+		stateThread.SetState("wake_call_constructor");
+
+		isAwake = true;
+
+		// allow him to see after he's woken up
+		ignore_sight = false;
+
+		// ignore the flashlight from now on
+		Event_WakeOnFlashlight(false);
 
 		return SRESULT_DONE;
 	}
