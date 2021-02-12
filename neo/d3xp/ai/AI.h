@@ -599,6 +599,9 @@ protected:
 	void					UpdateAIScript();
 
 	stateResult_t			State_WakeUp(stateParms_t* parms);
+	stateResult_t			State_TriggerAnim(stateParms_t* parms);
+	stateResult_t			State_TeleportTriggered(stateParms_t* parms);
+	stateResult_t			State_TriggerHidden(stateParms_t* parms);
 
 	//
 	// ai/ai_events.cpp

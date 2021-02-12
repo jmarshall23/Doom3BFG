@@ -2331,6 +2331,7 @@ static classVariableInfo_t stateParms_t_typeInfo[] = {
 	{ "int", "blendFrames", (intptr_t)(&((stateParms_t *)0)->blendFrames), sizeof( ((stateParms_t *)0)->blendFrames ) },
 	{ "int", "time", (intptr_t)(&((stateParms_t *)0)->time), sizeof( ((stateParms_t *)0)->time ) },
 	{ "int", "stage", (intptr_t)(&((stateParms_t *)0)->stage), sizeof( ((stateParms_t *)0)->stage ) },
+	{ "int", "param1", (intptr_t)(&((stateParms_t *)0)->param1), sizeof( ((stateParms_t *)0)->param1 ) },
 	{ NULL, 0 }
 };
 

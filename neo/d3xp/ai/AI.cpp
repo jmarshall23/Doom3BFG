@@ -791,6 +791,8 @@ void idAI::Spawn()
 	jointHandle_t		joint;
 	idVec3				local_dir;
 	bool				talks;
+	float				teleportType;
+	idStr				triggerAnim;
 
 	if( !g_monsters.GetBool() )
 	{
@@ -1051,6 +1053,31 @@ void idAI::Spawn()
 
 	stateThread.SetOwner( this );
 	Init();
+
+	teleportType = GetIntKey("teleport");
+	triggerAnim = GetKey("trigger_anim");
+
+	if (GetIntKey("spawner")) {
+		stateThread.SetState("state_Spawner");
+	}
+
+	if (!GetIntKey("ignore_flashlight")) {
+		// allow waking up from the flashlight
+		Event_WakeOnFlashlight(true);
+	}
+
+	//if (triggerAnim != "") {
+	//	stateThread.SetState("State_TriggerHidden");
+	//}
+	//else if (teleportType > 0) {
+	//	stateThread.SetState("State_TeleportTriggered");
+	//}
+	//else if (GetIntKey("hide")) {
+	//	stateThread.SetState("State_TriggerAnim");
+	//}
+	//else {
+	//	stateThread.SetState("State_WakeUp");
+	//}
 
 	spawnArgs.GetBool( "spawnClearMoveables", "0", spawnClearMoveables );
 }

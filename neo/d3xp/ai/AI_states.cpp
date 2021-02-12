@@ -5,128 +5,19 @@
 
 /*
 =====================
-idAI::State_WakeUp
+idAI::State_TeleportTriggered
 =====================
 */
-stateResult_t idAI::State_WakeUp(stateParms_t* parms) {
-	float	teleportType;
-	idStr	triggerAnim;
-	float	waittime;
-	idEntity* path;
-	idEntity* enemy;
+stateResult_t idAI::State_TeleportTriggered(stateParms_t* parms) {
+	int teleportType = 0;
 
 	enum rvmStateType_t {
-		STATE_INIT = 0,
-
-		STATE_TRIGGER_ANIM_INIT,
-		STATE_TRIGGER_ANIM_WAIT_FOR_ACTIVATION,
-		STATE_TRIGGER_ANIM_SHOW,
-		STATE_TRIGGER_WAIT_FOR_ANIMATION_COMPLETE,
-
-		STATE_TRIGGER_TELEPORT_INIT,
+		STATE_TRIGGER_TELEPORT_INIT = 0,
 		STATE_TRIGGER_TELEPORT_WAIT_FOR_ACTIVATION,
 		STATE_TRIGGER_TELEPORT_SPAWN_VFX,
 		STATE_TRIGGER_TELEPORT_CUSTOM_ANIMATION,
 		STATE_TRIGGER_TELEPORT_START_ACTIVE,
-
-		STATE_TRIGGER_HIDE_INIT,
-		STATE_TRIGGER_HIDE_WAIT_FOR_ACTIVATION,
-		STATE_TRIGGER_HIDE_SHOW,
-
-
-		STATE_TRIGGER_NORMAL_FLOW_INIT,
-		STATE_TRIGGER_NORMAL_FLOW_NOTACTIVE,
-		STATE_TRIGGER_NORMAL_FLOW_FINISH
 	};
-
-	AI_RUN = false;
-	ignore_sight = GetIntKey("no_sight");
-
-	if (parms->stage == STATE_INIT)
-	{
-		if (GetIntKey("resurrect")) {
-			teleportType = 4;
-			triggerAnim = "";
-
-			AI_ACTIVATED = true;
-		}
-		else {
-			teleportType = GetIntKey("teleport");
-			triggerAnim = GetKey("trigger_anim");
-		}
-
-		if (GetIntKey("spawner")) {
-			stateThread.SetState("state_Spawner");
-		}
-
-		if (!GetIntKey("ignore_flashlight")) {
-			// allow waking up from the flashlight
-			Event_WakeOnFlashlight(true);
-		}
-
-		if (triggerAnim != "") {
-			parms->stage = STATE_TRIGGER_ANIM_INIT;
-		}
-		else if (teleportType > 0) {
-			parms->stage = STATE_TRIGGER_TELEPORT_INIT;
-		}
-		else if (GetIntKey("hide")) {
-			parms->stage = STATE_TRIGGER_HIDE_INIT;
-		}
-		else {
-			parms->stage = STATE_TRIGGER_NORMAL_FLOW_INIT;
-		}
-
-		return SRESULT_WAIT;
-	}
-
-	//
-	// Hide until Triggered State
-	//
-	switch (parms->stage)
-	{
-	case STATE_TRIGGER_ANIM_INIT:
-		//
-		// hide until triggered and then play a special animation
-		//
-		triggerAnim = GetKey("trigger_anim");
-		Event_CheckAnim(ANIMCHANNEL_TORSO, triggerAnim);
-		Hide();
-		parms->stage = STATE_TRIGGER_ANIM_WAIT_FOR_ACTIVATION;
-		return SRESULT_WAIT;
-
-	case STATE_TRIGGER_ANIM_WAIT_FOR_ACTIVATION:
-		if (AI_ACTIVATED)
-		{
-			parms->stage = STATE_TRIGGER_ANIM_SHOW;
-		}
-		return SRESULT_WAIT;
-
-	case STATE_TRIGGER_ANIM_SHOW:
-		if (CanBecomeSolid())
-		{
-			triggerAnim = GetKey("trigger_anim");
-
-			// don't go dormant during trigger_anim anims since they
-			// may end up floating in air during no gravity anims.
-			Event_SetNeverDormant(true);
-			Show();
-			trigger_wakeup_targets();
-			PlayCustomAnim(triggerAnim, 0, 4);
-			parms->stage = STATE_TRIGGER_WAIT_FOR_ANIMATION_COMPLETE;
-			SetWaitState("customAnim");
-		}
-		return SRESULT_WAIT;
-
-	case STATE_TRIGGER_WAIT_FOR_ANIMATION_COMPLETE:
-		if (waitState == "")
-		{
-			Event_SetNeverDormant(GetFloatKey("neverdormant"));
-			Event_LocateEnemy();
-			parms->stage = STATE_TRIGGER_NORMAL_FLOW_INIT;
-		}
-		return SRESULT_WAIT;
-	}
 
 	//
 	// teleport in when triggered
@@ -195,10 +86,92 @@ stateResult_t idAI::State_WakeUp(stateParms_t* parms) {
 			Event_SetNeverDormant(GetFloatKey("neverdormant"));
 			Event_LocateEnemy();
 			Event_SetMoveType(parms->param1);
-			parms->stage = STATE_TRIGGER_NORMAL_FLOW_INIT;
+			stateThread.SetState("State_WakeUp");
+		}
+		return SRESULT_DONE;
+	}
+
+	return SRESULT_ERROR;
+}
+
+/*
+=====================
+idAI::State_TriggerAnim
+=====================
+*/
+stateResult_t idAI::State_TriggerAnim(stateParms_t* parms) {
+	idStr triggerAnim;
+
+	enum rvmStateType_t {
+		STATE_TRIGGER_ANIM_INIT = 0,
+		STATE_TRIGGER_ANIM_WAIT_FOR_ACTIVATION,
+		STATE_TRIGGER_ANIM_SHOW,
+		STATE_TRIGGER_WAIT_FOR_ANIMATION_COMPLETE,
+	};
+
+	//
+	// Hide until Triggered State
+	//
+	switch (parms->stage)
+	{
+	case STATE_TRIGGER_ANIM_INIT:
+		//
+		// hide until triggered and then play a special animation
+		//
+		triggerAnim = GetKey("trigger_anim");
+		Event_CheckAnim(ANIMCHANNEL_TORSO, triggerAnim);
+		Hide();
+		parms->stage = STATE_TRIGGER_ANIM_WAIT_FOR_ACTIVATION;
+		return SRESULT_WAIT;
+
+	case STATE_TRIGGER_ANIM_WAIT_FOR_ACTIVATION:
+		if (AI_ACTIVATED)
+		{
+			parms->stage = STATE_TRIGGER_ANIM_SHOW;
 		}
 		return SRESULT_WAIT;
+
+	case STATE_TRIGGER_ANIM_SHOW:
+		if (CanBecomeSolid())
+		{
+			triggerAnim = GetKey("trigger_anim");
+
+			// don't go dormant during trigger_anim anims since they
+			// may end up floating in air during no gravity anims.
+			Event_SetNeverDormant(true);
+			Show();
+			trigger_wakeup_targets();
+			PlayCustomAnim(triggerAnim, 0, 4);
+			parms->stage = STATE_TRIGGER_WAIT_FOR_ANIMATION_COMPLETE;
+			SetWaitState("customAnim");
+		}
+		return SRESULT_WAIT;
+
+	case STATE_TRIGGER_WAIT_FOR_ANIMATION_COMPLETE:
+		if (waitState == "")
+		{
+			Event_SetNeverDormant(GetFloatKey("neverdormant"));
+			Event_LocateEnemy();
+			stateThread.SetState("State_WakeUp");
+		}
+		return SRESULT_DONE;
 	}
+
+	return SRESULT_ERROR;
+}
+
+/*
+=====================
+idAI::State_TriggerHidden
+=====================
+*/
+stateResult_t idAI::State_TriggerHidden(stateParms_t* parms) {
+	enum rvmStateType_t {
+		STATE_TRIGGER_HIDE_INIT,
+		STATE_TRIGGER_HIDE_WAIT_FOR_ACTIVATION,
+		STATE_TRIGGER_HIDE_SHOW,
+	};
+
 
 	//
 	// Hide until triggered
@@ -225,20 +198,35 @@ stateResult_t idAI::State_WakeUp(stateParms_t* parms) {
 		if (CanBecomeSolid())
 		{
 			Show();
-			parms->stage = STATE_TRIGGER_NORMAL_FLOW_NOTACTIVE;
+			stateThread.SetState("State_WakeUp");
 		}
-		return SRESULT_WAIT;
+		return SRESULT_DONE;
 	}
+
+	return SRESULT_ERROR;
+}
+
+/*
+=====================
+idAI::State_WakeUp
+=====================
+*/
+stateResult_t idAI::State_WakeUp(stateParms_t* parms) {
+	float	waittime;
+	idEntity* path;
+	idEntity* enemy;
+
+	enum rvmStateType_t {
+		STATE_TRIGGER_NORMAL_FLOW_INIT = 0,
+		STATE_TRIGGER_NORMAL_FLOW_FINISH
+	};
+
+	AI_RUN = false;
+	ignore_sight = GetIntKey("no_sight");
 
 	bool start_active = true;
 
-	if (parms->stage == STATE_TRIGGER_NORMAL_FLOW_NOTACTIVE)
-	{
-		start_active = false;
-	}
-
-
-	if (parms->stage == STATE_TRIGGER_NORMAL_FLOW_NOTACTIVE || parms->stage == STATE_TRIGGER_NORMAL_FLOW_INIT)
+	if (parms->stage == STATE_TRIGGER_NORMAL_FLOW_INIT)
 	{
 		parms->stage = STATE_TRIGGER_NORMAL_FLOW_FINISH;
 		waittime = GetFloatKey("wait");

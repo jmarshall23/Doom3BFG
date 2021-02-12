@@ -4680,6 +4680,15 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	if(functionNameHash == 149028) { // State_WakeUp
 		return (intptr_t)State_WakeUp((stateParms_t *)param1);
 	};
+	if(functionNameHash == 218618) { // State_TriggerAnim
+		return (intptr_t)State_TriggerAnim((stateParms_t *)param1);
+	};
+	if(functionNameHash == 309649) { // State_TeleportTriggered
+		return (intptr_t)State_TeleportTriggered((stateParms_t *)param1);
+	};
+	if(functionNameHash == 245798) { // State_TriggerHidden
+		return (intptr_t)State_TriggerHidden((stateParms_t *)param1);
+	};
 	if(functionNameHash == 370058) { // Event_FindEnemyInCombatNodes
 		Event_FindEnemyInCombatNodes();
 		return 0;
