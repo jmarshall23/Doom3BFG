@@ -532,7 +532,7 @@ protected:
 		return axisDelta;
 	}
 
-
+public:
 	int GetIntKey(const char* key)
 	{
 		int value;

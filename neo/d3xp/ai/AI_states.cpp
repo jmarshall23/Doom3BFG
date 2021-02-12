@@ -315,6 +315,175 @@ stateResult_t idAI::state_Spawner(stateParms_t* parms) {
 }
 
 /*
+=====================
+idAI::wake_on_trigger
+=====================
+*/
+stateResult_t idAI::wake_on_trigger(stateParms_t* parms) {
+	idStr	animname;
+	idEntity *path;
+
+	enum rvmStateType_t {
+		STATE_INIT = 0,
+		STATE_WAIT_FOR_ACTIVATION,
+		STATE_FINISH
+	};
+
+	if (parms->stage == STATE_INIT)
+	{
+		if (!GetIntKey("attack_path")) {
+			path = idPathCorner::RandomPath(this, NULL);
+			if (path) {
+				idle_followPathEntities(path);
+			}
+		}
+
+		if (!GetEnemy() && !AI_ACTIVATED && !AI_PAIN) {
+			// sit in our idle anim till we're activated
+			Event_AllowMovement(false);
+
+			animname = GetKey("anim");
+			PlayCustomCycle(animname, 4);
+
+			parms->stage = STATE_WAIT_FOR_ACTIVATION;
+		}
+
+		return SRESULT_WAIT;
+	}
+
+
+	if(parms->stage == STATE_WAIT_FOR_ACTIVATION) {
+		if (!(AI_ACTIVATED || AI_PAIN))
+		{
+			return SRESULT_WAIT;
+		}
+
+		Event_AllowMovement(true);
+
+		Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Idle", 4);
+
+		parms->stage = STATE_FINISH;
+
+		return SRESULT_WAIT;
+	}
+
+	trigger_wakeup_targets();
+	if (GetIntKey("attack_path")) {
+		// follow a path and fight player at end
+		path = idPathCorner::RandomPath(this, NULL);
+		if (path) {
+			ignoreEnemies = true;
+			AI_RUN = true;
+			idle_followPathEntities(path);
+			ignoreEnemies = false;
+		}
+	}
+	else {
+		sight_enemy();
+	}
+
+	return SRESULT_DONE;
+}
+
+/*
+=====================
+idAI::walk_on_trigger
+=====================
+*/
+stateResult_t idAI::walk_on_trigger(stateParms_t* parms) {	
+	idEntity *path;
+
+	enum rvmStateType_t {
+		STATE_INIT = 0,
+		STATE_WAIT_FOR_ACTIVATION,
+		STATE_AFTER_ACTIVATION,
+		STATE_CHECK_ENEMY,
+		STATE_WAKEUP
+	};
+
+	if (parms->stage == STATE_INIT)
+	{
+		idStr animname;
+
+		Event_AllowMovement(false);
+
+		// sit in our idle anim till we're activated
+		animname = GetKey("anim");
+		PlayCustomCycle(animname, 4);
+
+		parms->stage = STATE_WAIT_FOR_ACTIVATION;
+		return SRESULT_WAIT;
+	}
+
+	if (parms->stage == STATE_WAIT_FOR_ACTIVATION)
+	{
+		if (AI_ACTIVATED || AI_PAIN)
+		{
+			if (AI_ACTIVATED) {
+				Event_ClearEnemy();
+				AI_ACTIVATED = false;
+			}
+
+			parms->stage = STATE_AFTER_ACTIVATION;
+		}
+
+		return SRESULT_WAIT;
+	}
+
+	if (parms->stage == STATE_AFTER_ACTIVATION)
+	{
+		Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Idle", 4);
+		Event_AllowMovement(true);
+
+		// follow a path
+		path = idPathCorner::RandomPath(this, NULL);
+		if (path) {
+			idle_followPathEntities(path);
+		}
+
+		if (!GetEnemy() && !AI_ACTIVATED && !AI_PAIN) {
+			idStr animname = GetKey("anim");
+
+			// sit in our idle anim till we're activated
+			Event_AllowMovement(false);
+			PlayCustomCycle(animname, 4);
+			parms->stage = STATE_CHECK_ENEMY;
+		}
+		else {
+			parms->stage = STATE_WAKEUP;
+		}
+
+		return SRESULT_WAIT;
+	}
+
+	if (parms->stage == STATE_CHECK_ENEMY)
+	{
+		if (!AI_PAIN && !AI_ACTIVATED)
+		{
+			checkForEnemy(true);
+		}
+		else
+		{
+			Event_AllowMovement(true);
+			Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Idle", 4);
+			parms->stage = STATE_WAKEUP;
+		}
+		return SRESULT_WAIT;
+	}
+	
+	if (parms->stage == STATE_WAKEUP)
+	{
+		trigger_wakeup_targets();
+		sight_enemy();
+
+		return SRESULT_DONE;
+	}
+
+	return SRESULT_ERROR;
+}
+
+
+/*
 ================
 idAI::State_WakeUp
 ================
@@ -391,3 +560,118 @@ stateResult_t idAI::wake_on_enemy(stateParms_t* parms) {
 	return SRESULT_DONE;
 }
 
+/*
+================
+idAI::wake_on_attackcone
+================
+*/
+stateResult_t idAI::wake_on_attackcone(stateParms_t* parms) {
+	idStr animname;
+	idEntity* path;
+	idEntity* enemy;
+
+	enum rvmStateType_t {
+		STATE_INIT = 0,
+		STATE_FIND_ENEMY_COMBAT_NODES,
+		STATE_CHECK_ENEMY,
+		STATE_WAIT_ENEMY,
+		STATE_WAKEUP
+	};
+
+	if (parms->stage == STATE_INIT)
+	{
+		if (!GetIntKey("attack_path")) {
+			path = idPathCorner::RandomPath(this, NULL);
+			if (path) {
+				idle_followPathEntities(path);
+				AI_RUN = path->GetIntKey("run");
+				parms->stage = STATE_FIND_ENEMY_COMBAT_NODES;
+			}
+		}
+		else
+		{
+			parms->stage = STATE_CHECK_ENEMY;
+		}
+		return SRESULT_WAIT;
+	}
+
+	if (parms->stage == STATE_FIND_ENEMY_COMBAT_NODES)
+	{
+		if (!AI_MOVE_DONE && !AI_ACTIVATED && !AI_PAIN)
+		{
+			enemy = FindEnemyInCombatNodes();
+			if (enemy)
+			{
+				Event_SetEnemy(enemy);
+				parms->stage = STATE_CHECK_ENEMY;
+			}
+		}
+		else
+		{
+			parms->stage = STATE_CHECK_ENEMY;
+		}
+		return SRESULT_WAIT;
+	}
+
+	if (parms->stage == STATE_CHECK_ENEMY)
+	{
+		if (!GetEnemy() && !AI_ACTIVATED && !AI_PAIN) {
+			// sit in our idle anim till we're activated
+			Event_AllowMovement(false);
+
+			animname = GetKey("anim");
+			PlayCustomCycle(animname, 4);
+
+			parms->stage = STATE_WAIT_ENEMY;
+		}
+		else
+		{
+			parms->stage = STATE_WAKEUP;
+		}
+		return SRESULT_WAIT;
+	}
+
+	if (parms->stage == STATE_WAIT_ENEMY)
+	{
+		if (!AI_ACTIVATED && !AI_PAIN)
+		{
+			enemy = FindEnemyInCombatNodes();
+			if (enemy)
+			{
+				Event_SetEnemy(enemy);
+				parms->stage = STATE_WAKEUP;
+				Event_AllowMovement(true);
+				Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Idle", 4);
+				parms->stage = STATE_WAKEUP;
+			}
+		}
+		else
+		{
+			parms->stage = STATE_WAKEUP;
+		}
+		return SRESULT_WAIT;
+	}	
+
+	if (parms->stage == STATE_WAKEUP)
+	{
+		trigger_wakeup_targets();
+
+		if (GetIntKey("attack_path")) {
+			// follow a path and fight player at end
+			path = idPathCorner::RandomPath(this, NULL);
+			if (path) {
+				AI_RUN = true;
+				ignoreEnemies = true;
+				idle_followPathEntities(path);
+				ignoreEnemies = false;
+			}
+		}
+		else {
+			sight_enemy();
+		}
+
+		return SRESULT_DONE;
+	}
+
+	return SRESULT_ERROR;
+}

@@ -314,9 +314,6 @@ protected:
 	bool					checkForEnemy(float use_fov);
 
 private:
-	stateResult_t			state_Spawner(stateParms_t* parms);
-	stateResult_t			wake_on_enemy(stateParms_t* parms);
-
 	void					idle_followPathEntities(idEntity* pathnode);
 protected:
 
@@ -594,11 +591,19 @@ protected:
 	idEntity*				GetEmitter( const char* name );
 	void					StopEmitter( const char* name );
 
+	idEntity*				FindEnemyInCombatNodes(void);
+
 	// AI script state management
 	void					LinkScriptVariables();
 	void					UpdateAIScript();
 
+	// AI States
+	stateResult_t			state_Spawner(stateParms_t* parms);
 	stateResult_t			State_WakeUp(stateParms_t* parms);
+	stateResult_t			wake_on_attackcone(stateParms_t* parms);
+	stateResult_t			walk_on_trigger(stateParms_t* parms);
+	stateResult_t			wake_on_trigger(stateParms_t* parms);	
+	stateResult_t			wake_on_enemy(stateParms_t* parms);
 	stateResult_t			State_TriggerAnim(stateParms_t* parms);
 	stateResult_t			State_TeleportTriggered(stateParms_t* parms);
 	stateResult_t			State_TriggerHidden(stateParms_t* parms);

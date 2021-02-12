@@ -4498,13 +4498,6 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 		Init();
 		return 0;
 	};
-	if(functionNameHash == 171989) { // state_Spawner
-		state_Spawner((stateParms_t *)param1);
-		return 0;
-	};
-	if(functionNameHash == 172196) { // wake_on_enemy
-		return (intptr_t)wake_on_enemy((stateParms_t *)param1);
-	};
 	if(functionNameHash == 62250) { // SetAAS
 		SetAAS();
 		return 0;
@@ -4669,6 +4662,9 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 		UpdateParticles();
 		return 0;
 	};
+	if(functionNameHash == 282912) { // FindEnemyInCombatNodes
+		return (intptr_t)FindEnemyInCombatNodes();
+	};
 	if(functionNameHash == 249647) { // LinkScriptVariables
 		LinkScriptVariables();
 		return 0;
@@ -4677,8 +4673,23 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 		UpdateAIScript();
 		return 0;
 	};
+	if(functionNameHash == 171989) { // state_Spawner
+		return (intptr_t)state_Spawner((stateParms_t *)param1);
+	};
 	if(functionNameHash == 149028) { // State_WakeUp
 		return (intptr_t)State_WakeUp((stateParms_t *)param1);
+	};
+	if(functionNameHash == 240700) { // wake_on_attackcone
+		return (intptr_t)wake_on_attackcone((stateParms_t *)param1);
+	};
+	if(functionNameHash == 201338) { // walk_on_trigger
+		return (intptr_t)walk_on_trigger((stateParms_t *)param1);
+	};
+	if(functionNameHash == 200485) { // wake_on_trigger
+		return (intptr_t)wake_on_trigger((stateParms_t *)param1);
+	};
+	if(functionNameHash == 172196) { // wake_on_enemy
+		return (intptr_t)wake_on_enemy((stateParms_t *)param1);
 	};
 	if(functionNameHash == 218618) { // State_TriggerAnim
 		return (intptr_t)State_TriggerAnim((stateParms_t *)param1);

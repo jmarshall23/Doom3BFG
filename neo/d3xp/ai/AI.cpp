@@ -777,6 +777,60 @@ void idAI::Restore( idRestoreGame* savefile )
 
 }
 
+
+/*
+=====================
+idAI::FindEnemyInCombatNodes
+=====================
+*/
+idEntity* idAI::FindEnemyInCombatNodes(void) {
+	int				i, j;
+	idCombatNode* node;
+	idEntity* ent;
+	idEntity* targetEnt;
+	idActor* actor;
+
+	if (!gameLocal.InPlayerPVS(this))
+	{
+		// don't locate the player when we're not in his PVS
+		return NULL;
+	}
+
+	for (i = 0; i < gameLocal.numClients; i++)
+	{
+		ent = gameLocal.entities[i];
+
+		if (!ent || !ent->IsType(idActor::Type))
+		{
+			continue;
+		}
+
+		actor = static_cast<idActor*>(ent);
+		if ((actor->health <= 0) || !(ReactionTo(actor) & ATTACK_ON_SIGHT))
+		{
+			continue;
+		}
+
+		for (j = 0; j < targets.Num(); j++)
+		{
+			targetEnt = targets[j].GetEntity();
+			if (!targetEnt || !targetEnt->IsType(idCombatNode::Type))
+			{
+				continue;
+			}
+
+			node = static_cast<idCombatNode*>(targetEnt);
+			if (!node->IsDisabled() && node->EntityInView(actor, actor->GetPhysics()->GetOrigin()))
+			{
+				return actor;
+			}
+		}
+	}
+
+	return NULL;
+}
+
+
 /*
 =====================
 idAI::Spawn
