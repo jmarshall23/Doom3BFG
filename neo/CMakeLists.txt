@@ -1562,7 +1562,18 @@ if(MSVC)
 	#			   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/libs/curl/lib
     #               COMMENT "Compiling libcURL")
 		
-	add_dependencies(RBDoom3BFG idlib)
+	add_dependencies(RBDoom3BFG idlib typeinfogen)
+	
+	# call typeinfogen to generate neo/d3xp/gamesys/GameTypeInfo.h
+	add_custom_command(
+			TARGET RBDoom3BFG
+			PRE_BUILD
+			DEPENDS typeinfogen
+			COMMAND typeinfogen
+			WORKING_DIRECTORY ..
+			COMMENT "Generating neo/d3xp/gamesys/GameTypeInfo.h"
+			)
+	
 	target_link_libraries(RBDoom3BFG
 		idlib
 		${DirectX_LIBRARIES}
