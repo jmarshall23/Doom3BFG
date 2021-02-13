@@ -796,7 +796,6 @@ idAI::state_Dead
 =====================
 */
 stateResult_t idAI::state_Dead(stateParms_t* parms) {
-// jmarshall - I never liked the burn effect personally.
 	//if (parms->stage == 0)
 	//{
 	//	float burnDelay = GetFloatKey("burnaway");

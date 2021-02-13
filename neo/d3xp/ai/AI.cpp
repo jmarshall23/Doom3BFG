@@ -569,6 +569,17 @@ void idAI::Save( idSaveGame* savefile ) const
 
 /*
 =====================
+idAI::combat_lost
+=====================
+*/
+void idAI::combat_lost() {
+	//if (!ignore_lostcombat) {
+		SetState("state_LostCombat");
+	//}
+}
+
+/*
+=====================
 idAI::Restore
 =====================
 */
@@ -1515,7 +1526,8 @@ void idAI::LinkScriptVariables()
 	AI_PAIN.LinkTo(	scriptObject, "AI_PAIN" );
 	AI_SPECIAL_DAMAGE.LinkTo(	scriptObject, "AI_SPECIAL_DAMAGE" );
 	AI_DEAD.LinkTo(	scriptObject, "AI_DEAD" );
-	AI_RUN.LinkTo(	scriptObject, "AI_RUN" );
+	AI_RUN.LinkTo(	scriptObject, "run" );
+	blocked.LinkTo(scriptObject, "blocked");
 	AI_ATTACKING.LinkTo(scriptObject, "AI_ATTACKING");
 	AI_ENEMY_VISIBLE.LinkTo(	scriptObject, "AI_ENEMY_VISIBLE" );
 	AI_ENEMY_IN_FOV.LinkTo(	scriptObject, "AI_ENEMY_IN_FOV" );
@@ -2488,6 +2500,163 @@ bool idAI::WanderAround()
 	AI_FORWARD			= true;
 
 	return true;
+}
+
+
+/*
+================
+idAI::CanReachEntity
+================
+*/
+bool idAI::CanReachEntity(idEntity* ent)
+{
+	aasPath_t	path;
+	int			toAreaNum;
+	int			areaNum;
+	idVec3		pos;
+
+	if (!ent)
+	{
+		return false;
+	}
+
+	if (move.moveType != MOVETYPE_FLY)
+	{
+		if (!ent->GetFloorPos(64.0f, pos))
+		{
+			return false;
+}
+		if (ent->IsType(idActor::Type) && static_cast<idActor*>(ent)->OnLadder())
+		{
+			return false;
+		}
+	}
+	else
+	{
+		pos = ent->GetPhysics()->GetOrigin();
+	}
+
+	toAreaNum = PointReachableAreaNum(pos);
+	if (!toAreaNum)
+	{
+		return false;
+}
+
+	const idVec3& org = physicsObj.GetOrigin();
+	areaNum = PointReachableAreaNum(org);
+	if (!toAreaNum || !PathToGoal(path, areaNum, org, toAreaNum, pos))
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+/*
+================
+idAI::CanReachEnemy
+================
+*/
+bool idAI::CanReachEnemy(void)
+{
+	aasPath_t	path;
+	int			toAreaNum;
+	int			areaNum;
+	idVec3		pos;
+	idActor* enemyEnt;
+
+	enemyEnt = enemy.GetEntity();
+	if (!enemyEnt)
+	{
+		return false;
+	}
+
+	if (move.moveType != MOVETYPE_FLY)
+	{
+		if (enemyEnt->OnLadder())
+		{
+			return false;
+		}
+		enemyEnt->GetAASLocation(aas, pos, toAreaNum);
+	}
+	else
+	{
+		pos = enemyEnt->GetPhysics()->GetOrigin();
+		toAreaNum = PointReachableAreaNum(pos);
+	}
+
+	if (!toAreaNum)
+	{
+		return false;
+	}
+
+	const idVec3& org = physicsObj.GetOrigin();
+	areaNum = PointReachableAreaNum(org);
+	if (!PathToGoal(path, areaNum, org, toAreaNum, pos))
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+
+/*
+=====================
+idAI::GetClosestHiddenTarget
+=====================
+*/
+idEntity *idAI::GetClosestHiddenTarget(const char* type)
+{
+	int	i;
+	idEntity* ent;
+	idEntity* bestEnt;
+	float time;
+	float bestTime;
+	const idVec3& org = physicsObj.GetOrigin();
+	idActor* enemyEnt = enemy.GetEntity();
+
+	if (!enemyEnt)
+	{
+		// no enemy to hide from
+		return NULL;
+	}
+
+	if (targets.Num() == 1)
+	{
+		ent = targets[0].GetEntity();
+		if (ent != NULL && idStr::Cmp(ent->GetEntityDefName(), type) == 0)
+		{
+			if (!EntityCanSeePos(enemyEnt, lastVisibleEnemyPos, ent->GetPhysics()->GetOrigin()))
+			{
+				return ent;
+			}
+		}
+		return NULL;
+	}
+
+	bestEnt = NULL;
+	bestTime = idMath::INFINITY;
+	for (i = 0; i < targets.Num(); i++)
+	{
+		ent = targets[i].GetEntity();
+		if (ent != NULL && idStr::Cmp(ent->GetEntityDefName(), type) == 0)
+		{
+			const idVec3& destOrg = ent->GetPhysics()->GetOrigin();
+			time = TravelDistance(org, destOrg);
+			if ((time >= 0.0f) && (time < bestTime))
+			{
+				if (!EntityCanSeePos(enemyEnt, lastVisibleEnemyPos, destOrg))
+				{
+					bestEnt = ent;
+					bestTime = time;
+				}
+			}
+		}
+	}
+	return bestEnt;
 }
 
 /*
@@ -5293,6 +5462,22 @@ void idAI::DirectDamage( const char* meleeDefName, idEntity* ent )
 
 	// end the attack if we're a multiframe attack
 	EndAttack();
+}
+
+/*
+=====================
+idAI::enemy_dead
+=====================
+*/
+void idAI::enemy_dead(void) {
+	AI_ENEMY_DEAD = false;
+	checkForEnemy(false);
+	if (!GetEnemy()) {
+		SetState("state_Idle");
+	}
+	else {
+		SetState("state_Combat");
+	}
 }
 
 /*

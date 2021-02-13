@@ -116,7 +116,12 @@ stateResult_t rvStateThread::PostState( const char* name, int blendFrames, int d
 	call->parms.blendFrames = blendFrames;
 	call->parms.time		= -1;
 	call->parms.stage		= 0;
+	call->parms.substage = 0;
 	call->parms.param1		= 0;
+	call->parms.param2		= 0;
+
+	call->parms.subparam1 = 0;
+	call->parms.subparam2 = 0;
 
 	call->node.SetOwner( call );
 
@@ -319,6 +324,9 @@ stateResult_t rvStateThread::Execute( void )
 		lastResult = ( stateResult_t )owner->Invoke( call->state, &call->parms );
 		switch( lastResult )
 		{
+			case SRESULT_DONE_FRAME:
+				fl.executing = false;
+				return SRESULT_DONE;
 			case SRESULT_WAIT:
 				fl.executing = false;
 				return SRESULT_WAIT;

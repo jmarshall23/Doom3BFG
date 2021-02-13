@@ -45,6 +45,27 @@ const float	AI_FLY_DAMPENING			= 0.15f;
 const float	AI_HEARING_RANGE			= 2048.0f;
 const int	DEFAULT_FLY_OFFSET			= 68;
 
+//
+// attack flags
+//
+#define ATTACK_DODGE_LEFT	1
+#define ATTACK_DODGE_RIGHT	2
+#define ATTACK_COMBAT_NODE	4
+#define ATTACK_MELEE		8
+#define ATTACK_LEAP			16
+#define ATTACK_MISSILE		32
+#define ATTACK_SPECIAL1		64
+#define ATTACK_SPECIAL2		128
+#define ATTACK_SPECIAL3		256
+#define ATTACK_SPECIAL4		512
+
+
+#define AI_NOT_ACTIVATED	0
+#define AI_CHASING_ENEMY	1
+#define AI_LOST				2
+#define AI_PATH_FOLLOWING	3
+#define AI_ATTACK_NODE		4
+
 #define ATTACK_IGNORE			0
 #define ATTACK_ON_DAMAGE		1
 #define ATTACK_ON_ACTIVATE		2
@@ -457,6 +478,7 @@ protected:
 	idScriptFloat			AI_SPECIAL_DAMAGE;
 	idScriptBool			AI_DEAD;
 	idScriptBool			AI_RUN;
+	idScriptBool			blocked; // its stupid they had two block states. 
 	idScriptBool			AI_ATTACKING;
 	idScriptBool			AI_ENEMY_VISIBLE;
 	idScriptBool			AI_ENEMY_IN_FOV;
@@ -490,6 +512,10 @@ public:
 	virtual idThread*		ConstructScriptObject();
 protected:
 	virtual void			AI_Begin(void) { };
+	virtual int				check_attacks() { return 0; }
+	virtual void			do_attack(int attack_flags) { }
+
+	void					enemy_dead(void);
 
 	void					PlayCustomAnim(idStr animname, float blendIn, float blendOut);
 	void					PlayCustomCycle(idStr animname, float blendTime);
@@ -576,6 +602,9 @@ protected:
 	void					UpdateEnemyPosition();
 	void					SetEnemy( idActor* newEnemy );
 
+	bool					CanReachEntity(idEntity* ent);
+	bool					CanReachEnemy(void);
+
 	// attacks
 	void					CreateProjectileClipModel() const;
 	idProjectile*			CreateProjectile( const idVec3& pos, const idVec3& dir );
@@ -598,6 +627,8 @@ protected:
 	void					UpdateParticles();
 	void					TriggerParticles( const char* jointName );
 
+	void					combat_lost();
+
 	void					TriggerFX( const char* joint, const char* fx );
 	idEntity*				StartEmitter( const char* name, const char* joint, const char* particle );
 	idEntity*				GetEmitter( const char* name );
@@ -605,9 +636,15 @@ protected:
 
 	idEntity*				FindEnemyInCombatNodes(void);
 
+	// State utilities that are nested states.
+	stateResult_t			check_blocked(stateParms_t* parms, bool& result);
+	stateResult_t			combat_chase(stateParms_t* parms, bool& result);
+
 	// AI script state management
 	void					LinkScriptVariables();
 	void					UpdateAIScript();
+
+	idEntity*				GetClosestHiddenTarget(const char* type);
 
 	// AI States
 	stateResult_t			state_Spawner(stateParms_t* parms);
@@ -623,6 +660,12 @@ protected:
 	stateResult_t			wake_call_constructor(stateParms_t* parms);
 	stateResult_t			state_Killed(stateParms_t* parms);
 	stateResult_t			state_Dead(stateParms_t* parms);
+	stateResult_t			combat_wander(stateParms_t* parms);
+	stateResult_t			state_LostCombat(stateParms_t* parms);
+	stateResult_t			state_LostCombat_No_Node(stateParms_t* parms);
+	stateResult_t			state_LostCombat_Node(stateParms_t* parms);
+	stateResult_t			state_LostCombat_Finish(stateParms_t* parms);
+	stateResult_t			state_Combat(stateParms_t* parms);
 
 	//
 	// ai/ai_events.cpp
@@ -769,6 +812,16 @@ protected:
 	void					Event_StartEmitter( const char* name, const char* joint, const char* particle );
 	void					Event_GetEmitter( const char* name );
 	void					Event_StopEmitter( const char* name );
+private:
+	// These are used by the lost combat state.
+	float					allow_attack;
+	float					lost_time;
+	idEntity*				lost_combat_node;
+
+	float					attack_flags;
+
+	idStr					lastStateName;
+	stateParms_t			storedState;
 };
 
 class idCombatNode : public idEntity

@@ -2594,56 +2594,7 @@ idAI::Event_GetClosestHiddenTarget
 */
 void idAI::Event_GetClosestHiddenTarget( const char* type )
 {
-	int	i;
-	idEntity* ent;
-	idEntity* bestEnt;
-	float time;
-	float bestTime;
-	const idVec3& org = physicsObj.GetOrigin();
-	idActor* enemyEnt = enemy.GetEntity();
-
-	if( !enemyEnt )
-	{
-		// no enemy to hide from
-		idThread::ReturnEntity( NULL );
-		return;
-	}
-
-	if( targets.Num() == 1 )
-	{
-		ent = targets[ 0 ].GetEntity();
-		if( ent != NULL && idStr::Cmp( ent->GetEntityDefName(), type ) == 0 )
-		{
-			if( !EntityCanSeePos( enemyEnt, lastVisibleEnemyPos, ent->GetPhysics()->GetOrigin() ) )
-			{
-				idThread::ReturnEntity( ent );
-				return;
-			}
-		}
-		idThread::ReturnEntity( NULL );
-		return;
-	}
-
-	bestEnt = NULL;
-	bestTime = idMath::INFINITY;
-	for( i = 0; i < targets.Num(); i++ )
-	{
-		ent = targets[ i ].GetEntity();
-		if( ent != NULL && idStr::Cmp( ent->GetEntityDefName(), type ) == 0 )
-		{
-			const idVec3& destOrg = ent->GetPhysics()->GetOrigin();
-			time = TravelDistance( org, destOrg );
-			if( ( time >= 0.0f ) && ( time < bestTime ) )
-			{
-				if( !EntityCanSeePos( enemyEnt, lastVisibleEnemyPos, destOrg ) )
-				{
-					bestEnt = ent;
-					bestTime = time;
-				}
-			}
-		}
-	}
-	idThread::ReturnEntity( bestEnt );
+	idThread::ReturnEntity(GetClosestHiddenTarget(type));
 }
 
 /*
@@ -3183,53 +3134,8 @@ idAI::Event_CanReachEntity
 ================
 */
 void idAI::Event_CanReachEntity( idEntity* ent )
-{
-	aasPath_t	path;
-	int			toAreaNum;
-	int			areaNum;
-	idVec3		pos;
-
-	if( !ent )
-	{
-		idThread::ReturnInt( false );
-		return;
-	}
-
-	if( move.moveType != MOVETYPE_FLY )
-	{
-		if( !ent->GetFloorPos( 64.0f, pos ) )
-		{
-			idThread::ReturnInt( false );
-			return;
-		}
-		if( ent->IsType( idActor::Type ) && static_cast<idActor*>( ent )->OnLadder() )
-		{
-			idThread::ReturnInt( false );
-			return;
-		}
-	}
-	else
-	{
-		pos = ent->GetPhysics()->GetOrigin();
-	}
-
-	toAreaNum = PointReachableAreaNum( pos );
-	if( !toAreaNum )
-	{
-		idThread::ReturnInt( false );
-		return;
-	}
-
-	const idVec3& org = physicsObj.GetOrigin();
-	areaNum	= PointReachableAreaNum( org );
-	if( !toAreaNum || !PathToGoal( path, areaNum, org, toAreaNum, pos ) )
-	{
-		idThread::ReturnInt( false );
-	}
-	else
-	{
-		idThread::ReturnInt( true );
-	}
+{	
+	idThread::ReturnInt(CanReachEntity(ent));	
 }
 
 /*
@@ -3238,51 +3144,8 @@ idAI::Event_CanReachEnemy
 ================
 */
 void idAI::Event_CanReachEnemy()
-{
-	aasPath_t	path;
-	int			toAreaNum;
-	int			areaNum;
-	idVec3		pos;
-	idActor*		enemyEnt;
-
-	enemyEnt = enemy.GetEntity();
-	if( !enemyEnt )
-	{
-		idThread::ReturnInt( false );
-		return;
-	}
-
-	if( move.moveType != MOVETYPE_FLY )
-	{
-		if( enemyEnt->OnLadder() )
-		{
-			idThread::ReturnInt( false );
-			return;
-		}
-		enemyEnt->GetAASLocation( aas, pos, toAreaNum );
-	}
-	else
-	{
-		pos = enemyEnt->GetPhysics()->GetOrigin();
-		toAreaNum = PointReachableAreaNum( pos );
-	}
-
-	if( !toAreaNum )
-	{
-		idThread::ReturnInt( false );
-		return;
-	}
-
-	const idVec3& org = physicsObj.GetOrigin();
-	areaNum	= PointReachableAreaNum( org );
-	if( !PathToGoal( path, areaNum, org, toAreaNum, pos ) )
-	{
-		idThread::ReturnInt( false );
-	}
-	else
-	{
-		idThread::ReturnInt( true );
-	}
+{	
+	idThread::ReturnInt(CanReachEnemy());
 }
 
 /*

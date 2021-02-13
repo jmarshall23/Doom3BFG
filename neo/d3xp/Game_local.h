@@ -454,6 +454,9 @@ public:
 	void					MapRestart();
 	static void				MapRestart_f( const idCmdArgs& args );
 
+	float					SysScriptTime(void) const { return MS2SEC(realClientTime); }
+	float					SysScriptFrameTime(void) const { return MS2SEC(time - previousTime);  }
+
 	idMapFile* 				GetLevelMap();
 	const char* 			GetMapName() const;
 	void					DelayRemoveEntity( idEntity* entity, int delay );

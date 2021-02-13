@@ -8241,6 +8241,14 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 		AI_Begin();
 		return 0;
 	};
+	if(functionNameHash == 169136) { // check_attacks
+		check_attacks();
+		return 0;
+	};
+	if(functionNameHash == 127746) { // enemy_dead
+		enemy_dead();
+		return 0;
+	};
 	if(functionNameHash == 305792) { // trigger_wakeup_targets
 		trigger_wakeup_targets();
 		return 0;
@@ -8358,6 +8366,9 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 		UpdateEnemyPosition();
 		return 0;
 	};
+	if(functionNameHash == 158750) { // CanReachEnemy
+		return (intptr_t)CanReachEnemy();
+	};
 	if(functionNameHash == 331085) { // CreateProjectileClipModel
 		CreateProjectileClipModel();
 		return 0;
@@ -8391,6 +8402,10 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	};
 	if(functionNameHash == 195019) { // UpdateParticles
 		UpdateParticles();
+		return 0;
+	};
+	if(functionNameHash == 145825) { // combat_lost
+		combat_lost();
 		return 0;
 	};
 	if(functionNameHash == 282912) { // FindEnemyInCombatNodes
@@ -8442,6 +8457,24 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	};
 	if(functionNameHash == 124042) { // state_Dead
 		return (intptr_t)state_Dead((stateParms_t *)param1);
+	};
+	if(functionNameHash == 170793) { // combat_wander
+		return (intptr_t)combat_wander((stateParms_t *)param1);
+	};
+	if(functionNameHash == 209369) { // state_LostCombat
+		return (intptr_t)state_LostCombat((stateParms_t *)param1);
+	};
+	if(functionNameHash == 315943) { // state_LostCombat_No_Node
+		return (intptr_t)state_LostCombat_No_Node((stateParms_t *)param1);
+	};
+	if(functionNameHash == 275848) { // state_LostCombat_Node
+		return (intptr_t)state_LostCombat_Node((stateParms_t *)param1);
+	};
+	if(functionNameHash == 306638) { // state_LostCombat_Finish
+		return (intptr_t)state_LostCombat_Finish((stateParms_t *)param1);
+	};
+	if(functionNameHash == 154038) { // state_Combat
+		return (intptr_t)state_Combat((stateParms_t *)param1);
 	};
 	if(functionNameHash == 370058) { // Event_FindEnemyInCombatNodes
 		Event_FindEnemyInCombatNodes();
@@ -8737,6 +8770,12 @@ bool idAI::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 88222) { // AI_Begin
 		return true;
 	};
+	if(functionNameHash == 169136) { // check_attacks
+		return true;
+	};
+	if(functionNameHash == 127746) { // enemy_dead
+		return true;
+	};
 	if(functionNameHash == 305792) { // trigger_wakeup_targets
 		return true;
 	};
@@ -8830,6 +8869,9 @@ bool idAI::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 253125) { // UpdateEnemyPosition
 		return true;
 	};
+	if(functionNameHash == 158750) { // CanReachEnemy
+		return true;
+	};
 	if(functionNameHash == 331085) { // CreateProjectileClipModel
 		return true;
 	};
@@ -8855,6 +8897,9 @@ bool idAI::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 195019) { // UpdateParticles
+		return true;
+	};
+	if(functionNameHash == 145825) { // combat_lost
 		return true;
 	};
 	if(functionNameHash == 282912) { // FindEnemyInCombatNodes
@@ -8903,6 +8948,24 @@ bool idAI::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 124042) { // state_Dead
+		return true;
+	};
+	if(functionNameHash == 170793) { // combat_wander
+		return true;
+	};
+	if(functionNameHash == 209369) { // state_LostCombat
+		return true;
+	};
+	if(functionNameHash == 315943) { // state_LostCombat_No_Node
+		return true;
+	};
+	if(functionNameHash == 275848) { // state_LostCombat_Node
+		return true;
+	};
+	if(functionNameHash == 306638) { // state_LostCombat_Finish
+		return true;
+	};
+	if(functionNameHash == 154038) { // state_Combat
 		return true;
 	};
 	if(functionNameHash == 370058) { // Event_FindEnemyInCombatNodes
@@ -9217,6 +9280,10 @@ intptr_t rvmMonsterZombie::Invoke(const char *functionName, void *param1) {
 		AI_Begin();
 		return 0;
 	};
+	if(functionNameHash == 169136) { // check_attacks
+		check_attacks();
+		return 0;
+	};
 	if(functionNameHash == 139384) { // state_Begin
 		state_Begin((stateParms_t *)param1);
 		return 0;
@@ -9237,6 +9304,9 @@ bool rvmMonsterZombie::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 88222) { // AI_Begin
+		return true;
+	};
+	if(functionNameHash == 169136) { // check_attacks
 		return true;
 	};
 	if(functionNameHash == 139384) { // state_Begin

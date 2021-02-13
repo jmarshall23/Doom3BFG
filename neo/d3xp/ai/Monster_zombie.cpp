@@ -99,3 +99,31 @@ stateResult_t rvmMonsterZombie::combat_melee(stateParms_t* parms) {
 	AI_ATTACKING = false;
 	return SRESULT_DONE;
 }
+
+/*
+=====================
+rvmMonsterZombie::check_attacks
+=====================
+*/
+int rvmMonsterZombie::check_attacks() {
+	int attack_flags;
+
+	attack_flags = 0;
+	if (TestMelee()) {
+		attack_flags |= ATTACK_MELEE;
+	}
+
+	return attack_flags;
+}
+
+/*
+=====================
+rvmMonsterZombie::do_attack
+=====================
+*/
+void rvmMonsterZombie::do_attack(int attack_flags) {
+	if (attack_flags & ATTACK_MELEE) {
+		AI_ATTACKING = true;
+		SetState("combat_melee");
+	}
+}

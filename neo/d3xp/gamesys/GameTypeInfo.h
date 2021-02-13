@@ -7,7 +7,7 @@
 
 	This file has been generated with the Type Info Generator v1.1 (c) 2004 id Software
 
-	943 constants
+	944 constants
 	90 enums
 	439 classes/structs/unions
 	3 templates
@@ -62,6 +62,7 @@ static constantInfo_t constantInfo[] = {
 	{ "int", "SRESULT_WAIT", "4" },
 	{ "int", "SRESULT_IDLE", "5" },
 	{ "int", "SRESULT_SETSTAGE", "6" },
+	{ "int", "SRESULT_DONE_FRAME", "7" },
 	{ "int", "SRESULT_SETDELAY", "26" },
 	{ "const int", "SFLAG_ONCLEAR", "0(0)" },
 	{ "const int", "SFLAG_ONCLEARONLY", "0(1)" },
@@ -1001,6 +1002,7 @@ static enumValueInfo_t stateResult_t_typeInfo[] = {
 	{ "SRESULT_WAIT", 4 },
 	{ "SRESULT_IDLE", 5 },
 	{ "SRESULT_SETSTAGE", 6 },
+	{ "SRESULT_DONE_FRAME", 7 },
 	{ "SRESULT_SETDELAY", 26 },
 	{ NULL, 0 }
 };
@@ -2331,7 +2333,11 @@ static classVariableInfo_t stateParms_t_typeInfo[] = {
 	{ "int", "blendFrames", (intptr_t)(&((stateParms_t *)0)->blendFrames), sizeof( ((stateParms_t *)0)->blendFrames ) },
 	{ "int", "time", (intptr_t)(&((stateParms_t *)0)->time), sizeof( ((stateParms_t *)0)->time ) },
 	{ "int", "stage", (intptr_t)(&((stateParms_t *)0)->stage), sizeof( ((stateParms_t *)0)->stage ) },
-	{ "int", "param1", (intptr_t)(&((stateParms_t *)0)->param1), sizeof( ((stateParms_t *)0)->param1 ) },
+	{ "int", "substage", (intptr_t)(&((stateParms_t *)0)->substage), sizeof( ((stateParms_t *)0)->substage ) },
+	{ "float", "param1", (intptr_t)(&((stateParms_t *)0)->param1), sizeof( ((stateParms_t *)0)->param1 ) },
+	{ "float", "param2", (intptr_t)(&((stateParms_t *)0)->param2), sizeof( ((stateParms_t *)0)->param2 ) },
+	{ "float", "subparam1", (intptr_t)(&((stateParms_t *)0)->subparam1), sizeof( ((stateParms_t *)0)->subparam1 ) },
+	{ "float", "subparam2", (intptr_t)(&((stateParms_t *)0)->subparam2), sizeof( ((stateParms_t *)0)->subparam2 ) },
 	{ NULL, 0 }
 };
 
@@ -5886,6 +5892,7 @@ static classVariableInfo_t idAI_typeInfo[] = {
 	{ "idScriptFloat", "AI_SPECIAL_DAMAGE", (intptr_t)(&((idAI *)0)->AI_SPECIAL_DAMAGE), sizeof( ((idAI *)0)->AI_SPECIAL_DAMAGE ) },
 	{ "idScriptBool", "AI_DEAD", (intptr_t)(&((idAI *)0)->AI_DEAD), sizeof( ((idAI *)0)->AI_DEAD ) },
 	{ "idScriptBool", "AI_RUN", (intptr_t)(&((idAI *)0)->AI_RUN), sizeof( ((idAI *)0)->AI_RUN ) },
+	{ "idScriptBool", "blocked", (intptr_t)(&((idAI *)0)->blocked), sizeof( ((idAI *)0)->blocked ) },
 	{ "idScriptBool", "AI_ATTACKING", (intptr_t)(&((idAI *)0)->AI_ATTACKING), sizeof( ((idAI *)0)->AI_ATTACKING ) },
 	{ "idScriptBool", "AI_ENEMY_VISIBLE", (intptr_t)(&((idAI *)0)->AI_ENEMY_VISIBLE), sizeof( ((idAI *)0)->AI_ENEMY_VISIBLE ) },
 	{ "idScriptBool", "AI_ENEMY_IN_FOV", (intptr_t)(&((idAI *)0)->AI_ENEMY_IN_FOV), sizeof( ((idAI *)0)->AI_ENEMY_IN_FOV ) },
@@ -5903,6 +5910,12 @@ static classVariableInfo_t idAI_typeInfo[] = {
 	{ "idScriptBool", "AI_PUSHED", (intptr_t)(&((idAI *)0)->AI_PUSHED), sizeof( ((idAI *)0)->AI_PUSHED ) },
 	{ "idScriptFloat", "run_distance", (intptr_t)(&((idAI *)0)->run_distance), sizeof( ((idAI *)0)->run_distance ) },
 	{ "idScriptFloat", "walk_turn", (intptr_t)(&((idAI *)0)->walk_turn), sizeof( ((idAI *)0)->walk_turn ) },
+	{ ": float", "allow_attack", (intptr_t)(&((idAI *)0)->allow_attack), sizeof( ((idAI *)0)->allow_attack ) },
+	{ "float", "lost_time", (intptr_t)(&((idAI *)0)->lost_time), sizeof( ((idAI *)0)->lost_time ) },
+	{ "idEntity *", "lost_combat_node", (intptr_t)(&((idAI *)0)->lost_combat_node), sizeof( ((idAI *)0)->lost_combat_node ) },
+	{ "float", "attack_flags", (intptr_t)(&((idAI *)0)->attack_flags), sizeof( ((idAI *)0)->attack_flags ) },
+	{ "idStr", "lastStateName", (intptr_t)(&((idAI *)0)->lastStateName), sizeof( ((idAI *)0)->lastStateName ) },
+	{ "stateParms_t", "storedState", (intptr_t)(&((idAI *)0)->storedState), sizeof( ((idAI *)0)->storedState ) },
 	{ NULL, 0 }
 };
 
