@@ -71,6 +71,8 @@ const int	DEFAULT_FLY_OFFSET			= 68;
 #define ATTACK_ON_ACTIVATE		2
 #define ATTACK_ON_SIGHT			4
 
+#define ALL_PARTICLES	-1		// used with setSmokeVisibility
+
 typedef struct ballistics_s
 {
 	float				angle;		// angle in degrees in the range [-180, 180]
@@ -892,6 +894,7 @@ private:
 };
 
 #include "Monster_zombie.h"
+#include "Monster_zombie_sawyer.h"
 #include "Monster_zombie_security_pistol.h"
 
 #endif /* !__AI_H__ */
