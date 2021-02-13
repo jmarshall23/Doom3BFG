@@ -895,6 +895,7 @@ private:
 
 #include "Monster_zombie.h"
 #include "Monster_zombie_sawyer.h"
+#include "Monster_zombie_bernie.h"
 #include "Monster_zombie_security_pistol.h"
 
 #endif /* !__AI_H__ */
