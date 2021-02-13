@@ -67,13 +67,10 @@ object monster_base : ai {
 	boolean		can_resurrect();
 	void		monster_resurrect( entity enemy );
 	void		wait_for_enemy();
-	void		state_Killed();
-	void		state_Dead();
 	void		sight_enemy();
 	void		enemy_dead();
 	void		state_Combat();
 	void		state_LostCombat();
-	void		state_Spawner();
 	void		monster_base_lost_combat();
 	boolean		check_blocked();
 	boolean		combat_chase();
@@ -277,15 +274,6 @@ void monster_base::trigger_wakeup_targets() {
 
 /*
 =====================
-monster_base::state_Spawner
-=====================
-*/
-void monster_base::state_Spawner() {
-	
-}
-
-/*
-=====================
 monster_base::monster_begin
 =====================
 */
@@ -391,48 +379,6 @@ void monster_base::wait_for_enemy() {
 	}
 }
 
-/*
-=====================
-monster_base::state_Killed
-=====================
-*/
-void monster_base::state_Killed() {
-	stopMove();
-
-	animState( ANIMCHANNEL_TORSO, "Torso_Death", 0 );
-	animState( ANIMCHANNEL_LEGS, "Legs_Death", 0 );
-
-	waitAction( "dead" );
-	setState( "state_Dead" );
-}
-
-/*
-=====================
-monster_base::state_Dead
-=====================
-*/
-void monster_base::state_Dead() {
-
-	float burnDelay = getFloatKey( "burnaway" );
-	if ( burnDelay != 0 ) {
-		preBurn();
-		sys.wait( burnDelay );
-		burn();
-		startSound( "snd_burn", SND_CHANNEL_BODY, false );
-	}
-	
-	sys.wait( 3 );
-	
-	if ( resurrect ) {
-		hide();
-		stopRagdoll();
-		restorePosition();
-
-		// wait until we're resurrected
-		waitUntil( 0 );
-	}
-	remove();
-}
 /*
 =====================
 monster_base::sight_enemy

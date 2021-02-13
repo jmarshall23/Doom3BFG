@@ -8437,6 +8437,12 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	if(functionNameHash == 290450) { // wake_call_constructor
 		return (intptr_t)wake_call_constructor((stateParms_t *)param1);
 	};
+	if(functionNameHash == 153871) { // state_Killed
+		return (intptr_t)state_Killed((stateParms_t *)param1);
+	};
+	if(functionNameHash == 124042) { // state_Dead
+		return (intptr_t)state_Dead((stateParms_t *)param1);
+	};
 	if(functionNameHash == 370058) { // Event_FindEnemyInCombatNodes
 		Event_FindEnemyInCombatNodes();
 		return 0;
@@ -8891,6 +8897,12 @@ bool idAI::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 290450) { // wake_call_constructor
+		return true;
+	};
+	if(functionNameHash == 153871) { // state_Killed
+		return true;
+	};
+	if(functionNameHash == 124042) { // state_Dead
 		return true;
 	};
 	if(functionNameHash == 370058) { // Event_FindEnemyInCombatNodes

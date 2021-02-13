@@ -5886,6 +5886,7 @@ static classVariableInfo_t idAI_typeInfo[] = {
 	{ "idScriptFloat", "AI_SPECIAL_DAMAGE", (intptr_t)(&((idAI *)0)->AI_SPECIAL_DAMAGE), sizeof( ((idAI *)0)->AI_SPECIAL_DAMAGE ) },
 	{ "idScriptBool", "AI_DEAD", (intptr_t)(&((idAI *)0)->AI_DEAD), sizeof( ((idAI *)0)->AI_DEAD ) },
 	{ "idScriptBool", "AI_RUN", (intptr_t)(&((idAI *)0)->AI_RUN), sizeof( ((idAI *)0)->AI_RUN ) },
+	{ "idScriptBool", "AI_ATTACKING", (intptr_t)(&((idAI *)0)->AI_ATTACKING), sizeof( ((idAI *)0)->AI_ATTACKING ) },
 	{ "idScriptBool", "AI_ENEMY_VISIBLE", (intptr_t)(&((idAI *)0)->AI_ENEMY_VISIBLE), sizeof( ((idAI *)0)->AI_ENEMY_VISIBLE ) },
 	{ "idScriptBool", "AI_ENEMY_IN_FOV", (intptr_t)(&((idAI *)0)->AI_ENEMY_IN_FOV), sizeof( ((idAI *)0)->AI_ENEMY_IN_FOV ) },
 	{ "idScriptBool", "AI_ENEMY_DEAD", (intptr_t)(&((idAI *)0)->AI_ENEMY_DEAD), sizeof( ((idAI *)0)->AI_ENEMY_DEAD ) },

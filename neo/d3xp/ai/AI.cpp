@@ -4137,15 +4137,7 @@ void idAI::Killed( idEntity* inflictor, idEntity* attacker, int damage, const id
 
 	restartParticles = false;
 
-	state = GetScriptFunction( "state_Killed" );
-	if( state == NULL )
-	{
-		stateThread.SetState( "state_killed" );
-	}
-	else
-	{
-		SetState( state );
-	}
+	stateThread.SetState("state_Killed");
 	SetWaitState( "" );
 
 	const idKeyValue* kv = spawnArgs.MatchPrefix( "def_drops", NULL );

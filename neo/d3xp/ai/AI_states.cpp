@@ -762,3 +762,77 @@ stateResult_t idAI::wake_on_attackcone(stateParms_t* parms) {
 
 	return SRESULT_ERROR;
 }
+
+/*
+==================
+idAI::state_Killed
+==================
+*/
+stateResult_t idAI::state_Killed(stateParms_t* parms) {
+	if (parms->stage == 0)
+	{
+		Event_StopMove();
+
+		Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Death", 0);
+		Event_AnimState(ANIMCHANNEL_LEGS, "Legs_Death", 0);
+
+		SetWaitState("dead");
+		parms->stage = 1;
+		return SRESULT_WAIT;
+	}
+
+	if (waitState != "")
+	{
+		return SRESULT_WAIT;
+	}
+	
+	SetState("state_Dead");
+	return SRESULT_DONE;
+}
+
+/*
+=====================
+idAI::state_Dead
+=====================
+*/
+stateResult_t idAI::state_Dead(stateParms_t* parms) {
+// jmarshall - I never liked the burn effect personally.
+	//if (parms->stage == 0)
+	//{
+	//	float burnDelay = GetFloatKey("burnaway");
+	//	if (burnDelay != 0) {
+	//		Event_PreBurn();
+	//		parms->stage = 1;
+	//		parms->Wait(burnDelay);
+	//		return SRESULT_WAIT;
+	//	}
+	//	parms->stage = 2;
+	//	return SRESULT_WAIT;
+	//}
+	//
+	//if (parms->stage == 1)
+	//{		
+	//	Event_Burn();
+	//	Event_StartSound("snd_burn", SND_CHANNEL_BODY, false);
+	//	parms->stage = 2;
+	//	return SRESULT_WAIT;
+	//}
+	//
+	//if (parms->stage == 2)
+	//{
+	//	parms->Wait(30);
+	//	parms->stage = 3;
+	//	return SRESULT_WAIT;
+	//}
+
+	//if (resurrect) {
+	//	hide();
+	//	stopRagdoll();
+	//	restorePosition();
+	//
+	//	// wait until we're resurrected
+	//	waitUntil(0);
+	//}
+	//gameLocal.DelayRemoveEntity(this, 0);
+	return SRESULT_DONE;
+}

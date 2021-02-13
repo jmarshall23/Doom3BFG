@@ -621,6 +621,9 @@ protected:
 	stateResult_t			State_TeleportTriggered(stateParms_t* parms);
 	stateResult_t			State_TriggerHidden(stateParms_t* parms);
 	stateResult_t			wake_call_constructor(stateParms_t* parms);
+	stateResult_t			state_Killed(stateParms_t* parms);
+	stateResult_t			state_Dead(stateParms_t* parms);
+
 	//
 	// ai/ai_events.cpp
 	//
