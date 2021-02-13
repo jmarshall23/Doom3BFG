@@ -9625,6 +9625,76 @@ bool rvmMonsterZombieCommandoTentacle::HasNativeFunction(const char *functionNam
 
 };
 
+intptr_t rvmMonsterZombieCommandoChaingun::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 48744) { // Init
+		Init();
+		return 0;
+	};
+	if(functionNameHash == 88222) { // AI_Begin
+		AI_Begin();
+		return 0;
+	};
+	if(functionNameHash == 169136) { // check_attacks
+		check_attacks();
+		return 0;
+	};
+	if(functionNameHash == 139384) { // state_Begin
+		state_Begin((stateParms_t *)param1);
+		return 0;
+	};
+	if(functionNameHash == 126066) { // state_Idle
+		return (intptr_t)state_Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 239426) { // combat_dodge_right
+		return (intptr_t)combat_dodge_right((stateParms_t *)param1);
+	};
+	if(functionNameHash == 223812) { // combat_dodge_left
+		return (intptr_t)combat_dodge_left((stateParms_t *)param1);
+	};
+	if(functionNameHash == 171316) { // crouch_attack
+		return (intptr_t)crouch_attack((stateParms_t *)param1);
+	};
+	if(functionNameHash == 157412) { // stand_attack
+		return (intptr_t)stand_attack((stateParms_t *)param1);
+	};
+	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmMonsterZombieCommandoChaingun::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 48744) { // Init
+		return true;
+	};
+	if(functionNameHash == 88222) { // AI_Begin
+		return true;
+	};
+	if(functionNameHash == 169136) { // check_attacks
+		return true;
+	};
+	if(functionNameHash == 139384) { // state_Begin
+		return true;
+	};
+	if(functionNameHash == 126066) { // state_Idle
+		return true;
+	};
+	if(functionNameHash == 239426) { // combat_dodge_right
+		return true;
+	};
+	if(functionNameHash == 223812) { // combat_dodge_left
+		return true;
+	};
+	if(functionNameHash == 171316) { // crouch_attack
+		return true;
+	};
+	if(functionNameHash == 157412) { // stand_attack
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTestModel::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn

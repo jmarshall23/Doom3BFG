@@ -895,11 +895,15 @@ private:
 	stateResult_t state_talk_anim(stateParms_t* parms);
 };
 
+//
+// Zombie Monsters
+//
 #include "Monster_zombie.h"
 #include "Monster_zombie_sawyer.h"
 #include "Monster_zombie_bernie.h"
 #include "Monster_zombie_morgue.h"
 #include "Monster_zombie_security_pistol.h"
 #include "Monster_zombie_commando_tentacle.h"
+#include "monster_zombie_commando_cgun.h"
 
 #endif /* !__AI_H__ */

@@ -2175,7 +2175,7 @@ void idActor::SetAnimState( int channel, const char* statename, int blendFrames 
 	func = scriptObject.GetFunction( statename );
 	if( !func )
 	{
-		assert( 0 );
+		//assert( 0 );
 		gameLocal.Error( "Can't find function '%s' in object '%s'", statename, scriptObject.GetTypeName() );
 	}
 
