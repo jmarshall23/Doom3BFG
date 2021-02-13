@@ -9,9 +9,9 @@
 
 	944 constants
 	90 enums
-	439 classes/structs/unions
+	440 classes/structs/unions
 	3 templates
-	7 max inheritance level for 'idAI_Vagary'
+	8 max inheritance level for 'rvmMonsterZombieSecurityPistol'
 
 ===================================================================================
 */
@@ -5947,6 +5947,20 @@ static classVariableInfo_t rvmMonsterZombie_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static classVariableInfo_t rvmMonsterZombieSecurityPistol_typeInfo[] = {
+	{ ": idEntity *", "combat_node", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->combat_node), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->combat_node ) },
+	{ "idScriptBool", "fire", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->fire), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->fire ) },
+	{ "idScriptBool", "crouch_fire", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->crouch_fire), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->crouch_fire ) },
+	{ "idScriptBool", "run_attack", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->run_attack), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->run_attack ) },
+	{ "idScriptFloat", "nextDodge", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->nextDodge), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->nextDodge ) },
+	{ "idScriptFloat", "nextAttack", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->nextAttack), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->nextAttack ) },
+	{ "idScriptFloat", "nextNoFOVAttack", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->nextNoFOVAttack), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->nextNoFOVAttack ) },
+	{ "float", "zsecp_num_stand_attacks", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->zsecp_num_stand_attacks), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->zsecp_num_stand_attacks ) },
+	{ "float", "zsecp_num_crouch_attacks", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->zsecp_num_crouch_attacks), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->zsecp_num_crouch_attacks ) },
+	{ ": float", "attackTime", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->attackTime), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->attackTime ) },
+	{ NULL, 0 }
+};
+
 static classVariableInfo_t idTestModel_typeInfo[] = {
 	{ ": idEntityPtr < idEntity >", "head", (intptr_t)(&((idTestModel *)0)->head), sizeof( ((idTestModel *)0)->head ) },
 	{ "idAnimator *", "headAnimator", (intptr_t)(&((idTestModel *)0)->headAnimator), sizeof( ((idTestModel *)0)->headAnimator ) },
@@ -7272,6 +7286,7 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "idAI_Vagary", "idAI", sizeof(idAI_Vagary), idAI_Vagary_typeInfo },
 	{ "rvmAI_Follower", "idAI", sizeof(rvmAI_Follower), rvmAI_Follower_typeInfo },
 	{ "rvmMonsterZombie", "idAI", sizeof(rvmMonsterZombie), rvmMonsterZombie_typeInfo },
+	{ "rvmMonsterZombieSecurityPistol", "rvmMonsterZombie", sizeof(rvmMonsterZombieSecurityPistol), rvmMonsterZombieSecurityPistol_typeInfo },
 	{ "idTestModel", "idAnimatedEntity", sizeof(idTestModel), idTestModel_typeInfo },
 	{ "rvmWeaponFist", "rvmWeaponObject", sizeof(rvmWeaponFist), rvmWeaponFist_typeInfo },
 	{ "rvmWeaponPistol", "rvmWeaponObject", sizeof(rvmWeaponPistol), rvmWeaponPistol_typeInfo },

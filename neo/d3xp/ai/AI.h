@@ -629,6 +629,10 @@ protected:
 
 	void					combat_lost();
 
+	idEntity*				GetCombatNode(void);
+
+	bool					TestAnimMove(const char* animname);
+
 	void					TriggerFX( const char* joint, const char* fx );
 	idEntity*				StartEmitter( const char* name, const char* joint, const char* particle );
 	idEntity*				GetEmitter( const char* name );
@@ -667,6 +671,9 @@ protected:
 	stateResult_t			state_LostCombat_Finish(stateParms_t* parms);
 	stateResult_t			state_Combat(stateParms_t* parms);
 
+	bool					CanHitEnemy();
+	bool					EntityInAttackCone(idEntity* ent);
+
 	//
 	// ai/ai_events.cpp
 	//
@@ -691,6 +698,7 @@ protected:
 	void					Event_LaunchProjectile( const char* entityDefName );
 	void					Event_AttackMelee( const char* meleeDefName );
 	void					Event_DirectDamage( idEntity* damageTarget, const char* damageDefName );
+	bool					CanHitEnemyFromAnim(const char* animname);
 	void					Event_RadiusDamageFromJoint( const char* jointname, const char* damageDefName );
 	void					Event_BeginAttack( const char* name );
 	void					Event_EndAttack();
@@ -884,5 +892,6 @@ private:
 };
 
 #include "Monster_zombie.h"
+#include "Monster_zombie_security_pistol.h"
 
 #endif /* !__AI_H__ */

@@ -464,6 +464,12 @@ public:
 	bool					InfluenceActive(void) const;
 	idEntity				*GetEntity(const char* name);
 
+	float					Random(float range);
+	float					RandomDelay(float min, float max);
+	float					RandomTime(float delay);	
+	float					DelayTime(float delay);
+
+
 	int						NumAAS() const;
 	idAAS* 					GetAAS( int num ) const;
 	idAAS* 					GetAAS( const char* name ) const;

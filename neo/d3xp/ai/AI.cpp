@@ -578,6 +578,127 @@ void idAI::combat_lost() {
 	//}
 }
 
+
+/*
+=====================
+idAI::GetCombatNode
+=====================
+*/
+idEntity *idAI::GetCombatNode(void)
+{
+	int				i;
+	float			dist;
+	idEntity* targetEnt;
+	idCombatNode* node;
+	float			bestDist;
+	idCombatNode* bestNode;
+	idActor* enemyEnt = enemy.GetEntity();
+
+	if (!targets.Num())
+	{
+		// no combat nodes
+		return (NULL);
+	}
+
+	if (!enemyEnt || !EnemyPositionValid())
+	{
+		// don't return a combat node if we don't have an enemy or
+		// if we can see he's not in the last place we saw him
+
+		if (team == 0)
+		{
+			// find the closest attack node to the player
+			bestNode = NULL;
+			const idVec3& myPos = physicsObj.GetOrigin();
+			const idVec3& playerPos = gameLocal.GetLocalPlayer()->GetPhysics()->GetOrigin();
+
+			bestDist = (myPos - playerPos).LengthSqr();
+
+			for (i = 0; i < targets.Num(); i++)
+			{
+				targetEnt = targets[i].GetEntity();
+				if (!targetEnt || !targetEnt->IsType(idCombatNode::Type))
+				{
+					continue;
+				}
+
+				node = static_cast<idCombatNode*>(targetEnt);
+				if (!node->IsDisabled())
+				{
+					idVec3 org = node->GetPhysics()->GetOrigin();
+					dist = (playerPos - org).LengthSqr();
+					if (dist < bestDist)
+					{
+						bestNode = node;
+						bestDist = dist;
+					}
+				}
+			}
+
+			return bestNode;
+		}
+
+		return NULL;
+	}
+
+	// find the closest attack node that can see our enemy and is closer than our enemy
+	bestNode = NULL;
+	const idVec3& myPos = physicsObj.GetOrigin();
+	bestDist = (myPos - lastVisibleEnemyPos).LengthSqr();
+	for (i = 0; i < targets.Num(); i++)
+	{
+		targetEnt = targets[i].GetEntity();
+		if (!targetEnt || !targetEnt->IsType(idCombatNode::Type))
+		{
+			continue;
+		}
+
+		node = static_cast<idCombatNode*>(targetEnt);
+		if (!node->IsDisabled() && node->EntityInView(enemyEnt, lastVisibleEnemyPos))
+		{
+			idVec3 org = node->GetPhysics()->GetOrigin();
+			dist = (myPos - org).LengthSqr();
+			if (dist < bestDist)
+			{
+				bestNode = node;
+				bestDist = dist;
+			}
+		}
+	}
+
+	return bestNode;
+}
+
+/*
+=====================
+idAI::TestAnimMove
+=====================
+*/
+bool idAI::TestAnimMove(const char* animname)
+{
+	int				anim;
+	predictedPath_t path;
+	idVec3			moveVec;
+
+	anim = GetAnim(ANIMCHANNEL_LEGS, animname);
+	if (!anim)
+	{
+		gameLocal.DWarning("missing '%s' animation on '%s' (%s)", animname, name.c_str(), GetEntityDefName());
+		return false;
+	}
+
+	moveVec = animator.TotalMovementDelta(anim) * idAngles(0.0f, ideal_yaw, 0.0f).ToMat3() * physicsObj.GetGravityAxis();
+	idAI::PredictPath(this, aas, physicsObj.GetOrigin(), moveVec, 1000, 1000, (move.moveType == MOVETYPE_FLY) ? SE_BLOCKED : (SE_ENTER_OBSTACLE | SE_BLOCKED | SE_ENTER_LEDGE_AREA), path);
+
+	if (ai_debugMove.GetBool())
+	{
+		gameRenderWorld->DebugLine(colorGreen, physicsObj.GetOrigin(), physicsObj.GetOrigin() + moveVec, 1);
+		gameRenderWorld->DebugBounds(path.endEvent == 0 ? colorYellow : colorRed, physicsObj.GetBounds(), physicsObj.GetOrigin() + moveVec, 1);
+	}
+
+	return path.endEvent == 0;
+}
+
 /*
 =====================
 idAI::Restore
