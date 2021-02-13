@@ -907,45 +907,54 @@ void idAI::Event_EndAttack()
 
 /*
 =====================
-idAI::Event_MeleeAttackToJoint
+idAI::MeleeAttackToJoint
 =====================
 */
-void idAI::Event_MeleeAttackToJoint( const char* jointname, const char* meleeDefName )
+bool idAI::MeleeAttackToJoint(const char* jointname, const char* meleeDefName)
 {
 	jointHandle_t	joint;
 	idVec3			start;
 	idVec3			end;
 	idMat3			axis;
 	trace_t			trace;
-	idEntity*		hitEnt;
+	idEntity* hitEnt;
 
-	joint = animator.GetJointHandle( jointname );
-	if( joint == INVALID_JOINT )
+	joint = animator.GetJointHandle(jointname);
+	if (joint == INVALID_JOINT)
 	{
-		gameLocal.Error( "Unknown joint '%s' on %s", jointname, GetEntityDefName() );
+		gameLocal.Error("Unknown joint '%s' on %s", jointname, GetEntityDefName());
 	}
-	animator.GetJointTransform( joint, gameLocal.time, end, axis );
-	end = physicsObj.GetOrigin() + ( end + modelOffset ) * viewAxis * physicsObj.GetGravityAxis();
+	animator.GetJointTransform(joint, gameLocal.time, end, axis);
+	end = physicsObj.GetOrigin() + (end + modelOffset) * viewAxis * physicsObj.GetGravityAxis();
 	start = GetEyePosition();
 
-	if( ai_debugMove.GetBool() )
+	if (ai_debugMove.GetBool())
 	{
-		gameRenderWorld->DebugLine( colorYellow, start, end, 1 );
+		gameRenderWorld->DebugLine(colorYellow, start, end, 1);
 	}
 
-	gameLocal.clip.TranslationEntities( trace, start, end, NULL, mat3_identity, MASK_SHOT_BOUNDINGBOX, this );
-	if( trace.fraction < 1.0f )
+	gameLocal.clip.TranslationEntities(trace, start, end, NULL, mat3_identity, MASK_SHOT_BOUNDINGBOX, this);
+	if (trace.fraction < 1.0f)
 	{
-		hitEnt = gameLocal.GetTraceEntity( trace );
-		if( hitEnt != NULL && hitEnt->IsType( idActor::Type ) )
+		hitEnt = gameLocal.GetTraceEntity(trace);
+		if (hitEnt != NULL && hitEnt->IsType(idActor::Type))
 		{
-			DirectDamage( meleeDefName, hitEnt );
-			idThread::ReturnInt( true );
-			return;
+			DirectDamage(meleeDefName, hitEnt);
+			return true;
 		}
 	}
 
-	idThread::ReturnInt( false );
+	return false;
+}
+
+/*
+=====================
+idAI::Event_MeleeAttackToJoint
+=====================
+*/
+void idAI::Event_MeleeAttackToJoint( const char* jointname, const char* meleeDefName )
+{	
+	idThread::ReturnInt(MeleeAttackToJoint(jointname, meleeDefName));
 }
 
 

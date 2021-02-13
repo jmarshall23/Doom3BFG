@@ -3206,6 +3206,14 @@ void idGameLocal::CallObjectFrameCommand( idEntity* ent, const char* frameComman
 {
 	const function_t* func;
 
+// jmarshall
+	if (ent->HasNativeFunction(frameCommand))
+	{
+		ent->Invoke(frameCommand, NULL);
+		return;
+	}
+// jmarshall end
+
 	func = ent->scriptObject.GetFunction( frameCommand );
 	if( !func )
 	{

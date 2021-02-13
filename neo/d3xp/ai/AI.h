@@ -650,6 +650,8 @@ protected:
 	void					LinkScriptVariables();
 	void					UpdateAIScript();
 
+	bool					MeleeAttackToJoint(const char* jointname, const char* meleeDefName);
+
 	idEntity*				GetClosestHiddenTarget(const char* type);
 
 	// AI States
@@ -898,5 +900,6 @@ private:
 #include "Monster_zombie_bernie.h"
 #include "Monster_zombie_morgue.h"
 #include "Monster_zombie_security_pistol.h"
+#include "Monster_zombie_commando_tentacle.h"
 
 #endif /* !__AI_H__ */

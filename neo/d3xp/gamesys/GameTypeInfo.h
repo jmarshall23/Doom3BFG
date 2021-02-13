@@ -9,7 +9,7 @@
 
 	944 constants
 	90 enums
-	443 classes/structs/unions
+	444 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -5975,6 +5975,13 @@ static classVariableInfo_t rvmMonsterZombieSecurityPistol_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static classVariableInfo_t rvmMonsterZombieCommandoTentacle_typeInfo[] = {
+	{ ": float", "nextAttack", (intptr_t)(&((rvmMonsterZombieCommandoTentacle *)0)->nextAttack), sizeof( ((rvmMonsterZombieCommandoTentacle *)0)->nextAttack ) },
+	{ "float", "nextNoFOVAttack", (intptr_t)(&((rvmMonsterZombieCommandoTentacle *)0)->nextNoFOVAttack), sizeof( ((rvmMonsterZombieCommandoTentacle *)0)->nextNoFOVAttack ) },
+	{ "boolean", "tentacleDamage", (intptr_t)(&((rvmMonsterZombieCommandoTentacle *)0)->tentacleDamage), sizeof( ((rvmMonsterZombieCommandoTentacle *)0)->tentacleDamage ) },
+	{ NULL, 0 }
+};
+
 static classVariableInfo_t idTestModel_typeInfo[] = {
 	{ ": idEntityPtr < idEntity >", "head", (intptr_t)(&((idTestModel *)0)->head), sizeof( ((idTestModel *)0)->head ) },
 	{ "idAnimator *", "headAnimator", (intptr_t)(&((idTestModel *)0)->headAnimator), sizeof( ((idTestModel *)0)->headAnimator ) },
@@ -7304,6 +7311,7 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "rvmMonsterZombieBernie", "rvmMonsterZombie", sizeof(rvmMonsterZombieBernie), rvmMonsterZombieBernie_typeInfo },
 	{ "rvmMonsterZombieMorgue", "rvmMonsterZombie", sizeof(rvmMonsterZombieMorgue), rvmMonsterZombieMorgue_typeInfo },
 	{ "rvmMonsterZombieSecurityPistol", "rvmMonsterZombie", sizeof(rvmMonsterZombieSecurityPistol), rvmMonsterZombieSecurityPistol_typeInfo },
+	{ "rvmMonsterZombieCommandoTentacle", "rvmMonsterZombie", sizeof(rvmMonsterZombieCommandoTentacle), rvmMonsterZombieCommandoTentacle_typeInfo },
 	{ "idTestModel", "idAnimatedEntity", sizeof(idTestModel), idTestModel_typeInfo },
 	{ "rvmWeaponFist", "rvmWeaponObject", sizeof(rvmWeaponFist), rvmWeaponFist_typeInfo },
 	{ "rvmWeaponPistol", "rvmWeaponObject", sizeof(rvmWeaponPistol), rvmWeaponPistol_typeInfo },
