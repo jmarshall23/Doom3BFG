@@ -220,8 +220,6 @@ public:
 protected:
 	friend class			idAnimState;
 
-	bool					AnimDone(int channel, int blendFrames);
-
 	float					fovDot;				// cos( fovDegrees )
 	idVec3					eyeOffset;			// offset of eye relative to physics origin
 	idVec3					modelOffset;		// offset of visual model relative to the physics origin
@@ -286,6 +284,8 @@ protected:
 
 	// copies animation from body to head joints
 	void					CopyJointsFromBodyToHead();
+
+	bool					AnimDone(int channel, int blendFrames);
 
 protected:
 	void					SyncAnimChannels( int channel, int syncToChannel, int blendFrames );

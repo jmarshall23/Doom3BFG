@@ -1510,8 +1510,13 @@ void idActor::SetState( const char* statename )
 {
 	const function_t* newState;
 
-	newState = GetScriptFunction( statename );
-	SetState( newState );
+	if (HasNativeFunction(statename)) {
+		stateThread.SetState(statename);
+	}
+	else {
+		newState = GetScriptFunction(statename);
+		SetState(newState);
+	}
 }
 
 /*
@@ -3670,28 +3675,37 @@ idActor::Event_AnimDone
 */
 void idActor::Event_AnimDone( int channel, int blendFrames )
 {
+	idThread::ReturnInt(AnimDone(channel, blendFrames));
+}
+
+/*
+===============
+idActor::Event_AnimDone
+===============
+*/
+bool idActor::AnimDone(int channel, int blendFrames) const
+{
 	bool result;
 
-	switch( channel )
+	switch (channel)
 	{
-		case ANIMCHANNEL_HEAD :
-			result = headAnim.AnimDone( blendFrames );
-			idThread::ReturnInt( result );
-			break;
+	case ANIMCHANNEL_HEAD:
+		result = headAnim.AnimDone(blendFrames);
+		break;
 
-		case ANIMCHANNEL_TORSO :
-			result = torsoAnim.AnimDone( blendFrames );
-			idThread::ReturnInt( result );
-			break;
+	case ANIMCHANNEL_TORSO:
+		result = torsoAnim.AnimDone(blendFrames);
+		break;
 
-		case ANIMCHANNEL_LEGS :
-			result = legsAnim.AnimDone( blendFrames );
-			idThread::ReturnInt( result );
-			break;
+	case ANIMCHANNEL_LEGS:
+		result = legsAnim.AnimDone(blendFrames);
+		break;
 
-		default:
-			gameLocal.Error( "Unknown anim group" );
+	default:
+		gameLocal.Error("Unknown anim group");
 	}
+
+	return result;
 }
 
 /*
@@ -3923,6 +3937,12 @@ idActor::Event_SetState
 */
 void idActor::Event_SetState( const char* name )
 {
+	if (HasNativeFunction(name))
+	{
+		stateThread.SetState(name);
+		return;
+	}
+
 	idealState = GetScriptFunction( name );
 	if( idealState == state )
 	{

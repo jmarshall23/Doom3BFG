@@ -11,6 +11,7 @@ float GAME_FPS = 60.0f;
 
 scriptEvent	void	setHomingMissileGoal();
 scriptEvent	void	launchHomingMissile();
+scriptEvent float	isAIAwake();
 
 // jmarshall
 scriptEvent	float checkForEnemy(float use_fov);

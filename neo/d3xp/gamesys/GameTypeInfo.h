@@ -9,7 +9,7 @@
 
 	943 constants
 	90 enums
-	438 classes/structs/unions
+	439 classes/structs/unions
 	3 templates
 	7 max inheritance level for 'idAI_Vagary'
 
@@ -5877,6 +5877,7 @@ static classVariableInfo_t idAI_typeInfo[] = {
 	{ "idVec3", "lastReachableEnemyPos", (intptr_t)(&((idAI *)0)->lastReachableEnemyPos), sizeof( ((idAI *)0)->lastReachableEnemyPos ) },
 	{ "bool", "wakeOnFlashlight", (intptr_t)(&((idAI *)0)->wakeOnFlashlight), sizeof( ((idAI *)0)->wakeOnFlashlight ) },
 	{ "bool", "spawnClearMoveables", (intptr_t)(&((idAI *)0)->spawnClearMoveables), sizeof( ((idAI *)0)->spawnClearMoveables ) },
+	{ "bool", "isAwake", (intptr_t)(&((idAI *)0)->isAwake), sizeof( ((idAI *)0)->isAwake ) },
 	{ "idHashTable < funcEmitter_t >", "funcEmitters", (intptr_t)(&((idAI *)0)->funcEmitters), sizeof( ((idAI *)0)->funcEmitters ) },
 	{ "idEntityPtr < idHarvestable >", "harvestEnt", (intptr_t)(&((idAI *)0)->harvestEnt), sizeof( ((idAI *)0)->harvestEnt ) },
 	{ "idScriptBool", "AI_TALK", (intptr_t)(&((idAI *)0)->AI_TALK), sizeof( ((idAI *)0)->AI_TALK ) },
@@ -5885,6 +5886,7 @@ static classVariableInfo_t idAI_typeInfo[] = {
 	{ "idScriptFloat", "AI_SPECIAL_DAMAGE", (intptr_t)(&((idAI *)0)->AI_SPECIAL_DAMAGE), sizeof( ((idAI *)0)->AI_SPECIAL_DAMAGE ) },
 	{ "idScriptBool", "AI_DEAD", (intptr_t)(&((idAI *)0)->AI_DEAD), sizeof( ((idAI *)0)->AI_DEAD ) },
 	{ "idScriptBool", "AI_RUN", (intptr_t)(&((idAI *)0)->AI_RUN), sizeof( ((idAI *)0)->AI_RUN ) },
+	{ "idScriptBool", "AI_ATTACKING", (intptr_t)(&((idAI *)0)->AI_ATTACKING), sizeof( ((idAI *)0)->AI_ATTACKING ) },
 	{ "idScriptBool", "AI_ENEMY_VISIBLE", (intptr_t)(&((idAI *)0)->AI_ENEMY_VISIBLE), sizeof( ((idAI *)0)->AI_ENEMY_VISIBLE ) },
 	{ "idScriptBool", "AI_ENEMY_IN_FOV", (intptr_t)(&((idAI *)0)->AI_ENEMY_IN_FOV), sizeof( ((idAI *)0)->AI_ENEMY_IN_FOV ) },
 	{ "idScriptBool", "AI_ENEMY_DEAD", (intptr_t)(&((idAI *)0)->AI_ENEMY_DEAD), sizeof( ((idAI *)0)->AI_ENEMY_DEAD ) },
@@ -5899,6 +5901,8 @@ static classVariableInfo_t idAI_typeInfo[] = {
 	{ "idScriptBool", "AI_DEST_UNREACHABLE", (intptr_t)(&((idAI *)0)->AI_DEST_UNREACHABLE), sizeof( ((idAI *)0)->AI_DEST_UNREACHABLE ) },
 	{ "idScriptBool", "AI_HIT_ENEMY", (intptr_t)(&((idAI *)0)->AI_HIT_ENEMY), sizeof( ((idAI *)0)->AI_HIT_ENEMY ) },
 	{ "idScriptBool", "AI_PUSHED", (intptr_t)(&((idAI *)0)->AI_PUSHED), sizeof( ((idAI *)0)->AI_PUSHED ) },
+	{ "idScriptFloat", "run_distance", (intptr_t)(&((idAI *)0)->run_distance), sizeof( ((idAI *)0)->run_distance ) },
+	{ "idScriptFloat", "walk_turn", (intptr_t)(&((idAI *)0)->walk_turn), sizeof( ((idAI *)0)->walk_turn ) },
 	{ NULL, 0 }
 };
 
@@ -5922,6 +5926,11 @@ static classVariableInfo_t idAI_Vagary_typeInfo[] = {
 static classVariableInfo_t rvmAI_Follower_typeInfo[] = {
 	{ ": bool", "inCustomAnim", (intptr_t)(&((rvmAI_Follower *)0)->inCustomAnim), sizeof( ((rvmAI_Follower *)0)->inCustomAnim ) },
 	{ "idEntity *", "leader", (intptr_t)(&((rvmAI_Follower *)0)->leader), sizeof( ((rvmAI_Follower *)0)->leader ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmMonsterZombie_typeInfo[] = {
+	{ ": idScriptBool", "can_run", (intptr_t)(&((rvmMonsterZombie *)0)->can_run), sizeof( ((rvmMonsterZombie *)0)->can_run ) },
 	{ NULL, 0 }
 };
 
@@ -7249,6 +7258,7 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "idCombatNode", "idEntity", sizeof(idCombatNode), idCombatNode_typeInfo },
 	{ "idAI_Vagary", "idAI", sizeof(idAI_Vagary), idAI_Vagary_typeInfo },
 	{ "rvmAI_Follower", "idAI", sizeof(rvmAI_Follower), rvmAI_Follower_typeInfo },
+	{ "rvmMonsterZombie", "idAI", sizeof(rvmMonsterZombie), rvmMonsterZombie_typeInfo },
 	{ "idTestModel", "idAnimatedEntity", sizeof(idTestModel), idTestModel_typeInfo },
 	{ "rvmWeaponFist", "rvmWeaponObject", sizeof(rvmWeaponFist), rvmWeaponFist_typeInfo },
 	{ "rvmWeaponPistol", "rvmWeaponObject", sizeof(rvmWeaponPistol), rvmWeaponPistol_typeInfo },

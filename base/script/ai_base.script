@@ -62,12 +62,16 @@ object ai {
 	boolean		AI_HIT_ENEMY;
 	boolean		AI_OBSTACLE_IN_PATH;
 	boolean		AI_PUSHED;
+	boolean		AI_ATTACKING;
 		
 	boolean		ambush;
 	boolean		ignoreEnemies;			// used to disable enemy checks during attack_path
 	boolean		stay_on_attackpath;		// used to disable enemy checks during attack_path
 	boolean		ignore_sight;
 	boolean		idle_sight_fov;	
+	boolean		can_run;
+	float		run_distance;			// distance to trigger running when chasing enemy
+	float		walk_turn;				// max turn amount allowed when running
 };
 
 /***********************************************************************

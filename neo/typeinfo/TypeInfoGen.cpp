@@ -1402,6 +1402,95 @@ void idTypeInfoGen::WriteTypeInfo( const char* fileName ) const
 			filecpp->WriteFloatString( "};\n\n" );
 		}
 
+		if (info->functions.Num() > 0)
+		{
+			filecpp->WriteFloatString("bool %s::HasNativeFunction(const char *functionName) {\n", typeInfoName.c_str(), typeName.c_str());
+			//file->WriteFloatString("\tTypeInfoVariableArgs();\n");
+			filecpp->WriteFloatString("\tint functionNameHash = idStr::Hash(functionName);\n");
+			for (j = 0; j < info->functions.Num(); j++)
+			{
+				//const char* varType = info->functions[j].returnType.c_str();
+				const char* varName = info->functions[j].name.c_str();
+
+				if (info->functions[j].name[0] == '(')
+				{
+					continue;
+				}
+
+				if (info->functions[j].name[0] == ':')
+				{
+					continue;
+				}
+
+				if (!info->functions[j].isValidFunction)
+				{
+					continue;
+				}
+
+				idStr tempName = info->functions[j].name;
+				tempName.Replace("_s", "_t");
+
+				// constructors/deconstrctors
+				if (typeName == info->functions[j].name)
+				{
+					continue;
+				}
+
+				if (strstr(varName, "idMenuDataSource")) // HACK!
+				{
+					continue;
+				}
+
+				if (strstr(varName, "idMenuScreen")) // HACK!
+				{
+					continue;
+				}
+
+				if (strstr(varName, "doomLeaderboard_t")) // HACK!
+				{
+					continue;
+				}
+
+				if (strstr(varName, "optionData_t")) // HACK!
+				{
+					continue;
+				}
+
+				if (strstr(varName, "rididBodyIState_s")) // HACK!
+				{
+					continue;
+				}
+
+				if (strstr(varName, "simulatedProjectile_t")) // HACK!
+				{
+					continue;
+				}
+
+				if (typeName == tempName)
+				{
+					continue;
+				}
+
+				if (info->functions[j].isStatic)
+				{
+					continue;
+				}
+
+				int hash = idStr::Hash(varName);
+				filecpp->WriteFloatString("\tif(functionNameHash == %d) { // %s\n", hash, varName);
+				filecpp->WriteFloatString("\t\treturn true;\n");
+				filecpp->WriteFloatString("\t};\n");
+			}
+
+			if (typeInfoName == "idClass") {
+				filecpp->WriteFloatString("\treturn false;\n\n");
+			}
+			else {
+				filecpp->WriteFloatString("\treturn __super::HasNativeFunction(functionName);\n\n");
+			}
+			filecpp->WriteFloatString("};\n\n");
+		}
+
 		file->WriteFloatString( "static classVariableInfo_t %s_typeInfo[] = {\n", typeInfoName.c_str() );
 
 		for( j = 0; j < info->variables.Num(); j++ )

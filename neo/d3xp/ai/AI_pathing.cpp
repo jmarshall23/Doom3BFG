@@ -1818,7 +1818,10 @@ void idAI::idle_followPathEntities(idEntity* pathnode) {
 			}
 			//#endif
 
-			Event_CallFunction(nodeaction);
+//			Event_CallFunction(nodeaction);
+			scriptThread->ClearStack();
+			scriptThread->PushEntity(this);
+			scriptThread->CallFunction(scriptObject.GetFunction(nodeaction), false);
 		}
 		else {
 			idLib::Warning("'" + idStr(GetName()) + "' encountered an unsupported path entity '" + nodeaction + "' on entity '" + idStr(current_path->GetName()) + "'\n");

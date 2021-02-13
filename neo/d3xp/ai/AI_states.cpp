@@ -167,7 +167,7 @@ idAI::State_TriggerHidden
 */
 stateResult_t idAI::State_TriggerHidden(stateParms_t* parms) {
 	enum rvmStateType_t {
-		STATE_TRIGGER_HIDE_INIT,
+		STATE_TRIGGER_HIDE_INIT = 0,
 		STATE_TRIGGER_HIDE_WAIT_FOR_ACTIVATION,
 		STATE_TRIGGER_HIDE_SHOW,
 	};
@@ -316,6 +316,41 @@ stateResult_t idAI::state_Spawner(stateParms_t* parms) {
 
 /*
 =====================
+monster_base::wait_for_enemy
+=====================
+*/
+stateResult_t idAI::wait_for_enemy(stateParms_t* parms) {
+	if (parms->stage == 0)
+	{
+		// prevent an infinite loop when in notarget
+		AI_PAIN = false;
+
+		Event_StopMove();
+
+		parms->stage = 1;
+
+		return SRESULT_WAIT;
+	}
+
+	if (!AI_PAIN && !GetEnemy())
+	{
+		if (checkForEnemy(idle_sight_fov))
+		{
+			return SRESULT_DONE;
+		}
+		else
+		{
+			return SRESULT_WAIT;
+		}
+	}
+
+	return SRESULT_DONE;
+}
+
+
+
+/*
+=====================
 idAI::wake_on_trigger
 =====================
 */
@@ -381,6 +416,16 @@ stateResult_t idAI::wake_on_trigger(stateParms_t* parms) {
 	else {
 		sight_enemy();
 	}
+
+	stateThread.SetState("wake_call_constructor");
+
+	isAwake = true;
+
+	// allow him to see after he's woken up
+	ignore_sight = false;
+
+	// ignore the flashlight from now on
+	Event_WakeOnFlashlight(false);
 
 	return SRESULT_DONE;
 }
@@ -476,6 +521,16 @@ stateResult_t idAI::walk_on_trigger(stateParms_t* parms) {
 		trigger_wakeup_targets();
 		sight_enemy();
 
+		stateThread.SetState("wake_call_constructor");
+
+		isAwake = true;
+
+		// allow him to see after he's woken up
+		ignore_sight = false;
+
+		// ignore the flashlight from now on
+		Event_WakeOnFlashlight(false);
+
 		return SRESULT_DONE;
 	}
 
@@ -551,12 +606,34 @@ stateResult_t idAI::wake_on_enemy(stateParms_t* parms) {
 		sight_enemy();
 	}
 
+	stateThread.SetState("wake_call_constructor");
+
+	isAwake = true;
+
 	// allow him to see after he's woken up
 	ignore_sight = false;
 
 	// ignore the flashlight from now on
 	Event_WakeOnFlashlight(false);
 
+	return SRESULT_DONE;
+}
+/*
+================
+idAI::wake_call_constructor
+================
+*/
+stateResult_t idAI::wake_call_constructor(stateParms_t* parms) {
+	if (parms->stage == 0)
+	{
+		//if (AnimDone(ANIMCHANNEL_TORSO, 0))
+		{
+			parms->stage = 1;
+		}
+		return SRESULT_WAIT;
+	}
+	
+	CallConstructor();
 	return SRESULT_DONE;
 }
 
@@ -670,8 +747,92 @@ stateResult_t idAI::wake_on_attackcone(stateParms_t* parms) {
 			sight_enemy();
 		}
 
+		stateThread.SetState("wake_call_constructor");
+
+		isAwake = true;
+
+		// allow him to see after he's woken up
+		ignore_sight = false;
+
+		// ignore the flashlight from now on
+		Event_WakeOnFlashlight(false);
+
 		return SRESULT_DONE;
 	}
 
 	return SRESULT_ERROR;
+}
+
+/*
+==================
+idAI::state_Killed
+==================
+*/
+stateResult_t idAI::state_Killed(stateParms_t* parms) {
+	if (parms->stage == 0)
+	{
+		Event_StopMove();
+
+		Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Death", 0);
+		Event_AnimState(ANIMCHANNEL_LEGS, "Legs_Death", 0);
+
+		SetWaitState("dead");
+		parms->stage = 1;
+		return SRESULT_WAIT;
+	}
+
+	if (waitState != "")
+	{
+		return SRESULT_WAIT;
+	}
+	
+	SetState("state_Dead");
+	return SRESULT_DONE;
+}
+
+/*
+=====================
+idAI::state_Dead
+=====================
+*/
+stateResult_t idAI::state_Dead(stateParms_t* parms) {
+// jmarshall - I never liked the burn effect personally.
+	//if (parms->stage == 0)
+	//{
+	//	float burnDelay = GetFloatKey("burnaway");
+	//	if (burnDelay != 0) {
+	//		Event_PreBurn();
+	//		parms->stage = 1;
+	//		parms->Wait(burnDelay);
+	//		return SRESULT_WAIT;
+	//	}
+	//	parms->stage = 2;
+	//	return SRESULT_WAIT;
+	//}
+	//
+	//if (parms->stage == 1)
+	//{		
+	//	Event_Burn();
+	//	Event_StartSound("snd_burn", SND_CHANNEL_BODY, false);
+	//	parms->stage = 2;
+	//	return SRESULT_WAIT;
+	//}
+	//
+	//if (parms->stage == 2)
+	//{
+	//	parms->Wait(30);
+	//	parms->stage = 3;
+	//	return SRESULT_WAIT;
+	//}
+
+	//if (resurrect) {
+	//	hide();
+	//	stopRagdoll();
+	//	restorePosition();
+	//
+	//	// wait until we're resurrected
+	//	waitUntil(0);
+	//}
+	//gameLocal.DelayRemoveEntity(this, 0);
+	return SRESULT_DONE;
 }

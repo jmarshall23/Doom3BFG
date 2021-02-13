@@ -171,10 +171,11 @@ const idEventDef AI_StartEmitter( "startEmitter", "sss", 'e' );
 const idEventDef AI_GetEmitter( "getEmitter", "s", 'e' );
 const idEventDef AI_StopEmitter( "stopEmitter", "s" );
 const idEventDef AI_checkForEnemy("checkForEnemy", "f", 'f');
+const idEventDef AI_isAwake("isAIAwake", NULL, 'f');
 
 
-
-CLASS_DECLARATION( idActor, idAI )
+CLASS_DECLARATION(idActor, idAI)
+EVENT(AI_isAwake,							idAI::Event_IsAwake)
 EVENT(AI_checkForEnemy,						idAI::Event_CheckForEnemy)
 EVENT( EV_Activate,							idAI::Event_Activate )
 EVENT( EV_Touch,							idAI::Event_Touch )
@@ -3050,6 +3051,14 @@ void idAI::Event_PushPointIntoAAS( const idVec3& pos )
 	}
 }
 
+/*
+================
+idAI::Event_IsAwake
+================
+*/
+void idAI::Event_IsAwake(void) {
+	idThread::ReturnFloat(isAwake);
+}
 
 /*
 ================

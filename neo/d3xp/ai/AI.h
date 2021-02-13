@@ -444,6 +444,8 @@ protected:
 
 	bool					spawnClearMoveables;
 
+	bool					isAwake;
+
 	idHashTable<funcEmitter_t> funcEmitters;
 
 	idEntityPtr<idHarvestable>	harvestEnt;
@@ -455,6 +457,7 @@ protected:
 	idScriptFloat			AI_SPECIAL_DAMAGE;
 	idScriptBool			AI_DEAD;
 	idScriptBool			AI_RUN;
+	idScriptBool			AI_ATTACKING;
 	idScriptBool			AI_ENEMY_VISIBLE;
 	idScriptBool			AI_ENEMY_IN_FOV;
 	idScriptBool			AI_ENEMY_DEAD;
@@ -470,6 +473,9 @@ protected:
 	idScriptBool			AI_HIT_ENEMY;
 	idScriptBool			AI_PUSHED;
 
+	idScriptFloat			run_distance;
+	idScriptFloat			walk_turn;
+
 	//
 	// ai/ai.cpp
 	//
@@ -480,13 +486,19 @@ protected:
 	void					Activate( idEntity* activator );
 public:
 	int						ReactionTo( const idEntity* ent );
+
+	virtual idThread*		ConstructScriptObject();
 protected:
+	virtual void			AI_Begin(void) { };
+
 	void					PlayCustomAnim(idStr animname, float blendIn, float blendOut);
 	void					PlayCustomCycle(idStr animname, float blendTime);
 
 	void					trigger_wakeup_targets(void);
 
 	void					sight_enemy(void);
+
+	void					CallConstructor(void);
 
 	void					EnemyDead();
 	virtual bool			CanPlayChatterSounds() const;
@@ -604,9 +616,13 @@ protected:
 	stateResult_t			walk_on_trigger(stateParms_t* parms);
 	stateResult_t			wake_on_trigger(stateParms_t* parms);	
 	stateResult_t			wake_on_enemy(stateParms_t* parms);
+	stateResult_t			wait_for_enemy(stateParms_t* parms);
 	stateResult_t			State_TriggerAnim(stateParms_t* parms);
 	stateResult_t			State_TeleportTriggered(stateParms_t* parms);
 	stateResult_t			State_TriggerHidden(stateParms_t* parms);
+	stateResult_t			wake_call_constructor(stateParms_t* parms);
+	stateResult_t			state_Killed(stateParms_t* parms);
+	stateResult_t			state_Dead(stateParms_t* parms);
 
 	//
 	// ai/ai_events.cpp
@@ -677,6 +693,7 @@ protected:
 	void					Event_SetTalkState( int state );
 	void					Event_EnemyRange();
 	void					Event_EnemyRange2D();
+	void					Event_IsAwake(void);
 	void					Event_GetEnemy();
 	void					Event_GetEnemyPos();
 	void					Event_GetEnemyEyePos();
@@ -812,5 +829,7 @@ private:
 	stateResult_t state_killed(stateParms_t* parms);
 	stateResult_t state_talk_anim(stateParms_t* parms);
 };
+
+#include "Monster_zombie.h"
 
 #endif /* !__AI_H__ */
