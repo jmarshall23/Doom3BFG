@@ -1510,8 +1510,13 @@ void idActor::SetState( const char* statename )
 {
 	const function_t* newState;
 
-	newState = GetScriptFunction( statename );
-	SetState( newState );
+	if (HasNativeFunction(statename)) {
+		stateThread.SetState(statename);
+	}
+	else {
+		newState = GetScriptFunction(statename);
+		SetState(newState);
+	}
 }
 
 /*
@@ -3932,6 +3937,12 @@ idActor::Event_SetState
 */
 void idActor::Event_SetState( const char* name )
 {
+	if (HasNativeFunction(name))
+	{
+		stateThread.SetState(name);
+		return;
+	}
+
 	idealState = GetScriptFunction( name );
 	if( idealState == state )
 	{

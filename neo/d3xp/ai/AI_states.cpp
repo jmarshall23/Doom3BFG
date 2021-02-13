@@ -316,6 +316,41 @@ stateResult_t idAI::state_Spawner(stateParms_t* parms) {
 
 /*
 =====================
+monster_base::wait_for_enemy
+=====================
+*/
+stateResult_t idAI::wait_for_enemy(stateParms_t* parms) {
+	if (parms->stage == 0)
+	{
+		// prevent an infinite loop when in notarget
+		AI_PAIN = false;
+
+		Event_StopMove();
+
+		parms->stage = 1;
+
+		return SRESULT_WAIT;
+	}
+
+	if (!AI_PAIN && !GetEnemy())
+	{
+		if (checkForEnemy(idle_sight_fov))
+		{
+			return SRESULT_DONE;
+		}
+		else
+		{
+			return SRESULT_WAIT;
+		}
+	}
+
+	return SRESULT_DONE;
+}
+
+
+
+/*
+=====================
 idAI::wake_on_trigger
 =====================
 */
@@ -591,7 +626,7 @@ idAI::wake_call_constructor
 stateResult_t idAI::wake_call_constructor(stateParms_t* parms) {
 	if (parms->stage == 0)
 	{
-		if (AnimDone(ANIMCHANNEL_TORSO, 0))
+		//if (AnimDone(ANIMCHANNEL_TORSO, 0))
 		{
 			parms->stage = 1;
 		}

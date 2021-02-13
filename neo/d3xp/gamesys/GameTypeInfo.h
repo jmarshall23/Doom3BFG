@@ -9,7 +9,7 @@
 
 	943 constants
 	90 enums
-	438 classes/structs/unions
+	439 classes/structs/unions
 	3 templates
 	7 max inheritance level for 'idAI_Vagary'
 
@@ -5900,6 +5900,8 @@ static classVariableInfo_t idAI_typeInfo[] = {
 	{ "idScriptBool", "AI_DEST_UNREACHABLE", (intptr_t)(&((idAI *)0)->AI_DEST_UNREACHABLE), sizeof( ((idAI *)0)->AI_DEST_UNREACHABLE ) },
 	{ "idScriptBool", "AI_HIT_ENEMY", (intptr_t)(&((idAI *)0)->AI_HIT_ENEMY), sizeof( ((idAI *)0)->AI_HIT_ENEMY ) },
 	{ "idScriptBool", "AI_PUSHED", (intptr_t)(&((idAI *)0)->AI_PUSHED), sizeof( ((idAI *)0)->AI_PUSHED ) },
+	{ "idScriptFloat", "run_distance", (intptr_t)(&((idAI *)0)->run_distance), sizeof( ((idAI *)0)->run_distance ) },
+	{ "idScriptFloat", "walk_turn", (intptr_t)(&((idAI *)0)->walk_turn), sizeof( ((idAI *)0)->walk_turn ) },
 	{ NULL, 0 }
 };
 
@@ -5923,6 +5925,11 @@ static classVariableInfo_t idAI_Vagary_typeInfo[] = {
 static classVariableInfo_t rvmAI_Follower_typeInfo[] = {
 	{ ": bool", "inCustomAnim", (intptr_t)(&((rvmAI_Follower *)0)->inCustomAnim), sizeof( ((rvmAI_Follower *)0)->inCustomAnim ) },
 	{ "idEntity *", "leader", (intptr_t)(&((rvmAI_Follower *)0)->leader), sizeof( ((rvmAI_Follower *)0)->leader ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmMonsterZombie_typeInfo[] = {
+	{ ": idScriptBool", "can_run", (intptr_t)(&((rvmMonsterZombie *)0)->can_run), sizeof( ((rvmMonsterZombie *)0)->can_run ) },
 	{ NULL, 0 }
 };
 
@@ -7250,6 +7257,7 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "idCombatNode", "idEntity", sizeof(idCombatNode), idCombatNode_typeInfo },
 	{ "idAI_Vagary", "idAI", sizeof(idAI_Vagary), idAI_Vagary_typeInfo },
 	{ "rvmAI_Follower", "idAI", sizeof(rvmAI_Follower), rvmAI_Follower_typeInfo },
+	{ "rvmMonsterZombie", "idAI", sizeof(rvmMonsterZombie), rvmMonsterZombie_typeInfo },
 	{ "idTestModel", "idAnimatedEntity", sizeof(idTestModel), idTestModel_typeInfo },
 	{ "rvmWeaponFist", "rvmWeaponObject", sizeof(rvmWeaponFist), rvmWeaponFist_typeInfo },
 	{ "rvmWeaponPistol", "rvmWeaponObject", sizeof(rvmWeaponPistol), rvmWeaponPistol_typeInfo },

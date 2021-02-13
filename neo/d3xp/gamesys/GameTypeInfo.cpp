@@ -18,15 +18,39 @@ intptr_t idClass::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idClass::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 153439) { // Event_Remove
+		return true;
+	};
+	if(functionNameHash == 204406) { // Event_SafeRemove
+		return true;
+	};
+	return false;
+
+};
+
 intptr_t idForce::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
 
 };
 
+bool idForce::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idForce_Constant::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idForce_Constant::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -44,6 +68,18 @@ intptr_t idForce_Drag::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idForce_Drag::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 192385) { // GetDragPosition
+		return true;
+	};
+	if(functionNameHash == 233549) { // GetDraggedPosition
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idForce_Grab::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 213643) { // GetDistanceToGoal
@@ -54,15 +90,36 @@ intptr_t idForce_Grab::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idForce_Grab::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 213643) { // GetDistanceToGoal
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idForce_Field::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
 
 };
 
+bool idForce_Field::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idForce_Spring::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idForce_Spring::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -152,6 +209,81 @@ intptr_t idPhysics_Static::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idPhysics_Static::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 202251) { // GetNumClipModels
+		return true;
+	};
+	if(functionNameHash == 83909) { // GetTime
+		return true;
+	};
+	if(functionNameHash == 100229) { // Activate
+		return true;
+	};
+	if(functionNameHash == 113512) { // PutToRest
+		return true;
+	};
+	if(functionNameHash == 96105) { // IsAtRest
+		return true;
+	};
+	if(functionNameHash == 206079) { // GetRestStartTime
+		return true;
+	};
+	if(functionNameHash == 124599) { // IsPushable
+		return true;
+	};
+	if(functionNameHash == 112278) { // SaveState
+		return true;
+	};
+	if(functionNameHash == 156059) { // RestoreState
+		return true;
+	};
+	if(functionNameHash == 127517) { // GetGravity
+		return true;
+	};
+	if(functionNameHash == 208704) { // GetGravityNormal
+		return true;
+	};
+	if(functionNameHash == 134558) { // DisableClip
+		return true;
+	};
+	if(functionNameHash == 120566) { // EnableClip
+		return true;
+	};
+	if(functionNameHash == 125645) { // UnlinkClip
+		return true;
+	};
+	if(functionNameHash == 96878) { // LinkClip
+		return true;
+	};
+	if(functionNameHash == 209529) { // EvaluateContacts
+		return true;
+	};
+	if(functionNameHash == 178966) { // GetNumContacts
+		return true;
+	};
+	if(functionNameHash == 165117) { // ClearContacts
+		return true;
+	};
+	if(functionNameHash == 221187) { // HasGroundContacts
+		return true;
+	};
+	if(functionNameHash == 188391) { // GetBlockingInfo
+		return true;
+	};
+	if(functionNameHash == 220800) { // GetBlockingEntity
+		return true;
+	};
+	if(functionNameHash == 198674) { // GetLinearEndTime
+		return true;
+	};
+	if(functionNameHash == 213576) { // GetAngularEndTime
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idPhysics_StaticMulti::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 202251) { // GetNumClipModels
@@ -235,6 +367,81 @@ intptr_t idPhysics_StaticMulti::Invoke(const char *functionName, void *param1) {
 		return (intptr_t)GetAngularEndTime();
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idPhysics_StaticMulti::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 202251) { // GetNumClipModels
+		return true;
+	};
+	if(functionNameHash == 83909) { // GetTime
+		return true;
+	};
+	if(functionNameHash == 100229) { // Activate
+		return true;
+	};
+	if(functionNameHash == 113512) { // PutToRest
+		return true;
+	};
+	if(functionNameHash == 96105) { // IsAtRest
+		return true;
+	};
+	if(functionNameHash == 206079) { // GetRestStartTime
+		return true;
+	};
+	if(functionNameHash == 124599) { // IsPushable
+		return true;
+	};
+	if(functionNameHash == 112278) { // SaveState
+		return true;
+	};
+	if(functionNameHash == 156059) { // RestoreState
+		return true;
+	};
+	if(functionNameHash == 127517) { // GetGravity
+		return true;
+	};
+	if(functionNameHash == 208704) { // GetGravityNormal
+		return true;
+	};
+	if(functionNameHash == 134558) { // DisableClip
+		return true;
+	};
+	if(functionNameHash == 120566) { // EnableClip
+		return true;
+	};
+	if(functionNameHash == 125645) { // UnlinkClip
+		return true;
+	};
+	if(functionNameHash == 96878) { // LinkClip
+		return true;
+	};
+	if(functionNameHash == 209529) { // EvaluateContacts
+		return true;
+	};
+	if(functionNameHash == 178966) { // GetNumContacts
+		return true;
+	};
+	if(functionNameHash == 165117) { // ClearContacts
+		return true;
+	};
+	if(functionNameHash == 221187) { // HasGroundContacts
+		return true;
+	};
+	if(functionNameHash == 188391) { // GetBlockingInfo
+		return true;
+	};
+	if(functionNameHash == 220800) { // GetBlockingEntity
+		return true;
+	};
+	if(functionNameHash == 198674) { // GetLinearEndTime
+		return true;
+	};
+	if(functionNameHash == 213576) { // GetAngularEndTime
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -335,6 +542,90 @@ intptr_t idPhysics_Base::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idPhysics_Base::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 202251) { // GetNumClipModels
+		return true;
+	};
+	if(functionNameHash == 83909) { // GetTime
+		return true;
+	};
+	if(functionNameHash == 100229) { // Activate
+		return true;
+	};
+	if(functionNameHash == 113512) { // PutToRest
+		return true;
+	};
+	if(functionNameHash == 96105) { // IsAtRest
+		return true;
+	};
+	if(functionNameHash == 206079) { // GetRestStartTime
+		return true;
+	};
+	if(functionNameHash == 124599) { // IsPushable
+		return true;
+	};
+	if(functionNameHash == 112278) { // SaveState
+		return true;
+	};
+	if(functionNameHash == 156059) { // RestoreState
+		return true;
+	};
+	if(functionNameHash == 127517) { // GetGravity
+		return true;
+	};
+	if(functionNameHash == 208704) { // GetGravityNormal
+		return true;
+	};
+	if(functionNameHash == 134558) { // DisableClip
+		return true;
+	};
+	if(functionNameHash == 120566) { // EnableClip
+		return true;
+	};
+	if(functionNameHash == 125645) { // UnlinkClip
+		return true;
+	};
+	if(functionNameHash == 96878) { // LinkClip
+		return true;
+	};
+	if(functionNameHash == 209529) { // EvaluateContacts
+		return true;
+	};
+	if(functionNameHash == 178966) { // GetNumContacts
+		return true;
+	};
+	if(functionNameHash == 165117) { // ClearContacts
+		return true;
+	};
+	if(functionNameHash == 221187) { // HasGroundContacts
+		return true;
+	};
+	if(functionNameHash == 188391) { // GetBlockingInfo
+		return true;
+	};
+	if(functionNameHash == 220800) { // GetBlockingEntity
+		return true;
+	};
+	if(functionNameHash == 198674) { // GetLinearEndTime
+		return true;
+	};
+	if(functionNameHash == 213576) { // GetAngularEndTime
+		return true;
+	};
+	if(functionNameHash == 392632) { // AddContactEntitiesForContacts
+		return true;
+	};
+	if(functionNameHash == 308634) { // ActivateContactEntities
+		return true;
+	};
+	if(functionNameHash == 181023) { // IsOutsideWorld
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idPhysics_Actor::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 216567) { // GetMasterDeltaYaw
@@ -378,6 +669,45 @@ intptr_t idPhysics_Actor::Invoke(const char *functionName, void *param1) {
 		return (intptr_t)EvaluateContacts();
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idPhysics_Actor::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 216567) { // GetMasterDeltaYaw
+		return true;
+	};
+	if(functionNameHash == 195500) { // GetGroundEntity
+		return true;
+	};
+	if(functionNameHash == 201909) { // SetClipModelAxis
+		return true;
+	};
+	if(functionNameHash == 202251) { // GetNumClipModels
+		return true;
+	};
+	if(functionNameHash == 124599) { // IsPushable
+		return true;
+	};
+	if(functionNameHash == 180437) { // GetGravityAxis
+		return true;
+	};
+	if(functionNameHash == 134558) { // DisableClip
+		return true;
+	};
+	if(functionNameHash == 120566) { // EnableClip
+		return true;
+	};
+	if(functionNameHash == 125645) { // UnlinkClip
+		return true;
+	};
+	if(functionNameHash == 96878) { // LinkClip
+		return true;
+	};
+	if(functionNameHash == 209529) { // EvaluateContacts
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -435,6 +765,54 @@ intptr_t idPhysics_Monster::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idPhysics_Monster::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 202109) { // GetMaxStepHeight
+		return true;
+	};
+	if(functionNameHash == 99611) { // OnGround
+		return true;
+	};
+	if(functionNameHash == 167117) { // GetMoveResult
+		return true;
+	};
+	if(functionNameHash == 233773) { // GetSlideMoveEntity
+		return true;
+	};
+	if(functionNameHash == 148262) { // EnableImpact
+		return true;
+	};
+	if(functionNameHash == 162468) { // DisableImpact
+		return true;
+	};
+	if(functionNameHash == 83909) { // GetTime
+		return true;
+	};
+	if(functionNameHash == 100229) { // Activate
+		return true;
+	};
+	if(functionNameHash == 113512) { // PutToRest
+		return true;
+	};
+	if(functionNameHash == 96105) { // IsAtRest
+		return true;
+	};
+	if(functionNameHash == 206079) { // GetRestStartTime
+		return true;
+	};
+	if(functionNameHash == 112278) { // SaveState
+		return true;
+	};
+	if(functionNameHash == 156059) { // RestoreState
+		return true;
+	};
+	if(functionNameHash == 49945) { // Rest
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -566,6 +944,111 @@ intptr_t idPhysics_Player::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idPhysics_Player::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 202109) { // GetMaxStepHeight
+		return true;
+	};
+	if(functionNameHash == 163603) { // GetWaterLevel
+		return true;
+	};
+	if(functionNameHash == 152257) { // GetWaterType
+		return true;
+	};
+	if(functionNameHash == 110484) { // HasJumped
+		return true;
+	};
+	if(functionNameHash == 150305) { // HasSteppedUp
+		return true;
+	};
+	if(functionNameHash == 110457) { // GetStepUp
+		return true;
+	};
+	if(functionNameHash == 138844) { // IsCrouching
+		return true;
+	};
+	if(functionNameHash == 95320) { // OnLadder
+		return true;
+	};
+	if(functionNameHash == 192322) { // PlayerGetOrigin
+		return true;
+	};
+	if(functionNameHash == 83909) { // GetTime
+		return true;
+	};
+	if(functionNameHash == 96105) { // IsAtRest
+		return true;
+	};
+	if(functionNameHash == 206079) { // GetRestStartTime
+		return true;
+	};
+	if(functionNameHash == 112278) { // SaveState
+		return true;
+	};
+	if(functionNameHash == 156059) { // RestoreState
+		return true;
+	};
+	if(functionNameHash == 250305) { // ClearPushedVelocity
+		return true;
+	};
+	if(functionNameHash == 192377) { // SnapToNextState
+		return true;
+	};
+	if(functionNameHash == 101816) { // Friction
+		return true;
+	};
+	if(functionNameHash == 166878) { // WaterJumpMove
+		return true;
+	};
+	if(functionNameHash == 113491) { // WaterMove
+		return true;
+	};
+	if(functionNameHash == 86235) { // FlyMove
+		return true;
+	};
+	if(functionNameHash == 84433) { // AirMove
+		return true;
+	};
+	if(functionNameHash == 98826) { // WalkMove
+		return true;
+	};
+	if(functionNameHash == 94860) { // DeadMove
+		return true;
+	};
+	if(functionNameHash == 126085) { // NoclipMove
+		return true;
+	};
+	if(functionNameHash == 169622) { // SpectatorMove
+		return true;
+	};
+	if(functionNameHash == 123068) { // LadderMove
+		return true;
+	};
+	if(functionNameHash == 136792) { // CheckGround
+		return true;
+	};
+	if(functionNameHash == 107033) { // CheckDuck
+		return true;
+	};
+	if(functionNameHash == 132396) { // CheckLadder
+		return true;
+	};
+	if(functionNameHash == 109672) { // CheckJump
+		return true;
+	};
+	if(functionNameHash == 176680) { // CheckWaterJump
+		return true;
+	};
+	if(functionNameHash == 165031) { // SetWaterLevel
+		return true;
+	};
+	if(functionNameHash == 127768) { // DropTimers
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idPhysics_Parametric::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 100471) { // IsPusher
@@ -658,6 +1141,87 @@ intptr_t idPhysics_Parametric::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idPhysics_Parametric::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 100471) { // IsPusher
+		return true;
+	};
+	if(functionNameHash == 355226) { // GetLinearExtrapolationType
+		return true;
+	};
+	if(functionNameHash == 371254) { // GetAngularExtrapolationType
+		return true;
+	};
+	if(functionNameHash == 111711) { // GetSpline
+		return true;
+	};
+	if(functionNameHash == 275732) { // GetSplineAcceleration
+		return true;
+	};
+	if(functionNameHash == 276374) { // GetSplineDeceleration
+		return true;
+	};
+	if(functionNameHash == 220932) { // UsingSplineAngles
+		return true;
+	};
+	if(functionNameHash == 202251) { // GetNumClipModels
+		return true;
+	};
+	if(functionNameHash == 83909) { // GetTime
+		return true;
+	};
+	if(functionNameHash == 100229) { // Activate
+		return true;
+	};
+	if(functionNameHash == 96105) { // IsAtRest
+		return true;
+	};
+	if(functionNameHash == 206079) { // GetRestStartTime
+		return true;
+	};
+	if(functionNameHash == 124599) { // IsPushable
+		return true;
+	};
+	if(functionNameHash == 112278) { // SaveState
+		return true;
+	};
+	if(functionNameHash == 156059) { // RestoreState
+		return true;
+	};
+	if(functionNameHash == 134558) { // DisableClip
+		return true;
+	};
+	if(functionNameHash == 120566) { // EnableClip
+		return true;
+	};
+	if(functionNameHash == 125645) { // UnlinkClip
+		return true;
+	};
+	if(functionNameHash == 96878) { // LinkClip
+		return true;
+	};
+	if(functionNameHash == 188391) { // GetBlockingInfo
+		return true;
+	};
+	if(functionNameHash == 220800) { // GetBlockingEntity
+		return true;
+	};
+	if(functionNameHash == 198674) { // GetLinearEndTime
+		return true;
+	};
+	if(functionNameHash == 213576) { // GetAngularEndTime
+		return true;
+	};
+	if(functionNameHash == 147808) { // TestIfAtRest
+		return true;
+	};
+	if(functionNameHash == 49945) { // Rest
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idPhysics_RigidBody::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 138332) { // DropToFloor
@@ -742,6 +1306,78 @@ intptr_t idPhysics_RigidBody::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idPhysics_RigidBody::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 138332) { // DropToFloor
+		return true;
+	};
+	if(functionNameHash == 111496) { // NoContact
+		return true;
+	};
+	if(functionNameHash == 148262) { // EnableImpact
+		return true;
+	};
+	if(functionNameHash == 162468) { // DisableImpact
+		return true;
+	};
+	if(functionNameHash == 202251) { // GetNumClipModels
+		return true;
+	};
+	if(functionNameHash == 83909) { // GetTime
+		return true;
+	};
+	if(functionNameHash == 100229) { // Activate
+		return true;
+	};
+	if(functionNameHash == 113512) { // PutToRest
+		return true;
+	};
+	if(functionNameHash == 96105) { // IsAtRest
+		return true;
+	};
+	if(functionNameHash == 206079) { // GetRestStartTime
+		return true;
+	};
+	if(functionNameHash == 124599) { // IsPushable
+		return true;
+	};
+	if(functionNameHash == 112278) { // SaveState
+		return true;
+	};
+	if(functionNameHash == 156059) { // RestoreState
+		return true;
+	};
+	if(functionNameHash == 134558) { // DisableClip
+		return true;
+	};
+	if(functionNameHash == 120566) { // EnableClip
+		return true;
+	};
+	if(functionNameHash == 125645) { // UnlinkClip
+		return true;
+	};
+	if(functionNameHash == 96878) { // LinkClip
+		return true;
+	};
+	if(functionNameHash == 209529) { // EvaluateContacts
+		return true;
+	};
+	if(functionNameHash == 230133) { // DropToFloorAndRest
+		return true;
+	};
+	if(functionNameHash == 147808) { // TestIfAtRest
+		return true;
+	};
+	if(functionNameHash == 49945) { // Rest
+		return true;
+	};
+	if(functionNameHash == 109030) { // DebugDraw
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -882,6 +1518,117 @@ intptr_t idPhysics_AF::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idPhysics_AF::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 148383) { // GetNumBodies
+		return true;
+	};
+	if(functionNameHash == 225129) { // GetNumConstraints
+		return true;
+	};
+	if(functionNameHash == 163512) { // GetMasterBody
+		return true;
+	};
+	if(functionNameHash == 274029) { // GetJointFrictionScale
+		return true;
+	};
+	if(functionNameHash == 302208) { // GetContactFrictionScale
+		return true;
+	};
+	if(functionNameHash == 121382) { // SetChanged
+		return true;
+	};
+	if(functionNameHash == 148262) { // EnableImpact
+		return true;
+	};
+	if(functionNameHash == 162468) { // DisableImpact
+		return true;
+	};
+	if(functionNameHash == 204504) { // UpdateClipModels
+		return true;
+	};
+	if(functionNameHash == 202251) { // GetNumClipModels
+		return true;
+	};
+	if(functionNameHash == 83909) { // GetTime
+		return true;
+	};
+	if(functionNameHash == 96105) { // IsAtRest
+		return true;
+	};
+	if(functionNameHash == 206079) { // GetRestStartTime
+		return true;
+	};
+	if(functionNameHash == 100229) { // Activate
+		return true;
+	};
+	if(functionNameHash == 113512) { // PutToRest
+		return true;
+	};
+	if(functionNameHash == 124599) { // IsPushable
+		return true;
+	};
+	if(functionNameHash == 112278) { // SaveState
+		return true;
+	};
+	if(functionNameHash == 156059) { // RestoreState
+		return true;
+	};
+	if(functionNameHash == 134558) { // DisableClip
+		return true;
+	};
+	if(functionNameHash == 120566) { // EnableClip
+		return true;
+	};
+	if(functionNameHash == 125645) { // UnlinkClip
+		return true;
+	};
+	if(functionNameHash == 96878) { // LinkClip
+		return true;
+	};
+	if(functionNameHash == 209529) { // EvaluateContacts
+		return true;
+	};
+	if(functionNameHash == 125014) { // BuildTrees
+		return true;
+	};
+	if(functionNameHash == 168534) { // PrimaryFactor
+		return true;
+	};
+	if(functionNameHash == 248229) { // AddFrameConstraints
+		return true;
+	};
+	if(functionNameHash == 297042) { // RemoveFrameConstraints
+		return true;
+	};
+	if(functionNameHash == 329599) { // VerifyContactConstraints
+		return true;
+	};
+	if(functionNameHash == 315282) { // SetupContactConstraints
+		return true;
+	};
+	if(functionNameHash == 235353) { // ApplyContactForces
+		return true;
+	};
+	if(functionNameHash == 231929) { // ClearExternalForce
+		return true;
+	};
+	if(functionNameHash == 124747) { // AddGravity
+		return true;
+	};
+	if(functionNameHash == 128439) { // SwapStates
+		return true;
+	};
+	if(functionNameHash == 49945) { // Rest
+		return true;
+	};
+	if(functionNameHash == 109030) { // DebugDraw
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idAnimatedEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 278761) { // ClientPredictionThink
@@ -915,6 +1662,33 @@ intptr_t idAnimatedEntity::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idAnimatedEntity::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 278761) { // ClientPredictionThink
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 194183) { // UpdateAnimation
+		return true;
+	};
+	if(functionNameHash == 138578) { // GetAnimator
+		return true;
+	};
+	if(functionNameHash == 275016) { // GetDefaultSurfaceType
+		return true;
+	};
+	if(functionNameHash == 242178) { // UpdateDamageEffects
+		return true;
+	};
+	if(functionNameHash == 258459) { // Event_ClearAllJoints
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idCursor3D::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -930,6 +1704,21 @@ intptr_t idCursor3D::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idCursor3D::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 90014) { // Present
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -951,6 +1740,21 @@ intptr_t idGrabber::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idGrabber::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 128839) { // Initialize
+		return true;
+	};
+	if(functionNameHash == 136363) { // UpdateBeams
+		return true;
+	};
+	if(functionNameHash == 124817) { // ApplyShake
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idMultiModelAF::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -969,6 +1773,21 @@ intptr_t idMultiModelAF::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idMultiModelAF::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 90014) { // Present
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idChain::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -976,6 +1795,15 @@ intptr_t idChain::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idChain::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1020,6 +1848,42 @@ intptr_t idAFAttachment::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idAFAttachment::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 109036) { // ClearBody
+		return true;
+	};
+	if(functionNameHash == 83835) { // GetBody
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 45590) { // Hide
+		return true;
+	};
+	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 175242) { // SetCombatModel
+		return true;
+	};
+	if(functionNameHash == 173814) { // GetCombatModel
+		return true;
+	};
+	if(functionNameHash == 123153) { // LinkCombat
+		return true;
+	};
+	if(functionNameHash == 152332) { // UnlinkCombat
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1085,6 +1949,57 @@ intptr_t idAFEntity_Base::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idAFEntity_Base::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 357711) { // UpdateAnimationControllers
+		return true;
+	};
+	if(functionNameHash == 143723) { // FreeModelDef
+		return true;
+	};
+	if(functionNameHash == 62976) { // LoadAF
+		return true;
+	};
+	if(functionNameHash == 114409) { // IsActiveAF
+		return true;
+	};
+	if(functionNameHash == 99503) { // GetAFName
+		return true;
+	};
+	if(functionNameHash == 145077) { // GetAFPhysics
+		return true;
+	};
+	if(functionNameHash == 175242) { // SetCombatModel
+		return true;
+	};
+	if(functionNameHash == 173814) { // GetCombatModel
+		return true;
+	};
+	if(functionNameHash == 123153) { // LinkCombat
+		return true;
+	};
+	if(functionNameHash == 152332) { // UnlinkCombat
+		return true;
+	};
+	if(functionNameHash == 233219) { // AddBindConstraints
+		return true;
+	};
+	if(functionNameHash == 281702) { // RemoveBindConstraints
+		return true;
+	};
+	if(functionNameHash == 218178) { // ShowEditingDialog
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idAFEntity_Gibbable::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1106,6 +2021,24 @@ intptr_t idAFEntity_Gibbable::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idAFEntity_Gibbable::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 90014) { // Present
+		return true;
+	};
+	if(functionNameHash == 93319) { // IsGibbed
+		return true;
+	};
+	if(functionNameHash == 220901) { // InitSkeletonModel
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idAFEntity_Generic::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1121,6 +2054,21 @@ intptr_t idAFEntity_Generic::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idAFEntity_Generic::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 238202) { // KeepRunningPhysics
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1158,6 +2106,33 @@ intptr_t idAFEntity_WithAttachedHead::Invoke(const char *functionName, void *par
 
 };
 
+bool idAFEntity_WithAttachedHead::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 110558) { // SetupHead
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 45590) { // Hide
+		return true;
+	};
+	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 123153) { // LinkCombat
+		return true;
+	};
+	if(functionNameHash == 152332) { // UnlinkCombat
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idAFEntity_Vehicle::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1169,6 +2144,18 @@ intptr_t idAFEntity_Vehicle::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idAFEntity_Vehicle::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 161405) { // GetSteerAngle
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1186,6 +2173,18 @@ intptr_t idAFEntity_VehicleSimple::Invoke(const char *functionName, void *param1
 
 };
 
+bool idAFEntity_VehicleSimple::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idAFEntity_VehicleFourWheels::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1200,6 +2199,18 @@ intptr_t idAFEntity_VehicleFourWheels::Invoke(const char *functionName, void *pa
 
 };
 
+bool idAFEntity_VehicleFourWheels::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idAFEntity_VehicleSixWheels::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1211,6 +2222,18 @@ intptr_t idAFEntity_VehicleSixWheels::Invoke(const char *functionName, void *par
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idAFEntity_VehicleSixWheels::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1232,6 +2255,21 @@ intptr_t idAFEntity_VehicleAutomated::Invoke(const char *functionName, void *par
 
 };
 
+bool idAFEntity_VehicleAutomated::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 116093) { // PostSpawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idAFEntity_SteamPipe::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1250,6 +2288,21 @@ intptr_t idAFEntity_SteamPipe::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idAFEntity_SteamPipe::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 278530) { // InitSteamRenderEntity
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idAFEntity_ClawFourFingers::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1261,6 +2314,18 @@ intptr_t idAFEntity_ClawFourFingers::Invoke(const char *functionName, void *para
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idAFEntity_ClawFourFingers::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 222404) { // Event_StopFingers
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1294,6 +2359,30 @@ intptr_t idHarvestable::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idHarvestable::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 32907) { // Gib
+		return true;
+	};
+	if(functionNameHash == 109920) { // BeginBurn
+		return true;
+	};
+	if(functionNameHash == 78457) { // BeginFX
+		return true;
+	};
+	if(functionNameHash == 339354) { // Event_SpawnHarvestTrigger
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idAFEntity_Harvest::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1312,6 +2401,21 @@ intptr_t idAFEntity_Harvest::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idAFEntity_Harvest::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 326927) { // Event_SpawnHarvestEntity
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idSpawnableEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1322,6 +2426,15 @@ intptr_t idSpawnableEntity::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idSpawnableEntity::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idPlayerStart::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1329,6 +2442,15 @@ intptr_t idPlayerStart::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idPlayerStart::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1346,6 +2468,18 @@ intptr_t idActivator::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idActivator::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idPathCorner::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1357,6 +2491,18 @@ intptr_t idPathCorner::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idPathCorner::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 204439) { // Event_RandomPath
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1382,6 +2528,24 @@ intptr_t idDamagable::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idDamagable::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 45590) { // Hide
+		return true;
+	};
+	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 288410) { // Event_RestoreDamagable
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idExplodable::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1389,6 +2553,15 @@ intptr_t idExplodable::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idExplodable::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1407,6 +2580,21 @@ intptr_t idSpring::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idSpring::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 206949) { // Event_LinkSpring
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1433,6 +2621,27 @@ intptr_t idForceField::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idForceField::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 74153) { // Toggle
+		return true;
+	};
+	if(functionNameHash == 151873) { // Event_Toggle
+		return true;
+	};
+	if(functionNameHash == 219288) { // Event_FindTargets
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1473,6 +2682,36 @@ intptr_t idAnimated::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idAnimated::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 62976) { // LoadAF
+		return true;
+	};
+	if(functionNameHash == 153861) { // StartRagdoll
+		return true;
+	};
+	if(functionNameHash == 150763) { // PlayNextAnim
+		return true;
+	};
+	if(functionNameHash == 140926) { // Event_Start
+		return true;
+	};
+	if(functionNameHash == 235331) { // Event_StartRagdoll
+		return true;
+	};
+	if(functionNameHash == 183671) { // Event_Footstep
+		return true;
+	};
+	if(functionNameHash == 318263) { // Event_GetAnimationLength
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idStaticEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1499,6 +2738,27 @@ intptr_t idStaticEntity::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idStaticEntity::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 218178) { // ShowEditingDialog
+		return true;
+	};
+	if(functionNameHash == 45590) { // Hide
+		return true;
+	};
+	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idFuncEmitter::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1506,6 +2766,15 @@ intptr_t idFuncEmitter::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idFuncEmitter::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1523,6 +2792,18 @@ intptr_t idFuncShootProjectile::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idFuncShootProjectile::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idFuncSmoke::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1534,6 +2815,18 @@ intptr_t idFuncSmoke::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idFuncSmoke::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1551,6 +2844,18 @@ intptr_t idFuncSplat::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idFuncSplat::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 139643) { // Event_Splat
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTextEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1562,6 +2867,18 @@ intptr_t idTextEntity::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTextEntity::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1578,6 +2895,18 @@ intptr_t idLocationEntity::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idLocationEntity::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 138280) { // GetLocation
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idLocationSeparatorEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1585,6 +2914,15 @@ intptr_t idLocationSeparatorEntity::Invoke(const char *functionName, void *param
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idLocationSeparatorEntity::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1598,6 +2936,15 @@ intptr_t idVacuumSeparatorEntity::Invoke(const char *functionName, void *param1)
 
 };
 
+bool idVacuumSeparatorEntity::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idVacuumEntity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1605,6 +2952,15 @@ intptr_t idVacuumEntity::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idVacuumEntity::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1630,6 +2986,24 @@ intptr_t idBeam::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idBeam::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 218295) { // Event_MatchTarget
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idLiquid::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1637,6 +3011,15 @@ intptr_t idLiquid::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idLiquid::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1654,6 +3037,18 @@ intptr_t idShaking::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idShaking::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 148900) { // BeginShaking
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idEarthQuake::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1668,6 +3063,18 @@ intptr_t idEarthQuake::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idEarthQuake::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idFuncPortal::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1675,6 +3082,15 @@ intptr_t idFuncPortal::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idFuncPortal::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1688,6 +3104,15 @@ intptr_t idFuncAASPortal::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idFuncAASPortal::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idFuncAASObstacle::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1698,6 +3123,15 @@ intptr_t idFuncAASObstacle::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idFuncAASObstacle::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idFuncRadioChatter::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1705,6 +3139,15 @@ intptr_t idFuncRadioChatter::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idFuncRadioChatter::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1722,6 +3165,18 @@ intptr_t idPhantomObjects::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idPhantomObjects::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idShockwave::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1736,6 +3191,18 @@ intptr_t idShockwave::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idShockwave::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idFuncMountedObject::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1747,6 +3214,18 @@ intptr_t idFuncMountedObject::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idFuncMountedObject::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1768,6 +3247,21 @@ intptr_t idFuncMountedWeapon::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idFuncMountedWeapon::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 195811) { // Event_PostSpawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idPortalSky::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -1779,6 +3273,18 @@ intptr_t idPortalSky::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idPortalSky::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 195811) { // Event_PostSpawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -1976,6 +3482,159 @@ intptr_t idActor::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idActor::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 90512) { // Restart
+		return true;
+	};
+	if(functionNameHash == 45590) { // Hide
+		return true;
+	};
+	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 275016) { // GetDefaultSurfaceType
+		return true;
+	};
+	if(functionNameHash == 62976) { // LoadAF
+		return true;
+	};
+	if(functionNameHash == 114109) { // SetupBody
+		return true;
+	};
+	if(functionNameHash == 120493) { // CheckBlink
+		return true;
+	};
+	if(functionNameHash == 198483) { // ShutdownThreads
+		return true;
+	};
+	if(functionNameHash == 476562) { // ShouldConstructScriptObjectAtSpawn
+		return true;
+	};
+	if(functionNameHash == 282905) { // ConstructScriptObject
+		return true;
+	};
+	if(functionNameHash == 154576) { // UpdateScript
+		return true;
+	};
+	if(functionNameHash == 109890) { // EyeHeight
+		return true;
+	};
+	if(functionNameHash == 111617) { // EyeOffset
+		return true;
+	};
+	if(functionNameHash == 180136) { // GetEyePosition
+		return true;
+	};
+	if(functionNameHash == 221816) { // SetupDamageGroups
+		return true;
+	};
+	if(functionNameHash == 108255) { // ClearPain
+		return true;
+	};
+	if(functionNameHash == 175242) { // SetCombatModel
+		return true;
+	};
+	if(functionNameHash == 173814) { // GetCombatModel
+		return true;
+	};
+	if(functionNameHash == 123153) { // LinkCombat
+		return true;
+	};
+	if(functionNameHash == 152332) { // UnlinkCombat
+		return true;
+	};
+	if(functionNameHash == 153861) { // StartRagdoll
+		return true;
+	};
+	if(functionNameHash == 140334) { // StopRagdoll
+		return true;
+	};
+	if(functionNameHash == 357711) { // UpdateAnimationControllers
+		return true;
+	};
+	if(functionNameHash == 228780) { // GetDeltaViewAngles
+		return true;
+	};
+	if(functionNameHash == 122997) { // HasEnemies
+		return true;
+	};
+	if(functionNameHash == 248410) { // EnemyWithMostHealth
+		return true;
+	};
+	if(functionNameHash == 95320) { // OnLadder
+		return true;
+	};
+	if(functionNameHash == 163648) { // GetRenderView
+		return true;
+	};
+	if(functionNameHash == 190792) { // UpdateAnimState
+		return true;
+	};
+	if(functionNameHash == 113011) { // WaitState
+		return true;
+	};
+	if(functionNameHash == 162328) { // GetHeadEntity
+		return true;
+	};
+	if(functionNameHash == 225137) { // RemoveAttachments
+		return true;
+	};
+	if(functionNameHash == 314148) { // CopyJointsFromBodyToHead
+		return true;
+	};
+	if(functionNameHash == 141348) { // FinishSetup
+		return true;
+	};
+	if(functionNameHash == 110558) { // SetupHead
+		return true;
+	};
+	if(functionNameHash == 222148) { // PlayFootStepSound
+		return true;
+	};
+	if(functionNameHash == 256642) { // Event_EnableEyeFocus
+		return true;
+	};
+	if(functionNameHash == 271699) { // Event_DisableEyeFocus
+		return true;
+	};
+	if(functionNameHash == 183671) { // Event_Footstep
+		return true;
+	};
+	if(functionNameHash == 221428) { // Event_EnableWalkIK
+		return true;
+	};
+	if(functionNameHash == 236229) { // Event_DisableWalkIK
+		return true;
+	};
+	if(functionNameHash == 215105) { // Event_DisablePain
+		return true;
+	};
+	if(functionNameHash == 200459) { // Event_EnablePain
+		return true;
+	};
+	if(functionNameHash == 213201) { // Event_GetPainAnim
+		return true;
+	};
+	if(functionNameHash == 203021) { // Event_HasEnemies
+		return true;
+	};
+	if(functionNameHash == 177119) { // Event_GetState
+		return true;
+	};
+	if(functionNameHash == 158348) { // Event_GetHead
+		return true;
+	};
+	if(functionNameHash == 231666) { // Event_GetWaitState
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idProjectile::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -2027,6 +3686,48 @@ intptr_t idProjectile::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idProjectile::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 144625) { // FreeLightDef
+		return true;
+	};
+	if(functionNameHash == 99509) { // GetOwner
+		return true;
+	};
+	if(functionNameHash == 235142) { // GetProjectileState
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 76384) { // Fizzle
+		return true;
+	};
+	if(functionNameHash == 283804) { // GetLaunchedFromGrabber
+		return true;
+	};
+	if(functionNameHash == 278761) { // ClientPredictionThink
+		return true;
+	};
+	if(functionNameHash == 254726) { // AddParticlesAndLight
+		return true;
+	};
+	if(functionNameHash == 166403) { // Event_Explode
+		return true;
+	};
+	if(functionNameHash == 154212) { // Event_Fizzle
+		return true;
+	};
+	if(functionNameHash == 320254) { // Event_GetProjectileState
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idGuidedProjectile::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -2038,6 +3739,18 @@ intptr_t idGuidedProjectile::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idGuidedProjectile::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -2056,6 +3769,21 @@ intptr_t idSoulCubeMissile::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idSoulCubeMissile::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 169855) { // ReturnToOwner
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -2081,6 +3809,24 @@ intptr_t idBFGProjectile::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idBFGProjectile::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 107659) { // FreeBeams
+		return true;
+	};
+	if(functionNameHash == 218449) { // Event_RemoveBeams
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idHomingProjectile::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -2092,6 +3838,18 @@ intptr_t idHomingProjectile::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idHomingProjectile::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -2126,6 +3884,33 @@ intptr_t idDebris::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idDebris::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 73334) { // Launch
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 88017) { // Explode
+		return true;
+	};
+	if(functionNameHash == 76384) { // Fizzle
+		return true;
+	};
+	if(functionNameHash == 166403) { // Event_Explode
+		return true;
+	};
+	if(functionNameHash == 154212) { // Event_Fizzle
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -2176,6 +3961,45 @@ intptr_t rvmWeaponObject::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmWeaponObject::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 81139) { // CanFire
+		return true;
+	};
+	if(functionNameHash == 141892) { // ResetStates
+		return true;
+	};
+	if(functionNameHash == 177614) { // CanSwitchState
+		return true;
+	};
+	if(functionNameHash == 162113) { // HasWaitSignal
+		return true;
+	};
+	if(functionNameHash == 139817) { // IsHolstered
+		return true;
+	};
+	if(functionNameHash == 85638) { // IsRisen
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -2483,6 +4307,255 @@ intptr_t idWeapon::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idWeapon::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 99509) { // GetOwner
+		return true;
+	};
+	if(functionNameHash == 476562) { // ShouldConstructScriptObjectAtSpawn
+		return true;
+	};
+	if(functionNameHash == 59010) { // Clear
+		return true;
+	};
+	if(functionNameHash == 216848) { // IsWorldModelReady
+		return true;
+	};
+	if(functionNameHash == 47418) { // Icon
+		return true;
+	};
+	if(functionNameHash == 103137) { // UpdateGUI
+		return true;
+	};
+	if(functionNameHash == 81854) { // PdaIcon
+		return true;
+	};
+	if(functionNameHash == 137836) { // DisplayName
+		return true;
+	};
+	if(functionNameHash == 143596) { // Description
+		return true;
+	};
+	if(functionNameHash == 125553) { // UpdateSkin
+		return true;
+	};
+	if(functionNameHash == 97537) { // IsFiring
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 87316) { // PutAway
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 141364) { // LowerWeapon
+		return true;
+	};
+	if(functionNameHash == 138813) { // RaiseWeapon
+		return true;
+	};
+	if(functionNameHash == 123229) { // HideWeapon
+		return true;
+	};
+	if(functionNameHash == 127945) { // ShowWeapon
+		return true;
+	};
+	if(functionNameHash == 175275) { // HideWorldModel
+		return true;
+	};
+	if(functionNameHash == 179991) { // ShowWorldModel
+		return true;
+	};
+	if(functionNameHash == 110318) { // OwnerDied
+		return true;
+	};
+	if(functionNameHash == 134747) { // BeginAttack
+		return true;
+	};
+	if(functionNameHash == 108281) { // EndAttack
+		return true;
+	};
+	if(functionNameHash == 84187) { // IsReady
+		return true;
+	};
+	if(functionNameHash == 137206) { // IsReloading
+		return true;
+	};
+	if(functionNameHash == 139817) { // IsHolstered
+		return true;
+	};
+	if(functionNameHash == 170062) { // ShowCrosshair
+		return true;
+	};
+	if(functionNameHash == 83005) { // CanDrop
+		return true;
+	};
+	if(functionNameHash == 155408) { // WeaponStolen
+		return true;
+	};
+	if(functionNameHash == 184609) { // ForceAmmoInClip
+		return true;
+	};
+	if(functionNameHash == 114874) { // GetStatus
+		return true;
+	};
+	if(functionNameHash == 124648) { // GetZoomFov
+		return true;
+	};
+	if(functionNameHash == 151891) { // FlashlightOn
+		return true;
+	};
+	if(functionNameHash == 164213) { // FlashlightOff
+		return true;
+	};
+	if(functionNameHash == 136649) { // GetAmmoType
+		return true;
+	};
+	if(functionNameHash == 161573) { // AmmoAvailable
+		return true;
+	};
+	if(functionNameHash == 119819) { // AmmoInClip
+		return true;
+	};
+	if(functionNameHash == 162729) { // ResetAmmoClip
+		return true;
+	};
+	if(functionNameHash == 98507) { // ClipSize
+		return true;
+	};
+	if(functionNameHash == 85491) { // LowAmmo
+		return true;
+	};
+	if(functionNameHash == 152979) { // AmmoRequired
+		return true;
+	};
+	if(functionNameHash == 112768) { // AmmoCount
+		return true;
+	};
+	if(functionNameHash == 188573) { // GetGrabberState
+		return true;
+	};
+	if(functionNameHash == 163273) { // GetWorldModel
+		return true;
+	};
+	if(functionNameHash == 278761) { // ClientPredictionThink
+		return true;
+	};
+	if(functionNameHash == 208077) { // MuzzleFlashLight
+		return true;
+	};
+	if(functionNameHash == 297946) { // RemoveMuzzleFlashlight
+		return true;
+	};
+	if(functionNameHash == 199165) { // GetDeclEntityDef
+		return true;
+	};
+	if(functionNameHash == 135992) { // Event_Clear
+		return true;
+	};
+	if(functionNameHash == 178435) { // Event_GetOwner
+		return true;
+	};
+	if(functionNameHash == 219645) { // Event_WeaponReady
+		return true;
+	};
+	if(functionNameHash == 272756) { // Event_WeaponOutOfAmmo
+		return true;
+	};
+	if(functionNameHash == 276824) { // Event_WeaponReloading
+		return true;
+	};
+	if(functionNameHash == 279645) { // Event_WeaponHolstered
+		return true;
+	};
+	if(functionNameHash == 235760) { // Event_WeaponRising
+		return true;
+	};
+	if(functionNameHash == 265858) { // Event_WeaponLowering
+		return true;
+	};
+	if(functionNameHash == 199693) { // Event_AmmoInClip
+		return true;
+	};
+	if(functionNameHash == 243379) { // Event_AmmoAvailable
+		return true;
+	};
+	if(functionNameHash == 262459) { // Event_TotalAmmoCount
+		return true;
+	};
+	if(functionNameHash == 177385) { // Event_ClipSize
+		return true;
+	};
+	if(functionNameHash == 126624) { // Event_Next
+		return true;
+	};
+	if(functionNameHash == 291264) { // Event_CreateProjectile
+		return true;
+	};
+	if(functionNameHash == 203527) { // Event_EjectBrass
+		return true;
+	};
+	if(functionNameHash == 136084) { // Event_Melee
+		return true;
+	};
+	if(functionNameHash == 245163) { // Event_GetWorldModel
+		return true;
+	};
+	if(functionNameHash == 204676) { // Event_AutoReload
+		return true;
+	};
+	if(functionNameHash == 189478) { // Event_NetReload
+		return true;
+	};
+	if(functionNameHash == 219964) { // Event_IsInvisible
+		return true;
+	};
+	if(functionNameHash == 227297) { // Event_NetEndReload
+		return true;
+	};
+	if(functionNameHash == 178279) { // EnterCinematic
+		return true;
+	};
+	if(functionNameHash == 165047) { // ExitCinematic
+		return true;
+	};
+	if(functionNameHash == 124601) { // NetCatchup
+		return true;
+	};
+	if(functionNameHash == 96516) { // IsLinked
+		return true;
+	};
+	if(functionNameHash == 170742) { // AlertMonsters
+		return true;
+	};
+	if(functionNameHash == 181199) { // UpdateNozzleFx
+		return true;
+	};
+	if(functionNameHash == 251065) { // UpdateFlashPosition
+		return true;
+	};
+	if(functionNameHash == 285326) { // Event_GrabberHasTarget
+		return true;
+	};
+	if(functionNameHash == 293443) { // Event_StartWeaponSmoke
+		return true;
+	};
+	if(functionNameHash == 278872) { // Event_StopWeaponSmoke
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idLight::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -2561,6 +4634,66 @@ intptr_t idLight::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idLight::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 144625) { // FreeLightDef
+		return true;
+	};
+	if(functionNameHash == 90014) { // Present
+		return true;
+	};
+	if(functionNameHash == 146975) { // GetBaseColor
+		return true;
+	};
+	if(functionNameHash == 22601) { // On
+		return true;
+	};
+	if(functionNameHash == 33983) { // Off
+		return true;
+	};
+	if(functionNameHash == 209896) { // GetLightDefHandle
+		return true;
+	};
+	if(functionNameHash == 163688) { // SetLightLevel
+		return true;
+	};
+	if(functionNameHash == 218178) { // ShowEditingDialog
+		return true;
+	};
+	if(functionNameHash == 278761) { // ClientPredictionThink
+		return true;
+	};
+	if(functionNameHash == 269944) { // PresentLightDefChange
+		return true;
+	};
+	if(functionNameHash == 269021) { // PresentModelDefChange
+		return true;
+	};
+	if(functionNameHash == 121918) { // Event_Hide
+		return true;
+	};
+	if(functionNameHash == 126868) { // Event_Show
+		return true;
+	};
+	if(functionNameHash == 97795) { // Event_On
+		return true;
+	};
+	if(functionNameHash == 109741) { // Event_Off
+		return true;
+	};
+	if(functionNameHash == 275399) { // Event_SetSoundHandles
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t EnvironmentProbe::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -2631,6 +4764,60 @@ intptr_t EnvironmentProbe::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool EnvironmentProbe::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 187806) { // FreeEnvprobeDef
+		return true;
+	};
+	if(functionNameHash == 90014) { // Present
+		return true;
+	};
+	if(functionNameHash == 146975) { // GetBaseColor
+		return true;
+	};
+	if(functionNameHash == 22601) { // On
+		return true;
+	};
+	if(functionNameHash == 33983) { // Off
+		return true;
+	};
+	if(functionNameHash == 254512) { // GetEnvprobeDefHandle
+		return true;
+	};
+	if(functionNameHash == 163688) { // SetLightLevel
+		return true;
+	};
+	if(functionNameHash == 218178) { // ShowEditingDialog
+		return true;
+	};
+	if(functionNameHash == 278761) { // ClientPredictionThink
+		return true;
+	};
+	if(functionNameHash == 315858) { // PresentEnvprobeDefChange
+		return true;
+	};
+	if(functionNameHash == 121918) { // Event_Hide
+		return true;
+	};
+	if(functionNameHash == 126868) { // Event_Show
+		return true;
+	};
+	if(functionNameHash == 97795) { // Event_On
+		return true;
+	};
+	if(functionNameHash == 109741) { // Event_Off
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idWorldspawn::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -2642,6 +4829,18 @@ intptr_t idWorldspawn::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idWorldspawn::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 153439) { // Event_Remove
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -2683,6 +4882,36 @@ intptr_t idItem::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idItem::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 90014) { // Present
+		return true;
+	};
+	if(functionNameHash == 278761) { // ClientPredictionThink
+		return true;
+	};
+	if(functionNameHash == 382066) { // GetPredictPickupMilliseconds
+		return true;
+	};
+	if(functionNameHash == 219076) { // Event_DropToFloor
+		return true;
+	};
+	if(functionNameHash == 168370) { // Event_Respawn
+		return true;
+	};
+	if(functionNameHash == 193570) { // Event_RespawnFx
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idItemPowerup::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -2690,6 +4919,15 @@ intptr_t idItemPowerup::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idItemPowerup::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -2707,15 +4945,39 @@ intptr_t idObjective::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idObjective::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 232865) { // Event_GetPlayerPos
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idVideoCDItem::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
 
 };
 
+bool idVideoCDItem::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idPDAItem::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idPDAItem::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -2734,6 +4996,21 @@ intptr_t idMoveableItem::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idMoveableItem::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 219076) { // Event_DropToFloor
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -2775,9 +5052,45 @@ intptr_t idItemTeam::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idItemTeam::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 88469) { // Capture
+		return true;
+	};
+	if(functionNameHash == 144625) { // FreeLightDef
+		return true;
+	};
+	if(functionNameHash == 90014) { // Present
+		return true;
+	};
+	if(functionNameHash == 217630) { // Event_FlagCapture
+		return true;
+	};
+	if(functionNameHash == 171571) { // PrivateReturn
+		return true;
+	};
+	if(functionNameHash == 125953) { // UpdateGuis
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idMoveablePDAItem::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idMoveablePDAItem::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -2788,6 +5101,15 @@ intptr_t idItemRemover::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idItemRemover::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -2802,6 +5124,18 @@ intptr_t idObjectiveComplete::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idObjectiveComplete::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 232865) { // Event_GetPlayerPos
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3363,6 +5697,450 @@ intptr_t idPlayer::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idPlayer::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 45590) { // Hide
+		return true;
+	};
+	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 48744) { // Init
+		return true;
+	};
+	if(functionNameHash == 223208) { // PrepareForRestart
+		return true;
+	};
+	if(functionNameHash == 90512) { // Restart
+		return true;
+	};
+	if(functionNameHash == 249647) { // LinkScriptVariables
+		return true;
+	};
+	if(functionNameHash == 226876) { // SetupWeaponEntity
+		return true;
+	};
+	if(functionNameHash == 238460) { // SpawnFromSpawnSpot
+		return true;
+	};
+	if(functionNameHash == 148179) { // SetClipModel
+		return true;
+	};
+	if(functionNameHash == 237887) { // SavePersistantInfo
+		return true;
+	};
+	if(functionNameHash == 284524) { // RestorePersistantInfo
+		return true;
+	};
+	if(functionNameHash == 149910) { // CacheWeapons
+		return true;
+	};
+	if(functionNameHash == 178279) { // EnterCinematic
+		return true;
+	};
+	if(functionNameHash == 165047) { // ExitCinematic
+		return true;
+	};
+	if(functionNameHash == 210484) { // UpdateConditions
+		return true;
+	};
+	if(functionNameHash == 265702) { // ResetControllerShake
+		return true;
+	};
+	if(functionNameHash == 149541) { // GetAimAssist
+		return true;
+	};
+	if(functionNameHash == 163648) { // GetRenderView
+		return true;
+	};
+	if(functionNameHash == 247267) { // CalculateRenderView
+		return true;
+	};
+	if(functionNameHash == 323196) { // CalculateFirstPersonView
+		return true;
+	};
+	if(functionNameHash == 266853) { // UpdateSpectatingText
+		return true;
+	};
+	if(functionNameHash == 124692) { // DefaultFov
+		return true;
+	};
+	if(functionNameHash == 180136) { // GetEyePosition
+		return true;
+	};
+	if(functionNameHash == 250140) { // GetPrimaryObjective
+		return true;
+	};
+	if(functionNameHash == 157534) { // GetInventory
+		return true;
+	};
+	if(functionNameHash == 267860) { // GetNumInventoryItems
+		return true;
+	};
+	if(functionNameHash == 132490) { // EndAudioLog
+		return true;
+	};
+	if(functionNameHash == 146750) { // EndVideoDisk
+		return true;
+	};
+	if(functionNameHash == 203479) { // GetVideoMaterial
+		return true;
+	};
+	if(functionNameHash == 165808) { // ClearPowerUps
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 127713) { // NextWeapon
+		return true;
+	};
+	if(functionNameHash == 179818) { // NextBestWeapon
+		return true;
+	};
+	if(functionNameHash == 127456) { // PrevWeapon
+		return true;
+	};
+	if(functionNameHash == 141364) { // LowerWeapon
+		return true;
+	};
+	if(functionNameHash == 138813) { // RaiseWeapon
+		return true;
+	};
+	if(functionNameHash == 289786) { // WeaponLoweringCallback
+		return true;
+	};
+	if(functionNameHash == 259440) { // WeaponRisingCallback
+		return true;
+	};
+	if(functionNameHash == 381109) { // RemoveAllButEssentialWeapons
+		return true;
+	};
+	if(functionNameHash == 291879) { // CanShowWeaponViewmodel
+		return true;
+	};
+	if(functionNameHash == 98493) { // AddAIKill
+		return true;
+	};
+	if(functionNameHash == 247825) { // SetCurrentHeartRate
+		return true;
+	};
+	if(functionNameHash == 198082) { // GetBaseHeartRate
+		return true;
+	};
+	if(functionNameHash == 110114) { // UpdateAir
+		return true;
+	};
+	if(functionNameHash == 209361) { // UpdatePowerupHud
+		return true;
+	};
+	if(functionNameHash == 110505) { // GuiActive
+		return true;
+	};
+	if(functionNameHash == 100976) { // TogglePDA
+		return true;
+	};
+	if(functionNameHash == 110723) { // UpdateHud
+		return true;
+	};
+	if(functionNameHash == 60789) { // GetPDA
+		return true;
+	};
+	if(functionNameHash == 111683) { // GetPDAOpen
+		return true;
+	};
+	if(functionNameHash == 217835) { // GetInfluenceLevel
+		return true;
+	};
+	if(functionNameHash == 259212) { // GetPrivateCameraView
+		return true;
+	};
+	if(functionNameHash == 218301) { // UpdateChattingHud
+		return true;
+	};
+	if(functionNameHash == 231979) { // Event_StopAudioLog
+		return true;
+	};
+	if(functionNameHash == 82942) { // HideTip
+		return true;
+	};
+	if(functionNameHash == 150457) { // IsTipVisible
+		return true;
+	};
+	if(functionNameHash == 162972) { // HideObjective
+		return true;
+	};
+	if(functionNameHash == 154873) { // IsRespawning
+		return true;
+	};
+	if(functionNameHash == 152040) { // IsInTeleport
+		return true;
+	};
+	if(functionNameHash == 149259) { // GetSkinIndex
+		return true;
+	};
+	if(functionNameHash == 235912) { // GetInfluenceEntity
+		return true;
+	};
+	if(functionNameHash == 260455) { // GetInfluenceMaterial
+		return true;
+	};
+	if(functionNameHash == 233090) { // GetInfluenceRadius
+		return true;
+	};
+	if(functionNameHash == 208894) { // GetPlayerPhysics
+		return true;
+	};
+	if(functionNameHash == 95325) { // IsLeader
+		return true;
+	};
+	if(functionNameHash == 194926) { // UpdateSkinSetup
+		return true;
+	};
+	if(functionNameHash == 95320) { // OnLadder
+		return true;
+	};
+	if(functionNameHash == 221204) { // UpdatePlayerIcons
+		return true;
+	};
+	if(functionNameHash == 192692) { // DrawPlayerIcons
+		return true;
+	};
+	if(functionNameHash == 190255) { // HidePlayerIcons
+		return true;
+	};
+	if(functionNameHash == 109351) { // NeedsIcon
+		return true;
+	};
+	if(functionNameHash == 232272) { // StopHealthRecharge
+		return true;
+	};
+	if(functionNameHash == 208447) { // GetCurrentWeapon
+		return true;
+	};
+	if(functionNameHash == 265555) { // GetCurrentWeaponSlot
+		return true;
+	};
+	if(functionNameHash == 174179) { // GetIdealWeapon
+		return true;
+	};
+	if(functionNameHash == 206679) { // GetWeaponToggles
+		return true;
+	};
+	if(functionNameHash == 280196) { // PlayHelltimeStopSound
+		return true;
+	};
+	if(functionNameHash == 95972) { // DropFlag
+		return true;
+	};
+	if(functionNameHash == 125711) { // ReturnFlag
+		return true;
+	};
+	if(functionNameHash == 143723) { // FreeModelDef
+		return true;
+	};
+	if(functionNameHash == 127139) { // SelfSmooth
+		return true;
+	};
+	if(functionNameHash == 199645) { // GetViewBobAngles
+		return true;
+	};
+	if(functionNameHash == 120368) { // GetViewBob
+		return true;
+	};
+	if(functionNameHash == 273462) { // GetAchievementManager
+		return true;
+	};
+	if(functionNameHash == 273462) { // GetAchievementManager
+		return true;
+	};
+	if(functionNameHash == 161926) { // GetPlayedTime
+		return true;
+	};
+	if(functionNameHash == 230767) { // GetClientFireCount
+		return true;
+	};
+	if(functionNameHash == 235397) { // IncrementFireCount
+		return true;
+	};
+	if(functionNameHash == 277513) { // ShowRespawnHudMessage
+		return true;
+	};
+	if(functionNameHash == 272797) { // HideRespawnHudMessage
+		return true;
+	};
+	if(functionNameHash == 250595) { // IsLocallyControlled
+		return true;
+	};
+	if(functionNameHash == 209726) { // GetExpansionType
+		return true;
+	};
+	if(functionNameHash == 232151) { // AddProjectileKills
+		return true;
+	};
+	if(functionNameHash == 234921) { // GetProjectileKills
+		return true;
+	};
+	if(functionNameHash == 265803) { // ResetProjectileKills
+		return true;
+	};
+	if(functionNameHash == 165154) { // GetPrevWeapon
+		return true;
+	};
+	if(functionNameHash == 127156) { // StopFiring
+		return true;
+	};
+	if(functionNameHash == 124685) { // FireWeapon
+		return true;
+	};
+	if(functionNameHash == 163981) { // Weapon_Combat
+		return true;
+	};
+	if(functionNameHash == 115606) { // Weapon_NPC
+		return true;
+	};
+	if(functionNameHash == 116127) { // Weapon_GUI
+		return true;
+	};
+	if(functionNameHash == 153156) { // UpdateWeapon
+		return true;
+	};
+	if(functionNameHash == 207861) { // UpdateFlashlight
+		return true;
+	};
+	if(functionNameHash == 151891) { // FlashlightOn
+		return true;
+	};
+	if(functionNameHash == 164213) { // FlashlightOff
+		return true;
+	};
+	if(functionNameHash == 209329) { // UpdateSpectating
+		return true;
+	};
+	if(functionNameHash == 165177) { // SpectateCycle
+		return true;
+	};
+	if(functionNameHash == 209678) { // GunTurningOffset
+		return true;
+	};
+	if(functionNameHash == 275446) { // GunAcceleratingOffset
+		return true;
+	};
+	if(functionNameHash == 205597) { // UpdateViewAngles
+		return true;
+	};
+	if(functionNameHash == 212276) { // EvaluateControls
+		return true;
+	};
+	if(functionNameHash == 138506) { // AdjustSpeed
+		return true;
+	};
+	if(functionNameHash == 205065) { // AdjustBodyAngles
+		return true;
+	};
+	if(functionNameHash == 182149) { // InitAASLocation
+		return true;
+	};
+	if(functionNameHash == 168400) { // SetAASLocation
+		return true;
+	};
+	if(functionNameHash == 49083) { // Move
+		return true;
+	};
+	if(functionNameHash == 461936) { // RunPhysics_RemoteClientCorrection
+		return true;
+	};
+	if(functionNameHash == 181916) { // UpdatePowerUps
+		return true;
+	};
+	if(functionNameHash == 221329) { // SetSpectateOrigin
+		return true;
+	};
+	if(functionNameHash == 293094) { // AllowClientAuthPhysics
+		return true;
+	};
+	if(functionNameHash == 234606) { // GetPhysicsTimeStep
+		return true;
+	};
+	if(functionNameHash == 123618) { // ClearFocus
+		return true;
+	};
+	if(functionNameHash == 139401) { // UpdateFocus
+		return true;
+	};
+	if(functionNameHash == 180431) { // UpdateLocation
+		return true;
+	};
+	if(functionNameHash == 110451) { // ActiveGui
+		return true;
+	};
+	if(functionNameHash == 179481) { // Respawn_Shared
+		return true;
+	};
+	if(functionNameHash == 124190) { // UseVehicle
+		return true;
+	};
+	if(functionNameHash == 208902) { // Event_GetButtons
+		return true;
+	};
+	if(functionNameHash == 163139) { // Event_GetMove
+		return true;
+	};
+	if(functionNameHash == 244748) { // Event_GetViewAngles
+		return true;
+	};
+	if(functionNameHash == 191630) { // Event_StopFxFov
+		return true;
+	};
+	if(functionNameHash == 231053) { // Event_EnableWeapon
+		return true;
+	};
+	if(functionNameHash == 245925) { // Event_DisableWeapon
+		return true;
+	};
+	if(functionNameHash == 292377) { // Event_GetCurrentWeapon
+		return true;
+	};
+	if(functionNameHash == 309426) { // Event_GetPreviousWeapon
+		return true;
+	};
+	if(functionNameHash == 278206) { // Event_GetWeaponEntity
+		return true;
+	};
+	if(functionNameHash == 152629) { // Event_OpenPDA
+		return true;
+	};
+	if(functionNameHash == 124294) { // Event_InPDA
+		return true;
+	};
+	if(functionNameHash == 267939) { // Event_ExitTeleporter
+		return true;
+	};
+	if(functionNameHash == 161076) { // Event_HideTip
+		return true;
+	};
+	if(functionNameHash == 234486) { // Event_LevelTrigger
+		return true;
+	};
+	if(functionNameHash == 147184) { // Event_Gibbed
+		return true;
+	};
+	if(functionNameHash == 256549) { // Event_GetIdealWeapon
+		return true;
+	};
+	if(functionNameHash == 194887) { // Event_StartWarp
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idMover::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -3453,6 +6231,75 @@ intptr_t idMover::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idMover::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 45590) { // Hide
+		return true;
+	};
+	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 207323) { // Event_OpenPortal
+		return true;
+	};
+	if(functionNameHash == 220884) { // Event_ClosePortal
+		return true;
+	};
+	if(functionNameHash == 177094) { // FindGuiTargets
+		return true;
+	};
+	if(functionNameHash == 125413) { // DoneMoving
+		return true;
+	};
+	if(functionNameHash == 153368) { // DoneRotating
+		return true;
+	};
+	if(functionNameHash == 214718) { // Event_SetCallback
+		return true;
+	};
+	if(functionNameHash == 209597) { // Event_StopMoving
+		return true;
+	};
+	if(functionNameHash == 238848) { // Event_StopRotating
+		return true;
+	};
+	if(functionNameHash == 205974) { // Event_UpdateMove
+		return true;
+	};
+	if(functionNameHash == 266154) { // Event_UpdateRotation
+		return true;
+	};
+	if(functionNameHash == 259602) { // Event_FindGuiTargets
+		return true;
+	};
+	if(functionNameHash == 262020) { // Event_InitGuiTargets
+		return true;
+	};
+	if(functionNameHash == 315240) { // Event_EnableSplineAngles
+		return true;
+	};
+	if(functionNameHash == 330715) { // Event_DisableSplineAngles
+		return true;
+	};
+	if(functionNameHash == 424511) { // Event_RemoveInitialSplineAngles
+		return true;
+	};
+	if(functionNameHash == 208923) { // Event_StopSpline
+		return true;
+	};
+	if(functionNameHash == 178540) { // Event_IsMoving
+		return true;
+	};
+	if(functionNameHash == 207359) { // Event_IsRotating
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idSplinePath::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -3460,6 +6307,15 @@ intptr_t idSplinePath::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idSplinePath::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3502,6 +6358,39 @@ intptr_t idElevator::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idElevator::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 125413) { // DoneMoving
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 164442) { // OpenInnerDoor
+		return true;
+	};
+	if(functionNameHash == 163033) { // CloseAllDoors
+		return true;
+	};
+	if(functionNameHash == 188328) { // DisableAllDoors
+		return true;
+	};
+	if(functionNameHash == 220682) { // EnableProperDoors
+		return true;
+	};
+	if(functionNameHash == 293800) { // Event_PostFloorArrival
+		return true;
+	};
+	if(functionNameHash == 233629) { // Event_SetGuiStates
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3584,6 +6473,72 @@ intptr_t idMover_Binary::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idMover_Binary::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 82528) { // PreBind
+		return true;
+	};
+	if(functionNameHash == 98395) { // PostBind
+		return true;
+	};
+	if(functionNameHash == 163766) { // GotoPosition1
+		return true;
+	};
+	if(functionNameHash == 163897) { // GotoPosition2
+		return true;
+	};
+	if(functionNameHash == 201128) { // GetActivateChain
+		return true;
+	};
+	if(functionNameHash == 164678) { // GetMoveMaster
+		return true;
+	};
+	if(functionNameHash == 108379) { // IsBlocked
+		return true;
+	};
+	if(functionNameHash == 153395) { // GetActivator
+		return true;
+	};
+	if(functionNameHash == 165486) { // GetMoverState
+		return true;
+	};
+	if(functionNameHash == 177094) { // FindGuiTargets
+		return true;
+	};
+	if(functionNameHash == 214718) { // Event_SetCallback
+		return true;
+	};
+	if(functionNameHash == 229109) { // Event_ReturnToPos1
+		return true;
+	};
+	if(functionNameHash == 330944) { // Event_Reached_BinaryMover
+		return true;
+	};
+	if(functionNameHash == 148470) { // Event_Enable
+		return true;
+	};
+	if(functionNameHash == 162724) { // Event_Disable
+		return true;
+	};
+	if(functionNameHash == 207323) { // Event_OpenPortal
+		return true;
+	};
+	if(functionNameHash == 220884) { // Event_ClosePortal
+		return true;
+	};
+	if(functionNameHash == 259602) { // Event_FindGuiTargets
+		return true;
+	};
+	if(functionNameHash == 262020) { // Event_InitGuiTargets
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3674,6 +6629,75 @@ intptr_t idDoor::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idDoor::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 82528) { // PreBind
+		return true;
+	};
+	if(functionNameHash == 98395) { // PostBind
+		return true;
+	};
+	if(functionNameHash == 45590) { // Hide
+		return true;
+	};
+	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 71773) { // IsOpen
+		return true;
+	};
+	if(functionNameHash == 109870) { // IsNoTouch
+		return true;
+	};
+	if(functionNameHash == 95895) { // IsLocked
+		return true;
+	};
+	if(functionNameHash == 60817) { // Close
+		return true;
+	};
+	if(functionNameHash == 48482) { // Open
+		return true;
+	};
+	if(functionNameHash == 330944) { // Event_Reached_BinaryMover
+		return true;
+	};
+	if(functionNameHash == 193830) { // Event_StartOpen
+		return true;
+	};
+	if(functionNameHash == 292733) { // Event_SpawnDoorTrigger
+		return true;
+	};
+	if(functionNameHash == 309067) { // Event_SpawnSoundTrigger
+		return true;
+	};
+	if(functionNameHash == 137889) { // Event_Close
+		return true;
+	};
+	if(functionNameHash == 124954) { // Event_Open
+		return true;
+	};
+	if(functionNameHash == 149373) { // Event_IsOpen
+		return true;
+	};
+	if(functionNameHash == 149844) { // Event_Locked
+		return true;
+	};
+	if(functionNameHash == 207323) { // Event_OpenPortal
+		return true;
+	};
+	if(functionNameHash == 220884) { // Event_ClosePortal
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idPlat::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -3700,6 +6724,27 @@ intptr_t idPlat::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idPlat::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 276247) { // RunPhysics_NoBlocking
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 82528) { // PreBind
+		return true;
+	};
+	if(functionNameHash == 98395) { // PostBind
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idMover_Periodic::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -3714,6 +6759,18 @@ intptr_t idMover_Periodic::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idMover_Periodic::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idRotater::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -3721,6 +6778,15 @@ intptr_t idRotater::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idRotater::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3734,6 +6800,15 @@ intptr_t idBobber::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idBobber::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idPendulum::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -3744,6 +6819,15 @@ intptr_t idPendulum::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idPendulum::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idRiser::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -3751,6 +6835,15 @@ intptr_t idRiser::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idRiser::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3769,6 +6862,21 @@ intptr_t idCameraView::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idCameraView::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 50892) { // Stop
+		return true;
+	};
+	if(functionNameHash == 264827) { // Event_SetAttachments
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3807,6 +6915,36 @@ intptr_t idCameraAnim::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idCameraAnim::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 63710) { // Start
+		return true;
+	};
+	if(functionNameHash == 50892) { // Stop
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 94795) { // LoadAnim
+		return true;
+	};
+	if(functionNameHash == 140926) { // Event_Start
+		return true;
+	};
+	if(functionNameHash == 127484) { // Event_Stop
+		return true;
+	};
+	if(functionNameHash == 214718) { // Event_SetCallback
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3860,6 +6998,48 @@ intptr_t idMoveable::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idMoveable::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 45590) { // Hide
+		return true;
+	};
+	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 113684) { // AllowStep
+		return true;
+	};
+	if(functionNameHash == 137009) { // GetAttacker
+		return true;
+	};
+	if(functionNameHash == 286384) { // GetRenderModelMaterial
+		return true;
+	};
+	if(functionNameHash == 175070) { // BecomeNonSolid
+		return true;
+	};
+	if(functionNameHash == 306497) { // FollowInitialSplinePath
+		return true;
+	};
+	if(functionNameHash == 257488) { // Event_BecomeNonSolid
+		return true;
+	};
+	if(functionNameHash == 363849) { // Event_SetOwnerFromSpawnArgs
+		return true;
+	};
+	if(functionNameHash == 174863) { // Event_IsAtRest
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idBarrel::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -3875,6 +7055,21 @@ intptr_t idBarrel::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idBarrel::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 137833) { // BarrelThink
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3923,9 +7118,51 @@ intptr_t idExplodingBarrel::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idExplodingBarrel::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 96991) { // IsStable
+		return true;
+	};
+	if(functionNameHash == 155873) { // StartBurning
+		return true;
+	};
+	if(functionNameHash == 142330) { // StopBurning
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 207845) { // ExplodingEffects
+		return true;
+	};
+	if(functionNameHash == 138368) { // UpdateLight
+		return true;
+	};
+	if(functionNameHash == 168370) { // Event_Respawn
+		return true;
+	};
+	if(functionNameHash == 166403) { // Event_Explode
+		return true;
+	};
+	if(functionNameHash == 265462) { // Event_TriggerTargets
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3935,9 +7172,21 @@ intptr_t idTarget_Remove::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTarget_Remove::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_Show::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_Show::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3947,15 +7196,33 @@ intptr_t idTarget_Damage::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTarget_Damage::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_SessionCommand::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
 
 };
 
+bool idTarget_SessionCommand::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_EndLevel::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_EndLevel::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3969,9 +7236,24 @@ intptr_t idTarget_WaitForButton::Invoke(const char *functionName, void *param1) 
 
 };
 
+bool idTarget_WaitForButton::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_SetGlobalShaderTime::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_SetGlobalShaderTime::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3981,9 +7263,21 @@ intptr_t idTarget_SetShaderParm::Invoke(const char *functionName, void *param1) 
 
 };
 
+bool idTarget_SetShaderParm::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_SetShaderTime::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_SetShaderTime::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -3997,15 +7291,36 @@ intptr_t idTarget_FadeEntity::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTarget_FadeEntity::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_LightFadeIn::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
 
 };
 
+bool idTarget_LightFadeIn::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_LightFadeOut::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_LightFadeOut::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4019,9 +7334,24 @@ intptr_t idTarget_Give::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTarget_Give::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_GiveEmail::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_GiveEmail::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4032,6 +7362,15 @@ intptr_t idTarget_SetModel::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_SetModel::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4057,9 +7396,33 @@ intptr_t idTarget_SetInfluence::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTarget_SetInfluence::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 294203) { // Event_RestoreInfluence
+		return true;
+	};
+	if(functionNameHash == 263754) { // Event_GatherEntities
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_SetKeyVal::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_SetKeyVal::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4073,9 +7436,24 @@ intptr_t idTarget_SetFov::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTarget_SetFov::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_SetPrimaryObjective::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_SetPrimaryObjective::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4085,15 +7463,33 @@ intptr_t idTarget_LockDoor::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTarget_LockDoor::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_CallObjectFunction::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
 
 };
 
+bool idTarget_CallObjectFunction::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_EnableLevelWeapons::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_EnableLevelWeapons::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4115,9 +7511,30 @@ intptr_t idTarget_Tip::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTarget_Tip::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 148544) { // Event_TipOff
+		return true;
+	};
+	if(functionNameHash == 232865) { // Event_GetPlayerPos
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_GiveSecurity::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_GiveSecurity::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4127,9 +7544,21 @@ intptr_t idTarget_RemoveWeapons::Invoke(const char *functionName, void *param1) 
 
 };
 
+bool idTarget_RemoveWeapons::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_LevelTrigger::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_LevelTrigger::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4139,9 +7568,21 @@ intptr_t idTarget_Checkpoint::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTarget_Checkpoint::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_EnableStamina::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_EnableStamina::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4155,15 +7596,36 @@ intptr_t idTarget_FadeSoundClass::Invoke(const char *functionName, void *param1)
 
 };
 
+bool idTarget_FadeSoundClass::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 253902) { // Event_RestoreVolume
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_RumbleJoystick::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
 
 };
 
+bool idTarget_RumbleJoystick::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTarget_Achievement::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTarget_Achievement::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4200,6 +7662,33 @@ intptr_t idTrigger::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTrigger::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 223336) { // GetScriptFunction
+		return true;
+	};
+	if(functionNameHash == 70912) { // Enable
+		return true;
+	};
+	if(functionNameHash == 84512) { // Disable
+		return true;
+	};
+	if(functionNameHash == 124894) { // CallScript
+		return true;
+	};
+	if(functionNameHash == 148470) { // Event_Enable
+		return true;
+	};
+	if(functionNameHash == 162724) { // Event_Disable
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTrigger_Multi::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -4210,6 +7699,15 @@ intptr_t idTrigger_Multi::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTrigger_Multi::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTrigger_EntityName::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -4217,6 +7715,15 @@ intptr_t idTrigger_EntityName::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTrigger_EntityName::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4242,6 +7749,24 @@ intptr_t idTrigger_Timer::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTrigger_Timer::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 70912) { // Enable
+		return true;
+	};
+	if(functionNameHash == 84512) { // Disable
+		return true;
+	};
+	if(functionNameHash == 139267) { // Event_Timer
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTrigger_Count::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -4249,6 +7774,15 @@ intptr_t idTrigger_Count::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTrigger_Count::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4262,9 +7796,24 @@ intptr_t idTrigger_Hurt::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTrigger_Hurt::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTrigger_Fade::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTrigger_Fade::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4294,6 +7843,27 @@ intptr_t idTrigger_Touch::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idTrigger_Touch::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 70912) { // Enable
+		return true;
+	};
+	if(functionNameHash == 84512) { // Disable
+		return true;
+	};
+	if(functionNameHash == 169188) { // TouchEntities
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTrigger_Flag::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -4301,6 +7871,15 @@ intptr_t idTrigger_Flag::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTrigger_Flag::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4331,6 +7910,30 @@ intptr_t idSound::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idSound::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 218178) { // ShowEditingDialog
+		return true;
+	};
+	if(functionNameHash == 139267) { // Event_Timer
+		return true;
+	};
+	if(functionNameHash == 97795) { // Event_On
+		return true;
+	};
+	if(functionNameHash == 109741) { // Event_Off
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4378,9 +7981,51 @@ intptr_t idEntityFx::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idEntityFx::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 50892) { // Stop
+		return true;
+	};
+	if(functionNameHash == 102783) { // Duration
+		return true;
+	};
+	if(functionNameHash == 120419) { // EffectName
+		return true;
+	};
+	if(functionNameHash == 62519) { // Joint
+		return true;
+	};
+	if(functionNameHash == 47044) { // Done
+		return true;
+	};
+	if(functionNameHash == 278761) { // ClientPredictionThink
+		return true;
+	};
+	if(functionNameHash == 160812) { // Event_ClearFx
+		return true;
+	};
+	if(functionNameHash == 83058) { // CleanUp
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTeleporter::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTeleporter::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4444,6 +8089,54 @@ intptr_t idSecurityCamera::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idSecurityCamera::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 163648) { // GetRenderView
+		return true;
+	};
+	if(functionNameHash == 90014) { // Present
+		return true;
+	};
+	if(functionNameHash == 128766) { // StartSweep
+		return true;
+	};
+	if(functionNameHash == 147260) { // CanSeePlayer
+		return true;
+	};
+	if(functionNameHash == 85151) { // DrawFov
+		return true;
+	};
+	if(functionNameHash == 84690) { // GetAxis
+		return true;
+	};
+	if(functionNameHash == 125121) { // SweepSpeed
+		return true;
+	};
+	if(functionNameHash == 237021) { // Event_ReverseSweep
+		return true;
+	};
+	if(functionNameHash == 251443) { // Event_ContinueSweep
+		return true;
+	};
+	if(functionNameHash == 138890) { // Event_Pause
+		return true;
+	};
+	if(functionNameHash == 138176) { // Event_Alert
+		return true;
+	};
+	if(functionNameHash == 173084) { // Event_AddLight
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idBrittleFracture::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -4474,6 +8167,33 @@ intptr_t idBrittleFracture::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idBrittleFracture::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 90014) { // Present
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 97787) { // IsBroken
+		return true;
+	};
+	if(functionNameHash == 278761) { // ClientPredictionThink
+		return true;
+	};
+	if(functionNameHash == 58750) { // Break
+		return true;
+	};
+	if(functionNameHash == 180056) { // FindNeighbours
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -4516,6 +8236,10 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	};
 	if(functionNameHash == 282905) { // ConstructScriptObject
 		return (intptr_t)ConstructScriptObject();
+	};
+	if(functionNameHash == 88222) { // AI_Begin
+		AI_Begin();
+		return 0;
 	};
 	if(functionNameHash == 305792) { // trigger_wakeup_targets
 		trigger_wakeup_targets();
@@ -4697,6 +8421,9 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	};
 	if(functionNameHash == 172196) { // wake_on_enemy
 		return (intptr_t)wake_on_enemy((stateParms_t *)param1);
+	};
+	if(functionNameHash == 187794) { // wait_for_enemy
+		return (intptr_t)wait_for_enemy((stateParms_t *)param1);
 	};
 	if(functionNameHash == 218618) { // State_TriggerAnim
 		return (intptr_t)State_TriggerAnim((stateParms_t *)param1);
@@ -4969,6 +8696,399 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idAI::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 97948) { // GetEnemy
+		return true;
+	};
+	if(functionNameHash == 149251) { // GetTalkState
+		return true;
+	};
+	if(functionNameHash == 123975) { // EnemyRange
+		return true;
+	};
+	if(functionNameHash == 48744) { // Init
+		return true;
+	};
+	if(functionNameHash == 62250) { // SetAAS
+		return true;
+	};
+	if(functionNameHash == 150747) { // DormantBegin
+		return true;
+	};
+	if(functionNameHash == 124039) { // DormantEnd
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 282905) { // ConstructScriptObject
+		return true;
+	};
+	if(functionNameHash == 88222) { // AI_Begin
+		return true;
+	};
+	if(functionNameHash == 305792) { // trigger_wakeup_targets
+		return true;
+	};
+	if(functionNameHash == 146357) { // sight_enemy
+		return true;
+	};
+	if(functionNameHash == 198399) { // CallConstructor
+		return true;
+	};
+	if(functionNameHash == 107792) { // EnemyDead
+		return true;
+	};
+	if(functionNameHash == 261747) { // CanPlayChatterSounds
+		return true;
+	};
+	if(functionNameHash == 150248) { // SetChatSound
+		return true;
+	};
+	if(functionNameHash == 139223) { // PlayChatter
+		return true;
+	};
+	if(functionNameHash == 45590) { // Hide
+		return true;
+	};
+	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 290625) { // CalculateAttackOffsets
+		return true;
+	};
+	if(functionNameHash == 164558) { // PlayCinematic
+		return true;
+	};
+	if(functionNameHash == 94860) { // DeadMove
+		return true;
+	};
+	if(functionNameHash == 97649) { // AnimMove
+		return true;
+	};
+	if(functionNameHash == 111283) { // SlideMove
+		return true;
+	};
+	if(functionNameHash == 234590) { // AdjustFlyingAngles
+		return true;
+	};
+	if(functionNameHash == 88456) { // FlyTurn
+		return true;
+	};
+	if(functionNameHash == 86235) { // FlyMove
+		return true;
+	};
+	if(functionNameHash == 126402) { // StaticMove
+		return true;
+	};
+	if(functionNameHash == 113945) { // DrawRoute
+		return true;
+	};
+	if(functionNameHash == 97687) { // MoveDone
+		return true;
+	};
+	if(functionNameHash == 183413) { // BlockedFailSafe
+		return true;
+	};
+	if(functionNameHash == 108124) { // FaceEnemy
+		return true;
+	};
+	if(functionNameHash == 217798) { // MoveToEnemyHeight
+		return true;
+	};
+	if(functionNameHash == 138052) { // MoveToEnemy
+		return true;
+	};
+	if(functionNameHash == 152814) { // WanderAround
+		return true;
+	};
+	if(functionNameHash == 131961) { // FacingIdeal
+		return true;
+	};
+	if(functionNameHash == 51250) { // Turn
+		return true;
+	};
+	if(functionNameHash == 123373) { // ClearEnemy
+		return true;
+	};
+	if(functionNameHash == 237166) { // EnemyPositionValid
+		return true;
+	};
+	if(functionNameHash == 210788) { // SetEnemyPosition
+		return true;
+	};
+	if(functionNameHash == 253125) { // UpdateEnemyPosition
+		return true;
+	};
+	if(functionNameHash == 331085) { // CreateProjectileClipModel
+		return true;
+	};
+	if(functionNameHash == 210529) { // RemoveProjectile
+		return true;
+	};
+	if(functionNameHash == 111231) { // TestMelee
+		return true;
+	};
+	if(functionNameHash == 108281) { // EndAttack
+		return true;
+	};
+	if(functionNameHash == 118703) { // PushWithAF
+		return true;
+	};
+	if(functionNameHash == 194778) { // InitMuzzleFlash
+		return true;
+	};
+	if(functionNameHash == 222597) { // UpdateMuzzleFlash
+		return true;
+	};
+	if(functionNameHash == 357711) { // UpdateAnimationControllers
+		return true;
+	};
+	if(functionNameHash == 195019) { // UpdateParticles
+		return true;
+	};
+	if(functionNameHash == 282912) { // FindEnemyInCombatNodes
+		return true;
+	};
+	if(functionNameHash == 249647) { // LinkScriptVariables
+		return true;
+	};
+	if(functionNameHash == 173157) { // UpdateAIScript
+		return true;
+	};
+	if(functionNameHash == 171989) { // state_Spawner
+		return true;
+	};
+	if(functionNameHash == 149028) { // State_WakeUp
+		return true;
+	};
+	if(functionNameHash == 240700) { // wake_on_attackcone
+		return true;
+	};
+	if(functionNameHash == 201338) { // walk_on_trigger
+		return true;
+	};
+	if(functionNameHash == 200485) { // wake_on_trigger
+		return true;
+	};
+	if(functionNameHash == 172196) { // wake_on_enemy
+		return true;
+	};
+	if(functionNameHash == 187794) { // wait_for_enemy
+		return true;
+	};
+	if(functionNameHash == 218618) { // State_TriggerAnim
+		return true;
+	};
+	if(functionNameHash == 309649) { // State_TeleportTriggered
+		return true;
+	};
+	if(functionNameHash == 245798) { // State_TriggerHidden
+		return true;
+	};
+	if(functionNameHash == 290450) { // wake_call_constructor
+		return true;
+	};
+	if(functionNameHash == 370058) { // Event_FindEnemyInCombatNodes
+		return true;
+	};
+	if(functionNameHash == 203415) { // Event_ClearEnemy
+		return true;
+	};
+	if(functionNameHash == 334229) { // Event_LaunchHomingMissile
+		return true;
+	};
+	if(functionNameHash == 346298) { // Event_SetHomingMissileGoal
+		return true;
+	};
+	if(functionNameHash == 187615) { // Event_EndAttack
+		return true;
+	};
+	if(functionNameHash == 204439) { // Event_RandomPath
+		return true;
+	};
+	if(functionNameHash == 254316) { // Event_CanBecomeSolid
+		return true;
+	};
+	if(functionNameHash == 172048) { // CanBecomeSolid
+		return true;
+	};
+	if(functionNameHash == 216467) { // Event_BecomeSolid
+		return true;
+	};
+	if(functionNameHash == 257488) { // Event_BecomeNonSolid
+		return true;
+	};
+	if(functionNameHash == 244122) { // Event_BecomeRagdoll
+		return true;
+	};
+	if(functionNameHash == 221180) { // Event_StopRagdoll
+		return true;
+	};
+	if(functionNameHash == 188540) { // Event_GetHealth
+		return true;
+	};
+	if(functionNameHash == 215341) { // Event_AllowDamage
+		return true;
+	};
+	if(functionNameHash == 229025) { // Event_IgnoreDamage
+		return true;
+	};
+	if(functionNameHash == 248832) { // Event_GetCurrentYaw
+		return true;
+	};
+	if(functionNameHash == 210362) { // Event_MoveStatus
+		return true;
+	};
+	if(functionNameHash == 180637) { // Event_StopMove
+		return true;
+	};
+	if(functionNameHash == 218898) { // Event_MoveToCover
+		return true;
+	};
+	if(functionNameHash == 218784) { // Event_MoveToEnemy
+		return true;
+	};
+	if(functionNameHash == 302136) { // Event_MoveToEnemyHeight
+		return true;
+	};
+	if(functionNameHash == 151776) { // Event_Wander
+		return true;
+	};
+	if(functionNameHash == 212399) { // Event_FacingIdeal
+		return true;
+	};
+	if(functionNameHash == 187446) { // Event_FaceEnemy
+		return true;
+	};
+	if(functionNameHash == 241402) { // Event_GetCombatNode
+		return true;
+	};
+	if(functionNameHash == 178493) { // Event_WaitMove
+		return true;
+	};
+	if(functionNameHash == 244513) { // Event_GetTalkTarget
+		return true;
+	};
+	if(functionNameHash == 204053) { // Event_EnemyRange
+		return true;
+	};
+	if(functionNameHash == 220051) { // Event_EnemyRange2D
+		return true;
+	};
+	if(functionNameHash == 160816) { // Event_IsAwake
+		return true;
+	};
+	if(functionNameHash == 176796) { // Event_GetEnemy
+		return true;
+	};
+	if(functionNameHash == 217835) { // Event_GetEnemyPos
+		return true;
+	};
+	if(functionNameHash == 257779) { // Event_GetEnemyEyePos
+		return true;
+	};
+	if(functionNameHash == 214401) { // Event_CanHitEnemy
+		return true;
+	};
+	if(functionNameHash == 322380) { // Event_EnemyPositionValid
+		return true;
+	};
+	if(functionNameHash == 286460) { // Event_TestChargeAttack
+		return true;
+	};
+	if(functionNameHash == 272685) { // Event_TestMeleeAttack
+		return true;
+	};
+	if(functionNameHash == 125610) { // Event_Burn
+		return true;
+	};
+	if(functionNameHash == 164022) { // Event_PreBurn
+		return true;
+	};
+	if(functionNameHash == 189577) { // Event_ClearBurn
+		return true;
+	};
+	if(functionNameHash == 294369) { // Event_NumSmokeEmitters
+		return true;
+	};
+	if(functionNameHash == 237274) { // Event_StopThinking
+		return true;
+	};
+	if(functionNameHash == 231201) { // Event_GetTurnDelta
+		return true;
+	};
+	if(functionNameHash == 218963) { // Event_GetMoveType
+		return true;
+	};
+	if(functionNameHash == 177724) { // Event_SaveMove
+		return true;
+	};
+	if(functionNameHash == 223233) { // Event_RestoreMove
+		return true;
+	};
+	if(functionNameHash == 190609) { // Event_JumpFrame
+		return true;
+	};
+	if(functionNameHash == 200476) { // Event_EnableClip
+		return true;
+	};
+	if(functionNameHash == 215122) { // Event_DisableClip
+		return true;
+	};
+	if(functionNameHash == 248060) { // Event_EnableGravity
+		return true;
+	};
+	if(functionNameHash == 263056) { // Event_DisableGravity
+		return true;
+	};
+	if(functionNameHash == 222212) { // Event_EnableAFPush
+		return true;
+	};
+	if(functionNameHash == 237017) { // Event_DisableAFPush
+		return true;
+	};
+	if(functionNameHash == 258642) { // Event_ClearFlyOffset
+		return true;
+	};
+	if(functionNameHash == 250014) { // Event_ThrowMoveable
+		return true;
+	};
+	if(functionNameHash == 159321) { // Event_ThrowAF
+		return true;
+	};
+	if(functionNameHash == 189068) { // Event_GetAngles
+		return true;
+	};
+	if(functionNameHash == 367056) { // Event_GetTrajectoryToPlayer
+		return true;
+	};
+	if(functionNameHash == 174908) { // Event_RealKill
+		return true;
+	};
+	if(functionNameHash == 124205) { // Event_Kill
+		return true;
+	};
+	if(functionNameHash == 218562) { // Event_LocateEnemy
+		return true;
+	};
+	if(functionNameHash == 217371) { // Event_GetObstacle
+		return true;
+	};
+	if(functionNameHash == 218372) { // Event_GetTurnRate
+		return true;
+	};
+	if(functionNameHash == 240412) { // Event_CanReachEnemy
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idCombatNode::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -4986,9 +9106,30 @@ intptr_t idCombatNode::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool idCombatNode::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 121183) { // IsDisabled
+		return true;
+	};
+	if(functionNameHash == 176427) { // Event_MarkUsed
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idAI_Vagary::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idAI_Vagary::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -5024,6 +9165,81 @@ intptr_t rvmAI_Follower::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool rvmAI_Follower::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 48744) { // Init
+		return true;
+	};
+	if(functionNameHash == 130066) { // state_idle
+		return true;
+	};
+	if(functionNameHash == 211350) { // state_idle_frame
+		return true;
+	};
+	if(functionNameHash == 161762) { // state_follow
+		return true;
+	};
+	if(functionNameHash == 244282) { // state_follow_frame
+		return true;
+	};
+	if(functionNameHash == 215431) { // state_get_closer
+		return true;
+	};
+	if(functionNameHash == 157871) { // state_killed
+		return true;
+	};
+	if(functionNameHash == 199463) { // state_talk_anim
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
+intptr_t rvmMonsterZombie::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 48744) { // Init
+		Init();
+		return 0;
+	};
+	if(functionNameHash == 88222) { // AI_Begin
+		AI_Begin();
+		return 0;
+	};
+	if(functionNameHash == 139384) { // state_Begin
+		state_Begin((stateParms_t *)param1);
+		return 0;
+	};
+	if(functionNameHash == 126066) { // state_Idle
+		return (intptr_t)state_Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 154980) { // combat_melee
+		return (intptr_t)combat_melee((stateParms_t *)param1);
+	};
+	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmMonsterZombie::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 48744) { // Init
+		return true;
+	};
+	if(functionNameHash == 88222) { // AI_Begin
+		return true;
+	};
+	if(functionNameHash == 139384) { // state_Begin
+		return true;
+	};
+	if(functionNameHash == 126066) { // state_Idle
+		return true;
+	};
+	if(functionNameHash == 154980) { // combat_melee
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t idTestModel::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 63102) { // Spawn
@@ -5043,6 +9259,24 @@ intptr_t idTestModel::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idTestModel::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 476562) { // ShouldConstructScriptObjectAtSpawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 183671) { // Event_Footstep
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -5075,6 +9309,30 @@ intptr_t rvmWeaponFist::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool rvmWeaponFist::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 132482) { // GetFireAnim
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t rvmWeaponPistol::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
@@ -5102,6 +9360,30 @@ intptr_t rvmWeaponPistol::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmWeaponPistol::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 162113) { // HasWaitSignal
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -5139,6 +9421,33 @@ intptr_t rvmWeaponFlashlight::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool rvmWeaponFlashlight::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 125553) { // UpdateSkin
+		return true;
+	};
+	if(functionNameHash == 268148) { // UpdateLightIntensity
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t rvmWeaponPDA::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
@@ -5162,6 +9471,27 @@ intptr_t rvmWeaponPDA::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmWeaponPDA::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -5195,6 +9525,30 @@ intptr_t rvmWeaponShotgun::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool rvmWeaponShotgun::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 162113) { // HasWaitSignal
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t rvmWeaponDoubleShotgun::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
@@ -5222,6 +9576,30 @@ intptr_t rvmWeaponDoubleShotgun::Invoke(const char *functionName, void *param1) 
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmWeaponDoubleShotgun::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 162113) { // HasWaitSignal
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -5255,6 +9633,30 @@ intptr_t rvmWeaponMachineGun::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool rvmWeaponMachineGun::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 162113) { // HasWaitSignal
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t rvmWeaponPlasmaGun::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
@@ -5282,6 +9684,30 @@ intptr_t rvmWeaponPlasmaGun::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmWeaponPlasmaGun::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 162113) { // HasWaitSignal
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -5327,6 +9753,39 @@ intptr_t rvmWeaponChainGun::Invoke(const char *functionName, void *param1) {
 
 };
 
+bool rvmWeaponChainGun::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 162113) { // HasWaitSignal
+		return true;
+	};
+	if(functionNameHash == 150892) { // UpdateBarrel
+		return true;
+	};
+	if(functionNameHash == 73785) { // SpinUp
+		return true;
+	};
+	if(functionNameHash == 100305) { // SpinDown
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t rvmWeaponRocketLauncher::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
@@ -5357,6 +9816,30 @@ intptr_t rvmWeaponRocketLauncher::Invoke(const char *functionName, void *param1)
 
 };
 
+bool rvmWeaponRocketLauncher::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 125553) { // UpdateSkin
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
 intptr_t rvmWeaponBFG::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
@@ -5384,6 +9867,30 @@ intptr_t rvmWeaponBFG::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmWeaponBFG::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 123325) { // OverCharge
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -5438,6 +9945,48 @@ intptr_t rvmWeaponGrabber::Invoke(const char *functionName, void *param1) {
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmWeaponGrabber::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 60556) { // Raise
+		return true;
+	};
+	if(functionNameHash == 46077) { // Idle
+		return true;
+	};
+	if(functionNameHash == 47046) { // Fire
+		return true;
+	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
+	if(functionNameHash == 72819) { // Reload
+		return true;
+	};
+	if(functionNameHash == 81139) { // CanFire
+		return true;
+	};
+	if(functionNameHash == 162113) { // HasWaitSignal
+		return true;
+	};
+	if(functionNameHash == 140229) { // StartActive
+		return true;
+	};
+	if(functionNameHash == 126807) { // StopActive
+		return true;
+	};
+	if(functionNameHash == 225303) { // StartWarningSound
+		return true;
+	};
+	if(functionNameHash == 237121) { // UpdateWarningSound
+		return true;
+	};
+	if(functionNameHash == 176832) { // UpdateGuiLight
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 
@@ -5515,6 +10064,72 @@ intptr_t idThread::Invoke(const char *functionName, void *param1) {
 		return (intptr_t)GetThreadName();
 	};
 	return __super::Invoke(functionName, param1);
+
+};
+
+bool idThread::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 149674) { // ManualDelete
+		return true;
+	};
+	if(functionNameHash == 184974) { // EnableDebugInfo
+		return true;
+	};
+	if(functionNameHash == 199457) { // DisableDebugInfo
+		return true;
+	};
+	if(functionNameHash == 110282) { // WaitFrame
+		return true;
+	};
+	if(functionNameHash == 139251) { // DisplayInfo
+		return true;
+	};
+	if(functionNameHash == 206780) { // IsDoneProcessing
+		return true;
+	};
+	if(functionNameHash == 84907) { // IsDying
+		return true;
+	};
+	if(functionNameHash == 33511) { // End
+		return true;
+	};
+	if(functionNameHash == 88310) { // Execute
+		return true;
+	};
+	if(functionNameHash == 168173) { // ManualControl
+		return true;
+	};
+	if(functionNameHash == 181407) { // DoneProcessing
+		return true;
+	};
+	if(functionNameHash == 241236) { // ContinueProcessing
+		return true;
+	};
+	if(functionNameHash == 137371) { // ThreadDying
+		return true;
+	};
+	if(functionNameHash == 108234) { // EndThread
+		return true;
+	};
+	if(functionNameHash == 112213) { // IsWaiting
+		return true;
+	};
+	if(functionNameHash == 147984) { // ClearWaitFor
+		return true;
+	};
+	if(functionNameHash == 63710) { // Start
+		return true;
+	};
+	if(functionNameHash == 190527) { // WaitingOnThread
+		return true;
+	};
+	if(functionNameHash == 148575) { // GetThreadNum
+		return true;
+	};
+	if(functionNameHash == 159226) { // GetThreadName
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
 
 };
 

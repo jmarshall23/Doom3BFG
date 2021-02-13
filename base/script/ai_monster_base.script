@@ -35,8 +35,6 @@ base class for all monsters.  implements common behavior.
 
 object monster_base : ai {
 	// common state variables
-	float		run_distance;			// distance to trigger running when chasing enemy
-	float		walk_turn;				// max turn amount allowed when running
 	boolean		run;
 
 	float		customBlendOut;

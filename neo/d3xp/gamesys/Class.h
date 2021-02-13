@@ -134,6 +134,7 @@ public:																	\
 	static	idClass							*CreateInstance();	\
 	virtual	idTypeInfo						*GetType() const;		\
 	virtual intptr_t Invoke(const char* functionName, void *param1) override; \
+	virtual bool	 HasNativeFunction(const char* functionName) override; \
 	static	idEventFunc<nameofclass>		eventCallbacks[]
 
 
@@ -248,6 +249,7 @@ public:
 	void						FindUninitializedMemory();
 
 	virtual intptr_t Invoke( const char* functionName, void* param1);
+	virtual bool	 HasNativeFunction(const char* functionName);
 
 	void						Save( idSaveGame* savefile ) const {};
 	void						Restore( idRestoreGame* savefile ) {};

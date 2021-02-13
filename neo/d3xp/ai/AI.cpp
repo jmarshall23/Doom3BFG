@@ -1503,6 +1503,8 @@ idAI::LinkScriptVariables
 */
 void idAI::LinkScriptVariables()
 {
+	run_distance.LinkTo(scriptObject, "run_distance");
+	walk_turn.LinkTo(scriptObject, "walk_turn");
 	ambush.LinkTo(scriptObject, "ambush");
 	ignoreEnemies.LinkTo(scriptObject, "ignoreEnemies");
 	stay_on_attackpath.LinkTo(scriptObject, "stay_on_attackpath");
@@ -1514,6 +1516,7 @@ void idAI::LinkScriptVariables()
 	AI_SPECIAL_DAMAGE.LinkTo(	scriptObject, "AI_SPECIAL_DAMAGE" );
 	AI_DEAD.LinkTo(	scriptObject, "AI_DEAD" );
 	AI_RUN.LinkTo(	scriptObject, "AI_RUN" );
+	AI_ATTACKING.LinkTo(scriptObject, "AI_ATTACKING");
 	AI_ENEMY_VISIBLE.LinkTo(	scriptObject, "AI_ENEMY_VISIBLE" );
 	AI_ENEMY_IN_FOV.LinkTo(	scriptObject, "AI_ENEMY_IN_FOV" );
 	AI_ENEMY_DEAD.LinkTo(	scriptObject, "AI_ENEMY_DEAD" );
@@ -5867,6 +5870,8 @@ void idAI::CallConstructor(void) {
 		// just set the current function on the script.  we'll execute in the subclasses.
 		scriptThread->CallFunction(this, constructor, true);
 	}
+
+	AI_Begin();
 }
 
 void idAI::TriggerFX( const char* joint, const char* fx )
