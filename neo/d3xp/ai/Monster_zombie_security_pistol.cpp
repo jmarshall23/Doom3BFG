@@ -396,6 +396,7 @@ stateResult_t rvmMonsterZombieSecurityPistol::crouch_attack(stateParms_t* parms)
 					crouch_fire = false;
 					Event_SetAnimPrefix("");
 					do_attack(attack_flags);
+					stateThread.PostState("state_Combat");
 					return SRESULT_DONE;
 				}
 			}
@@ -451,6 +452,8 @@ stateResult_t rvmMonsterZombieSecurityPistol::combat_dodge_left(stateParms_t* pa
 	{
 		return SRESULT_WAIT;
 	}
+
+	parms->stage = 2;
 	
 	nextDodge = gameLocal.DelayTime(ZSECP_DODGE_RATE);
 	return SRESULT_DONE;
@@ -476,6 +479,8 @@ stateResult_t rvmMonsterZombieSecurityPistol::combat_dodge_right(stateParms_t* p
 	{
 		return SRESULT_WAIT;
 	}
+
+	parms->stage = 2;
 
 	nextDodge = gameLocal.DelayTime(ZSECP_DODGE_RATE);
 	return SRESULT_DONE;
