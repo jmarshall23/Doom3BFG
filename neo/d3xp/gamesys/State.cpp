@@ -297,14 +297,6 @@ stateResult_t rvStateThread::Execute( void )
 		// Debugging
 		if( lastResult != SRESULT_WAIT )
 		{
-			//if ( *g_debugState.GetString ( ) && (*g_debugState.GetString ( ) == '*' || !idStr::Icmp ( g_debugState.GetString ( ), name ) ) ) {
-			//	if ( call->parms.stage ) {
-			//		gameLocal.Printf ( "%s: %s (%d)\n", name.c_str(), call->state->name, call->parms.stage );
-			//	} else {
-			//		gameLocal.Printf ( "%s: %s\n", name.c_str(), call->state->name );
-			//	}
-			//}
-
 			// Keep a history of the called states so we can dump them on an overflow
 			historyState[historyEnd] = call->state;
 			historyStage[historyEnd] = call->parms.stage;
@@ -319,8 +311,16 @@ stateResult_t rvStateThread::Execute( void )
 		stateName  = call->state;
 		stateStage = call->parms.stage;
 
-		// Actually call the state function
-		//owner->SetStateParms(call->parms);
+		if (g_debugState.GetBool()) {
+			if (call->parms.stage) {
+				gameLocal.Printf("%s: %s (%d)\n", name.c_str(), call->state.c_str(), call->parms.stage);
+			}
+			else {
+				gameLocal.Printf("%s: %s\n", name.c_str(), call->state.c_str());
+			}
+		}
+
+		// Actually call the state function		
 		lastResult = ( stateResult_t )owner->Invoke( call->state, &call->parms );
 		switch( lastResult )
 		{

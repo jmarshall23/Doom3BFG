@@ -426,6 +426,8 @@ done:
 	// don't attack for a bit
 	nextAttack = gameLocal.RandomDelay(ZSECP_ATTACK_DELAY_MIN, ZSECP_ATTACK_DELAY_MAX);
 	nextNoFOVAttack = gameLocal.SysScriptTime() + ZSECP_NOFOVTIME;
+
+	return SRESULT_DONE;
 }
 
 
