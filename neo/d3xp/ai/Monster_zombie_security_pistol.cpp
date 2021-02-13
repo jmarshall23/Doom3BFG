@@ -208,17 +208,16 @@ stateResult_t rvmMonsterZombieSecurityPistol::stand_attack(stateParms_t* parms) 
 	//float endtime;
 	float left;
 	float right;
-	boolean do_run_attack;
 
 	if (parms->stage == 0)
 	{
 		zsecp_num_stand_attacks++;
 
 		if (gameLocal.Random(10) < 6) {
-			do_run_attack = run_attack;
+			parms->param2 = run_attack;
 		}
 		else {
-			do_run_attack = false;
+			parms->param2 = false;
 		}
 
 		fire = true;
@@ -251,7 +250,7 @@ stateResult_t rvmMonsterZombieSecurityPistol::stand_attack(stateParms_t* parms) 
 			}
 
 			Event_LookAtEnemy(1.0f);
-			if (!do_run_attack || (EnemyRange() < 90)) {
+			if (!parms->param2 || (EnemyRange() < 90)) {
 				Event_FaceEnemy();
 			}
 			else if (!EntityInAttackCone(GetEnemy())) {
