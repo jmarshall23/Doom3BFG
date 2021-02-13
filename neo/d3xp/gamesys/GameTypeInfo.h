@@ -9,7 +9,7 @@
 
 	944 constants
 	90 enums
-	442 classes/structs/unions
+	443 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -5957,6 +5957,10 @@ static classVariableInfo_t rvmMonsterZombieBernie_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static classVariableInfo_t rvmMonsterZombieMorgue_typeInfo[] = {
+	{ NULL, 0 }
+};
+
 static classVariableInfo_t rvmMonsterZombieSecurityPistol_typeInfo[] = {
 	{ ": idEntity *", "combat_node", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->combat_node), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->combat_node ) },
 	{ "idScriptBool", "fire", (intptr_t)(&((rvmMonsterZombieSecurityPistol *)0)->fire), sizeof( ((rvmMonsterZombieSecurityPistol *)0)->fire ) },
@@ -7298,6 +7302,7 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "rvmMonsterZombie", "idAI", sizeof(rvmMonsterZombie), rvmMonsterZombie_typeInfo },
 	{ "rvmMonsterZombieSawyer", "rvmMonsterZombie", sizeof(rvmMonsterZombieSawyer), rvmMonsterZombieSawyer_typeInfo },
 	{ "rvmMonsterZombieBernie", "rvmMonsterZombie", sizeof(rvmMonsterZombieBernie), rvmMonsterZombieBernie_typeInfo },
+	{ "rvmMonsterZombieMorgue", "rvmMonsterZombie", sizeof(rvmMonsterZombieMorgue), rvmMonsterZombieMorgue_typeInfo },
 	{ "rvmMonsterZombieSecurityPistol", "rvmMonsterZombie", sizeof(rvmMonsterZombieSecurityPistol), rvmMonsterZombieSecurityPistol_typeInfo },
 	{ "idTestModel", "idAnimatedEntity", sizeof(idTestModel), idTestModel_typeInfo },
 	{ "rvmWeaponFist", "rvmWeaponObject", sizeof(rvmWeaponFist), rvmWeaponFist_typeInfo },
