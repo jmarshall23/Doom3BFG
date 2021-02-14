@@ -55,6 +55,8 @@ object monster_base : ai {
 	float		check_attacks();
 	void		do_attack( float attack_flags );
 	boolean		checkTurretAttack();				// tests if monster can still do a turret attack from current location
+	
+	void		supports_native();
 
 	// common functions
 	void		init();
@@ -91,6 +93,10 @@ object monster_base : ai {
 	void 		path_show();
 	void		path_attack();
 };
+
+void monster_base::supports_native() {
+	// Let's idAI know we support native states.
+}
 
 /***********************************************************************
 
