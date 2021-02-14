@@ -686,6 +686,7 @@ protected:
 	//
 	// ai/ai_events.cpp
 	//
+	idVec3					GetJumpVelocity(const idVec3& pos, float speed, float max_height);
 	void					Event_Activate( idEntity* activator );
 	idActor*				FindEnemy(int useFOV);
 	void					Event_Touch( idEntity* other, trace_t* trace );
@@ -693,6 +694,7 @@ protected:
 	void					Event_FindEnemyAI( int useFOV );
 	void					Event_CheckForEnemy(float use_fov);
 	void					Event_FindEnemyInCombatNodes();
+	idVec3					PredictEnemyPos(float time);
 	void					Event_ClosestReachableEnemyOfEntity( idEntity* team_mate );
 	void					Event_HeardSound( int ignore_team );
 	void					Event_SetEnemy( idEntity* ent );
@@ -905,6 +907,7 @@ private:
 // Demons
 //
 #include "Monster_demon_hellknight.h"
+#include "Monster_demon_imp.h"
 
 //
 // Flying Monsters

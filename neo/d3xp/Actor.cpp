@@ -3788,29 +3788,37 @@ void idActor::Event_ChooseAnim( int channel, const char* animname )
 idActor::Event_AnimLength
 ================
 */
-void idActor::Event_AnimLength( int channel, const char* animname )
+float idActor::AnimLength(int channel, const char* animname)
 {
 	int anim;
 
-	anim = GetAnim( channel, animname );
-	if( anim )
+	anim = GetAnim(channel, animname);
+	if (anim)
 	{
-		if( channel == ANIMCHANNEL_HEAD )
+		if (channel == ANIMCHANNEL_HEAD)
 		{
-			if( head.GetEntity() )
+			if (head.GetEntity())
 			{
-				idThread::ReturnFloat( MS2SEC( head.GetEntity()->GetAnimator()->AnimLength( anim ) ) );
-				return;
+				return (MS2SEC(head.GetEntity()->GetAnimator()->AnimLength(anim)));
 			}
 		}
 		else
 		{
-			idThread::ReturnFloat( MS2SEC( animator.AnimLength( anim ) ) );
-			return;
+			return (MS2SEC(animator.AnimLength(anim)));
 		}
 	}
 
-	idThread::ReturnFloat( 0.0f );
+	return (0.0f);
+}
+
+/*
+================
+idActor::Event_AnimLength
+================
+*/
+void idActor::Event_AnimLength( int channel, const char* animname )
+{	
+	idThread::ReturnFloat(AnimLength(channel, animname));
 }
 
 /*

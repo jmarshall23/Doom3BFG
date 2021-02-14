@@ -1444,12 +1444,13 @@ void idAI::Event_WaitMove()
 	}
 }
 
+
 /*
 =====================
-idAI::Event_GetJumpVelocity
+idAI::GetJumpVelocity
 =====================
 */
-void idAI::Event_GetJumpVelocity( const idVec3& pos, float speed, float max_height )
+idVec3 idAI::GetJumpVelocity(const idVec3& pos, float speed, float max_height)
 {
 	idVec3 start;
 	idVec3 end;
@@ -1458,31 +1459,40 @@ void idAI::Event_GetJumpVelocity( const idVec3& pos, float speed, float max_heig
 	bool result;
 	idEntity* enemyEnt = enemy.GetEntity();
 
-	if( !enemyEnt )
+	if (!enemyEnt)
 	{
-		idThread::ReturnVector( vec3_zero );
-		return;
+		return (vec3_zero);
 	}
 
 	start = physicsObj.GetOrigin();
 	end = pos;
 	dir = end - start;
 	dist = dir.Normalize();
-	if( dist > 16.0f )
+	if (dist > 16.0f)
 	{
 		dist -= 16.0f;
 		end -= dir * 16.0f;
 	}
 
-	result = PredictTrajectory( start, end, speed, physicsObj.GetGravity(), physicsObj.GetClipModel(), MASK_MONSTERSOLID, max_height, this, enemyEnt, ai_debugMove.GetBool() ? 4000 : 0, dir );
-	if( result )
+	result = PredictTrajectory(start, end, speed, physicsObj.GetGravity(), physicsObj.GetClipModel(), MASK_MONSTERSOLID, max_height, this, enemyEnt, ai_debugMove.GetBool() ? 4000 : 0, dir);
+	if (result)
 	{
-		idThread::ReturnVector( dir * speed );
+		return (dir * speed);
 	}
 	else
 	{
-		idThread::ReturnVector( vec3_zero );
+		return (vec3_zero);
 	}
+}
+
+/*
+=====================
+idAI::Event_GetJumpVelocity
+=====================
+*/
+void idAI::Event_GetJumpVelocity( const idVec3& pos, float speed, float max_height )
+{
+	idThread::ReturnVector(GetJumpVelocity(pos, speed, max_height));
 }
 
 /*
@@ -1720,25 +1730,35 @@ void idAI::Event_GetEnemyEyePos()
 
 /*
 =====================
-idAI::Event_PredictEnemyPos
+idAI::PredictEnemyPos
 =====================
 */
-void idAI::Event_PredictEnemyPos( float time )
+idVec3 idAI::PredictEnemyPos(float time)
 {
 	predictedPath_t path;
 	idActor* enemyEnt = enemy.GetEntity();
 
 	// if no enemy set
-	if( !enemyEnt )
+	if (!enemyEnt)
 	{
-		idThread::ReturnVector( physicsObj.GetOrigin() );
-		return;
+		return (physicsObj.GetOrigin());
 	}
 
 	// predict the enemy movement
-	idAI::PredictPath( enemyEnt, aas, lastVisibleEnemyPos, enemyEnt->GetPhysics()->GetLinearVelocity(), SEC2MS( time ), SEC2MS( time ), ( move.moveType == MOVETYPE_FLY ) ? SE_BLOCKED : ( SE_BLOCKED | SE_ENTER_LEDGE_AREA ), path );
+	idAI::PredictPath(enemyEnt, aas, lastVisibleEnemyPos, enemyEnt->GetPhysics()->GetLinearVelocity(), SEC2MS(time), SEC2MS(time), (move.moveType == MOVETYPE_FLY) ? SE_BLOCKED : (SE_BLOCKED | SE_ENTER_LEDGE_AREA), path);
 
-	idThread::ReturnVector( path.endPos );
+	return (path.endPos);
+}
+
+
+/*
+=====================
+idAI::Event_PredictEnemyPos
+=====================
+*/
+void idAI::Event_PredictEnemyPos( float time )
+{	
+	idThread::ReturnVector(PredictEnemyPos(time));
 }
 
 /*
