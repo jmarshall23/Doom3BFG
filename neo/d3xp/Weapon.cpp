@@ -164,6 +164,7 @@ idWeapon::idWeapon()
 	isFiring = false;
 	isLinked = false;
 	currentWeaponObject = nullptr;
+	isFlashLight = false;
 
 	memset( &guiLight, 0, sizeof( guiLight ) );
 	memset( &muzzleFlash, 0, sizeof( muzzleFlash ) );
@@ -260,6 +261,8 @@ void idWeapon::SetFlashlightOwner( idPlayer* _owner )
 	assert( !owner );
 	owner = _owner;
 	SetName( va( "%s_weapon_flashlight", owner->name.c_str() ) );
+
+	isFlashLight = true;
 
 	if( worldModel.GetEntity() )
 	{
@@ -1773,6 +1776,9 @@ idWeapon::Think
 */
 void idWeapon::Think()
 {
+	if (isFlashLight)
+		return;
+
 	if( currentWeaponObject )
 	{
 		if( idealState == WP_READY )

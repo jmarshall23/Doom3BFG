@@ -140,7 +140,7 @@ void rvmWeaponFist::Fire()
 		case FIRE_NOTSET:
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, GetFireAnim(), false );
 			firingState = FIRE_MELEE;
-			Wait( 0.1f );
+			//Wait( 0.1f );
 			break;
 
 		case FIRE_MELEE:

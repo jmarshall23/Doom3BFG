@@ -4487,6 +4487,7 @@ static classVariableInfo_t idWeapon_typeInfo[] = {
 	{ "float", "hideOffset", (intptr_t)(&((idWeapon *)0)->hideOffset), sizeof( ((idWeapon *)0)->hideOffset ) },
 	{ "bool", "hide", (intptr_t)(&((idWeapon *)0)->hide), sizeof( ((idWeapon *)0)->hide ) },
 	{ "bool", "disabled", (intptr_t)(&((idWeapon *)0)->disabled), sizeof( ((idWeapon *)0)->disabled ) },
+	{ "bool", "isFlashLight", (intptr_t)(&((idWeapon *)0)->isFlashLight), sizeof( ((idWeapon *)0)->isFlashLight ) },
 	{ "int", "berserk", (intptr_t)(&((idWeapon *)0)->berserk), sizeof( ((idWeapon *)0)->berserk ) },
 	{ "idVec3", "playerViewOrigin", (intptr_t)(&((idWeapon *)0)->playerViewOrigin), sizeof( ((idWeapon *)0)->playerViewOrigin ) },
 	{ "idMat3", "playerViewAxis", (intptr_t)(&((idWeapon *)0)->playerViewAxis), sizeof( ((idWeapon *)0)->playerViewAxis ) },

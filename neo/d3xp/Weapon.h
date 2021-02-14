@@ -347,6 +347,8 @@ private:
 	bool					hide;
 	bool					disabled;
 
+	bool					isFlashLight;
+
 	// berserk
 	int						berserk;
 
