@@ -8482,6 +8482,18 @@ intptr_t idAI::Invoke(const char *functionName, void *param1) {
 	if(functionNameHash == 133879) { // CanHitEnemy
 		return (intptr_t)CanHitEnemy();
 	};
+	if(functionNameHash == 139265) { // EnemyRange2D
+		EnemyRange2D();
+		return 0;
+	};
+	if(functionNameHash == 202788) { // TestChargeAttack
+		TestChargeAttack();
+		return 0;
+	};
+	if(functionNameHash == 175349) { // GetEnemyEyePos
+		GetEnemyEyePos();
+		return 0;
+	};
 	if(functionNameHash == 370058) { // Event_FindEnemyInCombatNodes
 		Event_FindEnemyInCombatNodes();
 		return 0;
@@ -8980,6 +8992,15 @@ bool idAI::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 133879) { // CanHitEnemy
 		return true;
 	};
+	if(functionNameHash == 139265) { // EnemyRange2D
+		return true;
+	};
+	if(functionNameHash == 202788) { // TestChargeAttack
+		return true;
+	};
+	if(functionNameHash == 175349) { // GetEnemyEyePos
+		return true;
+	};
 	if(functionNameHash == 370058) { // Event_FindEnemyInCombatNodes
 		return true;
 	};
@@ -9276,6 +9297,70 @@ bool rvmAI_Follower::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 199463) { // state_talk_anim
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
+intptr_t rvmMonsterLostSoul::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 48744) { // Init
+		Init();
+		return 0;
+	};
+	if(functionNameHash == 88222) { // AI_Begin
+		AI_Begin();
+		return 0;
+	};
+	if(functionNameHash == 169136) { // check_attacks
+		check_attacks();
+		return 0;
+	};
+	if(functionNameHash == 139384) { // state_Begin
+		state_Begin((stateParms_t *)param1);
+		return 0;
+	};
+	if(functionNameHash == 126066) { // state_Idle
+		return (intptr_t)state_Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 167861) { // combat_charge
+		return (intptr_t)combat_charge((stateParms_t *)param1);
+	};
+	if(functionNameHash == 154980) { // combat_melee
+		return (intptr_t)combat_melee((stateParms_t *)param1);
+	};
+	if(functionNameHash == 186330) { // combat_retreat
+		return (intptr_t)combat_retreat((stateParms_t *)param1);
+	};
+	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmMonsterLostSoul::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 48744) { // Init
+		return true;
+	};
+	if(functionNameHash == 88222) { // AI_Begin
+		return true;
+	};
+	if(functionNameHash == 169136) { // check_attacks
+		return true;
+	};
+	if(functionNameHash == 139384) { // state_Begin
+		return true;
+	};
+	if(functionNameHash == 126066) { // state_Idle
+		return true;
+	};
+	if(functionNameHash == 167861) { // combat_charge
+		return true;
+	};
+	if(functionNameHash == 154980) { // combat_melee
+		return true;
+	};
+	if(functionNameHash == 186330) { // combat_retreat
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);

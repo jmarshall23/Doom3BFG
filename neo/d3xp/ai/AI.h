@@ -678,6 +678,11 @@ protected:
 	bool					CanHitEnemy();
 	bool					EntityInAttackCone(idEntity* ent);
 
+	float					EnemyRange2D();
+	float					TestChargeAttack();
+
+	idVec3					GetEnemyEyePos();
+
 	//
 	// ai/ai_events.cpp
 	//
@@ -894,6 +899,8 @@ private:
 	stateResult_t state_killed(stateParms_t* parms);
 	stateResult_t state_talk_anim(stateParms_t* parms);
 };
+
+#include "Monster_flying_lostsoul.h"
 
 //
 // Zombie Monsters

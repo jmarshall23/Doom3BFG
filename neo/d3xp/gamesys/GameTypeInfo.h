@@ -9,7 +9,7 @@
 
 	944 constants
 	90 enums
-	445 classes/structs/unions
+	446 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -5942,6 +5942,17 @@ static classVariableInfo_t rvmAI_Follower_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static classVariableInfo_t rvmMonsterLostSoul_typeInfo[] = {
+	{ ": float", "nextAttack", (intptr_t)(&((rvmMonsterLostSoul *)0)->nextAttack), sizeof( ((rvmMonsterLostSoul *)0)->nextAttack ) },
+	{ "float", "nextNoFOVAttack", (intptr_t)(&((rvmMonsterLostSoul *)0)->nextNoFOVAttack), sizeof( ((rvmMonsterLostSoul *)0)->nextNoFOVAttack ) },
+	{ "float", "noMeleeTime", (intptr_t)(&((rvmMonsterLostSoul *)0)->noMeleeTime), sizeof( ((rvmMonsterLostSoul *)0)->noMeleeTime ) },
+	{ "float", "fly_offset", (intptr_t)(&((rvmMonsterLostSoul *)0)->fly_offset), sizeof( ((rvmMonsterLostSoul *)0)->fly_offset ) },
+	{ ": idVec3", "vel", (intptr_t)(&((rvmMonsterLostSoul *)0)->vel), sizeof( ((rvmMonsterLostSoul *)0)->vel ) },
+	{ "idVec3", "pos", (intptr_t)(&((rvmMonsterLostSoul *)0)->pos), sizeof( ((rvmMonsterLostSoul *)0)->pos ) },
+	{ "float", "endtime", (intptr_t)(&((rvmMonsterLostSoul *)0)->endtime), sizeof( ((rvmMonsterLostSoul *)0)->endtime ) },
+	{ NULL, 0 }
+};
+
 static classVariableInfo_t rvmMonsterZombie_typeInfo[] = {
 	{ ": idScriptBool", "can_run", (intptr_t)(&((rvmMonsterZombie *)0)->can_run), sizeof( ((rvmMonsterZombie *)0)->can_run ) },
 	{ NULL, 0 }
@@ -7319,6 +7330,7 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "idCombatNode", "idEntity", sizeof(idCombatNode), idCombatNode_typeInfo },
 	{ "idAI_Vagary", "idAI", sizeof(idAI_Vagary), idAI_Vagary_typeInfo },
 	{ "rvmAI_Follower", "idAI", sizeof(rvmAI_Follower), rvmAI_Follower_typeInfo },
+	{ "rvmMonsterLostSoul", "idAI", sizeof(rvmMonsterLostSoul), rvmMonsterLostSoul_typeInfo },
 	{ "rvmMonsterZombie", "idAI", sizeof(rvmMonsterZombie), rvmMonsterZombie_typeInfo },
 	{ "rvmMonsterZombieSawyer", "rvmMonsterZombie", sizeof(rvmMonsterZombieSawyer), rvmMonsterZombieSawyer_typeInfo },
 	{ "rvmMonsterZombieBernie", "rvmMonsterZombie", sizeof(rvmMonsterZombieBernie), rvmMonsterZombieBernie_typeInfo },

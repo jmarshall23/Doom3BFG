@@ -1647,17 +1647,17 @@ float idAI::EnemyRange(void)
 
 /*
 =====================
-idAI::Event_EnemyRange2D
+idAI::EnemyRange2D
 =====================
 */
-void idAI::Event_EnemyRange2D()
+float idAI::EnemyRange2D()
 {
 	float dist;
 	idActor* enemyEnt = enemy.GetEntity();
 
-	if( enemyEnt )
+	if (enemyEnt)
 	{
-		dist = ( enemyEnt->GetPhysics()->GetOrigin().ToVec2() - GetPhysics()->GetOrigin().ToVec2() ).Length();
+		dist = (enemyEnt->GetPhysics()->GetOrigin().ToVec2() - GetPhysics()->GetOrigin().ToVec2()).Length();
 	}
 	else
 	{
@@ -1665,7 +1665,17 @@ void idAI::Event_EnemyRange2D()
 		dist = idMath::INFINITY;
 	}
 
-	idThread::ReturnFloat( dist );
+	return dist;
+}
+
+/*
+=====================
+idAI::Event_EnemyRange2D
+=====================
+*/
+void idAI::Event_EnemyRange2D()
+{
+	idThread::ReturnFloat(EnemyRange2D());
 }
 
 /*
@@ -1693,9 +1703,19 @@ void idAI::Event_GetEnemyPos()
 idAI::Event_GetEnemyEyePos
 =====================
 */
+idVec3 idAI::GetEnemyEyePos()
+{
+	return (lastVisibleEnemyPos + lastVisibleEnemyEyeOffset);
+}
+
+/*
+=====================
+idAI::Event_GetEnemyEyePos
+=====================
+*/
 void idAI::Event_GetEnemyEyePos()
 {
-	idThread::ReturnVector( lastVisibleEnemyPos + lastVisibleEnemyEyeOffset );
+	idThread::ReturnVector(GetEnemyEyePos());
 }
 
 /*
@@ -2047,23 +2067,22 @@ void idAI::Event_ChargeAttack( const char* damageDef )
 
 /*
 =====================
-idAI::Event_TestChargeAttack
+idAI::estChargeAttack
 =====================
 */
-void idAI::Event_TestChargeAttack()
+float idAI::TestChargeAttack()
 {
 	trace_t trace;
 	idActor* enemyEnt = enemy.GetEntity();
 	predictedPath_t path;
 	idVec3 end;
 
-	if( !enemyEnt )
+	if (!enemyEnt)
 	{
-		idThread::ReturnFloat( 0.0f );
-		return;
+		return 0.0f;
 	}
 
-	if( move.moveType == MOVETYPE_FLY )
+	if (move.moveType == MOVETYPE_FLY)
 	{
 		// position destination so that we're in the enemy's view
 		end = enemyEnt->GetEyePosition();
@@ -2074,24 +2093,34 @@ void idAI::Event_TestChargeAttack()
 		end = enemyEnt->GetPhysics()->GetOrigin();
 	}
 
-	idAI::PredictPath( this, aas, physicsObj.GetOrigin(), end - physicsObj.GetOrigin(), 1000, 1000, ( move.moveType == MOVETYPE_FLY ) ? SE_BLOCKED : ( SE_ENTER_OBSTACLE | SE_BLOCKED | SE_ENTER_LEDGE_AREA ), path );
+	idAI::PredictPath(this, aas, physicsObj.GetOrigin(), end - physicsObj.GetOrigin(), 1000, 1000, (move.moveType == MOVETYPE_FLY) ? SE_BLOCKED : (SE_ENTER_OBSTACLE | SE_BLOCKED | SE_ENTER_LEDGE_AREA), path);
 
-	if( ai_debugMove.GetBool() )
+	if (ai_debugMove.GetBool())
 	{
-		gameRenderWorld->DebugLine( colorGreen, physicsObj.GetOrigin(), end, 1 );
-		gameRenderWorld->DebugBounds( path.endEvent == 0 ? colorYellow : colorRed, physicsObj.GetBounds(), end, 1 );
+		gameRenderWorld->DebugLine(colorGreen, physicsObj.GetOrigin(), end, 1);
+		gameRenderWorld->DebugBounds(path.endEvent == 0 ? colorYellow : colorRed, physicsObj.GetBounds(), end, 1);
 	}
 
-	if( ( path.endEvent == 0 ) || ( path.blockingEntity == enemyEnt ) )
+	if ((path.endEvent == 0) || (path.blockingEntity == enemyEnt))
 	{
 		idVec3 delta = end - physicsObj.GetOrigin();
 		float time = delta.LengthFast();
-		idThread::ReturnFloat( time );
+		return time;
 	}
 	else
 	{
-		idThread::ReturnFloat( 0.0f );
+		return 0.0f;
 	}
+}
+
+/*
+=====================
+idAI::Event_TestChargeAttack
+=====================
+*/
+void idAI::Event_TestChargeAttack()
+{
+	idThread::ReturnFloat(TestChargeAttack());
 }
 
 /*
