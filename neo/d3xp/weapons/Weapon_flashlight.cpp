@@ -40,8 +40,6 @@ void rvmWeaponFlashlight::Init( idWeapon* weapon )
 	on = true;
 
 	UpdateSkin();
-
-	weapon->WeaponState( WP_RISING, 0 );
 }
 
 /*
@@ -90,7 +88,7 @@ void rvmWeaponFlashlight::UpdateSkin( void )
 rvmWeaponFlashlight::Raise
 ================
 */
-void rvmWeaponFlashlight::Raise( void )
+stateResult_t rvmWeaponFlashlight::Raise(stateParms_t* parms)
 {
 	enum RisingState
 	{
@@ -98,23 +96,22 @@ void rvmWeaponFlashlight::Raise( void )
 		RISING_WAIT
 	};
 
-	switch( risingState )
+	switch (parms->stage)
 	{
-		case RISING_NOTSET:
-			owner->Event_WeaponRising();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
-			risingState = RISING_WAIT;
-			break;
+	case RISING_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
+		parms->stage = RISING_WAIT;
+		return SRESULT_WAIT;
 
-		case RISING_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, FLASHLIGHT_RAISE_TO_IDLE ) )
-			{
-				owner->WeaponState( WP_IDLE, FLASHLIGHT_RAISE_TO_IDLE );
-				risingState = RISING_NOTSET;
-				isRisen = true;
-			}
-			break;
+	case RISING_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, FLASHLIGHT_RAISE_TO_IDLE))
+		{
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -122,7 +119,7 @@ void rvmWeaponFlashlight::Raise( void )
 rvmWeaponFlashlight::Lower
 ================
 */
-void rvmWeaponFlashlight::Lower()
+stateResult_t rvmWeaponFlashlight::Lower(stateParms_t* parms)
 {
 	enum LoweringState
 	{
@@ -130,23 +127,23 @@ void rvmWeaponFlashlight::Lower()
 		LOWERING_WAIT
 	};
 
-	switch( loweringState )
+	switch (parms->stage)
 	{
-		case LOWERING_NOTSET:
-			owner->Event_WeaponLowering();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
-			loweringState = LOWERING_WAIT;
-			break;
+	case LOWERING_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
+		parms->stage = LOWERING_WAIT;
+		return SRESULT_WAIT;
 
-		case LOWERING_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
-			{
-				owner->Event_WeaponHolstered();
-				loweringState = LOWERING_NOTSET;
-				isHolstered = true;
-			}
-			break;
+	case LOWERING_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+		{
+			SetState("Holstered");
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -154,7 +151,7 @@ void rvmWeaponFlashlight::Lower()
 rvmWeaponFlashlight::Idle
 ================
 */
-void rvmWeaponFlashlight::Idle()
+stateResult_t rvmWeaponFlashlight::Idle(stateParms_t* parms)
 {
 	enum IdleState
 	{
@@ -162,18 +159,20 @@ void rvmWeaponFlashlight::Idle()
 		IDLE_WAIT
 	};
 
-	switch( idleState )
+	switch (parms->stage)
 	{
-		case IDLE_NOTSET:
-			owner->Event_WeaponReady();
-			owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
-			idleState = IDLE_WAIT;
-			break;
+	case IDLE_NOTSET:
+		owner->Event_WeaponReady();
+		owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle");
+		parms->stage = IDLE_WAIT;
+		return SRESULT_WAIT;
 
-		case IDLE_WAIT:
-			// Do nothing.
-			break;
+	case IDLE_WAIT:
+		// Do nothing.
+		return SRESULT_DONE;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -181,7 +180,7 @@ void rvmWeaponFlashlight::Idle()
 rvmWeaponFlashlight::Fire
 ================
 */
-void rvmWeaponFlashlight::Fire()
+stateResult_t rvmWeaponFlashlight::Fire(stateParms_t* parms)
 {
 	enum FIRE_State
 	{
@@ -190,27 +189,28 @@ void rvmWeaponFlashlight::Fire()
 		FIRE_WAIT
 	};
 
-	switch( firingState )
+	switch( parms->stage )
 	{
 		case FIRE_NOTSET:
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "fire", false );
-			firingState = FIRE_MELEE;
-			Wait( 0.1f );
-			break;
+			parms->stage = FIRE_MELEE;
+			parms->Wait( 0.1f );
+			return SRESULT_WAIT;
 
 		case FIRE_MELEE:
 			owner->Event_Melee();
-			firingState = FIRE_WAIT;
-			break;
+			parms->stage = FIRE_WAIT;
+			return SRESULT_WAIT;
 
 		case FIRE_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, FLASHLIGHT_FIRE_TO_IDLE ) )
 			{
-				owner->WeaponState( WP_IDLE, FLASHLIGHT_FIRE_TO_IDLE );
-				firingState = 0;
+				return SRESULT_DONE;
 			}
-			break;
+			return SRESULT_WAIT;
 	}
+
+	return SRESULT_DONE;
 }
 
 /*
@@ -218,7 +218,7 @@ void rvmWeaponFlashlight::Fire()
 rvmWeaponFlashlight::Reload
 ================
 */
-void rvmWeaponFlashlight::Reload()
+stateResult_t rvmWeaponFlashlight::Reload(stateParms_t* parms)
 {
 	enum RELOAD_State
 	{
@@ -227,27 +227,28 @@ void rvmWeaponFlashlight::Reload()
 		RELOAD_WAIT
 	};
 
-	switch( reloadState )
+	switch( parms->stage )
 	{
 		case RELOAD_NOTSET:
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "reload", false );
-			reloadState = RELOAD_TOGGLEFLASHLIGHT;
-			Wait( 0.2f );
-			break;
+			parms->stage = RELOAD_TOGGLEFLASHLIGHT;
+			parms->Wait( 0.2f );
+			return SRESULT_WAIT;
 
 		case RELOAD_TOGGLEFLASHLIGHT:
 			on = !on;
 			UpdateSkin();
 			owner->Event_Flashlight( on );
-			reloadState = RELOAD_WAIT;
-			break;
+			parms->stage = RELOAD_WAIT;
+			return SRESULT_WAIT;
 
 		case RELOAD_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, FLASHLIGHT_RELOAD_TO_IDLE ) )
 			{
-				owner->WeaponState( WP_IDLE, FLASHLIGHT_RELOAD_TO_IDLE );
-				reloadState = 0;
+				return SRESULT_DONE;
 			}
-			break;
+			return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }

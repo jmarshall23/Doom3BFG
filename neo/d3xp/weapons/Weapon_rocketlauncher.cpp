@@ -33,7 +33,6 @@ void rvmWeaponRocketLauncher::Init( idWeapon* weapon )
 	next_attack = 0;
 	spread = weapon->GetFloat( "spread" );
 	skin_invisible = weapon->GetKey( "skin_invisible" );
-	weapon->WeaponState( WP_RISING, 0 );
 }
 
 /*
@@ -72,7 +71,7 @@ void rvmWeaponRocketLauncher::UpdateSkin()
 rvmWeaponRocketLauncher::Raise
 ===============
 */
-void rvmWeaponRocketLauncher::Raise()
+stateResult_t rvmWeaponRocketLauncher::Raise(stateParms_t* parms)
 {
 	enum RisingState
 	{
@@ -80,23 +79,22 @@ void rvmWeaponRocketLauncher::Raise()
 		RISING_WAIT
 	};
 
-	switch( risingState )
+	switch (parms->stage)
 	{
-		case RISING_NOTSET:
-			owner->Event_WeaponRising();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
-			risingState = RISING_WAIT;
-			break;
+	case RISING_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
+		parms->stage = RISING_WAIT;
+		return SRESULT_WAIT;
 
-		case RISING_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, ROCKETLAUNCHER_RAISE_TO_IDLE ) )
-			{
-				owner->WeaponState( WP_IDLE, ROCKETLAUNCHER_RAISE_TO_IDLE );
-				risingState = RISING_NOTSET;
-				isRisen = true;
-			}
-			break;
+	case RISING_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, ROCKETLAUNCHER_RAISE_TO_IDLE))
+		{
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 
@@ -105,7 +103,7 @@ void rvmWeaponRocketLauncher::Raise()
 rvmWeaponRocketLauncher::Lower
 ===============
 */
-void rvmWeaponRocketLauncher::Lower()
+stateResult_t rvmWeaponRocketLauncher::Lower(stateParms_t* parms)
 {
 	enum LoweringState
 	{
@@ -113,31 +111,30 @@ void rvmWeaponRocketLauncher::Lower()
 		LOWERING_WAIT
 	};
 
-	switch( loweringState )
+	switch (parms->stage)
 	{
-		case LOWERING_NOTSET:
-			owner->Event_WeaponLowering();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
-			loweringState = LOWERING_WAIT;
-			break;
+	case LOWERING_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
+		parms->stage = LOWERING_WAIT;
+		return SRESULT_WAIT;
 
-		case LOWERING_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
-			{
-				owner->Event_WeaponHolstered();
-				loweringState = LOWERING_NOTSET;
-				isHolstered = true;
-			}
-			break;
+	case LOWERING_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+		{
+			SetState("Holstered");
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
-}
 
+	return SRESULT_ERROR;
+}
 /*
 ===============
 rvmWeaponRocketLauncher::Idle
 ===============
 */
-void rvmWeaponRocketLauncher::Idle()
+stateResult_t rvmWeaponRocketLauncher::Idle(stateParms_t* parms)
 {
 	enum IdleState
 	{
@@ -145,18 +142,20 @@ void rvmWeaponRocketLauncher::Idle()
 		IDLE_WAIT
 	};
 
-	switch( idleState )
+	switch (parms->stage)
 	{
-		case IDLE_NOTSET:
-			owner->Event_WeaponReady();
-			owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
-			idleState = IDLE_WAIT;
-			break;
+	case IDLE_NOTSET:
+		owner->Event_WeaponReady();
+		owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle");
+		parms->stage = IDLE_WAIT;
+		return SRESULT_WAIT;
 
-		case IDLE_WAIT:
-			// Do nothing.
-			break;
+	case IDLE_WAIT:
+		// Do nothing.
+		return SRESULT_DONE;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -164,13 +163,13 @@ void rvmWeaponRocketLauncher::Idle()
 rvmWeaponRocketLauncher::Fire
 ===============
 */
-void rvmWeaponRocketLauncher::Fire()
+stateResult_t rvmWeaponRocketLauncher::Fire(stateParms_t* parms)
 {
 	int ammoClip = owner->AmmoInClip();
 
 	if( next_attack >= MS2SEC( gameLocal.realClientTime ) )
 	{
-		return;
+		return SRESULT_DONE;
 	}
 
 	enum FIRE_State
@@ -179,31 +178,33 @@ void rvmWeaponRocketLauncher::Fire()
 		FIRE_WAIT
 	};
 
-	if( ammoClip == 0 && owner->AmmoAvailable() && firingState == 0 )
+	if (ammoClip == 0 && owner->AmmoAvailable() && parms->stage == 0)
 	{
-		owner->WeaponState( WP_RELOAD, ROCKETLAUNCHER_IDLE_TO_RELOAD );
-		return;
+		//owner->WeaponState( WP_RELOAD, PISTOL_IDLE_TO_RELOAD );
+		owner->Reload();
+		return SRESULT_DONE;
 	}
 
-	switch( firingState )
+	switch( parms->stage )
 	{
 		case FIRE_NOTSET:
-			next_attack = MS2SEC( gameLocal.realClientTime ) + ROCKETLAUNCHER_FIREDELAY;
+			next_attack = gameLocal.realClientTime + SEC2MS(ROCKETLAUNCHER_FIREDELAY);
 			owner->Event_LaunchProjectiles( ROCKETLAUNCHER_NUMPROJECTILES, spread, 0, 1, 1 );
 
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "fire", false );
-			firingState = FIRE_WAIT;
-			break;
+			parms->stage = FIRE_WAIT;
+			return SRESULT_WAIT;
 
 		case FIRE_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, ROCKETLAUNCHER_FIRE_TO_IDLE ) )
 			{
 				UpdateSkin();
-				owner->WeaponState( WP_IDLE, ROCKETLAUNCHER_FIRE_TO_IDLE );
-				firingState = 0;
+				return SRESULT_DONE;
 			}
-			break;
+			return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -211,7 +212,7 @@ void rvmWeaponRocketLauncher::Fire()
 rvmWeaponRocketLauncher::Reload
 ===============
 */
-void rvmWeaponRocketLauncher::Reload()
+stateResult_t rvmWeaponRocketLauncher::Reload(stateParms_t* parms)
 {
 	enum RELOAD_State
 	{
@@ -219,22 +220,21 @@ void rvmWeaponRocketLauncher::Reload()
 		RELOAD_WAIT
 	};
 
-	switch( reloadState )
+	switch( parms->stage )
 	{
 		case RELOAD_NOTSET:
-			owner->Event_WeaponReloading();
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "reload", false );
-			reloadState = RELOAD_WAIT;
-			break;
+			parms->stage = RELOAD_WAIT;
+			return SRESULT_WAIT;
 
 		case RELOAD_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, ROCKETLAUNCHER_RELOAD_FRAME ) )
 			{
 				owner->Event_AddToClip( owner->ClipSize() );
 				UpdateSkin();
-				owner->WeaponState( WP_IDLE, ROCKETLAUNCHER_RELOAD_TO_IDLE );
-				reloadState = 0;
+				return SRESULT_DONE;
 			}
-			break;
+			return SRESULT_WAIT;
 	}
+	return SRESULT_ERROR;
 }

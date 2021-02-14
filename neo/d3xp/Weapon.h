@@ -41,19 +41,6 @@ If you have questions concerning this license or the applicable additional terms
 
 extern const idEventDef EV_Weapon_State;
 
-typedef enum
-{
-	WP_NONE,
-	WP_IDLE,
-	WP_READY,
-	WP_OUTOFAMMO,
-	WP_RELOAD,
-	WP_HOLSTERED,
-	WP_RISING,
-	WP_LOWERING,
-	WP_FIRE
-} weaponStatus_t;
-
 typedef int ammo_t;
 static const int AMMO_NUMTYPES = 16;
 
@@ -93,47 +80,25 @@ public:
 
 	virtual void			Init( idWeapon* weapon );
 
-	virtual void			Raise() { }
-	virtual void			Idle() { }
-	virtual void			Fire() { }
-	virtual void			Lower() { }
-	virtual void			Reload() { }
+	void					SetState(const char* state) { stateThread.SetState(state); }
+	void					AppendState(const char* state) { stateThread.PostState(state); }
+	void					Execute(void) { stateThread.Execute(); }
+	bool					IsRunning(void) { return stateThread.IsExecuting(); }
+	bool					IsStateRunning(const char* name) { return stateThread.CurrentStateIs(name); }
 
-	virtual bool			CanFire()
-	{
-		return true;
-	}
+	bool					IsFiring();
 
-	virtual void			ResetStates( void );
+	stateResult_t			Holstered(stateParms_t* parms) { return SRESULT_WAIT; }
 
-	virtual bool			CanSwitchState( void );
+	virtual bool			IsHolstered(void) { return IsStateRunning("Holstered"); }
 
-	virtual bool			HasWaitSignal( void );
-
-	virtual bool			IsHolstered( void )
-	{
-		return isHolstered;
-	}
-	virtual bool			IsRisen( void )
-	{
-		return isRisen;
-	}
 protected:
 	idWeapon* owner;
 
 	const idSoundShader*	FindSound( const char* name );
-
-	bool					isHolstered;
-	bool					isRisen;
-
-	void					Wait( float duration );
 protected:
-	int	risingState;
-	int	loweringState;
-	int idleState;
-	int firingState;
-	int reloadState;
-	float waitDuration;
+	rvStateThread			stateThread;
+	float					next_attack;
 };
 
 class idWeapon : public idAnimatedEntity
@@ -202,11 +167,6 @@ public:
 	void					WeaponStolen();
 	void					ForceAmmoInClip();
 
-	weaponStatus_t			GetStatus()
-	{
-		return status;
-	};
-
 	// Visual presentation
 	void					PresentWeapon( bool showViewModel );
 	int						GetZoomFov();
@@ -273,8 +233,6 @@ public:
 public:
 	virtual void			CallNativeEvent( idStr& name ) override;
 
-	void					SetState( weaponStatus_t state, int blendFrames );
-	void					WeaponState( weaponStatus_t state, int blendFrames );
 	void					Event_SetLightParm( int parmnum, float value );
 	void					Event_SetLightParms( float parm0, float parm1, float parm2, float parm3 );
 
@@ -323,9 +281,6 @@ public:
 		return isLinked;
 	}
 private:
-	weaponStatus_t			status;
-	weaponStatus_t			state;
-	weaponStatus_t			idealState;
 	int						animBlendFrames;
 	int						animDoneTime;
 	bool					isPlayerFlashlight;
@@ -502,6 +457,7 @@ public:
 	void					Event_StopWeaponLight( const char* name );
 private:
 	rvmWeaponObject* currentWeaponObject;
+	bool					OutOfAmmo;
 };
 
 ID_INLINE bool idWeapon::IsWorldModelReady()

@@ -7,9 +7,9 @@
 
 	This file has been generated with the Type Info Generator v1.1 (c) 2004 id Software
 
-	944 constants
-	90 enums
-	449 classes/structs/unions
+	935 constants
+	89 enums
+	448 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -351,15 +351,6 @@ static constantInfo_t constantInfo[] = {
 	{ "int", "idProjectile::LAUNCHED", "2" },
 	{ "int", "idProjectile::FIZZLED", "3" },
 	{ "int", "idProjectile::EXPLODED", "4" },
-	{ "int", "WP_NONE", "0" },
-	{ "int", "WP_IDLE", "1" },
-	{ "int", "WP_READY", "2" },
-	{ "int", "WP_OUTOFAMMO", "3" },
-	{ "int", "WP_RELOAD", "4" },
-	{ "int", "WP_HOLSTERED", "5" },
-	{ "int", "WP_RISING", "6" },
-	{ "int", "WP_LOWERING", "7" },
-	{ "int", "WP_FIRE", "8" },
 	{ "static const int", "AMMO_NUMTYPES", "16" },
 	{ "static const int", "LIGHTID_WORLD_MUZZLE_FLASH", "1" },
 	{ "static const int", "LIGHTID_VIEW_MUZZLE_FLASH", "100" },
@@ -1388,20 +1379,7 @@ static enumValueInfo_t idProjectile_projectileState_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t weaponStatus_t_typeInfo[] = {
-	{ "WP_NONE", 0 },
-	{ "WP_IDLE", 1 },
-	{ "WP_READY", 2 },
-	{ "WP_OUTOFAMMO", 3 },
-	{ "WP_RELOAD", 4 },
-	{ "WP_HOLSTERED", 5 },
-	{ "WP_RISING", 6 },
-	{ "WP_LOWERING", 7 },
-	{ "WP_FIRE", 8 },
-	{ NULL, 0 }
-};
-
-static enumValueInfo_t idWeapon_enum_34_typeInfo[] = {
+static enumValueInfo_t idWeapon_enum_33_typeInfo[] = {
 	{ "EVENT_RELOAD", 2 },
 	{ "EVENT_ENDRELOAD", 3 },
 	{ "EVENT_CHANGESKIN", 4 },
@@ -1409,13 +1387,13 @@ static enumValueInfo_t idWeapon_enum_34_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idLight_enum_35_typeInfo[] = {
+static enumValueInfo_t idLight_enum_34_typeInfo[] = {
 	{ "EVENT_BECOMEBROKEN", 2 },
 	{ "EVENT_MAXEVENTS", 3 },
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t EnvironmentProbe_enum_36_typeInfo[] = {
+static enumValueInfo_t EnvironmentProbe_enum_35_typeInfo[] = {
 	{ "EVENT_BECOMEBROKEN", 2 },
 	{ "EVENT_MAXEVENTS", 3 },
 	{ NULL, 0 }
@@ -1428,7 +1406,7 @@ static enumValueInfo_t itemGiveFlags_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idItem_enum_38_typeInfo[] = {
+static enumValueInfo_t idItem_enum_37_typeInfo[] = {
 	{ "EVENT_PICKUP", 2 },
 	{ "EVENT_RESPAWN", 3 },
 	{ "EVENT_RESPAWNFX", 4 },
@@ -1440,7 +1418,7 @@ static enumValueInfo_t idItem_enum_38_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t FxFader_enum_39_typeInfo[] = {
+static enumValueInfo_t FxFader_enum_38_typeInfo[] = {
 	{ "FX_STATE_OFF", 0 },
 	{ "FX_STATE_RAMPUP", 1 },
 	{ "FX_STATE_RAMPDOWN", 2 },
@@ -1545,7 +1523,7 @@ static enumValueInfo_t gameExpansionType_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_43_typeInfo[] = {
+static enumValueInfo_t enum_42_typeInfo[] = {
 	{ "BERSERK", 0 },
 	{ "INVISIBILITY", 1 },
 	{ "MEGAHEALTH", 2 },
@@ -1558,7 +1536,7 @@ static enumValueInfo_t enum_43_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_44_typeInfo[] = {
+static enumValueInfo_t enum_43_typeInfo[] = {
 	{ "SPEED", 0 },
 	{ "PROJECTILE_DAMAGE", 1 },
 	{ "MELEE_DAMAGE", 2 },
@@ -1566,7 +1544,7 @@ static enumValueInfo_t enum_44_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_45_typeInfo[] = {
+static enumValueInfo_t enum_44_typeInfo[] = {
 	{ "INFLUENCE_NONE", 0 },
 	{ "INFLUENCE_LEVEL1", 1 },
 	{ "INFLUENCE_LEVEL2", 2 },
@@ -1574,7 +1552,7 @@ static enumValueInfo_t enum_45_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idPlayer_enum_46_typeInfo[] = {
+static enumValueInfo_t idPlayer_enum_45_typeInfo[] = {
 	{ "EVENT_IMPULSE", 2 },
 	{ "EVENT_EXIT_TELEPORTER", 3 },
 	{ "EVENT_ABORT_TELEPORTER", 4 },
@@ -1634,7 +1612,7 @@ static enumValueInfo_t moverState_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idExplodingBarrel_enum_52_typeInfo[] = {
+static enumValueInfo_t idExplodingBarrel_enum_51_typeInfo[] = {
 	{ "EVENT_EXPLODE", 2 },
 	{ "EVENT_MAXEVENTS", 3 },
 	{ NULL, 0 }
@@ -1648,7 +1626,7 @@ static enumValueInfo_t idExplodingBarrel_explode_state_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idSecurityCamera_enum_54_typeInfo[] = {
+static enumValueInfo_t idSecurityCamera_enum_53_typeInfo[] = {
 	{ "SCANNING", 0 },
 	{ "LOSINGINTEREST", 1 },
 	{ "ALERT", 2 },
@@ -1656,7 +1634,7 @@ static enumValueInfo_t idSecurityCamera_enum_54_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idBrittleFracture_enum_55_typeInfo[] = {
+static enumValueInfo_t idBrittleFracture_enum_54_typeInfo[] = {
 	{ "EVENT_PROJECT_DECAL", 2 },
 	{ "EVENT_SHATTER", 3 },
 	{ "EVENT_MAXEVENTS", 4 },
@@ -2084,7 +2062,7 @@ static enumValueInfo_t menuSounds_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_89_typeInfo[] = {
+static enumValueInfo_t enum_88_typeInfo[] = {
 	{ "OP_RETURN", 0 },
 	{ "OP_UINC_F", 1 },
 	{ "OP_UINCP_F", 2 },
@@ -2246,29 +2224,28 @@ static enumTypeInfo_t enumTypeInfo[] = {
 	{ "idPlayerStart::enum_30", idPlayerStart_enum_30_typeInfo },
 	{ "idProjectile::enum_31", idProjectile_enum_31_typeInfo },
 	{ "idProjectile::projectileState_t", idProjectile_projectileState_t_typeInfo },
-	{ "weaponStatus_t", weaponStatus_t_typeInfo },
-	{ "idWeapon::enum_34", idWeapon_enum_34_typeInfo },
-	{ "idLight::enum_35", idLight_enum_35_typeInfo },
-	{ "EnvironmentProbe::enum_36", EnvironmentProbe_enum_36_typeInfo },
+	{ "idWeapon::enum_33", idWeapon_enum_33_typeInfo },
+	{ "idLight::enum_34", idLight_enum_34_typeInfo },
+	{ "EnvironmentProbe::enum_35", EnvironmentProbe_enum_35_typeInfo },
 	{ "itemGiveFlags_t", itemGiveFlags_t_typeInfo },
-	{ "idItem::enum_38", idItem_enum_38_typeInfo },
-	{ "FxFader::enum_39", FxFader_enum_39_typeInfo },
+	{ "idItem::enum_37", idItem_enum_37_typeInfo },
+	{ "FxFader::enum_38", FxFader_enum_38_typeInfo },
 	{ "playerIconType_t", playerIconType_t_typeInfo },
 	{ "achievement_t", achievement_t_typeInfo },
 	{ "gameExpansionType_t", gameExpansionType_t_typeInfo },
+	{ "enum_42", enum_42_typeInfo },
 	{ "enum_43", enum_43_typeInfo },
 	{ "enum_44", enum_44_typeInfo },
-	{ "enum_45", enum_45_typeInfo },
-	{ "idPlayer::enum_46", idPlayer_enum_46_typeInfo },
+	{ "idPlayer::enum_45", idPlayer_enum_45_typeInfo },
 	{ "idMover::moveStage_t", idMover_moveStage_t_typeInfo },
 	{ "idMover::moverCommand_t", idMover_moverCommand_t_typeInfo },
 	{ "idMover::moverDir_t", idMover_moverDir_t_typeInfo },
 	{ "idElevator::elevatorState_t", idElevator_elevatorState_t_typeInfo },
 	{ "moverState_t", moverState_t_typeInfo },
-	{ "idExplodingBarrel::enum_52", idExplodingBarrel_enum_52_typeInfo },
+	{ "idExplodingBarrel::enum_51", idExplodingBarrel_enum_51_typeInfo },
 	{ "idExplodingBarrel::explode_state_t", idExplodingBarrel_explode_state_t_typeInfo },
-	{ "idSecurityCamera::enum_54", idSecurityCamera_enum_54_typeInfo },
-	{ "idBrittleFracture::enum_55", idBrittleFracture_enum_55_typeInfo },
+	{ "idSecurityCamera::enum_53", idSecurityCamera_enum_53_typeInfo },
+	{ "idBrittleFracture::enum_54", idBrittleFracture_enum_54_typeInfo },
 	{ "moveType_t", moveType_t_typeInfo },
 	{ "moveCommand_t", moveCommand_t_typeInfo },
 	{ "talkState_t", talkState_t_typeInfo },
@@ -2302,7 +2279,7 @@ static enumTypeInfo_t enumTypeInfo[] = {
 	{ "pdaHandlerWidgets_t", pdaHandlerWidgets_t_typeInfo },
 	{ "scoreboardHandlerWidgets_t", scoreboardHandlerWidgets_t_typeInfo },
 	{ "menuSounds_t", menuSounds_t_typeInfo },
-	{ "enum_89", enum_89_typeInfo },
+	{ "enum_88", enum_88_typeInfo },
 	{ NULL, NULL }
 };
 
@@ -4457,22 +4434,13 @@ static classVariableInfo_t WeaponLight_t_typeInfo[] = {
 
 static classVariableInfo_t rvmWeaponObject_typeInfo[] = {
 	{ ": idWeapon *", "owner", (intptr_t)(&((rvmWeaponObject *)0)->owner), sizeof( ((rvmWeaponObject *)0)->owner ) },
-	{ "bool", "isHolstered", (intptr_t)(&((rvmWeaponObject *)0)->isHolstered), sizeof( ((rvmWeaponObject *)0)->isHolstered ) },
-	{ "bool", "isRisen", (intptr_t)(&((rvmWeaponObject *)0)->isRisen), sizeof( ((rvmWeaponObject *)0)->isRisen ) },
-	{ ": int", "risingState", (intptr_t)(&((rvmWeaponObject *)0)->risingState), sizeof( ((rvmWeaponObject *)0)->risingState ) },
-	{ "int", "loweringState", (intptr_t)(&((rvmWeaponObject *)0)->loweringState), sizeof( ((rvmWeaponObject *)0)->loweringState ) },
-	{ "int", "idleState", (intptr_t)(&((rvmWeaponObject *)0)->idleState), sizeof( ((rvmWeaponObject *)0)->idleState ) },
-	{ "int", "firingState", (intptr_t)(&((rvmWeaponObject *)0)->firingState), sizeof( ((rvmWeaponObject *)0)->firingState ) },
-	{ "int", "reloadState", (intptr_t)(&((rvmWeaponObject *)0)->reloadState), sizeof( ((rvmWeaponObject *)0)->reloadState ) },
-	{ "float", "waitDuration", (intptr_t)(&((rvmWeaponObject *)0)->waitDuration), sizeof( ((rvmWeaponObject *)0)->waitDuration ) },
+	{ ": rvStateThread", "stateThread", (intptr_t)(&((rvmWeaponObject *)0)->stateThread), sizeof( ((rvmWeaponObject *)0)->stateThread ) },
+	{ "float", "next_attack", (intptr_t)(&((rvmWeaponObject *)0)->next_attack), sizeof( ((rvmWeaponObject *)0)->next_attack ) },
 	{ NULL, 0 }
 };
 
 static classVariableInfo_t idWeapon_typeInfo[] = {
-	{ ": weaponStatus_t", "status", (intptr_t)(&((idWeapon *)0)->status), sizeof( ((idWeapon *)0)->status ) },
-	{ "weaponStatus_t", "state", (intptr_t)(&((idWeapon *)0)->state), sizeof( ((idWeapon *)0)->state ) },
-	{ "weaponStatus_t", "idealState", (intptr_t)(&((idWeapon *)0)->idealState), sizeof( ((idWeapon *)0)->idealState ) },
-	{ "int", "animBlendFrames", (intptr_t)(&((idWeapon *)0)->animBlendFrames), sizeof( ((idWeapon *)0)->animBlendFrames ) },
+	{ ": int", "animBlendFrames", (intptr_t)(&((idWeapon *)0)->animBlendFrames), sizeof( ((idWeapon *)0)->animBlendFrames ) },
 	{ "int", "animDoneTime", (intptr_t)(&((idWeapon *)0)->animDoneTime), sizeof( ((idWeapon *)0)->animDoneTime ) },
 	{ "bool", "isPlayerFlashlight", (intptr_t)(&((idWeapon *)0)->isPlayerFlashlight), sizeof( ((idWeapon *)0)->isPlayerFlashlight ) },
 	{ "bool", "isLinked", (intptr_t)(&((idWeapon *)0)->isLinked), sizeof( ((idWeapon *)0)->isLinked ) },
@@ -4571,6 +4539,7 @@ static classVariableInfo_t idWeapon_typeInfo[] = {
 	{ "idGrabber", "grabber", (intptr_t)(&((idWeapon *)0)->grabber), sizeof( ((idWeapon *)0)->grabber ) },
 	{ "int", "grabberState", (intptr_t)(&((idWeapon *)0)->grabberState), sizeof( ((idWeapon *)0)->grabberState ) },
 	{ ": rvmWeaponObject *", "currentWeaponObject", (intptr_t)(&((idWeapon *)0)->currentWeaponObject), sizeof( ((idWeapon *)0)->currentWeaponObject ) },
+	{ "bool", "OutOfAmmo", (intptr_t)(&((idWeapon *)0)->OutOfAmmo), sizeof( ((idWeapon *)0)->OutOfAmmo ) },
 	{ NULL, 0 }
 };
 
@@ -6056,8 +6025,7 @@ static classVariableInfo_t rvmWeaponFist_typeInfo[] = {
 };
 
 static classVariableInfo_t rvmWeaponPistol_typeInfo[] = {
-	{ ": float", "next_attack", (intptr_t)(&((rvmWeaponPistol *)0)->next_attack), sizeof( ((rvmWeaponPistol *)0)->next_attack ) },
-	{ "float", "spread", (intptr_t)(&((rvmWeaponPistol *)0)->spread), sizeof( ((rvmWeaponPistol *)0)->spread ) },
+	{ ": float", "spread", (intptr_t)(&((rvmWeaponPistol *)0)->spread), sizeof( ((rvmWeaponPistol *)0)->spread ) },
 	{ "const idSoundShader *", "snd_lowammo", (intptr_t)(&((rvmWeaponPistol *)0)->snd_lowammo), sizeof( ((rvmWeaponPistol *)0)->snd_lowammo ) },
 	{ NULL, 0 }
 };
@@ -6077,27 +6045,23 @@ static classVariableInfo_t rvmWeaponPDA_typeInfo[] = {
 };
 
 static classVariableInfo_t rvmWeaponShotgun_typeInfo[] = {
-	{ ": float", "next_attack", (intptr_t)(&((rvmWeaponShotgun *)0)->next_attack), sizeof( ((rvmWeaponShotgun *)0)->next_attack ) },
-	{ "float", "spread", (intptr_t)(&((rvmWeaponShotgun *)0)->spread), sizeof( ((rvmWeaponShotgun *)0)->spread ) },
+	{ ": float", "spread", (intptr_t)(&((rvmWeaponShotgun *)0)->spread), sizeof( ((rvmWeaponShotgun *)0)->spread ) },
 	{ "const idSoundShader *", "snd_lowammo", (intptr_t)(&((rvmWeaponShotgun *)0)->snd_lowammo), sizeof( ((rvmWeaponShotgun *)0)->snd_lowammo ) },
 	{ NULL, 0 }
 };
 
 static classVariableInfo_t rvmWeaponDoubleShotgun_typeInfo[] = {
-	{ ": float", "next_attack", (intptr_t)(&((rvmWeaponDoubleShotgun *)0)->next_attack), sizeof( ((rvmWeaponDoubleShotgun *)0)->next_attack ) },
 	{ NULL, 0 }
 };
 
 static classVariableInfo_t rvmWeaponMachineGun_typeInfo[] = {
-	{ ": float", "next_attack", (intptr_t)(&((rvmWeaponMachineGun *)0)->next_attack), sizeof( ((rvmWeaponMachineGun *)0)->next_attack ) },
-	{ "float", "spread", (intptr_t)(&((rvmWeaponMachineGun *)0)->spread), sizeof( ((rvmWeaponMachineGun *)0)->spread ) },
+	{ ": float", "spread", (intptr_t)(&((rvmWeaponMachineGun *)0)->spread), sizeof( ((rvmWeaponMachineGun *)0)->spread ) },
 	{ "const idSoundShader *", "snd_lowammo", (intptr_t)(&((rvmWeaponMachineGun *)0)->snd_lowammo), sizeof( ((rvmWeaponMachineGun *)0)->snd_lowammo ) },
 	{ NULL, 0 }
 };
 
 static classVariableInfo_t rvmWeaponPlasmaGun_typeInfo[] = {
-	{ ": float", "next_attack", (intptr_t)(&((rvmWeaponPlasmaGun *)0)->next_attack), sizeof( ((rvmWeaponPlasmaGun *)0)->next_attack ) },
-	{ "float", "spread", (intptr_t)(&((rvmWeaponPlasmaGun *)0)->spread), sizeof( ((rvmWeaponPlasmaGun *)0)->spread ) },
+	{ ": float", "spread", (intptr_t)(&((rvmWeaponPlasmaGun *)0)->spread), sizeof( ((rvmWeaponPlasmaGun *)0)->spread ) },
 	{ "const idSoundShader *", "snd_lowammo", (intptr_t)(&((rvmWeaponPlasmaGun *)0)->snd_lowammo), sizeof( ((rvmWeaponPlasmaGun *)0)->snd_lowammo ) },
 	{ NULL, 0 }
 };
@@ -6120,36 +6084,17 @@ static classVariableInfo_t rvmWeaponChainGun_typeInfo[] = {
 };
 
 static classVariableInfo_t rvmWeaponRocketLauncher_typeInfo[] = {
-	{ "float", "next_attack", (intptr_t)(&((rvmWeaponRocketLauncher *)0)->next_attack), sizeof( ((rvmWeaponRocketLauncher *)0)->next_attack ) },
 	{ "float", "spread", (intptr_t)(&((rvmWeaponRocketLauncher *)0)->spread), sizeof( ((rvmWeaponRocketLauncher *)0)->spread ) },
 	{ "idStr", "skin_invisible", (intptr_t)(&((rvmWeaponRocketLauncher *)0)->skin_invisible), sizeof( ((rvmWeaponRocketLauncher *)0)->skin_invisible ) },
 	{ NULL, 0 }
 };
 
 static classVariableInfo_t rvmWeaponBFG_typeInfo[] = {
-	{ "float", "next_attack", (intptr_t)(&((rvmWeaponBFG *)0)->next_attack), sizeof( ((rvmWeaponBFG *)0)->next_attack ) },
 	{ "float", "spread", (intptr_t)(&((rvmWeaponBFG *)0)->spread), sizeof( ((rvmWeaponBFG *)0)->spread ) },
 	{ "float", "fuse_start", (intptr_t)(&((rvmWeaponBFG *)0)->fuse_start), sizeof( ((rvmWeaponBFG *)0)->fuse_start ) },
 	{ "float", "fuse_end", (intptr_t)(&((rvmWeaponBFG *)0)->fuse_end), sizeof( ((rvmWeaponBFG *)0)->fuse_end ) },
 	{ "float", "powerLevel", (intptr_t)(&((rvmWeaponBFG *)0)->powerLevel), sizeof( ((rvmWeaponBFG *)0)->powerLevel ) },
 	{ "float", "fire_time", (intptr_t)(&((rvmWeaponBFG *)0)->fire_time), sizeof( ((rvmWeaponBFG *)0)->fire_time ) },
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t rvmWeaponGrabber_typeInfo[] = {
-	{ "const idSoundShader *", "snd_fireloop", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_fireloop), sizeof( ((rvmWeaponGrabber *)0)->snd_fireloop ) },
-	{ "const idSoundShader *", "snd_electroloop", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_electroloop), sizeof( ((rvmWeaponGrabber *)0)->snd_electroloop ) },
-	{ "const idSoundShader *", "snd_mainfire", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_mainfire), sizeof( ((rvmWeaponGrabber *)0)->snd_mainfire ) },
-	{ "const idSoundShader *", "snd_cangrab", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_cangrab), sizeof( ((rvmWeaponGrabber *)0)->snd_cangrab ) },
-	{ "const idSoundShader *", "snd_warning", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_warning), sizeof( ((rvmWeaponGrabber *)0)->snd_warning ) },
-	{ "const idSoundShader *", "snd_stopfire", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_stopfire), sizeof( ((rvmWeaponGrabber *)0)->snd_stopfire ) },
-	{ ": float", "next_attack", (intptr_t)(&((rvmWeaponGrabber *)0)->next_attack), sizeof( ((rvmWeaponGrabber *)0)->next_attack ) },
-	{ "float", "fireStartTime", (intptr_t)(&((rvmWeaponGrabber *)0)->fireStartTime), sizeof( ((rvmWeaponGrabber *)0)->fireStartTime ) },
-	{ "bool", "warningBeep1", (intptr_t)(&((rvmWeaponGrabber *)0)->warningBeep1), sizeof( ((rvmWeaponGrabber *)0)->warningBeep1 ) },
-	{ "bool", "warningBeep2", (intptr_t)(&((rvmWeaponGrabber *)0)->warningBeep2), sizeof( ((rvmWeaponGrabber *)0)->warningBeep2 ) },
-	{ "bool", "warningBeep3", (intptr_t)(&((rvmWeaponGrabber *)0)->warningBeep3), sizeof( ((rvmWeaponGrabber *)0)->warningBeep3 ) },
-	{ "bool", "warningBeep4", (intptr_t)(&((rvmWeaponGrabber *)0)->warningBeep4), sizeof( ((rvmWeaponGrabber *)0)->warningBeep4 ) },
-	{ "float", "grabberState", (intptr_t)(&((rvmWeaponGrabber *)0)->grabberState), sizeof( ((rvmWeaponGrabber *)0)->grabberState ) },
 	{ NULL, 0 }
 };
 
@@ -7381,7 +7326,6 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "rvmWeaponChainGun", "rvmWeaponObject", sizeof(rvmWeaponChainGun), rvmWeaponChainGun_typeInfo },
 	{ "rvmWeaponRocketLauncher", "rvmWeaponObject", sizeof(rvmWeaponRocketLauncher), rvmWeaponRocketLauncher_typeInfo },
 	{ "rvmWeaponBFG", "rvmWeaponObject", sizeof(rvmWeaponBFG), rvmWeaponBFG_typeInfo },
-	{ "rvmWeaponGrabber", "rvmWeaponObject", sizeof(rvmWeaponGrabber), rvmWeaponGrabber_typeInfo },
 	{ "widgetTransition_t", "", sizeof(widgetTransition_t), widgetTransition_t_typeInfo },
 	{ "scoreboardInfo_t", "", sizeof(scoreboardInfo_t), scoreboardInfo_t_typeInfo },
 	{ "idSort_SavesByDate", "idSort_Quick< idSaveGameDetails , idSort_SavesByDate >", sizeof(idSort_SavesByDate), idSort_SavesByDate_typeInfo },

@@ -964,7 +964,7 @@ const int	CINEMATIC_SKIP_DELAY	= SEC2MS( 2.0f );
 #include "weapons/Weapon_chaingun.h"
 #include "weapons/Weapon_rocketlauncher.h"
 #include "weapons/Weapon_bfg.h"
-#include "weapons/Weapon_grabber.h"
+//#include "weapons/Weapon_grabber.h"
 // jmarshall end
 
 // menus

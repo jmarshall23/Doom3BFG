@@ -8,7 +8,6 @@
 CLASS_DECLARATION( rvmWeaponObject, rvmWeaponPDA )
 END_CLASS
 
-
 /*
 ================
 rvmWeaponPDA::Init
@@ -17,8 +16,6 @@ rvmWeaponPDA::Init
 void rvmWeaponPDA::Init( idWeapon* weapon )
 {
 	rvmWeaponObject::Init( weapon );
-
-	weapon->WeaponState( WP_RISING, 0 );
 }
 
 /*
@@ -26,7 +23,7 @@ void rvmWeaponPDA::Init( idWeapon* weapon )
 rvmWeaponPDA::Raise
 ================
 */
-void rvmWeaponPDA::Raise( void )
+stateResult_t rvmWeaponPDA::Raise(stateParms_t* parms)
 {
 	enum RisingState
 	{
@@ -34,23 +31,22 @@ void rvmWeaponPDA::Raise( void )
 		RISING_WAIT
 	};
 
-	switch( risingState )
+	switch (parms->stage)
 	{
-		case RISING_NOTSET:
-			owner->Event_WeaponRising();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
-			risingState = RISING_WAIT;
-			break;
+	case RISING_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
+		parms->stage = RISING_WAIT;
+		return SRESULT_WAIT;
 
-		case RISING_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
-			{
-				owner->WeaponState( WP_IDLE, 0 );
-				risingState = RISING_NOTSET;
-				isRisen = true;
-			}
-			break;
+	case RISING_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+		{
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -58,7 +54,7 @@ void rvmWeaponPDA::Raise( void )
 rvmWeaponPDA::Lower
 ================
 */
-void rvmWeaponPDA::Lower()
+stateResult_t rvmWeaponPDA::Lower(stateParms_t* parms)
 {
 	enum LoweringState
 	{
@@ -66,23 +62,23 @@ void rvmWeaponPDA::Lower()
 		LOWERING_WAIT
 	};
 
-	switch( loweringState )
+	switch (parms->stage)
 	{
-		case LOWERING_NOTSET:
-			owner->Event_WeaponLowering();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
-			owner->GetOwner()->SelectWeapon( owner->GetOwner()->GetPrevWeapon(), true );
-			break;
+	case LOWERING_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
+		parms->stage = LOWERING_WAIT;
+		return SRESULT_WAIT;
 
-		case LOWERING_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
-			{
-				owner->Event_WeaponHolstered();
-				loweringState = LOWERING_NOTSET;
-				isHolstered = true;
-			}
-			break;
+	case LOWERING_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+		{
+			SetState("Holstered");
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -90,7 +86,7 @@ void rvmWeaponPDA::Lower()
 rvmWeaponPDA::Idle
 ================
 */
-void rvmWeaponPDA::Idle()
+stateResult_t rvmWeaponPDA::Idle(stateParms_t* parms)
 {
 	enum IdleState
 	{
@@ -98,19 +94,21 @@ void rvmWeaponPDA::Idle()
 		IDLE_WAIT
 	};
 
-	switch( idleState )
+	switch( parms->stage )
 	{
 		case IDLE_NOTSET:
 			owner->GetOwner()->Event_OpenPDA();
-			idleState = IDLE_WAIT;
-			break;
+			parms->stage = IDLE_WAIT;
+			return SRESULT_WAIT;
 
 		case IDLE_WAIT:
 			if( !owner->GetOwner()->objectiveSystemOpen )
 			{
-				owner->WeaponState( WP_LOWERING, 0 );
+				//owner->WeaponState( WP_LOWERING, 0 );
+				owner->LowerWeapon();
+				return SRESULT_DONE;
 			}
-			break;
+			return SRESULT_WAIT;
 	}
 }
 
@@ -119,9 +117,9 @@ void rvmWeaponPDA::Idle()
 rvmWeaponPDA::Fire
 ================
 */
-void rvmWeaponPDA::Fire()
+stateResult_t rvmWeaponPDA::Fire(stateParms_t* parms)
 {
-	owner->WeaponState( WP_IDLE, 0 );
+	return SRESULT_DONE;
 }
 
 /*
@@ -129,7 +127,7 @@ void rvmWeaponPDA::Fire()
 rvmWeaponPDA::Reload
 ================
 */
-void rvmWeaponPDA::Reload()
+stateResult_t rvmWeaponPDA::Reload(stateParms_t* parms)
 {
-
+	return SRESULT_DONE;
 }

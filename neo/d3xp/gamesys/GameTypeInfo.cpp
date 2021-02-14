@@ -3916,48 +3916,21 @@ bool idDebris::HasNativeFunction(const char *functionName) {
 
 intptr_t rvmWeaponObject::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
-	if(functionNameHash == 60556) { // Raise
-		Raise();
+	if(functionNameHash == 88310) { // Execute
+		Execute();
 		return 0;
 	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
+	if(functionNameHash == 113919) { // IsRunning
+		return (intptr_t)IsRunning();
 	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+	if(functionNameHash == 97537) { // IsFiring
+		return (intptr_t)IsFiring();
 	};
-	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
-	};
-	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
-	};
-	if(functionNameHash == 81139) { // CanFire
-		CanFire();
-		return 0;
-	};
-	if(functionNameHash == 141892) { // ResetStates
-		ResetStates();
-		return 0;
-	};
-	if(functionNameHash == 177614) { // CanSwitchState
-		CanSwitchState();
-		return 0;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
-		HasWaitSignal();
-		return 0;
+	if(functionNameHash == 115454) { // Holstered
+		return (intptr_t)Holstered((stateParms_t *)param1);
 	};
 	if(functionNameHash == 139817) { // IsHolstered
 		IsHolstered();
-		return 0;
-	};
-	if(functionNameHash == 85638) { // IsRisen
-		IsRisen();
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
@@ -3966,37 +3939,19 @@ intptr_t rvmWeaponObject::Invoke(const char *functionName, void *param1) {
 
 bool rvmWeaponObject::HasNativeFunction(const char *functionName) {
 	int functionNameHash = idStr::Hash(functionName);
-	if(functionNameHash == 60556) { // Raise
+	if(functionNameHash == 88310) { // Execute
 		return true;
 	};
-	if(functionNameHash == 46077) { // Idle
+	if(functionNameHash == 113919) { // IsRunning
 		return true;
 	};
-	if(functionNameHash == 47046) { // Fire
+	if(functionNameHash == 97537) { // IsFiring
 		return true;
 	};
-	if(functionNameHash == 63107) { // Lower
-		return true;
-	};
-	if(functionNameHash == 72819) { // Reload
-		return true;
-	};
-	if(functionNameHash == 81139) { // CanFire
-		return true;
-	};
-	if(functionNameHash == 141892) { // ResetStates
-		return true;
-	};
-	if(functionNameHash == 177614) { // CanSwitchState
-		return true;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
+	if(functionNameHash == 115454) { // Holstered
 		return true;
 	};
 	if(functionNameHash == 139817) { // IsHolstered
-		return true;
-	};
-	if(functionNameHash == 85638) { // IsRisen
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);
@@ -4118,10 +4073,6 @@ intptr_t idWeapon::Invoke(const char *functionName, void *param1) {
 	};
 	if(functionNameHash == 184609) { // ForceAmmoInClip
 		ForceAmmoInClip();
-		return 0;
-	};
-	if(functionNameHash == 114874) { // GetStatus
-		GetStatus();
 		return 0;
 	};
 	if(functionNameHash == 124648) { // GetZoomFov
@@ -4403,9 +4354,6 @@ bool idWeapon::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 184609) { // ForceAmmoInClip
-		return true;
-	};
-	if(functionNameHash == 114874) { // GetStatus
 		return true;
 	};
 	if(functionNameHash == 124648) { // GetZoomFov
@@ -10015,24 +9963,19 @@ bool idTestModel::HasNativeFunction(const char *functionName) {
 intptr_t rvmWeaponFist::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+		return (intptr_t)Raise((stateParms_t *)param1);
 	};
 	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
+		return (intptr_t)Lower((stateParms_t *)param1);
+	};
+	if(functionNameHash == 46077) { // Idle
+		return (intptr_t)Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 47046) { // Fire
+		return (intptr_t)Fire((stateParms_t *)param1);
 	};
 	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
+		return (intptr_t)Reload((stateParms_t *)param1);
 	};
 	if(functionNameHash == 132482) { // GetFireAnim
 		return (intptr_t)GetFireAnim();
@@ -10046,13 +9989,13 @@ bool rvmWeaponFist::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 60556) { // Raise
 		return true;
 	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
 	if(functionNameHash == 46077) { // Idle
 		return true;
 	};
 	if(functionNameHash == 47046) { // Fire
-		return true;
-	};
-	if(functionNameHash == 63107) { // Lower
 		return true;
 	};
 	if(functionNameHash == 72819) { // Reload
@@ -10068,28 +10011,19 @@ bool rvmWeaponFist::HasNativeFunction(const char *functionName) {
 intptr_t rvmWeaponPistol::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+		return (intptr_t)Raise((stateParms_t *)param1);
 	};
 	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
+		return (intptr_t)Lower((stateParms_t *)param1);
+	};
+	if(functionNameHash == 46077) { // Idle
+		return (intptr_t)Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 47046) { // Fire
+		return (intptr_t)Fire((stateParms_t *)param1);
 	};
 	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
-		HasWaitSignal();
-		return 0;
+		return (intptr_t)Reload((stateParms_t *)param1);
 	};
 	return __super::Invoke(functionName, param1);
 
@@ -10100,19 +10034,16 @@ bool rvmWeaponPistol::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 60556) { // Raise
 		return true;
 	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
 	if(functionNameHash == 46077) { // Idle
 		return true;
 	};
 	if(functionNameHash == 47046) { // Fire
 		return true;
 	};
-	if(functionNameHash == 63107) { // Lower
-		return true;
-	};
 	if(functionNameHash == 72819) { // Reload
-		return true;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);
@@ -10122,24 +10053,19 @@ bool rvmWeaponPistol::HasNativeFunction(const char *functionName) {
 intptr_t rvmWeaponFlashlight::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+		return (intptr_t)Raise((stateParms_t *)param1);
 	};
 	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
+		return (intptr_t)Lower((stateParms_t *)param1);
+	};
+	if(functionNameHash == 46077) { // Idle
+		return (intptr_t)Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 47046) { // Fire
+		return (intptr_t)Fire((stateParms_t *)param1);
 	};
 	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
+		return (intptr_t)Reload((stateParms_t *)param1);
 	};
 	if(functionNameHash == 125553) { // UpdateSkin
 		UpdateSkin();
@@ -10158,13 +10084,13 @@ bool rvmWeaponFlashlight::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 60556) { // Raise
 		return true;
 	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
 	if(functionNameHash == 46077) { // Idle
 		return true;
 	};
 	if(functionNameHash == 47046) { // Fire
-		return true;
-	};
-	if(functionNameHash == 63107) { // Lower
 		return true;
 	};
 	if(functionNameHash == 72819) { // Reload
@@ -10183,24 +10109,19 @@ bool rvmWeaponFlashlight::HasNativeFunction(const char *functionName) {
 intptr_t rvmWeaponPDA::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+		return (intptr_t)Raise((stateParms_t *)param1);
 	};
 	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
+		return (intptr_t)Lower((stateParms_t *)param1);
+	};
+	if(functionNameHash == 46077) { // Idle
+		return (intptr_t)Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 47046) { // Fire
+		return (intptr_t)Fire((stateParms_t *)param1);
 	};
 	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
+		return (intptr_t)Reload((stateParms_t *)param1);
 	};
 	return __super::Invoke(functionName, param1);
 
@@ -10211,13 +10132,13 @@ bool rvmWeaponPDA::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 60556) { // Raise
 		return true;
 	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
 	if(functionNameHash == 46077) { // Idle
 		return true;
 	};
 	if(functionNameHash == 47046) { // Fire
-		return true;
-	};
-	if(functionNameHash == 63107) { // Lower
 		return true;
 	};
 	if(functionNameHash == 72819) { // Reload
@@ -10230,28 +10151,19 @@ bool rvmWeaponPDA::HasNativeFunction(const char *functionName) {
 intptr_t rvmWeaponShotgun::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+		return (intptr_t)Raise((stateParms_t *)param1);
 	};
 	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
+		return (intptr_t)Lower((stateParms_t *)param1);
+	};
+	if(functionNameHash == 46077) { // Idle
+		return (intptr_t)Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 47046) { // Fire
+		return (intptr_t)Fire((stateParms_t *)param1);
 	};
 	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
-		HasWaitSignal();
-		return 0;
+		return (intptr_t)Reload((stateParms_t *)param1);
 	};
 	return __super::Invoke(functionName, param1);
 
@@ -10262,19 +10174,16 @@ bool rvmWeaponShotgun::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 60556) { // Raise
 		return true;
 	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
 	if(functionNameHash == 46077) { // Idle
 		return true;
 	};
 	if(functionNameHash == 47046) { // Fire
 		return true;
 	};
-	if(functionNameHash == 63107) { // Lower
-		return true;
-	};
 	if(functionNameHash == 72819) { // Reload
-		return true;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);
@@ -10284,28 +10193,19 @@ bool rvmWeaponShotgun::HasNativeFunction(const char *functionName) {
 intptr_t rvmWeaponDoubleShotgun::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+		return (intptr_t)Raise((stateParms_t *)param1);
 	};
 	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
+		return (intptr_t)Lower((stateParms_t *)param1);
+	};
+	if(functionNameHash == 46077) { // Idle
+		return (intptr_t)Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 47046) { // Fire
+		return (intptr_t)Fire((stateParms_t *)param1);
 	};
 	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
-		HasWaitSignal();
-		return 0;
+		return (intptr_t)Reload((stateParms_t *)param1);
 	};
 	return __super::Invoke(functionName, param1);
 
@@ -10316,19 +10216,16 @@ bool rvmWeaponDoubleShotgun::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 60556) { // Raise
 		return true;
 	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
 	if(functionNameHash == 46077) { // Idle
 		return true;
 	};
 	if(functionNameHash == 47046) { // Fire
 		return true;
 	};
-	if(functionNameHash == 63107) { // Lower
-		return true;
-	};
 	if(functionNameHash == 72819) { // Reload
-		return true;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);
@@ -10338,28 +10235,19 @@ bool rvmWeaponDoubleShotgun::HasNativeFunction(const char *functionName) {
 intptr_t rvmWeaponMachineGun::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+		return (intptr_t)Raise((stateParms_t *)param1);
 	};
 	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
+		return (intptr_t)Lower((stateParms_t *)param1);
+	};
+	if(functionNameHash == 46077) { // Idle
+		return (intptr_t)Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 47046) { // Fire
+		return (intptr_t)Fire((stateParms_t *)param1);
 	};
 	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
-		HasWaitSignal();
-		return 0;
+		return (intptr_t)Reload((stateParms_t *)param1);
 	};
 	return __super::Invoke(functionName, param1);
 
@@ -10370,19 +10258,16 @@ bool rvmWeaponMachineGun::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 60556) { // Raise
 		return true;
 	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
 	if(functionNameHash == 46077) { // Idle
 		return true;
 	};
 	if(functionNameHash == 47046) { // Fire
 		return true;
 	};
-	if(functionNameHash == 63107) { // Lower
-		return true;
-	};
 	if(functionNameHash == 72819) { // Reload
-		return true;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);
@@ -10392,28 +10277,19 @@ bool rvmWeaponMachineGun::HasNativeFunction(const char *functionName) {
 intptr_t rvmWeaponPlasmaGun::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+		return (intptr_t)Raise((stateParms_t *)param1);
 	};
 	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
+		return (intptr_t)Lower((stateParms_t *)param1);
+	};
+	if(functionNameHash == 46077) { // Idle
+		return (intptr_t)Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 47046) { // Fire
+		return (intptr_t)Fire((stateParms_t *)param1);
 	};
 	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
-		HasWaitSignal();
-		return 0;
+		return (intptr_t)Reload((stateParms_t *)param1);
 	};
 	return __super::Invoke(functionName, param1);
 
@@ -10424,19 +10300,16 @@ bool rvmWeaponPlasmaGun::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 60556) { // Raise
 		return true;
 	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
 	if(functionNameHash == 46077) { // Idle
 		return true;
 	};
 	if(functionNameHash == 47046) { // Fire
 		return true;
 	};
-	if(functionNameHash == 63107) { // Lower
-		return true;
-	};
 	if(functionNameHash == 72819) { // Reload
-		return true;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);
@@ -10446,28 +10319,19 @@ bool rvmWeaponPlasmaGun::HasNativeFunction(const char *functionName) {
 intptr_t rvmWeaponChainGun::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+		return (intptr_t)Raise((stateParms_t *)param1);
 	};
 	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
+		return (intptr_t)Lower((stateParms_t *)param1);
+	};
+	if(functionNameHash == 46077) { // Idle
+		return (intptr_t)Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 47046) { // Fire
+		return (intptr_t)Fire((stateParms_t *)param1);
 	};
 	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
-		HasWaitSignal();
-		return 0;
+		return (intptr_t)Reload((stateParms_t *)param1);
 	};
 	if(functionNameHash == 150892) { // UpdateBarrel
 		UpdateBarrel();
@@ -10490,19 +10354,16 @@ bool rvmWeaponChainGun::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 60556) { // Raise
 		return true;
 	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
 	if(functionNameHash == 46077) { // Idle
 		return true;
 	};
 	if(functionNameHash == 47046) { // Fire
 		return true;
 	};
-	if(functionNameHash == 63107) { // Lower
-		return true;
-	};
 	if(functionNameHash == 72819) { // Reload
-		return true;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
 		return true;
 	};
 	if(functionNameHash == 150892) { // UpdateBarrel
@@ -10521,24 +10382,19 @@ bool rvmWeaponChainGun::HasNativeFunction(const char *functionName) {
 intptr_t rvmWeaponRocketLauncher::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+		return (intptr_t)Raise((stateParms_t *)param1);
 	};
 	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
+		return (intptr_t)Lower((stateParms_t *)param1);
+	};
+	if(functionNameHash == 46077) { // Idle
+		return (intptr_t)Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 47046) { // Fire
+		return (intptr_t)Fire((stateParms_t *)param1);
 	};
 	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
+		return (intptr_t)Reload((stateParms_t *)param1);
 	};
 	if(functionNameHash == 125553) { // UpdateSkin
 		UpdateSkin();
@@ -10553,13 +10409,13 @@ bool rvmWeaponRocketLauncher::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 60556) { // Raise
 		return true;
 	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
 	if(functionNameHash == 46077) { // Idle
 		return true;
 	};
 	if(functionNameHash == 47046) { // Fire
-		return true;
-	};
-	if(functionNameHash == 63107) { // Lower
 		return true;
 	};
 	if(functionNameHash == 72819) { // Reload
@@ -10575,24 +10431,19 @@ bool rvmWeaponRocketLauncher::HasNativeFunction(const char *functionName) {
 intptr_t rvmWeaponBFG::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
+		return (intptr_t)Raise((stateParms_t *)param1);
 	};
 	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
+		return (intptr_t)Lower((stateParms_t *)param1);
+	};
+	if(functionNameHash == 46077) { // Idle
+		return (intptr_t)Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 47046) { // Fire
+		return (intptr_t)Fire((stateParms_t *)param1);
 	};
 	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
+		return (intptr_t)Reload((stateParms_t *)param1);
 	};
 	if(functionNameHash == 123325) { // OverCharge
 		OverCharge();
@@ -10607,115 +10458,19 @@ bool rvmWeaponBFG::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 60556) { // Raise
 		return true;
 	};
+	if(functionNameHash == 63107) { // Lower
+		return true;
+	};
 	if(functionNameHash == 46077) { // Idle
 		return true;
 	};
 	if(functionNameHash == 47046) { // Fire
-		return true;
-	};
-	if(functionNameHash == 63107) { // Lower
 		return true;
 	};
 	if(functionNameHash == 72819) { // Reload
 		return true;
 	};
 	if(functionNameHash == 123325) { // OverCharge
-		return true;
-	};
-	return __super::HasNativeFunction(functionName);
-
-};
-
-intptr_t rvmWeaponGrabber::Invoke(const char *functionName, void *param1) {
-	int functionNameHash = idStr::Hash(functionName);
-	if(functionNameHash == 60556) { // Raise
-		Raise();
-		return 0;
-	};
-	if(functionNameHash == 46077) { // Idle
-		Idle();
-		return 0;
-	};
-	if(functionNameHash == 47046) { // Fire
-		Fire();
-		return 0;
-	};
-	if(functionNameHash == 63107) { // Lower
-		Lower();
-		return 0;
-	};
-	if(functionNameHash == 72819) { // Reload
-		Reload();
-		return 0;
-	};
-	if(functionNameHash == 81139) { // CanFire
-		CanFire();
-		return 0;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
-		HasWaitSignal();
-		return 0;
-	};
-	if(functionNameHash == 140229) { // StartActive
-		StartActive();
-		return 0;
-	};
-	if(functionNameHash == 126807) { // StopActive
-		StopActive();
-		return 0;
-	};
-	if(functionNameHash == 225303) { // StartWarningSound
-		StartWarningSound();
-		return 0;
-	};
-	if(functionNameHash == 237121) { // UpdateWarningSound
-		UpdateWarningSound();
-		return 0;
-	};
-	if(functionNameHash == 176832) { // UpdateGuiLight
-		UpdateGuiLight();
-		return 0;
-	};
-	return __super::Invoke(functionName, param1);
-
-};
-
-bool rvmWeaponGrabber::HasNativeFunction(const char *functionName) {
-	int functionNameHash = idStr::Hash(functionName);
-	if(functionNameHash == 60556) { // Raise
-		return true;
-	};
-	if(functionNameHash == 46077) { // Idle
-		return true;
-	};
-	if(functionNameHash == 47046) { // Fire
-		return true;
-	};
-	if(functionNameHash == 63107) { // Lower
-		return true;
-	};
-	if(functionNameHash == 72819) { // Reload
-		return true;
-	};
-	if(functionNameHash == 81139) { // CanFire
-		return true;
-	};
-	if(functionNameHash == 162113) { // HasWaitSignal
-		return true;
-	};
-	if(functionNameHash == 140229) { // StartActive
-		return true;
-	};
-	if(functionNameHash == 126807) { // StopActive
-		return true;
-	};
-	if(functionNameHash == 225303) { // StartWarningSound
-		return true;
-	};
-	if(functionNameHash == 237121) { // UpdateWarningSound
-		return true;
-	};
-	if(functionNameHash == 176832) { // UpdateGuiLight
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);

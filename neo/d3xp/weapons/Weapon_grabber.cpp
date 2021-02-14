@@ -6,6 +6,7 @@
 #include "precompiled.h"
 #include "../Game_local.h"
 
+#if 0
 CLASS_DECLARATION( rvmWeaponObject, rvmWeaponGrabber )
 END_CLASS
 
@@ -409,3 +410,4 @@ void rvmWeaponGrabber::Reload()
 {
 	owner->WeaponState( WP_IDLE, 0 );
 }
+#endif
