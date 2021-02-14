@@ -9,7 +9,7 @@
 
 	944 constants
 	90 enums
-	446 classes/structs/unions
+	447 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -5953,6 +5953,13 @@ static classVariableInfo_t rvmMonsterLostSoul_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static classVariableInfo_t rvmMonsterFlyingCacodemon_typeInfo[] = {
+	{ ": float", "nextAttack", (intptr_t)(&((rvmMonsterFlyingCacodemon *)0)->nextAttack), sizeof( ((rvmMonsterFlyingCacodemon *)0)->nextAttack ) },
+	{ "float", "nextNoFOVAttack", (intptr_t)(&((rvmMonsterFlyingCacodemon *)0)->nextNoFOVAttack), sizeof( ((rvmMonsterFlyingCacodemon *)0)->nextNoFOVAttack ) },
+	{ "idEntity *", "combat_node", (intptr_t)(&((rvmMonsterFlyingCacodemon *)0)->combat_node), sizeof( ((rvmMonsterFlyingCacodemon *)0)->combat_node ) },
+	{ NULL, 0 }
+};
+
 static classVariableInfo_t rvmMonsterZombie_typeInfo[] = {
 	{ ": idScriptBool", "can_run", (intptr_t)(&((rvmMonsterZombie *)0)->can_run), sizeof( ((rvmMonsterZombie *)0)->can_run ) },
 	{ NULL, 0 }
@@ -7331,6 +7338,7 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "idAI_Vagary", "idAI", sizeof(idAI_Vagary), idAI_Vagary_typeInfo },
 	{ "rvmAI_Follower", "idAI", sizeof(rvmAI_Follower), rvmAI_Follower_typeInfo },
 	{ "rvmMonsterLostSoul", "idAI", sizeof(rvmMonsterLostSoul), rvmMonsterLostSoul_typeInfo },
+	{ "rvmMonsterFlyingCacodemon", "idAI", sizeof(rvmMonsterFlyingCacodemon), rvmMonsterFlyingCacodemon_typeInfo },
 	{ "rvmMonsterZombie", "idAI", sizeof(rvmMonsterZombie), rvmMonsterZombie_typeInfo },
 	{ "rvmMonsterZombieSawyer", "rvmMonsterZombie", sizeof(rvmMonsterZombieSawyer), rvmMonsterZombieSawyer_typeInfo },
 	{ "rvmMonsterZombieBernie", "rvmMonsterZombie", sizeof(rvmMonsterZombieBernie), rvmMonsterZombieBernie_typeInfo },

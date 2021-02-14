@@ -900,7 +900,11 @@ private:
 	stateResult_t state_talk_anim(stateParms_t* parms);
 };
 
+//
+// Flying Monsters
+//
 #include "Monster_flying_lostsoul.h"
+#include "Monster_flying_cacodemon.h"
 
 //
 // Zombie Monsters
