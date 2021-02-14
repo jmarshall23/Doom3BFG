@@ -190,11 +190,21 @@ rvmWeaponShotgun::Reload
 */
 stateResult_t rvmWeaponShotgun::Reload(stateParms_t* parms)
 {
+	float ammoClip;
+	float ammoAvail;
+	float clip_size;
+
+	clip_size = owner->ClipSize();
+
 	enum RELOAD_State
 	{
 		RELOAD_NOTSET = 0,
-		RELOAD_WAIT
+		RELOAD_WAIT,
+		RELOAD_END
 	};
+
+	ammoAvail = owner->AmmoAvailable();
+	ammoClip = owner->AmmoInClip();
 
 	switch (parms->stage)
 	{
@@ -206,10 +216,30 @@ stateResult_t rvmWeaponShotgun::Reload(stateParms_t* parms)
 	case RELOAD_WAIT:
 		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
 		{
+			if ((ammoClip < clip_size) && (ammoClip < ammoAvail))
+			{
+				parms->stage = RELOAD_NOTSET;
+				owner->Event_AddToClip(SHOTGUN_RELOADRATE);
+				return SRESULT_WAIT;
+			}
+			else
+			{
+				parms->stage = RELOAD_END;
+				owner->Event_PlayAnim(ANIMCHANNEL_ALL, "reload_end", false);
+				return SRESULT_WAIT;
+			}
 			owner->Event_AddToClip(owner->ClipSize());
 			return SRESULT_DONE;
 		}
 		return SRESULT_WAIT;
+	case RELOAD_END:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+		{
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+
+
 	return SRESULT_ERROR;
 }
