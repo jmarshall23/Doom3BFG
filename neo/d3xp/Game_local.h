@@ -469,6 +469,8 @@ public:
 	float					RandomTime(float delay);	
 	float					DelayTime(float delay);
 
+	idEntity*				Spawn(const char* classname);
+
 
 	int						NumAAS() const;
 	idAAS* 					GetAAS( int num ) const;
@@ -964,6 +966,7 @@ const int	CINEMATIC_SKIP_DELAY	= SEC2MS( 2.0f );
 #include "weapons/Weapon_chaingun.h"
 #include "weapons/Weapon_rocketlauncher.h"
 #include "weapons/Weapon_bfg.h"
+#include "weapons/Weapon_handgrenade.h"
 //#include "weapons/Weapon_grabber.h"
 // jmarshall end
 

@@ -1907,6 +1907,8 @@ idWeapon::OwnerDied
 */
 void idWeapon::OwnerDied()
 {
+	currentWeaponObject->OwnerDied();
+
 	Hide();
 	if( worldModel.GetEntity() )
 	{
@@ -3279,15 +3281,25 @@ void idWeapon::Event_AmmoInClip()
 
 /*
 ===============
+idWeapon::AmmoAvailable
+===============
+*/
+int idWeapon::AmmoAvailable()
+{
+	int ammoAvail = owner->inventory.HasAmmo(ammoType, ammoRequired);
+	ammoAvail += AmmoInClip();
+
+	return ammoAvail;
+}
+
+/*
+===============
 idWeapon::Event_AmmoAvailable
 ===============
 */
 void idWeapon::Event_AmmoAvailable()
-{
-	int ammoAvail = owner->inventory.HasAmmo( ammoType, ammoRequired );
-	ammoAvail += AmmoInClip();
-
-	idThread::ReturnFloat( ammoAvail );
+{	
+	idThread::ReturnFloat(AmmoAvailable());
 }
 
 /*
@@ -3629,6 +3641,33 @@ void idWeapon::Event_GrabberSetGrabDistance( float dist )
 	grabber.SetDragDistance( dist );
 }
 
+
+/*
+================
+idWeapon::Event_CreateProjectile
+================
+*/
+idEntity *idWeapon::CreateProjectile()
+{
+	if (!common->IsClient())
+	{
+		projectileEnt = NULL;
+		gameLocal.SpawnEntityDef(projectileDict, &projectileEnt, false);
+		if (projectileEnt)
+		{
+			projectileEnt->SetOrigin(GetPhysics()->GetOrigin());
+			projectileEnt->Bind(owner, false);
+			projectileEnt->Hide();
+		}
+		return projectileEnt;
+	}
+	else
+	{
+		return (NULL);
+	}
+}
+
+
 /*
 ================
 idWeapon::Event_CreateProjectile
@@ -3636,22 +3675,7 @@ idWeapon::Event_CreateProjectile
 */
 void idWeapon::Event_CreateProjectile()
 {
-	if( !common->IsClient() )
-	{
-		projectileEnt = NULL;
-		gameLocal.SpawnEntityDef( projectileDict, &projectileEnt, false );
-		if( projectileEnt )
-		{
-			projectileEnt->SetOrigin( GetPhysics()->GetOrigin() );
-			projectileEnt->Bind( owner, false );
-			projectileEnt->Hide();
-		}
-		idThread::ReturnEntity( projectileEnt );
-	}
-	else
-	{
-		idThread::ReturnEntity( NULL );
-	}
+	idThread::ReturnEntity(CreateProjectile());
 }
 
 /*

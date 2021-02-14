@@ -9,7 +9,7 @@
 
 	935 constants
 	89 enums
-	448 classes/structs/unions
+	449 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -6098,6 +6098,24 @@ static classVariableInfo_t rvmWeaponBFG_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static classVariableInfo_t rvmWeaponHandgrenade_typeInfo[] = {
+	{ ": float", "spread", (intptr_t)(&((rvmWeaponHandgrenade *)0)->spread), sizeof( ((rvmWeaponHandgrenade *)0)->spread ) },
+	{ "float", "fuse_start", (intptr_t)(&((rvmWeaponHandgrenade *)0)->fuse_start), sizeof( ((rvmWeaponHandgrenade *)0)->fuse_start ) },
+	{ "idStr", "skin_nade", (intptr_t)(&((rvmWeaponHandgrenade *)0)->skin_nade), sizeof( ((rvmWeaponHandgrenade *)0)->skin_nade ) },
+	{ "idStr", "skin_nade_invis", (intptr_t)(&((rvmWeaponHandgrenade *)0)->skin_nade_invis), sizeof( ((rvmWeaponHandgrenade *)0)->skin_nade_invis ) },
+	{ "idStr", "skin_nonade", (intptr_t)(&((rvmWeaponHandgrenade *)0)->skin_nonade), sizeof( ((rvmWeaponHandgrenade *)0)->skin_nonade ) },
+	{ "idStr", "skin_nonade_invis", (intptr_t)(&((rvmWeaponHandgrenade *)0)->skin_nonade_invis), sizeof( ((rvmWeaponHandgrenade *)0)->skin_nonade_invis ) },
+	{ "idProjectile *", "projectile", (intptr_t)(&((rvmWeaponHandgrenade *)0)->projectile), sizeof( ((rvmWeaponHandgrenade *)0)->projectile ) },
+	{ "boolean", "show_grenade", (intptr_t)(&((rvmWeaponHandgrenade *)0)->show_grenade), sizeof( ((rvmWeaponHandgrenade *)0)->show_grenade ) },
+	{ ": float", "fuse_end", (intptr_t)(&((rvmWeaponHandgrenade *)0)->fuse_end), sizeof( ((rvmWeaponHandgrenade *)0)->fuse_end ) },
+	{ "float", "current_time", (intptr_t)(&((rvmWeaponHandgrenade *)0)->current_time), sizeof( ((rvmWeaponHandgrenade *)0)->current_time ) },
+	{ "float", "time_held", (intptr_t)(&((rvmWeaponHandgrenade *)0)->time_held), sizeof( ((rvmWeaponHandgrenade *)0)->time_held ) },
+	{ "float", "power", (intptr_t)(&((rvmWeaponHandgrenade *)0)->power), sizeof( ((rvmWeaponHandgrenade *)0)->power ) },
+	{ "boolean", "exploded", (intptr_t)(&((rvmWeaponHandgrenade *)0)->exploded), sizeof( ((rvmWeaponHandgrenade *)0)->exploded ) },
+	{ "const idSoundShader *", "snd_lowammo", (intptr_t)(&((rvmWeaponHandgrenade *)0)->snd_lowammo), sizeof( ((rvmWeaponHandgrenade *)0)->snd_lowammo ) },
+	{ NULL, 0 }
+};
+
 static classVariableInfo_t widgetTransition_t_typeInfo[] = {
 	{ "const char *", "animationName", (intptr_t)(&((widgetTransition_t *)0)->animationName), sizeof( ((widgetTransition_t *)0)->animationName ) },
 	{ "idStaticList < const char * , 4 >", "prefixes", (intptr_t)(&((widgetTransition_t *)0)->prefixes), sizeof( ((widgetTransition_t *)0)->prefixes ) },
@@ -7326,6 +7344,7 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "rvmWeaponChainGun", "rvmWeaponObject", sizeof(rvmWeaponChainGun), rvmWeaponChainGun_typeInfo },
 	{ "rvmWeaponRocketLauncher", "rvmWeaponObject", sizeof(rvmWeaponRocketLauncher), rvmWeaponRocketLauncher_typeInfo },
 	{ "rvmWeaponBFG", "rvmWeaponObject", sizeof(rvmWeaponBFG), rvmWeaponBFG_typeInfo },
+	{ "rvmWeaponHandgrenade", "rvmWeaponObject", sizeof(rvmWeaponHandgrenade), rvmWeaponHandgrenade_typeInfo },
 	{ "widgetTransition_t", "", sizeof(widgetTransition_t), widgetTransition_t_typeInfo },
 	{ "scoreboardInfo_t", "", sizeof(scoreboardInfo_t), scoreboardInfo_t_typeInfo },
 	{ "idSort_SavesByDate", "idSort_Quick< idSaveGameDetails , idSort_SavesByDate >", sizeof(idSort_SavesByDate), idSort_SavesByDate_typeInfo },

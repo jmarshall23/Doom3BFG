@@ -86,6 +86,8 @@ public:
 	bool					IsRunning(void) { return stateThread.IsExecuting(); }
 	bool					IsStateRunning(const char* name) { return stateThread.CurrentStateIs(name); }
 
+	virtual void			OwnerDied(void) { }
+
 	bool					IsFiring();
 
 	stateResult_t			Holstered(stateParms_t* parms) { return SRESULT_WAIT; }
@@ -115,6 +117,8 @@ public:
 	idPlayer*				GetOwner();
 	virtual bool			ShouldConstructScriptObjectAtSpawn() const;
 	void					SetFlashlightOwner( idPlayer* owner );
+
+	virtual idClass*		InvokeChild() override { return currentWeaponObject; }
 
 	static void				CacheWeapon( const char* weaponName );
 
@@ -249,6 +253,7 @@ public:
 	void					Event_UseAmmo( int amount );
 	void					Event_AddToClip( int amount );
 	void					Event_AmmoInClip();
+	int						AmmoAvailable();
 	void					Event_AmmoAvailable();
 	void					Event_TotalAmmoCount();
 	void					Event_ClipSize();
@@ -262,6 +267,7 @@ public:
 	void					Event_Flashlight( int enable );
 	void					Event_GetLightParm( int parmnum );
 	void					Event_LaunchProjectiles( int num_projectiles, float spread, float fuseOffset, float launchPower, float dmgPower );
+	idEntity*				CreateProjectile();
 	void					Event_CreateProjectile();
 	void					Event_EjectBrass();
 	void					Event_Melee();
