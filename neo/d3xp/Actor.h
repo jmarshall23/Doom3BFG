@@ -322,6 +322,7 @@ protected:
 	void					Event_AnimDone( int channel, int blendFrames );
 	void					Event_HasAnim( int channel, const char* name );
 	void					Event_CheckAnim( int channel, const char* animname );
+	idStr					ChooseAnim(int channel, const char* animname);
 	void					Event_ChooseAnim( int channel, const char* animname );
 	void					Event_AnimLength( int channel, const char* animname );
 	void					Event_AnimDistance( int channel, const char* animname );

@@ -2125,46 +2125,54 @@ void idAI::Event_TestChargeAttack()
 
 /*
 =====================
-idAI::Event_TestAnimMoveTowardEnemy
+idAI::TestAnimMoveTowardEnemy
 =====================
 */
-void idAI::Event_TestAnimMoveTowardEnemy( const char* animname )
+bool idAI::TestAnimMoveTowardEnemy(const char* animname)
 {
 	int				anim;
 	predictedPath_t path;
 	idVec3			moveVec;
 	float			yaw;
 	idVec3			delta;
-	idActor*			enemyEnt;
+	idActor* enemyEnt;
 
 	enemyEnt = enemy.GetEntity();
-	if( !enemyEnt )
+	if (!enemyEnt)
 	{
-		idThread::ReturnInt( false );
-		return;
+		return false;
 	}
 
-	anim = GetAnim( ANIMCHANNEL_LEGS, animname );
-	if( !anim )
+	anim = GetAnim(ANIMCHANNEL_LEGS, animname);
+	if (!anim)
 	{
-		gameLocal.DWarning( "missing '%s' animation on '%s' (%s)", animname, name.c_str(), GetEntityDefName() );
-		idThread::ReturnInt( false );
-		return;
+		gameLocal.DWarning("missing '%s' animation on '%s' (%s)", animname, name.c_str(), GetEntityDefName());
+		return false;
 	}
 
 	delta = enemyEnt->GetPhysics()->GetOrigin() - physicsObj.GetOrigin();
 	yaw = delta.ToYaw();
 
-	moveVec = animator.TotalMovementDelta( anim ) * idAngles( 0.0f, yaw, 0.0f ).ToMat3() * physicsObj.GetGravityAxis();
-	idAI::PredictPath( this, aas, physicsObj.GetOrigin(), moveVec, 1000, 1000, ( move.moveType == MOVETYPE_FLY ) ? SE_BLOCKED : ( SE_ENTER_OBSTACLE | SE_BLOCKED | SE_ENTER_LEDGE_AREA ), path );
+	moveVec = animator.TotalMovementDelta(anim) * idAngles(0.0f, yaw, 0.0f).ToMat3() * physicsObj.GetGravityAxis();
+	idAI::PredictPath(this, aas, physicsObj.GetOrigin(), moveVec, 1000, 1000, (move.moveType == MOVETYPE_FLY) ? SE_BLOCKED : (SE_ENTER_OBSTACLE | SE_BLOCKED | SE_ENTER_LEDGE_AREA), path);
 
-	if( ai_debugMove.GetBool() )
+	if (ai_debugMove.GetBool())
 	{
-		gameRenderWorld->DebugLine( colorGreen, physicsObj.GetOrigin(), physicsObj.GetOrigin() + moveVec, 1 );
-		gameRenderWorld->DebugBounds( path.endEvent == 0 ? colorYellow : colorRed, physicsObj.GetBounds(), physicsObj.GetOrigin() + moveVec, 1 );
+		gameRenderWorld->DebugLine(colorGreen, physicsObj.GetOrigin(), physicsObj.GetOrigin() + moveVec, 1);
+		gameRenderWorld->DebugBounds(path.endEvent == 0 ? colorYellow : colorRed, physicsObj.GetBounds(), physicsObj.GetOrigin() + moveVec, 1);
 	}
 
-	idThread::ReturnInt( path.endEvent == 0 );
+	return (path.endEvent == 0);
+}
+
+/*
+=====================
+idAI::Event_TestAnimMoveTowardEnemy
+=====================
+*/
+void idAI::Event_TestAnimMoveTowardEnemy( const char* animname )
+{	
+	idThread::ReturnInt(TestAnimMoveTowardEnemy(animname));
 }
 
 /*

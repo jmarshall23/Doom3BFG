@@ -3747,32 +3747,40 @@ void idActor::Event_CheckAnim( int channel, const char* animname )
 
 /*
 ================
+idActor::ChooseAnim
+================
+*/
+idStr idActor::ChooseAnim(int channel, const char* animname)
+{
+	int anim;
+
+	anim = GetAnim(channel, animname);
+	if (anim)
+	{
+		if (channel == ANIMCHANNEL_HEAD)
+		{
+			if (head.GetEntity())
+			{
+				return head.GetEntity()->GetAnimator()->AnimFullName(anim);
+			}
+		}
+		else
+		{
+			return animator.AnimFullName(anim);
+		}
+	}
+
+	return "";
+}
+
+/*
+================
 idActor::Event_ChooseAnim
 ================
 */
 void idActor::Event_ChooseAnim( int channel, const char* animname )
 {
-	int anim;
-
-	anim = GetAnim( channel, animname );
-	if( anim )
-	{
-		if( channel == ANIMCHANNEL_HEAD )
-		{
-			if( head.GetEntity() )
-			{
-				idThread::ReturnString( head.GetEntity()->GetAnimator()->AnimFullName( anim ) );
-				return;
-			}
-		}
-		else
-		{
-			idThread::ReturnString( animator.AnimFullName( anim ) );
-			return;
-		}
-	}
-
-	idThread::ReturnString( "" );
+	idThread::ReturnString(ChooseAnim(channel, animname));
 }
 
 /*

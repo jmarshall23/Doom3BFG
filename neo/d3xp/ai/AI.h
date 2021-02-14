@@ -700,6 +700,7 @@ protected:
 	void					Event_MuzzleFlash( const char* jointname );
 	void					Event_CreateMissile( const char* jointname );
 	void					Event_AttackMissile( const char* jointname );
+	bool					TestAnimMoveTowardEnemy(const char* animname);
 	void					Event_FireMissileAtTarget( const char* jointname, const char* targetname );
 	void					Event_LaunchMissile( const idVec3& muzzle, const idAngles& ang );
 	void					Event_LaunchHomingMissile();
@@ -899,6 +900,11 @@ private:
 	stateResult_t state_killed(stateParms_t* parms);
 	stateResult_t state_talk_anim(stateParms_t* parms);
 };
+
+//
+// Demons
+//
+#include "Monster_demon_hellknight.h"
 
 //
 // Flying Monsters
