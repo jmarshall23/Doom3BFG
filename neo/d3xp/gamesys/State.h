@@ -10,6 +10,7 @@ typedef enum
 	SRESULT_WAIT,			// Wait a frame and re-run current state
 	SRESULT_IDLE,			// State thread is currently idle (ie. no states)
 	SRESULT_SETSTAGE,		// Sets the current stage of the current state and reruns the state
+	SRESULT_DONE_FRAME,
 	// NOTE: this has to be the last result becuase the stage is added to
 	//		 the result.
 	SRESULT_SETDELAY = SRESULT_SETSTAGE + 20
@@ -25,7 +26,13 @@ struct stateParms_t
 	int		blendFrames;
 	int		time;
 	int		stage;
-	int		param1;
+	int		substage;
+	float	param1;
+	float	param2;
+
+	float	subparam1;
+	float	subparam2;
+
 
 	void	Wait(float seconds);
 

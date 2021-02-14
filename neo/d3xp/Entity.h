@@ -645,6 +645,7 @@ public:
 	idVec3					GetSize();
 	void					Event_GetMins();
 	void					Event_GetMaxs();
+	bool					Touches(idEntity* ent);
 	void					Event_Touches( idEntity* ent );
 	void					Event_SetGuiParm( const char* key, const char* val );
 	void					Event_SetGuiFloat( const char* key, float f );

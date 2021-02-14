@@ -30,10 +30,6 @@ object monster_zombie : monster_zombie_base {
 	void		Legs_Idle();
 	void		Legs_Walk();
 	void		Legs_Run();
-
-	// attacks
-	float		check_attacks();
-	void		do_attack( float attack_flags );
 };
 
 /***********************************************************************
@@ -120,39 +116,6 @@ void monster_zombie::Legs_Run() {
 	}
 }
 
-/***********************************************************************
 
-	attacks
-
-***********************************************************************/
-
-/*
-=====================
-monster_zombie::do_attack
-=====================
-*/
-void monster_zombie::do_attack( float attack_flags ) {
-	if ( attack_flags & ATTACK_MELEE ) {
-		AI_ATTACKING = true;
-		setState("combat_melee");
-		waitUntil(!AI_ATTACKING);
-	}
-}
-
-/*
-=====================
-monster_zombie::check_attacks
-=====================
-*/
-float monster_zombie::check_attacks() {
-	float attack_flags;
-
-	attack_flags = 0;
-	if ( testMeleeAttack() ) {
-		attack_flags |= ATTACK_MELEE;
-	}
-	
-	return attack_flags;
-}
 
 

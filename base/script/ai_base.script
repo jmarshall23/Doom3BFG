@@ -48,7 +48,10 @@ object ai {
 	boolean		AI_PAIN;
 	float		AI_SPECIAL_DAMAGE;		// value of "special_damage" on projectile
 	boolean		AI_DEAD;
-	boolean		AI_RUN;
+	// common state variables
+	boolean		run;
+	boolean		blocked;
+
 	boolean		AI_ENEMY_VISIBLE;
 	boolean		AI_ENEMY_IN_FOV;
 	boolean		AI_ENEMY_DEAD;

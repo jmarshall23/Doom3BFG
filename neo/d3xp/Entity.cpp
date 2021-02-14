@@ -5209,18 +5209,27 @@ void idEntity::Event_GetMaxs()
 idEntity::Event_Touches
 ================
 */
-void idEntity::Event_Touches( idEntity* ent )
+bool idEntity::Touches(idEntity* ent)
 {
-	if( !ent )
+	if (!ent)
 	{
-		idThread::ReturnInt( false );
-		return;
+		return false;
 	}
 
 	const idBounds& myBounds = GetPhysics()->GetAbsBounds();
 	const idBounds& entBounds = ent->GetPhysics()->GetAbsBounds();
 
-	idThread::ReturnInt( myBounds.IntersectsBounds( entBounds ) );
+	return (myBounds.IntersectsBounds(entBounds));
+}
+
+/*
+================
+idEntity::Event_Touches
+================
+*/
+void idEntity::Event_Touches( idEntity* ent )
+{	
+	idThread::ReturnInt(Touches(ent));
 }
 
 /*

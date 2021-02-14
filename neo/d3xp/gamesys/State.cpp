@@ -116,7 +116,12 @@ stateResult_t rvStateThread::PostState( const char* name, int blendFrames, int d
 	call->parms.blendFrames = blendFrames;
 	call->parms.time		= -1;
 	call->parms.stage		= 0;
+	call->parms.substage = 0;
 	call->parms.param1		= 0;
+	call->parms.param2		= 0;
+
+	call->parms.subparam1 = 0;
+	call->parms.subparam2 = 0;
 
 	call->node.SetOwner( call );
 
@@ -292,14 +297,6 @@ stateResult_t rvStateThread::Execute( void )
 		// Debugging
 		if( lastResult != SRESULT_WAIT )
 		{
-			//if ( *g_debugState.GetString ( ) && (*g_debugState.GetString ( ) == '*' || !idStr::Icmp ( g_debugState.GetString ( ), name ) ) ) {
-			//	if ( call->parms.stage ) {
-			//		gameLocal.Printf ( "%s: %s (%d)\n", name.c_str(), call->state->name, call->parms.stage );
-			//	} else {
-			//		gameLocal.Printf ( "%s: %s\n", name.c_str(), call->state->name );
-			//	}
-			//}
-
 			// Keep a history of the called states so we can dump them on an overflow
 			historyState[historyEnd] = call->state;
 			historyStage[historyEnd] = call->parms.stage;
@@ -314,11 +311,22 @@ stateResult_t rvStateThread::Execute( void )
 		stateName  = call->state;
 		stateStage = call->parms.stage;
 
-		// Actually call the state function
-		//owner->SetStateParms(call->parms);
+		if (g_debugState.GetBool()) {
+			if (call->parms.stage) {
+				gameLocal.Printf("%s: %s (%d)\n", name.c_str(), call->state.c_str(), call->parms.stage);
+			}
+			else {
+				gameLocal.Printf("%s: %s\n", name.c_str(), call->state.c_str());
+			}
+		}
+
+		// Actually call the state function		
 		lastResult = ( stateResult_t )owner->Invoke( call->state, &call->parms );
 		switch( lastResult )
 		{
+			case SRESULT_DONE_FRAME:
+				fl.executing = false;
+				return SRESULT_DONE;
 			case SRESULT_WAIT:
 				fl.executing = false;
 				return SRESULT_WAIT;

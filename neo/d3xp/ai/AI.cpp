@@ -569,6 +569,138 @@ void idAI::Save( idSaveGame* savefile ) const
 
 /*
 =====================
+idAI::combat_lost
+=====================
+*/
+void idAI::combat_lost() {
+	//if (!ignore_lostcombat) {
+		SetState("state_LostCombat");
+	//}
+}
+
+
+/*
+=====================
+idAI::GetCombatNode
+=====================
+*/
+idEntity *idAI::GetCombatNode(void)
+{
+	int				i;
+	float			dist;
+	idEntity* targetEnt;
+	idCombatNode* node;
+	float			bestDist;
+	idCombatNode* bestNode;
+	idActor* enemyEnt = enemy.GetEntity();
+
+	if (!targets.Num())
+	{
+		// no combat nodes
+		return (NULL);
+	}
+
+	if (!enemyEnt || !EnemyPositionValid())
+	{
+		// don't return a combat node if we don't have an enemy or
+		// if we can see he's not in the last place we saw him
+
+		if (team == 0)
+		{
+			// find the closest attack node to the player
+			bestNode = NULL;
+			const idVec3& myPos = physicsObj.GetOrigin();
+			const idVec3& playerPos = gameLocal.GetLocalPlayer()->GetPhysics()->GetOrigin();
+
+			bestDist = (myPos - playerPos).LengthSqr();
+
+			for (i = 0; i < targets.Num(); i++)
+			{
+				targetEnt = targets[i].GetEntity();
+				if (!targetEnt || !targetEnt->IsType(idCombatNode::Type))
+				{
+					continue;
+				}
+
+				node = static_cast<idCombatNode*>(targetEnt);
+				if (!node->IsDisabled())
+				{
+					idVec3 org = node->GetPhysics()->GetOrigin();
+					dist = (playerPos - org).LengthSqr();
+					if (dist < bestDist)
+					{
+						bestNode = node;
+						bestDist = dist;
+					}
+				}
+			}
+
+			return bestNode;
+		}
+
+		return NULL;
+	}
+
+	// find the closest attack node that can see our enemy and is closer than our enemy
+	bestNode = NULL;
+	const idVec3& myPos = physicsObj.GetOrigin();
+	bestDist = (myPos - lastVisibleEnemyPos).LengthSqr();
+	for (i = 0; i < targets.Num(); i++)
+	{
+		targetEnt = targets[i].GetEntity();
+		if (!targetEnt || !targetEnt->IsType(idCombatNode::Type))
+		{
+			continue;
+		}
+
+		node = static_cast<idCombatNode*>(targetEnt);
+		if (!node->IsDisabled() && node->EntityInView(enemyEnt, lastVisibleEnemyPos))
+		{
+			idVec3 org = node->GetPhysics()->GetOrigin();
+			dist = (myPos - org).LengthSqr();
+			if (dist < bestDist)
+			{
+				bestNode = node;
+				bestDist = dist;
+			}
+		}
+	}
+
+	return bestNode;
+}
+
+/*
+=====================
+idAI::TestAnimMove
+=====================
+*/
+bool idAI::TestAnimMove(const char* animname)
+{
+	int				anim;
+	predictedPath_t path;
+	idVec3			moveVec;
+
+	anim = GetAnim(ANIMCHANNEL_LEGS, animname);
+	if (!anim)
+	{
+		gameLocal.DWarning("missing '%s' animation on '%s' (%s)", animname, name.c_str(), GetEntityDefName());
+		return false;
+	}
+
+	moveVec = animator.TotalMovementDelta(anim) * idAngles(0.0f, ideal_yaw, 0.0f).ToMat3() * physicsObj.GetGravityAxis();
+	idAI::PredictPath(this, aas, physicsObj.GetOrigin(), moveVec, 1000, 1000, (move.moveType == MOVETYPE_FLY) ? SE_BLOCKED : (SE_ENTER_OBSTACLE | SE_BLOCKED | SE_ENTER_LEDGE_AREA), path);
+
+	if (ai_debugMove.GetBool())
+	{
+		gameRenderWorld->DebugLine(colorGreen, physicsObj.GetOrigin(), physicsObj.GetOrigin() + moveVec, 1);
+		gameRenderWorld->DebugBounds(path.endEvent == 0 ? colorYellow : colorRed, physicsObj.GetBounds(), physicsObj.GetOrigin() + moveVec, 1);
+	}
+
+	return path.endEvent == 0;
+}
+
+/*
+=====================
 idAI::Restore
 =====================
 */
@@ -1105,34 +1237,40 @@ void idAI::Spawn()
 	// init the move variables
 	StopMove( MOVE_STATUS_DONE );
 
-	stateThread.SetOwner( this );
-	Init();
+	// Only AI that derives off of ai_monster_base can support native AI.
+	supportsNative = scriptObject.GetFunction("supports_native") != NULL;
 
-	isAwake = false;
+	if (supportsNative)
+	{
+		stateThread.SetOwner(this);
+		Init();
 
-	teleportType = GetIntKey("teleport");
-	triggerAnim = GetKey("trigger_anim");
+		isAwake = false;
 
-	if (GetIntKey("spawner")) {
-		stateThread.SetState("state_Spawner");
-	}
+		teleportType = GetIntKey("teleport");
+		triggerAnim = GetKey("trigger_anim");
 
-	if (!GetIntKey("ignore_flashlight")) {
-		// allow waking up from the flashlight
-		Event_WakeOnFlashlight(true);
-	}
+		if (GetIntKey("spawner")) {
+			stateThread.SetState("state_Spawner");
+		}
 
-	if (triggerAnim != "") {
-		stateThread.SetState("State_TriggerAnim");
-	}
-	else if (teleportType > 0) {
-		stateThread.SetState("State_TeleportTriggered");
-	}
-	else if (GetIntKey("hide")) {
-		stateThread.SetState("State_TriggerHidden");
-	}
-	else {
-		stateThread.SetState("State_WakeUp");
+		if (!GetIntKey("ignore_flashlight")) {
+			// allow waking up from the flashlight
+			Event_WakeOnFlashlight(true);
+		}
+
+		if (triggerAnim != "") {
+			stateThread.SetState("State_TriggerAnim");
+		}
+		else if (teleportType > 0) {
+			stateThread.SetState("State_TeleportTriggered");
+		}
+		else if (GetIntKey("hide")) {
+			stateThread.SetState("State_TriggerHidden");
+		}
+		else {
+			stateThread.SetState("State_WakeUp");
+		}
 	}
 
 	spawnArgs.GetBool( "spawnClearMoveables", "0", spawnClearMoveables );
@@ -1369,7 +1507,10 @@ void idAI::Think()
 
 	if( thinkFlags & TH_THINK )
 	{
-		stateThread.Execute();
+		if (supportsNative)
+		{
+			stateThread.Execute();
+		}
 
 		// clear out the enemy when he dies or is hidden
 		idActor* enemyEnt = enemy.GetEntity();
@@ -1515,7 +1656,8 @@ void idAI::LinkScriptVariables()
 	AI_PAIN.LinkTo(	scriptObject, "AI_PAIN" );
 	AI_SPECIAL_DAMAGE.LinkTo(	scriptObject, "AI_SPECIAL_DAMAGE" );
 	AI_DEAD.LinkTo(	scriptObject, "AI_DEAD" );
-	AI_RUN.LinkTo(	scriptObject, "AI_RUN" );
+	AI_RUN.LinkTo(	scriptObject, "run" );
+	blocked.LinkTo(scriptObject, "blocked");
 	AI_ATTACKING.LinkTo(scriptObject, "AI_ATTACKING");
 	AI_ENEMY_VISIBLE.LinkTo(	scriptObject, "AI_ENEMY_VISIBLE" );
 	AI_ENEMY_IN_FOV.LinkTo(	scriptObject, "AI_ENEMY_IN_FOV" );
@@ -2488,6 +2630,163 @@ bool idAI::WanderAround()
 	AI_FORWARD			= true;
 
 	return true;
+}
+
+
+/*
+================
+idAI::CanReachEntity
+================
+*/
+bool idAI::CanReachEntity(idEntity* ent)
+{
+	aasPath_t	path;
+	int			toAreaNum;
+	int			areaNum;
+	idVec3		pos;
+
+	if (!ent)
+	{
+		return false;
+	}
+
+	if (move.moveType != MOVETYPE_FLY)
+	{
+		if (!ent->GetFloorPos(64.0f, pos))
+		{
+			return false;
+}
+		if (ent->IsType(idActor::Type) && static_cast<idActor*>(ent)->OnLadder())
+		{
+			return false;
+		}
+	}
+	else
+	{
+		pos = ent->GetPhysics()->GetOrigin();
+	}
+
+	toAreaNum = PointReachableAreaNum(pos);
+	if (!toAreaNum)
+	{
+		return false;
+}
+
+	const idVec3& org = physicsObj.GetOrigin();
+	areaNum = PointReachableAreaNum(org);
+	if (!toAreaNum || !PathToGoal(path, areaNum, org, toAreaNum, pos))
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+/*
+================
+idAI::CanReachEnemy
+================
+*/
+bool idAI::CanReachEnemy(void)
+{
+	aasPath_t	path;
+	int			toAreaNum;
+	int			areaNum;
+	idVec3		pos;
+	idActor* enemyEnt;
+
+	enemyEnt = enemy.GetEntity();
+	if (!enemyEnt)
+	{
+		return false;
+	}
+
+	if (move.moveType != MOVETYPE_FLY)
+	{
+		if (enemyEnt->OnLadder())
+		{
+			return false;
+		}
+		enemyEnt->GetAASLocation(aas, pos, toAreaNum);
+	}
+	else
+	{
+		pos = enemyEnt->GetPhysics()->GetOrigin();
+		toAreaNum = PointReachableAreaNum(pos);
+	}
+
+	if (!toAreaNum)
+	{
+		return false;
+	}
+
+	const idVec3& org = physicsObj.GetOrigin();
+	areaNum = PointReachableAreaNum(org);
+	if (!PathToGoal(path, areaNum, org, toAreaNum, pos))
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+
+/*
+=====================
+idAI::GetClosestHiddenTarget
+=====================
+*/
+idEntity *idAI::GetClosestHiddenTarget(const char* type)
+{
+	int	i;
+	idEntity* ent;
+	idEntity* bestEnt;
+	float time;
+	float bestTime;
+	const idVec3& org = physicsObj.GetOrigin();
+	idActor* enemyEnt = enemy.GetEntity();
+
+	if (!enemyEnt)
+	{
+		// no enemy to hide from
+		return NULL;
+	}
+
+	if (targets.Num() == 1)
+	{
+		ent = targets[0].GetEntity();
+		if (ent != NULL && idStr::Cmp(ent->GetEntityDefName(), type) == 0)
+		{
+			if (!EntityCanSeePos(enemyEnt, lastVisibleEnemyPos, ent->GetPhysics()->GetOrigin()))
+			{
+				return ent;
+			}
+		}
+		return NULL;
+	}
+
+	bestEnt = NULL;
+	bestTime = idMath::INFINITY;
+	for (i = 0; i < targets.Num(); i++)
+	{
+		ent = targets[i].GetEntity();
+		if (ent != NULL && idStr::Cmp(ent->GetEntityDefName(), type) == 0)
+		{
+			const idVec3& destOrg = ent->GetPhysics()->GetOrigin();
+			time = TravelDistance(org, destOrg);
+			if ((time >= 0.0f) && (time < bestTime))
+			{
+				if (!EntityCanSeePos(enemyEnt, lastVisibleEnemyPos, destOrg))
+				{
+					bestEnt = ent;
+					bestTime = time;
+				}
+			}
+		}
+	}
+	return bestEnt;
 }
 
 /*
@@ -5293,6 +5592,22 @@ void idAI::DirectDamage( const char* meleeDefName, idEntity* ent )
 
 	// end the attack if we're a multiframe attack
 	EndAttack();
+}
+
+/*
+=====================
+idAI::enemy_dead
+=====================
+*/
+void idAI::enemy_dead(void) {
+	AI_ENEMY_DEAD = false;
+	checkForEnemy(false);
+	if (!GetEnemy()) {
+		SetState("state_Idle");
+	}
+	else {
+		SetState("state_Combat");
+	}
 }
 
 /*

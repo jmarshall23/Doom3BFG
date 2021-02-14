@@ -2175,7 +2175,7 @@ void idActor::SetAnimState( int channel, const char* statename, int blendFrames 
 	func = scriptObject.GetFunction( statename );
 	if( !func )
 	{
-		assert( 0 );
+		//assert( 0 );
 		gameLocal.Error( "Can't find function '%s' in object '%s'", statename, scriptObject.GetTypeName() );
 	}
 
@@ -3747,32 +3747,68 @@ void idActor::Event_CheckAnim( int channel, const char* animname )
 
 /*
 ================
+idActor::ChooseAnim
+================
+*/
+idStr idActor::ChooseAnim(int channel, const char* animname)
+{
+	int anim;
+
+	anim = GetAnim(channel, animname);
+	if (anim)
+	{
+		if (channel == ANIMCHANNEL_HEAD)
+		{
+			if (head.GetEntity())
+			{
+				return head.GetEntity()->GetAnimator()->AnimFullName(anim);
+			}
+		}
+		else
+		{
+			return animator.AnimFullName(anim);
+		}
+	}
+
+	return "";
+}
+
+/*
+================
 idActor::Event_ChooseAnim
 ================
 */
 void idActor::Event_ChooseAnim( int channel, const char* animname )
 {
+	idThread::ReturnString(ChooseAnim(channel, animname));
+}
+
+/*
+================
+idActor::Event_AnimLength
+================
+*/
+float idActor::AnimLength(int channel, const char* animname)
+{
 	int anim;
 
-	anim = GetAnim( channel, animname );
-	if( anim )
+	anim = GetAnim(channel, animname);
+	if (anim)
 	{
-		if( channel == ANIMCHANNEL_HEAD )
+		if (channel == ANIMCHANNEL_HEAD)
 		{
-			if( head.GetEntity() )
+			if (head.GetEntity())
 			{
-				idThread::ReturnString( head.GetEntity()->GetAnimator()->AnimFullName( anim ) );
-				return;
+				return (MS2SEC(head.GetEntity()->GetAnimator()->AnimLength(anim)));
 			}
 		}
 		else
 		{
-			idThread::ReturnString( animator.AnimFullName( anim ) );
-			return;
+			return (MS2SEC(animator.AnimLength(anim)));
 		}
 	}
 
-	idThread::ReturnString( "" );
+	return (0.0f);
 }
 
 /*
@@ -3781,28 +3817,8 @@ idActor::Event_AnimLength
 ================
 */
 void idActor::Event_AnimLength( int channel, const char* animname )
-{
-	int anim;
-
-	anim = GetAnim( channel, animname );
-	if( anim )
-	{
-		if( channel == ANIMCHANNEL_HEAD )
-		{
-			if( head.GetEntity() )
-			{
-				idThread::ReturnFloat( MS2SEC( head.GetEntity()->GetAnimator()->AnimLength( anim ) ) );
-				return;
-			}
-		}
-		else
-		{
-			idThread::ReturnFloat( MS2SEC( animator.AnimLength( anim ) ) );
-			return;
-		}
-	}
-
-	idThread::ReturnFloat( 0.0f );
+{	
+	idThread::ReturnFloat(AnimLength(channel, animname));
 }
 
 /*

@@ -3206,6 +3206,14 @@ void idGameLocal::CallObjectFrameCommand( idEntity* ent, const char* frameComman
 {
 	const function_t* func;
 
+// jmarshall
+	if (ent->HasNativeFunction(frameCommand))
+	{
+		ent->Invoke(frameCommand, NULL);
+		return;
+	}
+// jmarshall end
+
 	func = ent->scriptObject.GetFunction( frameCommand );
 	if( !func )
 	{
@@ -6081,7 +6089,66 @@ bool idGameLocal::InfluenceActive(void) const {
 
 	return false;
 }
+/*
+==================
+Random
+==================
+*/
+float idGameLocal::Random(float range)
+{
+	float result;
 
+	result = gameLocal.random.RandomFloat();
+	return range * result;
+}
+
+
+/*
+==================
+RandomDelay
+==================
+*/
+float idGameLocal::RandomDelay(float min, float max) {
+	float t;
+
+	t = SysScriptTime();
+	t += min + Random(max - min);
+
+	return t;
+}
+
+/*
+==================
+DelayTime
+==================
+*/
+float idGameLocal::DelayTime(float delay) {
+	float t;
+
+	t = SysScriptTime();
+	t += delay;
+	t += Random(2) - 1;
+
+	return t;
+}
+
+
+/*
+==================
+RandomTime
+==================
+*/
+float idGameLocal::RandomTime(float delay) {
+	float t;
+	float result;
+
+	t = SysScriptTime();
+
+	result = gameLocal.random.RandomFloat();
+	t += delay * result;
+
+	return t;
+}
 
 /*
 ================
