@@ -292,7 +292,7 @@ public:
 	virtual void			FreeModelDef();
 	virtual void			FreeLightDef();
 	virtual void			Hide();
-	virtual void			Show();
+	virtual void			Show();	
 	bool					IsHidden() const;
 	void					UpdateVisuals();
 	void					UpdateModel();

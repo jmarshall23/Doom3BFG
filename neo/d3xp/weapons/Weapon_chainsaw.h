@@ -1,14 +1,14 @@
-// Weapon_fist.h
+// Weapon_chainsaw.h
 //
 
 #pragma once
 
-class rvmWeaponFist : public rvmWeaponObject
+class rvmWeaponChainsaw : public rvmWeaponObject
 {
 public:
-	CLASS_PROTOTYPE( rvmWeaponFist );
+	CLASS_PROTOTYPE(rvmWeaponChainsaw);
 
-	virtual void			Init( idWeapon* weapon );
+	virtual void			Init(idWeapon* weapon);
 
 	stateResult_t			Raise(stateParms_t* parms);
 	stateResult_t			Lower(stateParms_t* parms);
@@ -16,6 +16,5 @@ public:
 	stateResult_t			Fire(stateParms_t* parms);
 	stateResult_t			Reload(stateParms_t* parms);
 private:
-	const char* 			GetFireAnim();
 	bool side;
 };

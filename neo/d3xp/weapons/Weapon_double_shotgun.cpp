@@ -51,7 +51,6 @@ void rvmWeaponDoubleShotgun::Init( idWeapon* weapon )
 	rvmWeaponObject::Init( weapon );
 
 	next_attack = 0;
-	weapon->WeaponState( WP_RISING, 0 );
 }
 
 /*
@@ -59,7 +58,7 @@ void rvmWeaponDoubleShotgun::Init( idWeapon* weapon )
 rvmWeaponDoubleShotgun::Raise
 ===============
 */
-void rvmWeaponDoubleShotgun::Raise()
+stateResult_t rvmWeaponDoubleShotgun::Raise(stateParms_t* parms)
 {
 	enum RisingState
 	{
@@ -67,23 +66,22 @@ void rvmWeaponDoubleShotgun::Raise()
 		RISING_WAIT
 	};
 
-	switch( risingState )
+	switch (parms->stage)
 	{
 		case RISING_NOTSET:
-			owner->Event_WeaponRising();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
-			risingState = RISING_WAIT;
-			break;
+			owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
+			parms->stage = RISING_WAIT;
+		return SRESULT_WAIT;
 
 		case RISING_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, SHOTGUN_DOUBLE_RAISE_TO_IDLE ) )
 			{
-				owner->WeaponState( WP_IDLE, SHOTGUN_DOUBLE_RAISE_TO_IDLE );
-				risingState = RISING_NOTSET;
-				isRisen = true;
+				return SRESULT_DONE;
 			}
-			break;
+			return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 
@@ -92,7 +90,7 @@ void rvmWeaponDoubleShotgun::Raise()
 rvmWeaponDoubleShotgun::Lower
 ===============
 */
-void rvmWeaponDoubleShotgun::Lower()
+stateResult_t rvmWeaponDoubleShotgun::Lower(stateParms_t* parms)
 {
 	enum LoweringState
 	{
@@ -100,23 +98,23 @@ void rvmWeaponDoubleShotgun::Lower()
 		LOWERING_WAIT
 	};
 
-	switch( loweringState )
+	switch (parms->stage)
 	{
-		case LOWERING_NOTSET:
-			owner->Event_WeaponLowering();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
-			loweringState = LOWERING_WAIT;
-			break;
+	case LOWERING_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
+		parms->stage = LOWERING_WAIT;
+		return SRESULT_WAIT;
 
-		case LOWERING_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
-			{
-				owner->Event_WeaponHolstered();
-				loweringState = LOWERING_NOTSET;
-				isHolstered = true;
-			}
-			break;
+	case LOWERING_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+		{
+			SetState("Holstered");
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -124,7 +122,7 @@ void rvmWeaponDoubleShotgun::Lower()
 rvmWeaponDoubleShotgun::Idle
 ===============
 */
-void rvmWeaponDoubleShotgun::Idle()
+stateResult_t rvmWeaponDoubleShotgun::Idle(stateParms_t* parms)
 {
 	//float currentTime = 0;
 	float clip_size;
@@ -137,7 +135,7 @@ void rvmWeaponDoubleShotgun::Idle()
 		IDLE_WAIT
 	};
 
-	switch( idleState )
+	switch( parms->stage )
 	{
 		case IDLE_NOTSET:
 			owner->Event_WeaponReady();
@@ -151,13 +149,15 @@ void rvmWeaponDoubleShotgun::Idle()
 			}
 
 			owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
-			idleState = IDLE_WAIT;
-			break;
+			parms->stage = IDLE_WAIT;
+			return SRESULT_WAIT;
 
 		case IDLE_WAIT:
 			// Do nothing.
-			break;
+			return SRESULT_DONE;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -165,7 +165,7 @@ void rvmWeaponDoubleShotgun::Idle()
 rvmWeaponDoubleShotgun::Fire
 ===============
 */
-void rvmWeaponDoubleShotgun::Fire()
+stateResult_t rvmWeaponDoubleShotgun::Fire(stateParms_t* parms)
 {
 	int ammoClip = owner->AmmoInClip();
 
@@ -175,13 +175,14 @@ void rvmWeaponDoubleShotgun::Fire()
 		FIRE_WAIT
 	};
 
-	if( ammoClip == 0 && owner->AmmoAvailable() && firingState == 0 )
+	if (ammoClip == 0 && owner->AmmoAvailable() && parms->stage == 0)
 	{
-		owner->WeaponState( WP_RELOAD, SHOTGUN_DOUBLE_IDLE_TO_RELOAD );
-		return;
+		//owner->WeaponState( WP_RELOAD, PISTOL_IDLE_TO_RELOAD );
+		owner->Reload();
+		return SRESULT_DONE;
 	}
 
-	switch( firingState )
+	switch( parms->stage )
 	{
 		case FIRE_NOTSET:
 			//if (ammoClip == SHOTGUN_LOWAMMO) {
@@ -194,74 +195,57 @@ void rvmWeaponDoubleShotgun::Fire()
 			owner->Event_LaunchProjectilesEllipse( SHOTGUN_BIG_PROJECTILES, SHOTGUN_BIG_WIDTH, SHOTGUN_BIG_HEIGHT, 0, 1.0 );
 
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "fire", false );
-			firingState = FIRE_WAIT;
-			break;
+			parms->stage = FIRE_WAIT;
+			return SRESULT_WAIT;
 
 		case FIRE_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, SHOTGUN_DOUBLE_FIRE_TO_IDLE ) )
 			{
-				owner->WeaponState( WP_RELOAD, SHOTGUN_DOUBLE_IDLE_TO_RELOAD );
-				firingState = 0;
+				owner->Event_WeaponReloading();
+				return SRESULT_DONE;
 			}
-			break;
-	}
-}
-
-/*
-===============
-rvmWeaponDoubleShotgun::HasWaitSignal
-===============
-*/
-bool rvmWeaponDoubleShotgun::HasWaitSignal( void )
-{
-	if( rvmWeaponObject::HasWaitSignal() )
-	{
-		return true;
+			return SRESULT_WAIT;
 	}
 
-	// Allow the player to shoot or reload while reloading.
-	return false; // next_attack >= MS2SEC(gameLocal.realClientTime);
+	return SRESULT_ERROR;
 }
-
 
 /*
 ===============
 rvmWeaponDoubleShotgun::Reload
 ===============
 */
-void rvmWeaponDoubleShotgun::Reload()
+stateResult_t rvmWeaponDoubleShotgun::Reload(stateParms_t* parms)
 {
-	float ammoClip;
-	float ammoAvail;
-	float clip_size;
-
-	clip_size = owner->ClipSize();
-
 	enum RELOAD_State
 	{
 		RELOAD_NOTSET = 0,
 		RELOAD_WAIT
 	};
 
-	ammoAvail = owner->AmmoAvailable();
-	ammoClip = owner->AmmoInClip();
-
-	switch( reloadState )
+	switch (parms->stage)
 	{
-		case RELOAD_NOTSET:
-			owner->Event_WeaponReloading();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "reload_start", false );
-			reloadState = RELOAD_WAIT;
-			break;
+	case RELOAD_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "reload_start", false);
+		parms->stage = RELOAD_WAIT;
+		return SRESULT_WAIT;
 
-		case RELOAD_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
-			{
-				owner->Event_AddToClip( owner->ClipSize() );
-
-				owner->WeaponState( WP_IDLE, 0 );
-				reloadState = 0;
-			}
-			break;
+	case RELOAD_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+		{
+			owner->Event_AddToClip(owner->ClipSize());
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+	return SRESULT_ERROR;
+}
+
+/*
+===============
+rvmWeaponDoubleShotgun::EjectBrass
+===============
+*/
+void rvmWeaponDoubleShotgun::EjectBrass(void) {
+
 }

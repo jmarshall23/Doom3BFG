@@ -55,11 +55,29 @@ rvmWeaponObject::Init
 */
 void rvmWeaponObject::Init( idWeapon* weapon )
 {
+	next_attack = 0.0f;
 	owner = weapon;
-	ResetStates();
+	stateThread.SetOwner(this);
 	owner->Event_WeaponRising();
 
 	idClass::Init();
+}
+
+/*
+==================
+rvmWeaponObject::IsFiring
+==================
+*/
+bool rvmWeaponObject::IsFiring() {
+	if (IsStateRunning("Fire")) {
+		return true;
+	}
+
+	if (next_attack >= gameLocal.realClientTime) {
+		return true;
+	}
+
+	return false;
 }
 
 /*
@@ -77,51 +95,6 @@ const idSoundShader* rvmWeaponObject::FindSound( const char* name )
 	return declManager->FindSound( soundName );
 }
 
-/*
-==================
-rvmWeaponObject::ResetStates
-==================
-*/
-void rvmWeaponObject::ResetStates( void )
-{
-	isHolstered = false;
-	isRisen = false;
-	risingState = 0;
-	idleState = 0;
-	loweringState = 0;
-	firingState = 0;
-	reloadState = 0;
-	waitDuration = 0.0f;
-}
-
-/*
-==================
-rvmWeaponObject::CanSwitchState
-==================
-*/
-bool rvmWeaponObject::CanSwitchState( void )
-{
-	return firingState == 0 && reloadState == 0; // Don't allow switching weapons or states if we are firing or reloading.
-}
-/*
-==================
-rvmWeaponObject::HasWaitSignal
-==================
-*/
-bool rvmWeaponObject::HasWaitSignal( void )
-{
-	return waitDuration > sys->GetClockTicks();
-}
-
-/*
-==================
-rvmWeaponObject::Wait
-==================
-*/
-void rvmWeaponObject::Wait( float duration )
-{
-	waitDuration = sys->GetClockTicks() + ( sys->ClockTicksPerSecond() * duration );
-}
 
 /***********************************************************************
 
@@ -164,6 +137,8 @@ idWeapon::idWeapon()
 	isFiring = false;
 	isLinked = false;
 	currentWeaponObject = nullptr;
+	isFlashLight = false;
+	OutOfAmmo = false;
 
 	memset( &guiLight, 0, sizeof( guiLight ) );
 	memset( &muzzleFlash, 0, sizeof( muzzleFlash ) );
@@ -260,6 +235,8 @@ void idWeapon::SetFlashlightOwner( idPlayer* _owner )
 	assert( !owner );
 	owner = _owner;
 	SetName( va( "%s_weapon_flashlight", owner->name.c_str() ) );
+
+	isFlashLight = true;
 
 	if( worldModel.GetEntity() )
 	{
@@ -834,9 +811,6 @@ void idWeapon::Clear()
 	muzzleOrigin.Zero();
 	pushVelocity.Zero();
 
-	status			= WP_HOLSTERED;
-	state			= WP_NONE;
-	idealState		= WP_NONE;
 	animBlendFrames	= 0;
 	animDoneTime	= 0;
 
@@ -1457,10 +1431,10 @@ void idWeapon::UpdateGUI()
 		return;
 	}
 
-	if( status == WP_HOLSTERED )
-	{
-		return;
-	}
+	//if( status == WP_HOLSTERED )
+	//{
+	//	return;
+	//}
 
 	if( owner->weaponGone )
 	{
@@ -1773,45 +1747,12 @@ idWeapon::Think
 */
 void idWeapon::Think()
 {
+	if (isFlashLight)
+		return;
+
 	if( currentWeaponObject )
 	{
-		if( idealState == WP_READY )
-		{
-			idealState = WP_IDLE;
-		}
-
-		if( idealState != state && currentWeaponObject->CanSwitchState() )
-		{
-			if( !( idealState == WP_RISING && currentWeaponObject->IsRisen() ) )
-			{
-				state = idealState;
-				currentWeaponObject->ResetStates();
-			}
-		}
-
-		if( !currentWeaponObject->HasWaitSignal() )
-		{
-			switch( state )
-			{
-				case weaponStatus_t::WP_RISING:
-					currentWeaponObject->Raise();
-					break;
-
-				case weaponStatus_t::WP_IDLE:
-					currentWeaponObject->Idle();
-					break;
-				case weaponStatus_t::WP_LOWERING:
-					currentWeaponObject->Lower();
-					break;
-
-				case weaponStatus_t::WP_RELOAD:
-					currentWeaponObject->Reload();
-					break;
-				case weaponStatus_t::WP_FIRE:
-					currentWeaponObject->Fire();
-					break;
-			}
-		}
+		currentWeaponObject->Execute();
 	}
 }
 
@@ -1822,7 +1763,8 @@ idWeapon::Raise
 */
 void idWeapon::Raise()
 {
-	idealState = WP_RISING;
+	currentWeaponObject->SetState("Raise");
+	currentWeaponObject->AppendState("Idle");
 }
 
 /*
@@ -1833,7 +1775,7 @@ idWeapon::PutAway
 void idWeapon::PutAway()
 {
 	hasBloodSplat = false;
-	idealState = WP_LOWERING;
+	currentWeaponObject->SetState("Lower");
 }
 
 /*
@@ -1844,7 +1786,11 @@ NOTE: this is only for impulse-triggered reload, auto reload is scripted
 */
 void idWeapon::Reload()
 {
-	idealState = WP_RELOAD;
+	OutOfAmmo = false;
+
+	// Reload and go back to idle.
+	currentWeaponObject->SetState("Reload");
+	currentWeaponObject->AppendState("Idle");
 }
 
 /*
@@ -1961,6 +1907,8 @@ idWeapon::OwnerDied
 */
 void idWeapon::OwnerDied()
 {
+	currentWeaponObject->OwnerDied();
+
 	Hide();
 	if( worldModel.GetEntity() )
 	{
@@ -1975,18 +1923,19 @@ idWeapon::BeginAttack
 */
 void idWeapon::BeginAttack()
 {
-	if( status != WP_OUTOFAMMO )
+	if( !OutOfAmmo )
 	{
 		lastAttack = gameLocal.time;
 	}
 
-	if( !currentWeaponObject->CanFire() )
-	{
+	if (currentWeaponObject->IsFiring()) {
 		return;
 	}
 
+	currentWeaponObject->SetState("Fire");
+	currentWeaponObject->AppendState("Idle");
+
 	isFiring = true;
-	idealState = WP_FIRE;
 }
 
 /*
@@ -2006,7 +1955,7 @@ idWeapon::isReady
 */
 bool idWeapon::IsReady() const
 {
-	return !hide && !IsHidden() && ( ( status == WP_RELOAD ) || ( status == WP_READY ) || ( status == WP_OUTOFAMMO ) );
+	return !hide && !IsHidden() && !currentWeaponObject->IsRunning() && !IsHolstered() && !currentWeaponObject->IsStateRunning("Lower");
 }
 
 /*
@@ -2016,7 +1965,7 @@ idWeapon::IsReloading
 */
 bool idWeapon::IsReloading() const
 {
-	return ( status == WP_RELOAD );
+	return currentWeaponObject->IsStateRunning("Reload");
 }
 
 /*
@@ -2026,7 +1975,7 @@ idWeapon::IsHolstered
 */
 bool idWeapon::IsHolstered() const
 {
-	return ( status == WP_HOLSTERED );
+	return currentWeaponObject->IsStateRunning("Holstered");
 }
 
 /*
@@ -2038,7 +1987,7 @@ bool idWeapon::ShowCrosshair() const
 {
 // JDC: this code would never function as written, I'm assuming they wanted the following behavior
 //	return !( state == idStr( WP_RISING ) || state == idStr( WP_LOWERING ) || state == idStr( WP_HOLSTERED ) );
-	return !( status == WP_RISING || status == WP_LOWERING || status == WP_HOLSTERED || status == WP_RELOAD );
+	return !currentWeaponObject->IsRunning() || currentWeaponObject->IsStateRunning("Fire");
 }
 
 /*
@@ -2074,7 +2023,7 @@ void idWeapon::WeaponStolen()
 	}
 
 	// set to holstered so we can switch weapons right away
-	idealState = WP_HOLSTERED;
+	//idealState = WP_HOLSTERED;
 
 	HideWeapon();
 }
@@ -2110,18 +2059,6 @@ idEntity* idWeapon::DropItem( const idVec3& velocity, int activateDelay, int rem
 	Script state management
 
 ***********************************************************************/
-
-/*
-=====================
-idWeapon::SetState
-=====================
-*/
-void idWeapon::SetState( weaponStatus_t state, int blendFrames )
-{
-	animBlendFrames = blendFrames;
-	this->state = state;
-}
-
 
 /***********************************************************************
 
@@ -2716,11 +2653,12 @@ void idWeapon::PresentWeapon( bool showViewModel )
 			guiLightHandle = gameRenderWorld->AddLightDef( &guiLight );
 		}
 	}
-
-	if( status != WP_READY && sndHum )
-	{
-		StopSound( SND_CHANNEL_BODY, false );
-	}
+// jmarshall - eval
+	//if( status != WP_READY && sndHum )
+	//{
+	//	StopSound( SND_CHANNEL_BODY, false );
+	//}
+// jmarshall end
 
 	UpdateSound();
 
@@ -3201,7 +3139,9 @@ idWeapon::Event_WeaponReady
 */
 void idWeapon::Event_WeaponReady()
 {
-	status = WP_READY;
+	//status = WP_READY;
+	currentWeaponObject->SetState("Rising");
+	currentWeaponObject->AppendState("Idle");
 	idLib::PrintfIf( g_debugWeapon.GetBool(), "Weapon Status WP_READY \n" );
 	//if ( isLinked ) {
 	//	WEAPON_RAISEWEAPON = false;
@@ -3220,7 +3160,8 @@ idWeapon::Event_WeaponOutOfAmmo
 */
 void idWeapon::Event_WeaponOutOfAmmo()
 {
-	status = WP_OUTOFAMMO;
+	//status = WP_OUTOFAMMO;
+	OutOfAmmo = true;
 	idLib::PrintfIf( g_debugWeapon.GetBool(), "Weapon Status WP_OUTOFAMMO \n" );
 }
 
@@ -3231,7 +3172,7 @@ idWeapon::Event_WeaponReloading
 */
 void idWeapon::Event_WeaponReloading()
 {
-	status = WP_RELOAD;
+	Reload();
 	idLib::PrintfIf( g_debugWeapon.GetBool(), "Weapon Status WP_RELOAD \n" );
 }
 
@@ -3242,7 +3183,7 @@ idWeapon::Event_WeaponHolstered
 */
 void idWeapon::Event_WeaponHolstered()
 {
-	status = WP_HOLSTERED;
+	//status = WP_HOLSTERED;
 	idLib::PrintfIf( g_debugWeapon.GetBool(), "Weapon Status WP_HOLSTERED \n" );
 }
 
@@ -3253,7 +3194,7 @@ idWeapon::Event_WeaponRising
 */
 void idWeapon::Event_WeaponRising()
 {
-	status = WP_RISING;
+	Raise();
 	idLib::PrintfIf( g_debugWeapon.GetBool(), "Weapon Status WP_RISING \n" );
 	owner->WeaponRisingCallback();
 }
@@ -3265,7 +3206,7 @@ idWeapon::Event_WeaponLowering
 */
 void idWeapon::Event_WeaponLowering()
 {
-	status = WP_LOWERING;
+	LowerWeapon();
 	idLib::PrintfIf( g_debugWeapon.GetBool(), "Weapon Status WP_LOWERING \n" );
 	owner->WeaponLoweringCallback();
 }
@@ -3340,15 +3281,25 @@ void idWeapon::Event_AmmoInClip()
 
 /*
 ===============
+idWeapon::AmmoAvailable
+===============
+*/
+int idWeapon::AmmoAvailable()
+{
+	int ammoAvail = owner->inventory.HasAmmo(ammoType, ammoRequired);
+	ammoAvail += AmmoInClip();
+
+	return ammoAvail;
+}
+
+/*
+===============
 idWeapon::Event_AmmoAvailable
 ===============
 */
 void idWeapon::Event_AmmoAvailable()
-{
-	int ammoAvail = owner->inventory.HasAmmo( ammoType, ammoRequired );
-	ammoAvail += AmmoInClip();
-
-	idThread::ReturnFloat( ammoAvail );
+{	
+	idThread::ReturnFloat(AmmoAvailable());
 }
 
 /*
@@ -3690,6 +3641,33 @@ void idWeapon::Event_GrabberSetGrabDistance( float dist )
 	grabber.SetDragDistance( dist );
 }
 
+
+/*
+================
+idWeapon::Event_CreateProjectile
+================
+*/
+idEntity *idWeapon::CreateProjectile()
+{
+	if (!common->IsClient())
+	{
+		projectileEnt = NULL;
+		gameLocal.SpawnEntityDef(projectileDict, &projectileEnt, false);
+		if (projectileEnt)
+		{
+			projectileEnt->SetOrigin(GetPhysics()->GetOrigin());
+			projectileEnt->Bind(owner, false);
+			projectileEnt->Hide();
+		}
+		return projectileEnt;
+	}
+	else
+	{
+		return (NULL);
+	}
+}
+
+
 /*
 ================
 idWeapon::Event_CreateProjectile
@@ -3697,22 +3675,7 @@ idWeapon::Event_CreateProjectile
 */
 void idWeapon::Event_CreateProjectile()
 {
-	if( !common->IsClient() )
-	{
-		projectileEnt = NULL;
-		gameLocal.SpawnEntityDef( projectileDict, &projectileEnt, false );
-		if( projectileEnt )
-		{
-			projectileEnt->SetOrigin( GetPhysics()->GetOrigin() );
-			projectileEnt->Bind( owner, false );
-			projectileEnt->Hide();
-		}
-		idThread::ReturnEntity( projectileEnt );
-	}
-	else
-	{
-		idThread::ReturnEntity( NULL );
-	}
+	idThread::ReturnEntity(CreateProjectile());
 }
 
 /*
@@ -4555,15 +4518,4 @@ void idWeapon::ClientPredictionThink()
 void idWeapon::ForceAmmoInClip()
 {
 	ammoClip = clipSize;
-}
-
-/*
-===============
-idWeapon::WeaponState
-===============
-*/
-void idWeapon::WeaponState( weaponStatus_t state, int blendFrames )
-{
-	animBlendFrames = blendFrames;
-	idealState = state;
 }

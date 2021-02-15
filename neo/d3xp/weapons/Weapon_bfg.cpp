@@ -41,7 +41,6 @@ void rvmWeaponBFG::Init( idWeapon* weapon )
 	spread = weapon->GetFloat( "spread" );
 	owner->Event_SetGuiFloat( "powerlevel", 0 );
 	owner->Event_SetGuiFloat( "overcharge", 0 );
-	weapon->WeaponState( WP_RISING, 0 );
 }
 
 /*
@@ -49,7 +48,7 @@ void rvmWeaponBFG::Init( idWeapon* weapon )
 rvmWeaponBFG::Raise
 ===============
 */
-void rvmWeaponBFG::Raise()
+stateResult_t rvmWeaponBFG::Raise(stateParms_t* parms)
 {
 	enum RisingState
 	{
@@ -57,23 +56,22 @@ void rvmWeaponBFG::Raise()
 		RISING_WAIT
 	};
 
-	switch( risingState )
+	switch (parms->stage)
 	{
-		case RISING_NOTSET:
-			owner->Event_WeaponRising();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
-			risingState = RISING_WAIT;
-			break;
+	case RISING_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
+		parms->stage = RISING_WAIT;
+		return SRESULT_WAIT;
 
-		case RISING_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, BFG_RAISE_TO_IDLE ) )
-			{
-				owner->WeaponState( WP_IDLE, BFG_RAISE_TO_IDLE );
-				risingState = RISING_NOTSET;
-				isRisen = true;
-			}
-			break;
+	case RISING_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, BFG_RAISE_TO_IDLE))
+		{
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 
@@ -82,7 +80,7 @@ void rvmWeaponBFG::Raise()
 rvmWeaponBFG::Lower
 ===============
 */
-void rvmWeaponBFG::Lower()
+stateResult_t rvmWeaponBFG::Lower(stateParms_t* parms)
 {
 	enum LoweringState
 	{
@@ -90,23 +88,23 @@ void rvmWeaponBFG::Lower()
 		LOWERING_WAIT
 	};
 
-	switch( loweringState )
+	switch (parms->stage)
 	{
-		case LOWERING_NOTSET:
-			owner->Event_WeaponLowering();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
-			loweringState = LOWERING_WAIT;
-			break;
+	case LOWERING_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
+		parms->stage = LOWERING_WAIT;
+		return SRESULT_WAIT;
 
-		case LOWERING_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
-			{
-				owner->Event_WeaponHolstered();
-				isHolstered = true;
-				loweringState = LOWERING_NOTSET;
-			}
-			break;
+	case LOWERING_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+		{
+			SetState("Holstered");
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -114,7 +112,7 @@ void rvmWeaponBFG::Lower()
 rvmWeaponBFG::Idle
 ===============
 */
-void rvmWeaponBFG::Idle()
+stateResult_t rvmWeaponBFG::Idle(stateParms_t* parms)
 {
 	enum IdleState
 	{
@@ -122,26 +120,29 @@ void rvmWeaponBFG::Idle()
 		IDLE_WAIT
 	};
 
-	switch( idleState )
+	switch (parms->stage)
 	{
-		case IDLE_NOTSET:
-			if( !owner->AmmoInClip() )
-			{
-				owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle_empty" );
-				owner->Event_WeaponOutOfAmmo();
-			}
-			else
-			{
-				owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
-				owner->Event_WeaponReady();
-			}
-			idleState = IDLE_WAIT;
-			break;
+	case IDLE_NOTSET:
+		
+		if (!owner->AmmoInClip())
+		{
+			owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle_empty");
+			owner->Event_WeaponOutOfAmmo();
+		}
+		else
+		{
+			owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle");
+			owner->Event_WeaponReady();
+		}
+		parms->stage = IDLE_WAIT;
+		return SRESULT_WAIT;
 
-		case IDLE_WAIT:
-			// Do nothing.
-			break;
+	case IDLE_WAIT:
+		// Do nothing.
+		return SRESULT_DONE;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -149,7 +150,7 @@ void rvmWeaponBFG::Idle()
 rvmWeaponBFG::Fire
 ===============
 */
-void rvmWeaponBFG::Fire()
+stateResult_t rvmWeaponBFG::Fire(stateParms_t* parms)
 {
 	float time_held;
 	float power = 0.0f;
@@ -167,27 +168,27 @@ void rvmWeaponBFG::Fire()
 		FIRE_DONE
 	};
 
-	switch( firingState )
+	switch( parms->stage )
 	{
 		case FIRE_NOTSET:
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "fire_begin", false );
 			fuse_start = gameLocal.time;
 			fuse_end = gameLocal.time + SEC2MS( BFG_FUSE );
-			firingState = FIRE_FUSING;
-			break;
+			parms->stage = FIRE_FUSING;
+			return SRESULT_WAIT;
 
 		case FIRE_FUSING:
 			if( !owner->IsFiring() )
 			{
-				firingState = FIRE_FIRE;
+				parms->stage = FIRE_FIRE;
 			}
 			else if( gameLocal.time > gameLocal.time + SEC2MS( BFG_MINRELEASETIME ) && !owner->IsFiring() )
 			{
-				firingState = FIRE_SHORTFUSE;
+				parms->stage = FIRE_SHORTFUSE;
 			}
 			else if( gameLocal.time >= fuse_end )
 			{
-				firingState = FIRE_SHORTFUSE;
+				parms->stage = FIRE_SHORTFUSE;
 			}
 			else
 			{
@@ -195,34 +196,34 @@ void rvmWeaponBFG::Fire()
 				owner->Event_SetColor( powerLevel, powerLevel, powerLevel );
 				owner->Event_SetGuiFloat( "powerlevel", powerLevel );
 			}
-			break;
+			return SRESULT_WAIT;
 
 		case FIRE_SHORTFUSE:
 			if( owner->IsFiring() )
 			{
 				fuse_end = gameLocal.time + SEC2MS( BFG_SHORTFUSE );
-				firingState = FIRE_SHORTFUSEWAIT;
+				parms->stage = FIRE_SHORTFUSEWAIT;
 			}
 			else
 			{
-				firingState = FIRE_FIRE;
+				parms->stage = FIRE_FIRE;
 			}
-			break;
+			return SRESULT_WAIT;
 
 		case FIRE_SHORTFUSEWAIT:
 			if( !owner->IsFiring() || gameLocal.time >= fuse_end )
 			{
 				powerLevel = ( gameLocal.time - fuse_start ) / BFG_FUSE;
 				owner->Event_SetGuiFloat( "powerlevel", powerLevel );
-				firingState = FIRE_FIRE;
+				parms->stage = FIRE_FIRE;
 			}
-			break;
+			return SRESULT_WAIT;
 
 		case FIRE_FIRE:
 			if( gameLocal.time >= fuse_end )
 			{
 				OverCharge();
-				firingState = FIRE_DONE;
+				parms->stage = FIRE_DONE;
 			}
 			else
 			{
@@ -236,14 +237,14 @@ void rvmWeaponBFG::Fire()
 				fire_time = gameLocal.time;
 
 				owner->Event_LaunchProjectiles( BFG_NUMPROJECTILES, spread, 0, 1, 1 );
-				firingState = FIRE_FIRE_ANIMWAIT;
+				parms->stage = FIRE_FIRE_ANIMWAIT;
 			}
-			break;
+			return SRESULT_WAIT;
 
 		case FIRE_FIRE_ANIMWAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, BFG_FIRE_TO_IDLE ) )
 			{
-				firingState = FIRE_FIRE_COOLDOWN;
+				parms->stage = FIRE_FIRE_COOLDOWN;
 			}
 			else
 			{
@@ -254,26 +255,26 @@ void rvmWeaponBFG::Fire()
 				}
 				owner->Event_SetColor( intensity, intensity, intensity );
 			}
-			break;
+			return SRESULT_WAIT;
 
 		case FIRE_FIRE_COOLDOWN:
 			if( powerLevel <= 0 )
 			{
-				firingState = FIRE_DONE;
+				parms->stage = FIRE_DONE;
 			}
 			else
 			{
 				powerLevel -= SEC2MS( 0.05 ); // TODO: DELTA TIME THIS!!
 				owner->Event_SetGuiFloat( "powerlevel", powerLevel );
 			}
-			break;
+			return SRESULT_WAIT;
 
 		case FIRE_DONE:
 			owner->Event_SetGuiFloat( "powerlevel", 0 );
-			owner->WeaponState( WP_IDLE, BFG_FIRE_TO_IDLE );
-			firingState = 0;
-			break;
+			return SRESULT_DONE;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -319,7 +320,7 @@ void rvmWeaponBFG::OverCharge()
 rvmWeaponBFG::Reload
 ===============
 */
-void rvmWeaponBFG::Reload()
+stateResult_t rvmWeaponBFG::Reload(stateParms_t* parms)
 {
 	enum RELOAD_State
 	{
@@ -327,21 +328,20 @@ void rvmWeaponBFG::Reload()
 		RELOAD_WAIT
 	};
 
-	switch( reloadState )
+	switch (parms->stage)
 	{
-		case RELOAD_NOTSET:
-			owner->Event_WeaponReloading();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "reload", false );
-			reloadState = RELOAD_WAIT;
-			break;
+	case RELOAD_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "reload", false);
+		parms->stage = RELOAD_WAIT;
+		return SRESULT_WAIT;
 
-		case RELOAD_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, BFG_RELOAD_TO_IDLE ) )
-			{
-				owner->Event_AddToClip( owner->ClipSize() );
-				owner->WeaponState( WP_IDLE, BFG_RELOAD_TO_IDLE );
-				reloadState = 0;
-			}
-			break;
+	case RELOAD_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+		{
+			owner->Event_AddToClip(owner->ClipSize());
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+	return SRESULT_ERROR;
 }

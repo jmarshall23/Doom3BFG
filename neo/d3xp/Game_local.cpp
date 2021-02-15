@@ -3212,6 +3212,14 @@ void idGameLocal::CallObjectFrameCommand( idEntity* ent, const char* frameComman
 		ent->Invoke(frameCommand, NULL);
 		return;
 	}
+	else if (ent->InvokeChild() != NULL)
+	{
+		if (ent->InvokeChild()->HasNativeFunction(frameCommand))
+		{
+			ent->InvokeChild()->Invoke(frameCommand, NULL);
+			return;
+		}
+	}
 // jmarshall end
 
 	func = ent->scriptObject.GetFunction( frameCommand );
@@ -6148,6 +6156,21 @@ float idGameLocal::RandomTime(float delay) {
 	t += delay * result;
 
 	return t;
+}
+
+/*
+================
+idThread::Event_Spawn
+================
+*/
+idEntity* idGameLocal::Spawn(const char* classname)
+{
+	idEntity* ent;
+	idDict dict;
+
+	dict.Set("classname", classname);
+	gameLocal.SpawnEntityDef(dict, &ent);
+	return ent;
 }
 
 /*

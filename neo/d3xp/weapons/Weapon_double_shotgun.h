@@ -10,13 +10,13 @@ public:
 
 	virtual void			Init( idWeapon* weapon );
 
-	virtual void			Raise();
-	virtual void			Idle();
-	virtual void			Fire();
-	virtual void			Lower();
-	virtual void			Reload();
+	stateResult_t			Raise(stateParms_t* parms);
+	stateResult_t			Lower(stateParms_t* parms);
+	stateResult_t			Idle(stateParms_t* parms);
+	stateResult_t			Fire(stateParms_t* parms);
+	stateResult_t			Reload(stateParms_t* parms);
 
-	virtual bool			HasWaitSignal( void ) override;
+	void	EjectBrass(void);
 private:
-	float		next_attack;
+
 };

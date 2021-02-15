@@ -288,7 +288,7 @@ stateResult_t rvStateThread::Execute( void )
 		}
 
 		// Check for delayed states
-		if( call->delay && gameLocal.time < call->parms.time + call->delay )
+		if( gameLocal.time < call->parms.time + call->delay )
 		{
 			fl.executing = false;
 			return SRESULT_WAIT;

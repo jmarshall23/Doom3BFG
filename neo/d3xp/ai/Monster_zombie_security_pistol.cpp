@@ -468,7 +468,7 @@ stateResult_t rvmMonsterZombieSecurityPistol::combat_dodge_right(stateParms_t* p
 	{
 		Event_StopMove();
 		Event_FaceEnemy();
-		Event_AnimState(ANIMCHANNEL_LEGS, "Legs_DodgeLRight", 2);
+		Event_AnimState(ANIMCHANNEL_LEGS, "Legs_DodgeRight", 2);
 		SetWaitState("strafe");
 		parms->stage = 1;
 		return SRESULT_WAIT;

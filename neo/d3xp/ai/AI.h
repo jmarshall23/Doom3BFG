@@ -876,16 +876,6 @@ private:
 	void				Event_MarkUsed();
 };
 
-class idAI_Vagary : public idAI
-{
-public:
-	CLASS_PROTOTYPE( idAI_Vagary );
-
-private:
-	void	Event_ChooseObjectToThrow( const idVec3& mins, const idVec3& maxs, float speed, float minDist, float offset );
-	void	Event_ThrowObjectAtEnemy( idEntity* ent, float speed );
-};
-
 class rvmAI_Follower : public idAI
 {
 public:
@@ -904,6 +894,11 @@ private:
 	stateResult_t state_killed(stateParms_t* parms);
 	stateResult_t state_talk_anim(stateParms_t* parms);
 };
+
+//
+// Bosses
+//
+#include "Monster_boss_vagary.h"
 
 //
 // Demons

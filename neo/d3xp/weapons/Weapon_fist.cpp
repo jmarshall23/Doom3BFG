@@ -25,9 +25,6 @@ rvmWeaponFist::Init
 void rvmWeaponFist::Init( idWeapon* weapon )
 {
 	rvmWeaponObject::Init( weapon );
-
-	weapon->WeaponState( WP_RISING, 0 );
-	owner->Event_WeaponReady();
 }
 
 /*
@@ -35,7 +32,7 @@ void rvmWeaponFist::Init( idWeapon* weapon )
 rvmWeaponFist::Raise
 ================
 */
-void rvmWeaponFist::Raise( void )
+stateResult_t rvmWeaponFist::Raise(stateParms_t* parms)
 {
 	enum RisingState
 	{
@@ -43,23 +40,22 @@ void rvmWeaponFist::Raise( void )
 		RISING_WAIT
 	};
 
-	switch( risingState )
+	switch( parms->stage )
 	{
 		case RISING_NOTSET:
-			owner->Event_WeaponRising();
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
-			risingState = RISING_WAIT;
-			break;
+			parms->stage = RISING_WAIT;
+			return SRESULT_WAIT;
 
 		case RISING_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, FISTS_RAISE_TO_IDLE ) )
 			{
-				owner->WeaponState( WP_IDLE, FISTS_RAISE_TO_IDLE );
-				risingState = RISING_NOTSET;
-				isRisen = true;
+				return SRESULT_DONE;
 			}
-			break;
+			return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -67,7 +63,7 @@ void rvmWeaponFist::Raise( void )
 rvmWeaponFist::Lower
 ================
 */
-void rvmWeaponFist::Lower()
+stateResult_t rvmWeaponFist::Lower(stateParms_t* parms)
 {
 	enum LoweringState
 	{
@@ -75,23 +71,23 @@ void rvmWeaponFist::Lower()
 		LOWERING_WAIT
 	};
 
-	switch( loweringState )
+	switch( parms->stage )
 	{
 		case LOWERING_NOTSET:
-			owner->Event_WeaponLowering();
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
-			loweringState = LOWERING_WAIT;
-			break;
+			parms->stage = LOWERING_WAIT;
+			return SRESULT_WAIT;
 
 		case LOWERING_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
-			{
-				owner->Event_WeaponHolstered();
-				loweringState = LOWERING_NOTSET;
-				isHolstered = true;
+			{				
+				SetState("Holstered");
+				return SRESULT_DONE;
 			}
-			break;
+			return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -99,7 +95,7 @@ void rvmWeaponFist::Lower()
 rvmWeaponFist::Idle
 ================
 */
-void rvmWeaponFist::Idle()
+stateResult_t rvmWeaponFist::Idle(stateParms_t* parms)
 {
 	enum IdleState
 	{
@@ -107,18 +103,19 @@ void rvmWeaponFist::Idle()
 		IDLE_WAIT
 	};
 
-	switch( idleState )
+	switch( parms->stage )
 	{
 		case IDLE_NOTSET:
-			owner->Event_WeaponReady();
 			owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
-			idleState = IDLE_WAIT;
-			break;
+			parms->stage = IDLE_WAIT;
+			return SRESULT_WAIT;
 
 		case IDLE_WAIT:
 			// Do nothing.
-			break;
+			return SRESULT_DONE;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -126,7 +123,7 @@ void rvmWeaponFist::Idle()
 rvmWeaponFist::Fire
 ================
 */
-void rvmWeaponFist::Fire()
+stateResult_t rvmWeaponFist::Fire(stateParms_t* parms)
 {
 	enum FIRE_State
 	{
@@ -135,28 +132,29 @@ void rvmWeaponFist::Fire()
 		FIRE_WAIT
 	};
 
-	switch( firingState )
+	switch( parms->stage )
 	{
 		case FIRE_NOTSET:
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, GetFireAnim(), false );
-			firingState = FIRE_MELEE;
-			Wait( 0.1f );
-			break;
+			parms->stage = FIRE_MELEE;
+			parms->Wait(0.1f);
+			return SRESULT_WAIT;
 
 		case FIRE_MELEE:
 			owner->Event_Melee();
-			firingState = FIRE_WAIT;
-			break;
+			parms->stage = FIRE_WAIT;
+			return SRESULT_WAIT;
 
 		case FIRE_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
 			{
 				side = !side;
-				owner->WeaponState( WP_IDLE, FISTS_PUNCH_TO_IDLE );
-				firingState = 0;
+				return SRESULT_DONE;
 			}
-			break;
+			return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -164,9 +162,9 @@ void rvmWeaponFist::Fire()
 rvmWeaponFist::Reload
 ================
 */
-void rvmWeaponFist::Reload()
+stateResult_t rvmWeaponFist::Reload(stateParms_t* parms)
 {
-
+	return SRESULT_DONE;
 }
 
 /*

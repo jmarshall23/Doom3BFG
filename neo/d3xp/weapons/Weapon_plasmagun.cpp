@@ -31,8 +31,6 @@ void rvmWeaponPlasmaGun::Init( idWeapon* weapon )
 
 	next_attack = 0;
 	spread = weapon->GetFloat( "spread" );
-	weapon->WeaponState( WP_RISING, 0 );
-
 	snd_lowammo = FindSound( "snd_lowammo" );
 }
 
@@ -41,7 +39,7 @@ void rvmWeaponPlasmaGun::Init( idWeapon* weapon )
 rvmWeaponPlasmaGun::Raise
 ===============
 */
-void rvmWeaponPlasmaGun::Raise()
+stateResult_t rvmWeaponPlasmaGun::Raise(stateParms_t* parms)
 {
 	enum RisingState
 	{
@@ -49,23 +47,22 @@ void rvmWeaponPlasmaGun::Raise()
 		RISING_WAIT
 	};
 
-	switch( risingState )
+	switch (parms->stage)
 	{
-		case RISING_NOTSET:
-			owner->Event_WeaponRising();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
-			risingState = RISING_WAIT;
-			break;
+	case RISING_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
+		parms->stage = RISING_WAIT;
+		return SRESULT_WAIT;
 
-		case RISING_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, PLASMAGUN_RAISE_TO_IDLE ) )
-			{
-				owner->WeaponState( WP_IDLE, PLASMAGUN_RAISE_TO_IDLE );
-				risingState = RISING_NOTSET;
-				isRisen = true;
-			}
-			break;
+	case RISING_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, PLASMAGUN_RAISE_TO_IDLE))
+		{
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 
@@ -74,7 +71,7 @@ void rvmWeaponPlasmaGun::Raise()
 rvmWeaponPlasmaGun::Lower
 ===============
 */
-void rvmWeaponPlasmaGun::Lower()
+stateResult_t rvmWeaponPlasmaGun::Lower(stateParms_t* parms)
 {
 	enum LoweringState
 	{
@@ -82,31 +79,32 @@ void rvmWeaponPlasmaGun::Lower()
 		LOWERING_WAIT
 	};
 
-	switch( loweringState )
+	switch (parms->stage)
 	{
-		case LOWERING_NOTSET:
-			owner->Event_WeaponLowering();
-			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
-			loweringState = LOWERING_WAIT;
-			break;
+	case LOWERING_NOTSET:
+		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
+		parms->stage = LOWERING_WAIT;
+		return SRESULT_WAIT;
 
-		case LOWERING_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
-			{
-				owner->Event_WeaponHolstered();
-				loweringState = LOWERING_NOTSET;
-				isHolstered = true;
-			}
-			break;
+	case LOWERING_WAIT:
+		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+		{
+			SetState("Holstered");
+			return SRESULT_DONE;
+		}
+		return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
+
 
 /*
 ===============
 rvmWeaponPlasmaGun::Idle
 ===============
 */
-void rvmWeaponPlasmaGun::Idle()
+stateResult_t rvmWeaponPlasmaGun::Idle(stateParms_t* parms)
 {
 	enum IdleState
 	{
@@ -114,33 +112,20 @@ void rvmWeaponPlasmaGun::Idle()
 		IDLE_WAIT
 	};
 
-	switch( idleState )
+	switch (parms->stage)
 	{
-		case IDLE_NOTSET:
-			owner->Event_WeaponReady();
-			owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
-			idleState = IDLE_WAIT;
-			break;
+	case IDLE_NOTSET:
+		owner->Event_WeaponReady();
+		owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle");
+		parms->stage = IDLE_WAIT;
+		return SRESULT_WAIT;
 
-		case IDLE_WAIT:
-			// Do nothing.
-			break;
-	}
-}
-
-/*
-===============
-rvmWeaponPlasmaGun::HasWaitSignal
-===============
-*/
-bool rvmWeaponPlasmaGun::HasWaitSignal( void )
-{
-	if( rvmWeaponObject::HasWaitSignal() )
-	{
-		return true;
+	case IDLE_WAIT:
+		// Do nothing.
+		return SRESULT_DONE;
 	}
 
-	return next_attack >= gameLocal.time;
+	return SRESULT_ERROR;
 }
 
 /*
@@ -148,14 +133,9 @@ bool rvmWeaponPlasmaGun::HasWaitSignal( void )
 rvmWeaponPlasmaGun::Fire
 ===============
 */
-void rvmWeaponPlasmaGun::Fire()
+stateResult_t rvmWeaponPlasmaGun::Fire(stateParms_t* parms)
 {
 	int ammoClip = owner->AmmoInClip();
-
-	if( next_attack >= gameLocal.time )
-	{
-		return;
-	}
 
 	enum FIRE_State
 	{
@@ -163,33 +143,32 @@ void rvmWeaponPlasmaGun::Fire()
 		FIRE_WAIT
 	};
 
-	if( ammoClip == 0 && owner->AmmoAvailable() && firingState == 0 )
+	if (ammoClip == 0 && owner->AmmoAvailable() && parms->stage == 0)
 	{
-		owner->WeaponState( WP_RELOAD, PLASMAGUN_IDLE_TO_RELOAD );
-		return;
+		//owner->WeaponState( WP_RELOAD, PISTOL_IDLE_TO_RELOAD );
+		owner->Reload();
+		return SRESULT_DONE;
 	}
 
-	switch( firingState )
+	switch( parms->stage )
 	{
 		case FIRE_NOTSET:
-			next_attack = gameLocal.time + MS2SEC( PLASMAGUN_FIRERATE );
+			next_attack = gameLocal.time + SEC2MS( PLASMAGUN_FIRERATE );
 			owner->Event_LaunchProjectiles( PLASMAGUN_NUMPROJECTILES, spread, 0, 1, 1 );
 
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "fire", false );
-			firingState = FIRE_WAIT;
-			break;
+			parms->stage = FIRE_WAIT;
+			return SRESULT_WAIT;
 
 		case FIRE_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, PLASMAGUN_FIRE_TO_IDLE ) )
 			{
-				if( !owner->IsFiring() && owner->AmmoInClip() && gameLocal.time >= next_attack )
-				{
-					owner->WeaponState( WP_IDLE, PLASMAGUN_FIRE_TO_IDLE );
-				}
-				firingState = 0;
+				return SRESULT_DONE;
 			}
-			break;
+			return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
 
 /*
@@ -197,7 +176,7 @@ void rvmWeaponPlasmaGun::Fire()
 rvmWeaponPlasmaGun::Reload
 ===============
 */
-void rvmWeaponPlasmaGun::Reload()
+stateResult_t rvmWeaponPlasmaGun::Reload(stateParms_t* parms)
 {
 	enum RELOAD_State
 	{
@@ -205,21 +184,22 @@ void rvmWeaponPlasmaGun::Reload()
 		RELOAD_WAIT
 	};
 
-	switch( reloadState )
+	switch( parms->stage )
 	{
 		case RELOAD_NOTSET:
 			owner->Event_WeaponReloading();
 			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "reload", false );
-			reloadState = RELOAD_WAIT;
-			break;
+			parms->stage = RELOAD_WAIT;
+			return SRESULT_WAIT;
 
 		case RELOAD_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, PLASMAGUN_RELOAD_TO_IDLE ) )
 			{
 				owner->Event_AddToClip( owner->ClipSize() );
-				owner->WeaponState( WP_IDLE, PLASMAGUN_RELOAD_TO_IDLE );
-				reloadState = 0;
+				return SRESULT_DONE;
 			}
-			break;
+			return SRESULT_WAIT;
 	}
+
+	return SRESULT_ERROR;
 }
