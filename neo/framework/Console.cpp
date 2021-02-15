@@ -1379,7 +1379,7 @@ void idConsoleLocal::DrawSolidConsole( float frac )
 
 	}
 // jmarshall
-	idStr branchVersion = ENGINE_BRANCH;
+	idStr branchVersion = va("Branch %s", ENGINE_BRANCH);
 	i = branchVersion.Length();
 
 	for (x = 0; x < i; x++) {
