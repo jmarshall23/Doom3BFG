@@ -9202,18 +9202,6 @@ bool idCombatNode::HasNativeFunction(const char *functionName) {
 
 };
 
-intptr_t idAI_Vagary::Invoke(const char *functionName, void *param1) {
-	int functionNameHash = idStr::Hash(functionName);
-	return __super::Invoke(functionName, param1);
-
-};
-
-bool idAI_Vagary::HasNativeFunction(const char *functionName) {
-	int functionNameHash = idStr::Hash(functionName);
-	return __super::HasNativeFunction(functionName);
-
-};
-
 intptr_t rvmAI_Follower::Invoke(const char *functionName, void *param1) {
 	int functionNameHash = idStr::Hash(functionName);
 	if(functionNameHash == 48744) { // Init
@@ -9270,6 +9258,76 @@ bool rvmAI_Follower::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 199463) { // state_talk_anim
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
+intptr_t rvmMonsterBossVagary::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 48744) { // Init
+		Init();
+		return 0;
+	};
+	if(functionNameHash == 88222) { // AI_Begin
+		AI_Begin();
+		return 0;
+	};
+	if(functionNameHash == 169136) { // check_attacks
+		check_attacks();
+		return 0;
+	};
+	if(functionNameHash == 139384) { // state_Begin
+		state_Begin((stateParms_t *)param1);
+		return 0;
+	};
+	if(functionNameHash == 126066) { // state_Idle
+		return (intptr_t)state_Idle((stateParms_t *)param1);
+	};
+	if(functionNameHash == 239426) { // combat_dodge_right
+		return (intptr_t)combat_dodge_right((stateParms_t *)param1);
+	};
+	if(functionNameHash == 223812) { // combat_dodge_left
+		return (intptr_t)combat_dodge_left((stateParms_t *)param1);
+	};
+	if(functionNameHash == 154980) { // combat_melee
+		return (intptr_t)combat_melee((stateParms_t *)param1);
+	};
+	if(functionNameHash == 155616) { // combat_range
+		return (intptr_t)combat_range((stateParms_t *)param1);
+	};
+	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmMonsterBossVagary::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 48744) { // Init
+		return true;
+	};
+	if(functionNameHash == 88222) { // AI_Begin
+		return true;
+	};
+	if(functionNameHash == 169136) { // check_attacks
+		return true;
+	};
+	if(functionNameHash == 139384) { // state_Begin
+		return true;
+	};
+	if(functionNameHash == 126066) { // state_Idle
+		return true;
+	};
+	if(functionNameHash == 239426) { // combat_dodge_right
+		return true;
+	};
+	if(functionNameHash == 223812) { // combat_dodge_left
+		return true;
+	};
+	if(functionNameHash == 154980) { // combat_melee
+		return true;
+	};
+	if(functionNameHash == 155616) { // combat_range
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);

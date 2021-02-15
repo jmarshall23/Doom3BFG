@@ -5903,13 +5903,26 @@ static classVariableInfo_t idCombatNode_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static classVariableInfo_t idAI_Vagary_typeInfo[] = {
-	{ NULL, 0 }
-};
-
 static classVariableInfo_t rvmAI_Follower_typeInfo[] = {
 	{ ": bool", "inCustomAnim", (intptr_t)(&((rvmAI_Follower *)0)->inCustomAnim), sizeof( ((rvmAI_Follower *)0)->inCustomAnim ) },
 	{ "idEntity *", "leader", (intptr_t)(&((rvmAI_Follower *)0)->leader), sizeof( ((rvmAI_Follower *)0)->leader ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmMonsterBossVagary_typeInfo[] = {
+	{ ": float", "nextDodge", (intptr_t)(&((rvmMonsterBossVagary *)0)->nextDodge), sizeof( ((rvmMonsterBossVagary *)0)->nextDodge ) },
+	{ "float", "nextAttack", (intptr_t)(&((rvmMonsterBossVagary *)0)->nextAttack), sizeof( ((rvmMonsterBossVagary *)0)->nextAttack ) },
+	{ "float", "nextNoFOVAttack", (intptr_t)(&((rvmMonsterBossVagary *)0)->nextNoFOVAttack), sizeof( ((rvmMonsterBossVagary *)0)->nextNoFOVAttack ) },
+	{ "idEntity *", "combat_node", (intptr_t)(&((rvmMonsterBossVagary *)0)->combat_node), sizeof( ((rvmMonsterBossVagary *)0)->combat_node ) },
+	{ "idEntity *", "throwEntity", (intptr_t)(&((rvmMonsterBossVagary *)0)->throwEntity), sizeof( ((rvmMonsterBossVagary *)0)->throwEntity ) },
+	{ "int", "num", (intptr_t)(&((rvmMonsterBossVagary *)0)->num), sizeof( ((rvmMonsterBossVagary *)0)->num ) },
+	{ "int", "i", (intptr_t)(&((rvmMonsterBossVagary *)0)->i), sizeof( ((rvmMonsterBossVagary *)0)->i ) },
+	{ "idVec3", "pos", (intptr_t)(&((rvmMonsterBossVagary *)0)->pos), sizeof( ((rvmMonsterBossVagary *)0)->pos ) },
+	{ "float", "waitTime", (intptr_t)(&((rvmMonsterBossVagary *)0)->waitTime), sizeof( ((rvmMonsterBossVagary *)0)->waitTime ) },
+	{ "float", "t", (intptr_t)(&((rvmMonsterBossVagary *)0)->t), sizeof( ((rvmMonsterBossVagary *)0)->t ) },
+	{ "idVec3", "offset", (intptr_t)(&((rvmMonsterBossVagary *)0)->offset), sizeof( ((rvmMonsterBossVagary *)0)->offset ) },
+	{ "idVec3", "vel", (intptr_t)(&((rvmMonsterBossVagary *)0)->vel), sizeof( ((rvmMonsterBossVagary *)0)->vel ) },
+	{ "float", "start_offset", (intptr_t)(&((rvmMonsterBossVagary *)0)->start_offset), sizeof( ((rvmMonsterBossVagary *)0)->start_offset ) },
 	{ NULL, 0 }
 };
 
@@ -7341,8 +7354,8 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "idAASFindAttackPosition", "idAASCallback", sizeof(idAASFindAttackPosition), idAASFindAttackPosition_typeInfo },
 	{ "idAI", "idActor", sizeof(idAI), idAI_typeInfo },
 	{ "idCombatNode", "idEntity", sizeof(idCombatNode), idCombatNode_typeInfo },
-	{ "idAI_Vagary", "idAI", sizeof(idAI_Vagary), idAI_Vagary_typeInfo },
 	{ "rvmAI_Follower", "idAI", sizeof(rvmAI_Follower), rvmAI_Follower_typeInfo },
+	{ "rvmMonsterBossVagary", "idAI", sizeof(rvmMonsterBossVagary), rvmMonsterBossVagary_typeInfo },
 	{ "rvmMonsterDemonHellknight", "idAI", sizeof(rvmMonsterDemonHellknight), rvmMonsterDemonHellknight_typeInfo },
 	{ "rvmMonsterDemonImp", "idAI", sizeof(rvmMonsterDemonImp), rvmMonsterDemonImp_typeInfo },
 	{ "rvmMonsterLostSoul", "idAI", sizeof(rvmMonsterLostSoul), rvmMonsterLostSoul_typeInfo },

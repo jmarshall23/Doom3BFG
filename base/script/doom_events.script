@@ -1143,14 +1143,3 @@ scriptEvent float	canReachEnemy();
 // returns the position of the entity within the aas if possible, otherwise just the entity position.
 scriptEvent vector	getReachableEntityPosition( entity ent );
 
-/***********************************************************************
-
-	AI - Vagary
-
-***********************************************************************/
-
-// finds a moveable object to throw at the enemy
-scriptEvent entity	vagary_ChooseObjectToThrow( vector mins, vector maxs, float speed, float minDist, float offset );
-
-// throws object at enemy
-scriptEvent void	vagary_ThrowObjectAtEnemy( entity ent, float speed );
