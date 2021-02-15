@@ -556,7 +556,7 @@ void WriteMD5Anim(const char *meshpath, const char* dest, idList< BoneDesc >& bi
 	idFile* file = fileSystem->OpenExplicitFileWrite(dest);
 
 	file->WriteFloatString(MD5_VERSION_STRING " %d\n", MD5_VERSION);
-	file->WriteFloatString("\tcommandLine \"%s\"\n", commandLine);
+	file->WriteFloatString("\commandline \"%s\"\n", commandLine);
 	
 	file->WriteFloatString("\tnumFrames %d\n", frames.Num());
 	file->WriteFloatString("\tnumJoints %d\n", bind_pose.Num());
@@ -652,7 +652,7 @@ ExportAnim
 */
 void ExportAnim(const char *modelpath, const char* src, const char* dest, idExportOptions& options) {
 	common->Printf("Opening Mesh %s\n", src);
-	aiScene* scene = (aiScene*)aiImportFile(src, aiProcess_Triangulate | aiProcess_GenSmoothNormals);
+	aiScene* scene = (aiScene*)aiImportFile(src, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
 	if (scene == nullptr) {
 		common->Warning("ExportMesh: Failed to open mesh %s\n", dest);
 		return;
@@ -713,10 +713,10 @@ void WriteMD5Mesh(const char *dest, idList< BoneDesc > &skeleton, rvmExportMesh*
 	idFile* file = fileSystem->OpenExplicitFileWrite(dest);
 
 	file->WriteFloatString(MD5_VERSION_STRING " %d\n", MD5_VERSION);
-	file->WriteFloatString("\tcommandLine \"%s\"\n", commandLine);
+	file->WriteFloatString("\commandline \"%s\"\n", commandLine);
 
-	file->WriteFloatString("\tnumMeshes %d\n", numMeshes);
 	file->WriteFloatString("\tnumJoints %d\n", skeleton.Num());
+	file->WriteFloatString("\tnumMeshes %d\n", numMeshes);
 
 	// Write the joint block
 	file->WriteFloatString("joints {\n");
@@ -780,9 +780,9 @@ void WriteMD5Mesh(const char *dest, idList< BoneDesc > &skeleton, rvmExportMesh*
 						exportedWeights.Append(w);
 					}
 
-					file->WriteFloatString("\t\tvert %d ( %f %f ) %d %d\n", d, vert->GetTexCoordS(), vert->GetTexCoordT(), startWeight, numWeights);
+					file->WriteFloatString("\tvert %d ( %f %f ) %d %d\n", d, vert->GetTexCoordS(), vert->GetTexCoordT(), startWeight, numWeights);
 				}
-			file->WriteFloatString("\t}\n");
+			//file->WriteFloatString("\t}\n");
 
 			// Write out all the triangles
 			int triCount = meshes[i].indexes.Num() / 3;
@@ -790,7 +790,7 @@ void WriteMD5Mesh(const char *dest, idList< BoneDesc > &skeleton, rvmExportMesh*
 			for (int d = 0; d < triCount; d++) {
 				file->WriteFloatString("\ttri %d %d %d %d\n", d, meshes[i].indexes[d * 3 + 0], meshes[i].indexes[d * 3 + 1], meshes[i].indexes[d * 3 + 2]);
 			}
-			file->WriteFloatString("\t}\n");
+			//file->WriteFloatString("\t}\n");
 
 			// Write out all the weights.
 			file->WriteFloatString("\n\tnumweights %d\n", exportedWeights.Num());
@@ -838,7 +838,7 @@ ExportMesh
 */
 void ExportMesh(const char *src, const char *dest, idExportOptions &options) {
 	common->Printf("Opening Mesh %s\n", src);
-	aiScene* scene = (aiScene*)aiImportFile(src, aiProcess_Triangulate | aiProcess_GenSmoothNormals);
+	aiScene* scene = (aiScene*)aiImportFile(src, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
 	if (scene == nullptr) {
 		common->Warning("ExportMesh: Failed to open mesh %s\n", dest);
 		return;
