@@ -576,6 +576,7 @@ endif()
 file(GLOB MINIZIP_INCLUDES libs/zlib/minizip/*.h)
 file(GLOB MINIZIP_SOURCES libs/zlib/minizip/*.c libs/zlib/minizip/*.cpp)
 	
+include_directories("libs/assimp/include")
 
 set(FREETYPE_SOURCES
 	libs/freetype/src/autofit/autofit.c
@@ -906,6 +907,9 @@ file(GLOB EDITOR_MATERIALEDITOR_SOURCES tools/materialeditor/*.cpp)
 file(GLOB EDITOR_PARTICLE_INCLUDES tools/particle/*.h)
 file(GLOB EDITOR_PARTICLE_SOURCES tools/particle/*.cpp)
 
+file(GLOB EDITOR_MAYAIMPORT_INCLUDES tools/mayaimport/*.h)
+file(GLOB EDITOR_MAYAIMPORT_SOURCES tools/mayaimport/*.cpp)
+
 file(GLOB EDITOR_PDA_INCLUDES tools/pda/*.h)
 file(GLOB EDITOR_PDA_SOURCES tools/pda/*.cpp)
 
@@ -1197,6 +1201,9 @@ source_group("sys\\common" FILES ${COMMON_SOURCES})
 source_group("sys\\sdl" FILES ${SDL_INCLUDES})
 source_group("sys\\sdl" FILES ${SDL_SOURCES})
 
+source_group("tools\\mayaimport" FILES ${EDITOR_MAYAIMPORT_INCLUDES})
+source_group("tools\\mayaimport" FILES ${EDITOR_MAYAIMPORT_SOURCES})
+
 
 source_group("tools\\compilers" FILES ${COMPILER_INCLUDES})
 
@@ -1299,6 +1306,8 @@ set(RBDOOM3_INCLUDES
 			${COMPILER_AAS_INCLUDES} ${COMPILER_AAS_SOURCES}
 			${COMPILER_DMAP_INCLUDES} ${COMPILER_DMAP_SOURCES}
 			
+			${EDITOR_MAYAIMPORT_INCLUDES} ${EDITOR_MAYAIMPORT_SOURCES}
+			
 			${TOOLS_INCLUDES}
 			${IMGUI_EDITOR_INCLUDES}
 			${IMGUI_EDITOR_LIGHT_INCLUDES}
@@ -1337,6 +1346,8 @@ set(RBDOOM3_SOURCES
 			
 			${COMPILER_AAS_SOURCES}
 			${COMPILER_DMAP_SOURCES}
+			
+			${EDITOR_MAYAIMPORT_SOURCES}
 			
 			${IMGUI_EDITOR_SOURCES}
 			${IMGUI_EDITOR_LIGHT_SOURCES}
@@ -1583,6 +1594,7 @@ if(MSVC)
 		iphlpapi
 		winmm
 		wsock32.lib
+		../neo/libs/assimp/lib/assimp-vc142-mt
 		${Vulkan_LIBRARIES}
 		${OpenGL_LIBRARIES}
 		${OpenAL_LIBRARIES}

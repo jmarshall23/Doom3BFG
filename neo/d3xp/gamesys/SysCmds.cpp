@@ -2616,13 +2616,6 @@ void Cmd_SetActorState_f( const idCmdArgs& args )
 	actor->PostEventMS( &AI_SetState, 0, args.Argv( 2 ) );
 }
 
-#if 0
-// not used
-static void ArgCompletion_DefFile( const idCmdArgs& args, void( *callback )( const char* s ) )
-{
-	cmdSystem->ArgCompletion_FolderExtension( args, callback, "def/", true, ".def", NULL );
-}
-#endif
 
 /*
 ===============

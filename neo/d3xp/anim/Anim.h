@@ -618,4 +618,40 @@ private:
 	idHashIndex					jointnamesHash;
 };
 
+/*
+==============================================================================================
+
+	idModelExport
+
+==============================================================================================
+*/
+
+class idModelExport {
+private:
+	void					Reset(void);
+	bool					ParseOptions(idLexer& lex);
+	int						ParseExportSection(idParser& parser);
+
+	static bool				CheckMayaInstall(void);
+	static void				LoadMayaDll(void);
+
+	bool					ConvertMayaToMD5(void);
+	static bool				initialized;
+
+public:
+	idStr					commandLine;
+	idStr					src;
+	idStr					dest;
+	bool					force;
+
+	idModelExport();
+
+	static void				Shutdown(void);
+
+	int						ExportDefFile(const char* filename);
+	bool					ExportModel(const char* model);
+	bool					ExportAnim(const char* anim);
+	int						ExportModels(const char* pathname, const char* extension);
+};
+
 #endif /* !__ANIM_H__ */
