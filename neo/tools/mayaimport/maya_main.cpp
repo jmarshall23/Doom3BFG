@@ -733,7 +733,7 @@ void WriteMD5Mesh(const char *dest, idList< BoneDesc > &skeleton, rvmExportMesh*
 			idCQuat	bindQuat = quat.ToCQuat();
 			file->WriteFloatString("\t \"%s\" %d ( %f %f %f ) ( %f %f %f ) // %s\n", skeleton[i].name.c_str(), skeleton[i].parentIndex, 
 									translation.x, translation.y, translation.z,
-									quat.x, quat.y, quat.z, quat.w,									
+									quat.x, quat.y, quat.z,									
 									parentName.c_str());
 		}
 	file->WriteFloatString("}\n");
@@ -762,9 +762,9 @@ void WriteMD5Mesh(const char *dest, idList< BoneDesc > &skeleton, rvmExportMesh*
 					int startWeight = exportedWeights.Num();
 					int numWeights = 0;
 
-					for (int o = 0; i < 4; o++)
+					for (int o = 0; o < 4; o++)
 					{
-						if(weight->weights[o] == 0.0f)
+						if(weight->weights[o] == 0.0f || weight->jointIndex[o] == -1)
 							continue;
 
 						int jointIndex = weight->jointIndex[o];

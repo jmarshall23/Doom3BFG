@@ -120,22 +120,25 @@ bool idModelExport::ConvertMayaToMD5(void) {
 
 	// get the destination file's time
 	if (!force && (fileSystem->ReadFile(dest, NULL, &destTime) >= 0)) {
-		idParser parser(LEXFL_ALLOWPATHNAMES | LEXFL_NOSTRINGESCAPECHARS);
+		if (destTime >= 0)
+		{
+			idParser parser(LEXFL_ALLOWPATHNAMES | LEXFL_NOSTRINGESCAPECHARS);
 
-		parser.LoadFile(dest);
+			parser.LoadFile(dest);
 
-		// read the file version
-		if (parser.CheckTokenString(MD5_VERSION_STRING)) {
-			version = parser.ParseInt();
+			// read the file version
+			if (parser.CheckTokenString(MD5_VERSION_STRING)) {
+				version = parser.ParseInt();
 
-			// check the command line
-			if (parser.CheckTokenString("commandline")) {
-				parser.ReadToken(&cmdLine);
+				// check the command line
+				if (parser.CheckTokenString("commandline")) {
+					parser.ReadToken(&cmdLine);
 
-				// check the file time, scale, and version
-				if ((destTime >= sourceTime) && (version == MD5_VERSION) && (cmdLine == commandLine)) {
-					// don't convert it
-					return true;
+					// check the file time, scale, and version
+					if ((destTime >= sourceTime) && (version == MD5_VERSION) && (cmdLine == commandLine)) {
+						// don't convert it
+						return true;
+					}
 				}
 			}
 		}
@@ -155,8 +158,8 @@ bool idModelExport::ConvertMayaToMD5(void) {
 
 	// we need to make sure we have a full path, so convert the filename to an OS path
 	// _D3XP :: we work out of the cdpath, at least until we get Alienbrain
-	src = fileSystem->RelativePathToOSPath(src, "fs_cdpath");
-	dest = fileSystem->RelativePathToOSPath(dest, "fs_cdpath");
+	src = fileSystem->RelativePathToOSPath(src, "fs_basepath");
+	dest = fileSystem->RelativePathToOSPath(dest, "fs_basepath");
 
 	dest.ExtractFilePath(path);
 	if (path.Length()) {
@@ -164,7 +167,7 @@ bool idModelExport::ConvertMayaToMD5(void) {
 	}
 
 	// get the os path in case it needs to create one
-	path = fileSystem->RelativePathToOSPath("", "fs_cdpath" /* _D3XP */);
+	path = fileSystem->RelativePathToOSPath("", "fs_basepath" /* _D3XP */);
 
 	common->SetRefreshOnPrint(true);
 	Maya_Error = Maya_ConvertModel(path, commandLine);
