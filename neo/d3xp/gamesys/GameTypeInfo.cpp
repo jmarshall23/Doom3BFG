@@ -3930,6 +3930,9 @@ intptr_t rvmWeaponObject::Invoke(const char *functionName, void *param1) {
 	if(functionNameHash == 97537) { // IsFiring
 		return (intptr_t)IsFiring();
 	};
+	if(functionNameHash == 137206) { // IsReloading
+		return (intptr_t)IsReloading();
+	};
 	if(functionNameHash == 115454) { // Holstered
 		return (intptr_t)Holstered((stateParms_t *)param1);
 	};
@@ -3953,6 +3956,9 @@ bool rvmWeaponObject::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 97537) { // IsFiring
+		return true;
+	};
+	if(functionNameHash == 137206) { // IsReloading
 		return true;
 	};
 	if(functionNameHash == 115454) { // Holstered
