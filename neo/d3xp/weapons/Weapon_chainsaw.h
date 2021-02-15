@@ -1,22 +1,20 @@
-// Weapon_double_shotgun.h
+// Weapon_chainsaw.h
 //
 
 #pragma once
 
-class rvmWeaponDoubleShotgun : public rvmWeaponObject
+class rvmWeaponChainsaw : public rvmWeaponObject
 {
 public:
-	CLASS_PROTOTYPE( rvmWeaponDoubleShotgun );
+	CLASS_PROTOTYPE(rvmWeaponChainsaw);
 
-	virtual void			Init( idWeapon* weapon );
+	virtual void			Init(idWeapon* weapon);
 
 	stateResult_t			Raise(stateParms_t* parms);
 	stateResult_t			Lower(stateParms_t* parms);
 	stateResult_t			Idle(stateParms_t* parms);
 	stateResult_t			Fire(stateParms_t* parms);
 	stateResult_t			Reload(stateParms_t* parms);
-
-	void	EjectBrass(void);
 private:
-
+	bool side;
 };

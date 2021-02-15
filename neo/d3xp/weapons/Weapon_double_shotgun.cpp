@@ -201,6 +201,7 @@ stateResult_t rvmWeaponDoubleShotgun::Fire(stateParms_t* parms)
 		case FIRE_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, SHOTGUN_DOUBLE_FIRE_TO_IDLE ) )
 			{
+				owner->Event_WeaponReloading();
 				return SRESULT_DONE;
 			}
 			return SRESULT_WAIT;
@@ -240,3 +241,11 @@ stateResult_t rvmWeaponDoubleShotgun::Reload(stateParms_t* parms)
 	return SRESULT_ERROR;
 }
 
+/*
+===============
+rvmWeaponDoubleShotgun::EjectBrass
+===============
+*/
+void rvmWeaponDoubleShotgun::EjectBrass(void) {
+
+}

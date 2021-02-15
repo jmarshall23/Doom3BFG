@@ -9,7 +9,7 @@
 
 	935 constants
 	89 enums
-	449 classes/structs/unions
+	451 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -6116,6 +6116,28 @@ static classVariableInfo_t rvmWeaponHandgrenade_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static classVariableInfo_t rvmWeaponChainsaw_typeInfo[] = {
+	{ ": bool", "side", (intptr_t)(&((rvmWeaponChainsaw *)0)->side), sizeof( ((rvmWeaponChainsaw *)0)->side ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmWeaponGrabber_typeInfo[] = {
+	{ "const idSoundShader *", "snd_fireloop", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_fireloop), sizeof( ((rvmWeaponGrabber *)0)->snd_fireloop ) },
+	{ "const idSoundShader *", "snd_electroloop", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_electroloop), sizeof( ((rvmWeaponGrabber *)0)->snd_electroloop ) },
+	{ "const idSoundShader *", "snd_mainfire", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_mainfire), sizeof( ((rvmWeaponGrabber *)0)->snd_mainfire ) },
+	{ "const idSoundShader *", "snd_cangrab", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_cangrab), sizeof( ((rvmWeaponGrabber *)0)->snd_cangrab ) },
+	{ "const idSoundShader *", "snd_warning", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_warning), sizeof( ((rvmWeaponGrabber *)0)->snd_warning ) },
+	{ "const idSoundShader *", "snd_stopfire", (intptr_t)(&((rvmWeaponGrabber *)0)->snd_stopfire), sizeof( ((rvmWeaponGrabber *)0)->snd_stopfire ) },
+	{ ": float", "next_attack", (intptr_t)(&((rvmWeaponGrabber *)0)->next_attack), sizeof( ((rvmWeaponGrabber *)0)->next_attack ) },
+	{ "float", "fireStartTime", (intptr_t)(&((rvmWeaponGrabber *)0)->fireStartTime), sizeof( ((rvmWeaponGrabber *)0)->fireStartTime ) },
+	{ "bool", "warningBeep1", (intptr_t)(&((rvmWeaponGrabber *)0)->warningBeep1), sizeof( ((rvmWeaponGrabber *)0)->warningBeep1 ) },
+	{ "bool", "warningBeep2", (intptr_t)(&((rvmWeaponGrabber *)0)->warningBeep2), sizeof( ((rvmWeaponGrabber *)0)->warningBeep2 ) },
+	{ "bool", "warningBeep3", (intptr_t)(&((rvmWeaponGrabber *)0)->warningBeep3), sizeof( ((rvmWeaponGrabber *)0)->warningBeep3 ) },
+	{ "bool", "warningBeep4", (intptr_t)(&((rvmWeaponGrabber *)0)->warningBeep4), sizeof( ((rvmWeaponGrabber *)0)->warningBeep4 ) },
+	{ "float", "grabberState", (intptr_t)(&((rvmWeaponGrabber *)0)->grabberState), sizeof( ((rvmWeaponGrabber *)0)->grabberState ) },
+	{ NULL, 0 }
+};
+
 static classVariableInfo_t widgetTransition_t_typeInfo[] = {
 	{ "const char *", "animationName", (intptr_t)(&((widgetTransition_t *)0)->animationName), sizeof( ((widgetTransition_t *)0)->animationName ) },
 	{ "idStaticList < const char * , 4 >", "prefixes", (intptr_t)(&((widgetTransition_t *)0)->prefixes), sizeof( ((widgetTransition_t *)0)->prefixes ) },
@@ -7345,6 +7367,8 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "rvmWeaponRocketLauncher", "rvmWeaponObject", sizeof(rvmWeaponRocketLauncher), rvmWeaponRocketLauncher_typeInfo },
 	{ "rvmWeaponBFG", "rvmWeaponObject", sizeof(rvmWeaponBFG), rvmWeaponBFG_typeInfo },
 	{ "rvmWeaponHandgrenade", "rvmWeaponObject", sizeof(rvmWeaponHandgrenade), rvmWeaponHandgrenade_typeInfo },
+	{ "rvmWeaponChainsaw", "rvmWeaponObject", sizeof(rvmWeaponChainsaw), rvmWeaponChainsaw_typeInfo },
+	{ "rvmWeaponGrabber", "rvmWeaponObject", sizeof(rvmWeaponGrabber), rvmWeaponGrabber_typeInfo },
 	{ "widgetTransition_t", "", sizeof(widgetTransition_t), widgetTransition_t_typeInfo },
 	{ "scoreboardInfo_t", "", sizeof(scoreboardInfo_t), scoreboardInfo_t_typeInfo },
 	{ "idSort_SavesByDate", "idSort_Quick< idSaveGameDetails , idSort_SavesByDate >", sizeof(idSort_SavesByDate), idSort_SavesByDate_typeInfo },
