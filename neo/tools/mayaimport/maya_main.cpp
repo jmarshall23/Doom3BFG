@@ -113,23 +113,27 @@ ConvertToIdSpace
 ===============
 */
 idMat3 ConvertToIdSpace(const idMat3& mat) {
-	idMat3 idmat;
+	idAngles id_convert(90, 0, 0);
 
-	idmat[0][0] = mat[0][0];
-	idmat[0][1] = -mat[0][2];
-	idmat[0][2] = mat[0][1];
-
-	idmat[1][0] = mat[1][0];
-	idmat[1][1] = -mat[1][2];
-	idmat[1][2] = mat[1][1];
-
-	idmat[2][0] = mat[2][0];
-	idmat[2][1] = -mat[2][2];
-	idmat[2][2] = mat[2][1];
-
-	return idmat;
+	return mat * id_convert.ToMat3();
 }
 
+
+/*
+===============
+ConvertToIdSpace
+===============
+*/
+idMat4 ConvertToIdSpace(const idMat4& mat) {
+	idMat4 assp_to_id_matrix = idMat4(1, 0, 0, 0,
+		0, 0, 1, 0,
+		1, 0, 0, 0,
+		0, 0, 0, 1);
+
+	
+
+	return mat * assp_to_id_matrix;
+}
 
 
 /*
@@ -142,7 +146,7 @@ idVec3 ConvertToIdSpace(const idVec3& pos) {
 
 	idpos.x = pos.x;
 	idpos.y = pos.z;
-	idpos.z = pos.y;
+	idpos.z = -pos.y;
 
 	return idpos;
 }
@@ -234,7 +238,9 @@ public:
 	idQuat  q;
 	idVec3  t;
 
-	idMat3  idwm;
+
+	idQuat  nodeMatrixRot;
+	idQuat  idwm;
 	idVec3  idt;
 
 	int exportNum;
@@ -302,13 +308,11 @@ static void GetBindPose(const idMat3 align, const aiNode* node, const aiMatrix4x
 
 		// convert to id coordinates
 		idMat3 jointaxis = globalRotation;
-		idVec3 jointpos = globalSkeletalTranslation;
-
+		idVec3 jointpos = globalSkeletalTranslation;		
+	
 		BoneDesc newBone;
 
-		// save worldspace position of joint for children
-		newBone.idwm = jointaxis;
-		newBone.idt = jointpos;
+		newBone.nodeMatrixRot = jointaxis.ToQuat();
 
 		if (parentBoneIndex != -1)
 		{
@@ -324,6 +328,10 @@ static void GetBindPose(const idMat3 align, const aiNode* node, const aiMatrix4x
 
 		newBone.t = jointpos;
 		newBone.q = jointaxis.ToQuat();
+
+		newBone.idwm = ConvertToIdSpace(newBone.q.ToMat3()).ToQuat();
+		newBone.idt = ConvertToIdSpace(jointpos);
+
 		newBone.parentIndex = parentBoneIndex;
 		newBone.bone = boneNames[index].bone;
 		globalRotation.Identity();
@@ -759,8 +767,8 @@ void WriteMD5Mesh(const char *dest, idList< BoneDesc > &skeleton, rvmExportMesh*
 	// Write the joint block
 	file->WriteFloatString("joints {\n");
 		for(int i = 0; i < skeleton.Num(); i++) {
-			idQuat quat = skeleton[i].q;
-			idVec3 translation = skeleton[i].t;
+			idQuat quat = skeleton[i].idwm;
+			idVec3 translation = skeleton[i].idt;
 
 			idStr parentName = "";
 			if(skeleton[i].parentIndex != -1) {				
@@ -813,8 +821,12 @@ void WriteMD5Mesh(const char *dest, idList< BoneDesc > &skeleton, rvmExportMesh*
 						numWeights++;
 
 						idVec3 t = skeleton[jointIndex].t;
+						idVec3 xyz = vert->xyz;
 						w.offset.Zero();
-						skeleton[jointIndex].q.ToMat3().ProjectVector(vert->xyz - t, w.offset);
+
+						idMat3 hackMatrix = skeleton[jointIndex].idwm.ToMat3();
+						idVec3 vector = ConvertToIdSpace(xyz - t);
+						hackMatrix.ProjectVector(vector, w.offset);
 
 						w.weight = weight->weights[o];
 						exportedWeights.Append(w);
@@ -848,15 +860,14 @@ void SetBasePose(struct aiScene* scene, rvmExportMesh *mesh)
 {
 	aiMesh* amesh = mesh->mesh;
 	aiMatrix4x4 skin4;
-	aiMatrix3x3 skin3;
+	//aiMatrix3x3 skin3;
 
 	for (int k = 0; k < amesh->mNumBones; k++) {
 		struct aiBone* bone = amesh->mBones[k];
 		struct aiNode* node = FindNodeByName(scene->mRootNode, bone->mName.data);
 
 		transformnode(&skin4, node);
-		aiMultiplyMatrix4(&skin4, &bone->mOffsetMatrix);
-		extract3x3(&skin3, &skin4);
+		aiMultiplyMatrix4(&skin4, &bone->mOffsetMatrix);	
 
 		for (int i = 0; i < bone->mNumWeights; i++) {
 			int v = bone->mWeights[i].mVertexId;
