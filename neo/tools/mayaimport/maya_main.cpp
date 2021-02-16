@@ -221,6 +221,10 @@ static void GatherBoneNames(const aiScene* scene, struct aiNode* nodes, idList<r
 class BoneDesc
 {
 public:
+	BoneDesc() {
+		firstComponent = 0;
+	}
+
 	const aiNode* node;
 	const aiBone* bone;
 
@@ -358,13 +362,21 @@ static void GetAnimationFrame(const aiNode* node, const aiMatrix4x4& parentTrans
 
 	if (index != -1)
 	{
+		aiMatrix4x4 trans = boneNames[index].bone->mOffsetMatrix * node->mTransformation;
+		idMat4 inverseTrans;
+		memcpy(inverseTrans.ToFloatPtr(), &trans, sizeof(idMat4));
+
+
 		newBoneIndex = skeleton.Num();
 
+
 		// convert to id coordinates
-		idMat3 jointaxis = ConvertToIdSpace(globalRotation);
-		idVec3 jointpos = ConvertToIdSpace(globalSkeletalTranslation);
+		idMat3 jointaxis = globalRotation;
+		idVec3 jointpos = globalSkeletalTranslation;
 
 		AnimationFrame newBone;
+
+		jointaxis.InverseSelf();
 
 		// save worldspace position of joint for children
 		newBone.idwm = jointaxis;
@@ -374,9 +386,9 @@ static void GetAnimationFrame(const aiNode* node, const aiMatrix4x4& parentTrans
 		{
 			AnimationFrame* parent = &skeleton[parentBoneIndex];
 
-			// convert to local coordinates
-			jointpos = (jointpos - parent->t) * parent->idwm.Transpose();
-			jointaxis = jointaxis * parent->idwm.Transpose();
+			// convert to local coordinates			
+			//jointaxis = parent->q.ToMat3() * jointaxis;
+			//jointpos = parent->t + jointpos * parent->q.ToMat3().Transpose();
 		}
 
 		newBone.node = node;
@@ -393,7 +405,7 @@ static void GetAnimationFrame(const aiNode* node, const aiMatrix4x4& parentTrans
 	for (int childIndex = 0; childIndex < node->mNumChildren; childIndex++)
 	{
 		const aiNode* childNode = node->mChildren[childIndex];
-		GetAnimationFrame(childNode, parentTransform, globalSkeletalTranslation, globalRotation,newBoneIndex, skeleton);
+		GetAnimationFrame(childNode, parentTransform, globalSkeletalTranslation, globalRotation, newBoneIndex, skeleton);
 	}
 }
 
@@ -547,27 +559,27 @@ void WriteMD5Anim(const char *meshpath, const char* dest, idList< BoneDesc >& bi
 		joint->animBits = 0;
 		for (int j = 1; j < frames.Num(); j++) {
 			AnimationFrame*frame = &frames[j].skeleton[i];
-			if (fabs(frame->t[0] - joint->baseFrame->t[0]) > DEFAULT_ANIM_EPSILON) {
+			//if (fabs(frame->t[0] - joint->baseFrame->t[0]) > DEFAULT_ANIM_EPSILON) {
 				joint->animBits |= ANIM_TX;
-			}
-			if (fabs(frame->t[1] - joint->baseFrame->t[1]) > DEFAULT_ANIM_EPSILON) {
+			//}
+			//if (fabs(frame->t[1] - joint->baseFrame->t[1]) > DEFAULT_ANIM_EPSILON) {
 				joint->animBits |= ANIM_TY;
-			}
-			if (fabs(frame->t[2] - joint->baseFrame->t[2]) > DEFAULT_ANIM_EPSILON) {
+			//}
+			//if (fabs(frame->t[2] - joint->baseFrame->t[2]) > DEFAULT_ANIM_EPSILON) {
 				joint->animBits |= ANIM_TZ;
-			}
-			if (fabs(frame->q[0] - joint->baseFrame->q[0]) > DEFAULT_ANIM_EPSILON) {
+			//}
+			//if (fabs(frame->q[0] - joint->baseFrame->q[0]) > DEFAULT_ANIM_EPSILON) {
 				joint->animBits |= ANIM_QX;
-			}
-			if (fabs(frame->q[1] - joint->baseFrame->q[1]) > DEFAULT_ANIM_EPSILON) {
+			//}
+			//if (fabs(frame->q[1] - joint->baseFrame->q[1]) > DEFAULT_ANIM_EPSILON) {
 				joint->animBits |= ANIM_QY;
-			}
-			if (fabs(frame->q[2] - joint->baseFrame->q[2]) > DEFAULT_ANIM_EPSILON) {
+			//}
+			//if (fabs(frame->q[2] - joint->baseFrame->q[2]) > DEFAULT_ANIM_EPSILON) {
 				joint->animBits |= ANIM_QZ;
-			}
-			if ((joint->animBits & 63) == 63) {
-				break;
-			}
+			//}
+			//if ((joint->animBits & 63) == 63) {
+			//	break;
+			//}
 		}
 		if (joint->animBits) {
 			joint->firstComponent = numAnimatedComponents;
