@@ -650,6 +650,7 @@ void WriteMD5Anim(const char *meshpath, const char* dest, idList< BoneDesc >& bi
 	for (int i = 0; i < frames.Num(); i++) {
 		file->WriteFloatString("\t( %f %f %f ) ( %f %f %f )\n", frames[i].bounds[0].x, frames[i].bounds[0].y, frames[i].bounds[0].z, frames[i].bounds[1].x, frames[i].bounds[1].y, frames[i].bounds[1].z);
 	}
+	file->WriteFloatString("\n}\n");
 
 	// write the base frame
 	file->WriteFloatString("\nbaseframe {\n");
