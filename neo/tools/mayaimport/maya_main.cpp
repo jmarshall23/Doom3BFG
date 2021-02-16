@@ -112,7 +112,7 @@ struct rvmExportMesh {
 ConvertToIdSpace
 ===============
 */
-idMat3 ConvertToIdSpace(const aiMatrix3x3& mat) {
+idMat3 ConvertToIdSpace(const idMat3& mat) {
 	idMat3 idmat;
 
 	idmat[0][0] = mat[0][0];
@@ -131,20 +131,6 @@ idMat3 ConvertToIdSpace(const aiMatrix3x3& mat) {
 }
 
 
-/*
-===============
-ConvertToIdSpace
-===============
-*/
-idVec3 ConvertToIdSpace(const aiVector3D& pos) {
-	idVec3 idpos;
-
-	idpos.x = pos.x;
-	idpos.y = -pos.z;
-	idpos.z = pos.y;
-
-	return idpos;
-}
 
 /*
 ===============
@@ -155,7 +141,7 @@ idVec3 ConvertToIdSpace(const idVec3& pos) {
 	idVec3 idpos;
 
 	idpos.x = pos.x;
-	idpos.y = -pos.z;
+	idpos.y = pos.z;
 	idpos.z = pos.y;
 
 	return idpos;
@@ -244,6 +230,9 @@ public:
 	idQuat  q;
 	idVec3  t;
 
+	idMat3  idwm;
+	idVec3  idt;
+
 	int exportNum;
 	int animBits;
 	int firstComponent;
@@ -274,13 +263,21 @@ idList< BoneDesc > meshskeleton;
 
 // parentTransform * node->mTransformation;
 
-static void GetBindPose(const idMat3 align, const aiNode* node, const int parentBoneIndex, idList< BoneDesc >& skeleton)
+static void GetBindPose(const idMat3 align, const aiNode* node, const aiMatrix4x4& parentTransform, const idVec3 translation, const idMat3& rotation, const int parentBoneIndex, idList< BoneDesc >& skeleton)
 {
 	int newBoneIndex = parentBoneIndex;
-	int index = -1; 
+	int index = -1;
+
+	const aiMatrix4x4 globalTransform = node->mTransformation * parentTransform;
 
 	idVec3 nodeTranslation = idVec3(node->mTransformation.a4, node->mTransformation.b4, node->mTransformation.c4);
 	aiMatrix3x3 nodeRotation = aiMatrix3x3(node->mTransformation);
+
+	idVec3 globalSkeletalTranslation = translation + nodeTranslation;
+	idMat3 currentRotation;
+	memcpy(currentRotation.ToFloatPtr(), &nodeRotation, sizeof(idMat3));
+
+	idMat3 globalRotation = rotation * currentRotation;
 	
 	for(int i = 0; i < boneNames.Num(); i++) {
 		if(boneNames[i].name == FixBoneName(node->mName.C_Str())) {
@@ -291,13 +288,32 @@ static void GetBindPose(const idMat3 align, const aiNode* node, const int parent
 
 	if (index != -1)
 	{		
+		aiMatrix4x4 trans = boneNames[index].bone->mOffsetMatrix * node->mTransformation;
+		idMat4 inverseTrans;
+		memcpy(inverseTrans.ToFloatPtr(), &trans, sizeof(idMat4));
+
+
 		newBoneIndex = skeleton.Num();
 
+
 		// convert to id coordinates
-		idMat3 jointaxis = ConvertToIdSpace(nodeRotation) * align;
-		idVec3 jointpos = ConvertToIdSpace(nodeTranslation) * align;
+		idMat3 jointaxis = globalRotation;
+		idVec3 jointpos = globalSkeletalTranslation;
 
 		BoneDesc newBone;
+
+		// save worldspace position of joint for children
+		newBone.idwm = jointaxis;
+		newBone.idt = jointpos;
+
+		if (parentBoneIndex != -1)
+		{
+			BoneDesc* parent = &skeleton[parentBoneIndex];
+
+			// convert to local coordinates			
+			jointaxis = parent->q.ToMat3() * jointaxis;
+			jointpos = parent->t + jointpos * parent->q.ToMat3().Transpose();
+		}
 
 		newBone.node = node;
 		newBone.name = node->mName.C_Str();
@@ -306,23 +322,32 @@ static void GetBindPose(const idMat3 align, const aiNode* node, const int parent
 		newBone.q = jointaxis.ToQuat();
 		newBone.parentIndex = parentBoneIndex;
 		newBone.bone = boneNames[index].bone;
-
+		globalRotation.Identity();
+		globalSkeletalTranslation.Zero();
 		skeleton.Append(newBone);
 	}
 	for (int childIndex = 0; childIndex < node->mNumChildren; childIndex++)
 	{
 		const aiNode* childNode = node->mChildren[childIndex];
-		GetBindPose(align, childNode, newBoneIndex, skeleton);
+		GetBindPose(align, childNode,parentTransform, globalSkeletalTranslation, globalRotation, newBoneIndex, skeleton);
 	}
 }
 
-static void GetAnimationFrame(const aiNode* node, const int parentBoneIndex, idList< AnimationFrame >& skeleton)
+static void GetAnimationFrame(const aiNode* node, const aiMatrix4x4& parentTransform, const idVec3 translation, const idMat3& rotation, const int parentBoneIndex, idList< AnimationFrame >& skeleton)
 {
 	int newBoneIndex = parentBoneIndex;
 	int index = -1;
 
+	const aiMatrix4x4 globalTransform = node->mTransformation * parentTransform;
+
 	idVec3 nodeTranslation = idVec3(node->mTransformation.a4, node->mTransformation.b4, node->mTransformation.c4);
 	aiMatrix3x3 nodeRotation = aiMatrix3x3(node->mTransformation);
+
+	idVec3 globalSkeletalTranslation = translation + nodeTranslation;
+	idMat3 currentRotation;
+	memcpy(currentRotation.ToFloatPtr(), &nodeRotation, sizeof(idMat3));
+
+	idMat3 globalRotation = rotation * currentRotation;
 
 	for (int i = 0; i < boneNames.Num(); i++) {
 		if (boneNames[i].name == FixBoneName(node->mName.C_Str())) {
@@ -336,8 +361,8 @@ static void GetAnimationFrame(const aiNode* node, const int parentBoneIndex, idL
 		newBoneIndex = skeleton.Num();
 
 		// convert to id coordinates
-		idMat3 jointaxis = ConvertToIdSpace(nodeRotation);
-		idVec3 jointpos = ConvertToIdSpace(nodeTranslation);
+		idMat3 jointaxis = ConvertToIdSpace(globalRotation);
+		idVec3 jointpos = ConvertToIdSpace(globalSkeletalTranslation);
 
 		AnimationFrame newBone;
 
@@ -350,7 +375,7 @@ static void GetAnimationFrame(const aiNode* node, const int parentBoneIndex, idL
 			AnimationFrame* parent = &skeleton[parentBoneIndex];
 
 			// convert to local coordinates
-			jointpos = (jointpos - parent->idt) * parent->idwm.Transpose();
+			jointpos = (jointpos - parent->t) * parent->idwm.Transpose();
 			jointaxis = jointaxis * parent->idwm.Transpose();
 		}
 
@@ -361,13 +386,14 @@ static void GetAnimationFrame(const aiNode* node, const int parentBoneIndex, idL
 		newBone.q = jointaxis.ToQuat().ToCQuat();
 		newBone.parentIndex = parentBoneIndex;
 		newBone.bone = boneNames[index].bone;
-
+		globalRotation.Identity();
+		globalSkeletalTranslation.Zero();
 		skeleton.Append(newBone);
 	}
 	for (int childIndex = 0; childIndex < node->mNumChildren; childIndex++)
 	{
 		const aiNode* childNode = node->mChildren[childIndex];
-		GetAnimationFrame(childNode, newBoneIndex, skeleton);
+		GetAnimationFrame(childNode, parentTransform, globalSkeletalTranslation, globalRotation,newBoneIndex, skeleton);
 	}
 }
 
@@ -681,11 +707,11 @@ void ExportAnim(const char *modelpath, const char* src, const char* dest, idExpo
 
 		animatescene(scene, scene->mAnimations[0], d);
 		frames[d].bounds.Clear();
-		GetAnimationFrame(originNode, -1, frames[d].skeleton);
+		GetAnimationFrame(originNode, iden, _origin, _axis, -1, frames[d].skeleton);
 
 		for (int t = 0; t < frames[d].skeleton.Num(); t++)
 		{
-			frames[t].bounds.AddPoint(frames[d].skeleton[t].t);
+			frames[d].bounds.AddPoint(frames[d].skeleton[t].t);
 		}
 	}
 
@@ -774,7 +800,9 @@ void WriteMD5Mesh(const char *dest, idList< BoneDesc > &skeleton, rvmExportMesh*
 
 						numWeights++;
 
-						skeleton[jointIndex].q.ToMat3().ProjectVector(vert->xyz - skeleton[jointIndex].t, w.offset);
+						idVec3 t = skeleton[jointIndex].t;
+						w.offset.Zero();
+						skeleton[jointIndex].q.ToMat3().ProjectVector(vert->xyz - t, w.offset);
 
 						w.weight = weight->weights[o];
 						exportedWeights.Append(w);
@@ -862,7 +890,7 @@ void ExportMesh(const char *src, const char *dest, idExportOptions &options) {
 	_origin.Zero();
 	_axis.Identity();
 
-	GetBindPose(mat3_identity, originNode, -1, meshskeleton);
+	GetBindPose(mat3_identity, originNode,iden, _origin, _axis, -1, meshskeleton);
 
 	// Grab all of the meshes.
 	int numMeshes = scene->mNumMeshes;

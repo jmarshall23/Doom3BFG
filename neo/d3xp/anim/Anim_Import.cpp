@@ -102,10 +102,10 @@ bool idModelExport::ConvertMayaToMD5(void) {
 	idStr		path;
 
 	// check if our DLL got loaded
-	if (initialized) {
-		Maya_Error = "MayaImport dll not loaded.";
-		return false;
-	}
+	//if (initialized) {
+	//	Maya_Error = "MayaImport dll not loaded.";
+	//	return false;
+	//}
 
 	// if idAnimManager::forceExport is set then we always reexport Maya models
 	if (idAnimManager::forceExport) {
@@ -119,30 +119,30 @@ bool idModelExport::ConvertMayaToMD5(void) {
 	}
 
 	// get the destination file's time
-	if (!force && (fileSystem->ReadFile(dest, NULL, &destTime) >= 0)) {
-		if (destTime >= 0)
-		{
-			idParser parser(LEXFL_ALLOWPATHNAMES | LEXFL_NOSTRINGESCAPECHARS);
-
-			parser.LoadFile(dest);
-
-			// read the file version
-			if (parser.CheckTokenString(MD5_VERSION_STRING)) {
-				version = parser.ParseInt();
-
-				// check the command line
-				if (parser.CheckTokenString("commandline")) {
-					parser.ReadToken(&cmdLine);
-
-					// check the file time, scale, and version
-					if ((destTime >= sourceTime) && (version == MD5_VERSION) && (cmdLine == commandLine)) {
-						// don't convert it
-						return true;
-					}
-				}
-			}
-		}
-	}
+	//if (!force && (fileSystem->ReadFile(dest, NULL, &destTime) >= 0)) {
+	//	if (destTime >= 0)
+	//	{
+	//		idParser parser(LEXFL_ALLOWPATHNAMES | LEXFL_NOSTRINGESCAPECHARS);
+	//
+	//		parser.LoadFile(dest);
+	//
+	//		// read the file version
+	//		if (parser.CheckTokenString(MD5_VERSION_STRING)) {
+	//			version = parser.ParseInt();
+	//
+	//			// check the command line
+	//			if (parser.CheckTokenString("commandline")) {
+	//				parser.ReadToken(&cmdLine);
+	//
+	//				// check the file time, scale, and version
+	//				if ((destTime >= sourceTime) && (version == MD5_VERSION) && (cmdLine == commandLine)) {
+	//					// don't convert it
+	//					return true;
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 
 	// if this is the first time we've been run, check if Maya is installed and load our DLL
 	if (!initialized) {

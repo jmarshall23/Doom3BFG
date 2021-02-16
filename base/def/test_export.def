@@ -1,8 +1,4 @@
 export justin {
-	mesh	models/md5/test/test_box.fbx -dest models/md5/test/test_box.md5mesh
-}
-
-model test_export_mesh
-{
-	mesh models/md5/test/test_box.md5mesh
+	mesh	models/md5/test/soldier1/soldier1.fbx -dest models/md5/test/soldier1/soldier1.md5mesh
+	anim	models/md5/test/soldier1/anims/Run/Running.fbx -dest models/md5/test/soldier1/running.md5anim
 }
