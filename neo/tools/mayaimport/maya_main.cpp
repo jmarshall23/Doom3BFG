@@ -113,9 +113,7 @@ ConvertToIdSpace
 ===============
 */
 idMat3 ConvertToIdSpace(const idMat3& mat) {
-	idAngles id_convert(90, 0, 0);
-
-	return mat * id_convert.ToMat3();
+	return mat;
 }
 
 
@@ -125,14 +123,7 @@ ConvertToIdSpace
 ===============
 */
 idMat4 ConvertToIdSpace(const idMat4& mat) {
-	idMat4 assp_to_id_matrix = idMat4(1, 0, 0, 0,
-		0, 0, 1, 0,
-		1, 0, 0, 0,
-		0, 0, 0, 1);
-
-	
-
-	return mat * assp_to_id_matrix;
+	return mat;
 }
 
 
@@ -142,13 +133,7 @@ ConvertToIdSpace
 ===============
 */
 idVec3 ConvertToIdSpace(const idVec3& pos) {
-	idVec3 idpos;
-
-	idpos.x = pos.x;
-	idpos.y = pos.z;
-	idpos.z = -pos.y;
-
-	return idpos;
+	return pos;
 }
 
 // https://github.com/ccxvii/asstools/blob/master/assview.c
@@ -402,9 +387,9 @@ static void GetAnimationFrame(const aiNode* node, const aiMatrix4x4& parentTrans
 		newBone.node = node;
 		newBone.name = node->mName.C_Str();
 
-		idAngles id_convert(0, 0, -90);
-		if(skeleton.Num() == 0)
-			jointaxis = jointaxis * id_convert.ToMat3();
+		//idAngles id_convert(0, 0, -90);
+		//if(skeleton.Num() == 0)
+		//	jointaxis = jointaxis * id_convert.ToMat3();
 
 		newBone.t = jointpos;
 		newBone.q = jointaxis.ToQuat().ToCQuat();

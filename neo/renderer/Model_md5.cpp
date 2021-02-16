@@ -127,7 +127,10 @@ void idMD5Mesh::ParseMesh( idLexer& parser, int numJoints, const idJointMat* joi
 	parser.ReadToken( &token );
 	idStr shaderName = token;
 
-	shader = declManager->FindMaterial( shaderName );
+	shader = declManager->FindMaterial( shaderName, false );
+	if (shader == NULL) {
+		shader = declManager->FindMaterial("engine/default_lit");
+	}
 
 	//
 	// parse texture coordinates
@@ -782,7 +785,10 @@ bool idRenderModelMD5::LoadBinaryModel( idFile* file, const ID_TIME_T sourceTime
 		}
 		else
 		{
-			meshes[i].shader = declManager->FindMaterial( materialName );
+			meshes[i].shader = declManager->FindMaterial( materialName, false );
+			if (meshes[i].shader == NULL) {
+				meshes[i].shader = declManager->FindMaterial("engine/default_lit");
+			}
 		}
 
 		file->ReadBig( meshes[i].numVerts );

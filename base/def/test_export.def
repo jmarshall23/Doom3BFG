@@ -9,7 +9,7 @@ export justin {
 }
 
 
-mesh test_export
+model test_export
 {
 	mesh models/md5/test/soldier1/soldier1.md5mesh
 	anim idle models/md5/test/soldier1/running.md5anim
