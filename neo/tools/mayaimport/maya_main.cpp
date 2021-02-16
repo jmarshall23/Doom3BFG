@@ -402,6 +402,10 @@ static void GetAnimationFrame(const aiNode* node, const aiMatrix4x4& parentTrans
 		newBone.node = node;
 		newBone.name = node->mName.C_Str();
 
+		idAngles id_convert(0, 0, -90);
+		if(skeleton.Num() == 0)
+			jointaxis = jointaxis * id_convert.ToMat3();
+
 		newBone.t = jointpos;
 		newBone.q = jointaxis.ToQuat().ToCQuat();
 		newBone.parentIndex = parentBoneIndex;
