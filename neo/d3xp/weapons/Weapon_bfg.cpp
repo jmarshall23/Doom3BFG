@@ -155,6 +155,7 @@ stateResult_t rvmWeaponBFG::Fire(stateParms_t* parms)
 	float time_held;
 	float power = 0.0f;
 	float intensity;
+	int ammoClip = owner->AmmoInClip();
 
 	enum FIRE_State
 	{
@@ -167,6 +168,13 @@ stateResult_t rvmWeaponBFG::Fire(stateParms_t* parms)
 		FIRE_FIRE_COOLDOWN,
 		FIRE_DONE
 	};
+
+	if (ammoClip == 0 && owner->AmmoAvailable() && parms->stage == 0)
+	{
+		//owner->WeaponState( WP_RELOAD, PISTOL_IDLE_TO_RELOAD );
+		owner->Reload();
+		return SRESULT_DONE;
+	}
 
 	switch( parms->stage )
 	{

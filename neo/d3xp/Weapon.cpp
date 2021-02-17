@@ -82,6 +82,19 @@ bool rvmWeaponObject::IsFiring() {
 
 /*
 ==================
+rvmWeaponObject::IsReloading
+==================
+*/
+bool rvmWeaponObject::IsReloading() {
+	if (IsStateRunning("Reload")) {
+		return true;
+	}
+
+	return false;
+}
+
+/*
+==================
 rvmWeaponObject::FindSound
 ==================
 */
@@ -1929,6 +1942,10 @@ void idWeapon::BeginAttack()
 	}
 
 	if (currentWeaponObject->IsFiring()) {
+		return;
+	}
+
+	if (currentWeaponObject->IsReloading()) {
 		return;
 	}
 

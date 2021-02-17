@@ -167,11 +167,6 @@ stateResult_t rvmWeaponRocketLauncher::Fire(stateParms_t* parms)
 {
 	int ammoClip = owner->AmmoInClip();
 
-	if( next_attack >= MS2SEC( gameLocal.realClientTime ) )
-	{
-		return SRESULT_DONE;
-	}
-
 	enum FIRE_State
 	{
 		FIRE_NOTSET = 0,
@@ -228,7 +223,7 @@ stateResult_t rvmWeaponRocketLauncher::Reload(stateParms_t* parms)
 			return SRESULT_WAIT;
 
 		case RELOAD_WAIT:
-			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, ROCKETLAUNCHER_RELOAD_FRAME ) )
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
 			{
 				owner->Event_AddToClip( owner->ClipSize() );
 				UpdateSkin();

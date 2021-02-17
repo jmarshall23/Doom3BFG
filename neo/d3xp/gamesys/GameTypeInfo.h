@@ -9,7 +9,7 @@
 
 	935 constants
 	89 enums
-	451 classes/structs/unions
+	452 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -2668,6 +2668,14 @@ static classVariableInfo_t idAnimManager_typeInfo[] = {
 	{ ": idHashTable < idMD5Anim * >", "animations", (intptr_t)(&((idAnimManager *)0)->animations), sizeof( ((idAnimManager *)0)->animations ) },
 	{ "idStrList", "jointnames", (intptr_t)(&((idAnimManager *)0)->jointnames), sizeof( ((idAnimManager *)0)->jointnames ) },
 	{ "idHashIndex", "jointnamesHash", (intptr_t)(&((idAnimManager *)0)->jointnamesHash), sizeof( ((idAnimManager *)0)->jointnamesHash ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t idModelExport_typeInfo[] = {
+	{ ": idStr", "commandLine", (intptr_t)(&((idModelExport *)0)->commandLine), sizeof( ((idModelExport *)0)->commandLine ) },
+	{ "idStr", "src", (intptr_t)(&((idModelExport *)0)->src), sizeof( ((idModelExport *)0)->src ) },
+	{ "idStr", "dest", (intptr_t)(&((idModelExport *)0)->dest), sizeof( ((idModelExport *)0)->dest ) },
+	{ "bool", "force", (intptr_t)(&((idModelExport *)0)->force), sizeof( ((idModelExport *)0)->force ) },
 	{ NULL, 0 }
 };
 
@@ -7069,6 +7077,7 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "idAFPoseJointMod", "", sizeof(idAFPoseJointMod), idAFPoseJointMod_typeInfo },
 	{ "idAnimator", "", sizeof(idAnimator), idAnimator_typeInfo },
 	{ "idAnimManager", "", sizeof(idAnimManager), idAnimManager_typeInfo },
+	{ "idModelExport", "", sizeof(idModelExport), idModelExport_typeInfo },
 	{ "aasPath_t", "", sizeof(aasPath_t), aasPath_t_typeInfo },
 	{ "aasGoal_t", "", sizeof(aasGoal_t), aasGoal_t_typeInfo },
 	{ "aasObstacle_t", "", sizeof(aasObstacle_t), aasObstacle_t_typeInfo },

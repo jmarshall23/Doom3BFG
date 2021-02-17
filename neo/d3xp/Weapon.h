@@ -89,6 +89,7 @@ public:
 	virtual void			OwnerDied(void) { }
 
 	bool					IsFiring();
+	bool					IsReloading();
 
 	stateResult_t			Holstered(stateParms_t* parms) { return SRESULT_WAIT; }
 
