@@ -879,7 +879,7 @@ ExportMesh
 */
 void ExportMesh(const char *src, const char *dest, idExportOptions &options) {
 	common->Printf("Opening Mesh %s\n", src);
-	aiScene* scene = (aiScene*)aiImportFile(src, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
+	aiScene* scene = (aiScene*)aiImportFile(src, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices | aiProcess_LimitBoneWeights);
 	if (scene == nullptr) {
 		common->Warning("ExportMesh: Failed to open mesh %s\n", dest);
 		return;
@@ -940,6 +940,11 @@ void ExportMesh(const char *src, const char *dest, idExportOptions &options) {
 				float weight = bone->mWeights[g].mWeight;
 				
 				if (weight > 0) {
+					if (mesh->vertexWeights[vertexId].numWeights >= 4)
+					{
+						idLib::Error("Too many weights on mesh!");
+					}
+
 					mesh->vertexWeights[vertexId].jointIndex[mesh->vertexWeights[vertexId].numWeights] = FindExportJoint(bone, meshskeleton);
 					mesh->vertexWeights[vertexId].weights[mesh->vertexWeights[vertexId].numWeights] = weight;
 					mesh->vertexWeights[vertexId].numWeights++;
