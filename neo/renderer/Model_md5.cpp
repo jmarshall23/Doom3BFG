@@ -129,7 +129,7 @@ void idMD5Mesh::ParseMesh( idLexer& parser, int numJoints, const idJointMat* joi
 
 	shader = declManager->FindMaterial( shaderName, false );
 	if (shader == NULL) {
-		shader = declManager->FindMaterial("engine/default_lit");
+		shader = declManager->FindMaterial("textures/default_lit");
 	}
 
 	//

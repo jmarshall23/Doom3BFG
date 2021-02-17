@@ -1,6 +1,7 @@
 export justin {
-	mesh	models/md5/test/soldier1/soldier1.fbx -dest models/md5/test/soldier1/soldier1.md5mesh
-	anim	models/md5/test/soldier1/anims/Run/Running.fbx -dest models/md5/test/soldier1/running.md5anim
+	mesh	models/md5/test2/test_mesh.fbx -dest models/md5/test2/test_mesh.md5mesh
+	anim	models/md5/test2/test_anim.fbx -dest models/md5/test2/test_anim.md5anim
+	anim    models/md5/test2/test_anim_simple.fbx -dest models/md5/test2/test_anim_simple.md5anim
 }
 
 export justin {
@@ -11,6 +12,6 @@ export justin {
 
 model test_export
 {
-	mesh models/md5/test/soldier1/soldier1.md5mesh
-	anim idle models/md5/test/soldier1/running.md5anim
+	mesh models/md5/test2/test_mesh.md5mesh
+	anim idle models/md5/test2/test_anim_simple.md5anim
 }
