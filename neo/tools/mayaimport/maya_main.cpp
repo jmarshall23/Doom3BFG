@@ -649,7 +649,7 @@ void WriteMD5Anim(const char *meshpath, const char* dest, idList< BoneDesc >& bi
 	for (int i = 0; i < frames.Num(); i++) {
 		file->WriteFloatString( "\nframe %d {\n", i);
 		for (int j = 0; j < bind_pose.Num(); j++) {
-			BoneDesc* joint = &bind_pose[i];
+			BoneDesc* joint = &bind_pose[j];
 			AnimationFrame* frame = &frames[i].skeleton[j];
 
 			if (joint->animBits) {
