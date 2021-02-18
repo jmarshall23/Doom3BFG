@@ -119,11 +119,13 @@ public:
 	bool						LoadDAE( const char* fileName, ID_TIME_T* sourceTimeStamp ); // RB
 	bool						LoadLWO( const char* fileName, ID_TIME_T* sourceTimeStamp );
 	bool						LoadMA( const char* filename, ID_TIME_T* sourceTimeStamp );
+	bool						LoadOBJ(const char* fileName, ID_TIME_T* sourceTimeStamp);
 
 	bool						ConvertDAEToModelSurfaces( const ColladaParser* dae ); // RB
 	bool						ConvertASEToModelSurfaces( const struct aseModel_s* ase );
 	bool						ConvertLWOToModelSurfaces( const struct st_lwObject* lwo );
 	bool						ConvertMAToModelSurfaces( const struct maModel_s* ma );
+	bool						ConvertOBJToModelSurfaces(const struct objModel_t* model);
 
 	struct aseModel_s* 			ConvertLWOToASE( const struct st_lwObject* obj, const char* fileName );
 
