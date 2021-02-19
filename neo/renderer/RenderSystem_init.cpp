@@ -53,8 +53,6 @@ idGuiModel* tr_guiModel;
 // functions that are not called every frame
 glconfig_t	glConfig;
 
-bool debugOutput = false;
-
 idCVar r_requestStereoPixelFormat( "r_requestStereoPixelFormat", "1", CVAR_RENDERER, "Ask for a stereo GL pixel format on startup" );
 idCVar r_debugContext( "r_debugContext", "0", CVAR_RENDERER, "Enable various levels of context debug." );
 idCVar r_glDriver( "r_glDriver", "", CVAR_RENDERER, "\"opengl32\", etc." );

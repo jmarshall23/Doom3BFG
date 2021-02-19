@@ -4553,6 +4553,10 @@ intptr_t idLight::Invoke(const char *functionName, void *param1) {
 		Present();
 		return 0;
 	};
+	if(functionNameHash == 137647) { // SharedThink
+		SharedThink();
+		return 0;
+	};
 	if(functionNameHash == 146975) { // GetBaseColor
 		GetBaseColor();
 		return 0;
@@ -4625,6 +4629,9 @@ bool idLight::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 90014) { // Present
+		return true;
+	};
+	if(functionNameHash == 137647) { // SharedThink
 		return true;
 	};
 	if(functionNameHash == 146975) { // GetBaseColor

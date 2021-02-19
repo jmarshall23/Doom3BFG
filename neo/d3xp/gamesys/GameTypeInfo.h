@@ -9,7 +9,7 @@
 
 	935 constants
 	89 enums
-	452 classes/structs/unions
+	453 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -4551,6 +4551,15 @@ static classVariableInfo_t idWeapon_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static classVariableInfo_t rvmLightStyleState_t_typeInfo[] = {
+	{ "int", "dl_frame", (intptr_t)(&((rvmLightStyleState_t *)0)->dl_frame), sizeof( ((rvmLightStyleState_t *)0)->dl_frame ) },
+	{ "float", "dl_framef", (intptr_t)(&((rvmLightStyleState_t *)0)->dl_framef), sizeof( ((rvmLightStyleState_t *)0)->dl_framef ) },
+	{ "int", "dl_oldframe", (intptr_t)(&((rvmLightStyleState_t *)0)->dl_oldframe), sizeof( ((rvmLightStyleState_t *)0)->dl_oldframe ) },
+	{ "int", "dl_time", (intptr_t)(&((rvmLightStyleState_t *)0)->dl_time), sizeof( ((rvmLightStyleState_t *)0)->dl_time ) },
+	{ "float", "dl_backlerp", (intptr_t)(&((rvmLightStyleState_t *)0)->dl_backlerp), sizeof( ((rvmLightStyleState_t *)0)->dl_backlerp ) },
+	{ NULL, 0 }
+};
+
 static classVariableInfo_t idLight_typeInfo[] = {
 	{ ": renderLight_t", "renderLight", (intptr_t)(&((idLight *)0)->renderLight), sizeof( ((idLight *)0)->renderLight ) },
 	{ "idVec3", "localLightOrigin", (intptr_t)(&((idLight *)0)->localLightOrigin), sizeof( ((idLight *)0)->localLightOrigin ) },
@@ -4564,6 +4573,9 @@ static classVariableInfo_t idLight_typeInfo[] = {
 	{ "idVec3", "nextBaseColor", (intptr_t)(&((idLight *)0)->nextBaseColor), sizeof( ((idLight *)0)->nextBaseColor ) },
 	{ "bool", "breakOnTrigger", (intptr_t)(&((idLight *)0)->breakOnTrigger), sizeof( ((idLight *)0)->breakOnTrigger ) },
 	{ "int", "count", (intptr_t)(&((idLight *)0)->count), sizeof( ((idLight *)0)->count ) },
+	{ "int", "lightStyle", (intptr_t)(&((idLight *)0)->lightStyle), sizeof( ((idLight *)0)->lightStyle ) },
+	{ "int", "lightStyleFrameTime", (intptr_t)(&((idLight *)0)->lightStyleFrameTime), sizeof( ((idLight *)0)->lightStyleFrameTime ) },
+	{ "idVec3", "lightStyleBase", (intptr_t)(&((idLight *)0)->lightStyleBase), sizeof( ((idLight *)0)->lightStyleBase ) },
 	{ "int", "triggercount", (intptr_t)(&((idLight *)0)->triggercount), sizeof( ((idLight *)0)->triggercount ) },
 	{ "idEntity *", "lightParent", (intptr_t)(&((idLight *)0)->lightParent), sizeof( ((idLight *)0)->lightParent ) },
 	{ "idVec4", "fadeFrom", (intptr_t)(&((idLight *)0)->fadeFrom), sizeof( ((idLight *)0)->fadeFrom ) },
@@ -4571,6 +4583,8 @@ static classVariableInfo_t idLight_typeInfo[] = {
 	{ "int", "fadeStart", (intptr_t)(&((idLight *)0)->fadeStart), sizeof( ((idLight *)0)->fadeStart ) },
 	{ "int", "fadeEnd", (intptr_t)(&((idLight *)0)->fadeEnd), sizeof( ((idLight *)0)->fadeEnd ) },
 	{ "bool", "soundWasPlaying", (intptr_t)(&((idLight *)0)->soundWasPlaying), sizeof( ((idLight *)0)->soundWasPlaying ) },
+	{ "idList < idStr >", "light_styles", (intptr_t)(&((idLight *)0)->light_styles), sizeof( ((idLight *)0)->light_styles ) },
+	{ "rvmLightStyleState_t", "lightStyleState", (intptr_t)(&((idLight *)0)->lightStyleState), sizeof( ((idLight *)0)->lightStyleState ) },
 	{ NULL, 0 }
 };
 
@@ -7243,6 +7257,7 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "WeaponLight_t", "", sizeof(WeaponLight_t), WeaponLight_t_typeInfo },
 	{ "rvmWeaponObject", "idClass", sizeof(rvmWeaponObject), rvmWeaponObject_typeInfo },
 	{ "idWeapon", "idAnimatedEntity", sizeof(idWeapon), idWeapon_typeInfo },
+	{ "rvmLightStyleState_t", "", sizeof(rvmLightStyleState_t), rvmLightStyleState_t_typeInfo },
 	{ "idLight", "idEntity", sizeof(idLight), idLight_typeInfo },
 	{ "EnvironmentProbe", "idEntity", sizeof(EnvironmentProbe), EnvironmentProbe_typeInfo },
 	{ "idWorldspawn", "idEntity", sizeof(idWorldspawn), idWorldspawn_typeInfo },

@@ -248,6 +248,8 @@ public:
 	const char* 				GetSuperclass() const;
 	void						FindUninitializedMemory();
 
+	virtual void				SharedThink() { }
+
 	virtual idClass* InvokeChild() { return NULL; }
 	virtual intptr_t Invoke( const char* functionName, void* param1);
 	virtual bool	 HasNativeFunction(const char* functionName);
