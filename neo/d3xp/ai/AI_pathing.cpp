@@ -1792,7 +1792,8 @@ bool idAI::PredictTrajectory( const idVec3& firePos, const idVec3& target, float
 idAI::idle_followPathEntities
 =====================
 */
-void idAI::idle_followPathEntities(idEntity* pathnode) {
+void idAI::idle_followPathEntities( idEntity* pathnode )
+{
 	idStr nodeaction;
 	idStr triggername;
 	idEntity* triggerent;
@@ -1800,47 +1801,56 @@ void idAI::idle_followPathEntities(idEntity* pathnode) {
 	idEntity* next_path;
 
 	current_path = pathnode;
-	do {
-		next_path = idPathCorner::RandomPath(current_path, NULL);
-		nodeaction = current_path->GetKey("classname");
-		if (scriptObject.GetFunction(nodeaction)) {
+	do
+	{
+		next_path = idPathCorner::RandomPath( current_path, NULL );
+		nodeaction = current_path->GetKey( "classname" );
+		if( scriptObject.GetFunction( nodeaction ) )
+		{
 
 			//#ifdef _D3XP
-					// trigger an entity right when the path corner is accepted
+			// trigger an entity right when the path corner is accepted
 			idStr pretriggername;
 			idEntity* pretriggerent;
-			pretriggername = current_path->GetKey("pretrigger");
-			if (pretriggername != "") {
-				pretriggerent = gameLocal.GetEntity(pretriggername);
-				if (pretriggerent) {
-					pretriggerent->Event_ActivateTargets(this);
+			pretriggername = current_path->GetKey( "pretrigger" );
+			if( pretriggername != "" )
+			{
+				pretriggerent = gameLocal.GetEntity( pretriggername );
+				if( pretriggerent )
+				{
+					pretriggerent->Event_ActivateTargets( this );
 				}
 			}
 			//#endif
 
 //			Event_CallFunction(nodeaction);
 			scriptThread->ClearStack();
-			scriptThread->PushEntity(this);
-			scriptThread->CallFunction(scriptObject.GetFunction(nodeaction), false);
+			scriptThread->PushEntity( this );
+			scriptThread->CallFunction( scriptObject.GetFunction( nodeaction ), false );
 		}
-		else {
-			idLib::Warning("'" + idStr(GetName()) + "' encountered an unsupported path entity '" + nodeaction + "' on entity '" + idStr(current_path->GetName()) + "'\n");
+		else
+		{
+			idLib::Warning( "'" + idStr( GetName() ) + "' encountered an unsupported path entity '" + nodeaction + "' on entity '" + idStr( current_path->GetName() ) + "'\n" );
 			return;
 		}
 
-		if (checkForEnemy(true)) {
+		if( checkForEnemy( true ) )
+		{
 			return;
 		}
 
 		// trigger any entities the path had targeted
-		triggername = current_path->GetKey("trigger");
-		if (triggername != "") {
-			triggerent = gameLocal.GetEntity(triggername);
-			if (triggerent) {
-				triggerent->Event_ActivateTargets(this);
+		triggername = current_path->GetKey( "trigger" );
+		if( triggername != "" )
+		{
+			triggerent = gameLocal.GetEntity( triggername );
+			if( triggerent )
+			{
+				triggerent->Event_ActivateTargets( this );
 			}
 		}
 
 		current_path = next_path;
-	} while (!(!current_path));
+	}
+	while( !( !current_path ) );
 }

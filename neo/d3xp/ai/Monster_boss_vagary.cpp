@@ -75,7 +75,7 @@ Vagary specific AI code
 #define VAGARY_IDLE_TO_TURRETATTACK	4
 #define VAGARY_TURRETATTACK_TO_IDLE	4
 
-CLASS_DECLARATION( idAI, rvmMonsterBossVagary)
+CLASS_DECLARATION( idAI, rvmMonsterBossVagary )
 END_CLASS
 
 /*
@@ -83,7 +83,8 @@ END_CLASS
 rvmMonsterDemonHellknight::Init
 =================
 */
-void rvmMonsterBossVagary::Init(void) {
+void rvmMonsterBossVagary::Init( void )
+{
 }
 
 /*
@@ -91,8 +92,9 @@ void rvmMonsterBossVagary::Init(void) {
 rvmMonsterDemonHellknight::AI_Begin
 =================
 */
-void rvmMonsterBossVagary::AI_Begin(void) {
-	Event_SetState("state_Begin");
+void rvmMonsterBossVagary::AI_Begin( void )
+{
+	Event_SetState( "state_Begin" );
 }
 
 /*
@@ -100,12 +102,13 @@ void rvmMonsterBossVagary::AI_Begin(void) {
 rvmMonsterBossVagary::state_Begin
 =====================
 */
-stateResult_t rvmMonsterBossVagary::state_Begin(stateParms_t* parms) {
-	Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Idle", 0);
-	Event_AnimState(ANIMCHANNEL_LEGS, "Legs_Idle", 0);
+stateResult_t rvmMonsterBossVagary::state_Begin( stateParms_t* parms )
+{
+	Event_AnimState( ANIMCHANNEL_TORSO, "Torso_Idle", 0 );
+	Event_AnimState( ANIMCHANNEL_LEGS, "Legs_Idle", 0 );
 
-	Event_SetMoveType(MOVETYPE_ANIM);
-	Event_SetState("state_Idle");
+	Event_SetMoveType( MOVETYPE_ANIM );
+	Event_SetState( "state_Idle" );
 	return SRESULT_DONE;
 }
 
@@ -114,10 +117,11 @@ stateResult_t rvmMonsterBossVagary::state_Begin(stateParms_t* parms) {
 rvmMonsterBossVagary::state_Idle
 =====================
 */
-stateResult_t rvmMonsterBossVagary::state_Idle(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterBossVagary::state_Idle( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
-		if (wait_for_enemy(parms) == SRESULT_DONE)
+		if( wait_for_enemy( parms ) == SRESULT_DONE )
 		{
 			parms->stage = 1;
 		}
@@ -127,9 +131,9 @@ stateResult_t rvmMonsterBossVagary::state_Idle(stateParms_t* parms) {
 
 	nextAttack = 0;
 	nextNoFOVAttack = 0;
-	nextDodge = gameLocal.RandomTime(VAGARY_DODGE_RATE);
+	nextDodge = gameLocal.RandomTime( VAGARY_DODGE_RATE );
 
-	Event_SetState("state_Combat");
+	Event_SetState( "state_Combat" );
 	return SRESULT_DONE;
 }
 
@@ -138,26 +142,32 @@ stateResult_t rvmMonsterBossVagary::state_Idle(stateParms_t* parms) {
 rvmMonsterBossVagary::do_attack
 =====================
 */
-void rvmMonsterBossVagary::do_attack(int attack_flags) {
+void rvmMonsterBossVagary::do_attack( int attack_flags )
+{
 	nextNoFOVAttack = gameLocal.SysScriptTime() + VAGARY_NOFOVTIME;
-	if (attack_flags & ATTACK_DODGE_LEFT) {
-		stateThread.SetState("combat_dodge_left");
+	if( attack_flags & ATTACK_DODGE_LEFT )
+	{
+		stateThread.SetState( "combat_dodge_left" );
 	}
-	else if (attack_flags & ATTACK_DODGE_RIGHT) {
+	else if( attack_flags & ATTACK_DODGE_RIGHT )
+	{
 		//combat_dodge_right();
-		stateThread.SetState("combat_dodge_right");
+		stateThread.SetState( "combat_dodge_right" );
 	}
-	else if (attack_flags & ATTACK_COMBAT_NODE) {
+	else if( attack_flags & ATTACK_COMBAT_NODE )
+	{
 		//combat_ainode(combat_node);
-		gameLocal.Error("rvmMonsterBossVagary::CombatAINode\n");
+		gameLocal.Error( "rvmMonsterBossVagary::CombatAINode\n" );
 	}
-	else if (attack_flags & ATTACK_MELEE) {
+	else if( attack_flags & ATTACK_MELEE )
+	{
 		//crouch_attack();
-		stateThread.SetState("combat_melee");
+		stateThread.SetState( "combat_melee" );
 	}
-	else if (attack_flags & ATTACK_MISSILE) {
+	else if( attack_flags & ATTACK_MISSILE )
+	{
 		//stand_attack();
-		stateThread.SetState("combat_range");
+		stateThread.SetState( "combat_range" );
 	}
 }
 
@@ -166,68 +176,71 @@ void rvmMonsterBossVagary::do_attack(int attack_flags) {
 rvmMonsterBossVagary::combat_range
 =====================
 */
-stateResult_t rvmMonsterBossVagary::combat_range(stateParms_t* parms) {
-	if (parms->stage == 10)
+stateResult_t rvmMonsterBossVagary::combat_range( stateParms_t* parms )
+{
+	if( parms->stage == 10 )
 	{
 		pos = throwEntity->GetOrigin();
 		pos.z += VAGARY_THROW_OFFSET;
 
-		Event_StartSound("snd_pickup", SND_CHANNEL_WEAPON, false);
+		Event_StartSound( "snd_pickup", SND_CHANNEL_WEAPON, false );
 
-		throwEntity->Event_SetAngularVelocity(idVec3(30, 30, 0));
+		throwEntity->Event_SetAngularVelocity( idVec3( 30, 30, 0 ) );
 		waitTime = gameLocal.SysScriptTime() + 0.5;
-		start_offset = gameLocal.SysScriptTime() + gameLocal.Random(360);
+		start_offset = gameLocal.SysScriptTime() + gameLocal.Random( 360 );
 
 		parms->stage = 11;
 
 		return SRESULT_WAIT;
 	}
 
-	if(parms->stage == 11) {
-		if (gameLocal.SysScriptTime() < waitTime) {
+	if( parms->stage == 11 )
+	{
+		if( gameLocal.SysScriptTime() < waitTime )
+		{
 			t = gameLocal.SysScriptTime() - start_offset * 360 * 2;
-			offset.z = sin(t) * 8;
-			vel = (pos - throwEntity->GetOrigin() + offset) * 5;
-			throwEntity->Event_SetLinearVelocity(vel);
+			offset.z = sin( t ) * 8;
+			vel = ( pos - throwEntity->GetOrigin() + offset ) * 5;
+			throwEntity->Event_SetLinearVelocity( vel );
 			return SRESULT_WAIT;
 		}
-		ThrowObjectAtEnemy(throwEntity, VAGARY_THROW_SPEED2);
+		ThrowObjectAtEnemy( throwEntity, VAGARY_THROW_SPEED2 );
 		parms->stage = parms->param1;
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 0)
+	if( parms->stage == 0 )
 	{
 		Event_FaceEnemy();
-		Event_LookAtEntity(throwEntity, 3);
-		parms->Wait(0.3);
+		Event_LookAtEntity( throwEntity, 3 );
+		parms->Wait( 0.3 );
 		parms->stage = 1;
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 1)
+	if( parms->stage == 1 )
 	{
-		if (throwEntity == NULL)
+		if( throwEntity == NULL )
 		{
 			parms->stage = 3;
-			parms->Wait(1);
+			parms->Wait( 1 );
 			return SRESULT_WAIT;
 		}
 
 		parms->stage = 10;
 		parms->param1 = 2; // Return Stage
 		parms->param2 = 1; // Start Entity
-		parms->subparam1 = gameLocal.Random(4);
+		parms->subparam1 = gameLocal.Random( 4 );
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 2)
+	if( parms->stage == 2 )
 	{
 		int num = parms->subparam1;
 
-		if (parms->param2 < num)
+		if( parms->param2 < num )
 		{
-			throwEntity = ChooseObjectToThrow(VAGARY_THROW_MIN, VAGARY_THROW_MAX, VAGARY_THROW_SPEED, VAGARY_THROW_DIST, VAGARY_THROW_OFFSET);
+			throwEntity = ChooseObjectToThrow( VAGARY_THROW_MIN, VAGARY_THROW_MAX, VAGARY_THROW_SPEED, VAGARY_THROW_DIST, VAGARY_THROW_OFFSET );
 			parms->stage = 10;
 			parms->param1 = 2; // Return Stage
 			parms->param2++; // Start Entity
@@ -236,15 +249,15 @@ stateResult_t rvmMonsterBossVagary::combat_range(stateParms_t* parms) {
 		else
 		{
 			parms->stage = 3;
-			parms->Wait(1);
+			parms->Wait( 1 );
 			return SRESULT_WAIT;
 		}
 	}
 
-	Event_LookAtEnemy(1);
+	Event_LookAtEnemy( 1 );
 
 	// don't attack for a bit
-	nextAttack = gameLocal.DelayTime(VAGARY_ATTACK_RATE);
+	nextAttack = gameLocal.DelayTime( VAGARY_ATTACK_RATE );
 	nextNoFOVAttack = gameLocal.SysScriptTime() + VAGARY_NOFOVTIME;
 	return SRESULT_WAIT;
 }
@@ -254,25 +267,26 @@ stateResult_t rvmMonsterBossVagary::combat_range(stateParms_t* parms) {
 rvmMonsterBossVagary::combat_melee
 =====================
 */
-stateResult_t rvmMonsterBossVagary::combat_melee(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterBossVagary::combat_melee( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
-		Event_LookAtEnemy(100);
+		Event_LookAtEnemy( 100 );
 		Event_FaceEnemy();
-		Event_AnimState(ANIMCHANNEL_LEGS, "Torso_MeleeAttack", VAGARY_WALK_TO_MELEE);
-		SetWaitState("melee_attack");
+		Event_AnimState( ANIMCHANNEL_LEGS, "Torso_MeleeAttack", VAGARY_WALK_TO_MELEE );
+		SetWaitState( "melee_attack" );
 		parms->stage = 1;
 		return SRESULT_WAIT;
 	}
 
-	if (!AnimDone(ANIMCHANNEL_LEGS, 0))
+	if( !AnimDone( ANIMCHANNEL_LEGS, 0 ) )
 	{
 		return SRESULT_WAIT;
 	}
 
 	parms->stage = 2;
 
-	Event_LookAtEnemy(1);
+	Event_LookAtEnemy( 1 );
 	return SRESULT_DONE;
 }
 
@@ -281,25 +295,26 @@ stateResult_t rvmMonsterBossVagary::combat_melee(stateParms_t* parms) {
 rvmMonsterBossVagary::combat_dodge_left
 =====================
 */
-stateResult_t rvmMonsterBossVagary::combat_dodge_left(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterBossVagary::combat_dodge_left( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
 		Event_StopMove();
 		Event_FaceEnemy();
-		Event_AnimState(ANIMCHANNEL_LEGS, "Legs_DodgeLeft", VAGARY_WALK_TO_DODGE_LEFT);
-		SetWaitState("strafe");
+		Event_AnimState( ANIMCHANNEL_LEGS, "Legs_DodgeLeft", VAGARY_WALK_TO_DODGE_LEFT );
+		SetWaitState( "strafe" );
 		parms->stage = 1;
 		return SRESULT_WAIT;
 	}
 
-	if (!AnimDone(ANIMCHANNEL_LEGS, 0))
+	if( !AnimDone( ANIMCHANNEL_LEGS, 0 ) )
 	{
 		return SRESULT_WAIT;
 	}
 
 	parms->stage = 2;
 
-	nextDodge = gameLocal.DelayTime(VAGARY_DODGE_RATE);
+	nextDodge = gameLocal.DelayTime( VAGARY_DODGE_RATE );
 	return SRESULT_DONE;
 }
 
@@ -308,25 +323,26 @@ stateResult_t rvmMonsterBossVagary::combat_dodge_left(stateParms_t* parms) {
 rvmMonsterBossVagary::combat_dodge_right
 =====================
 */
-stateResult_t rvmMonsterBossVagary::combat_dodge_right(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterBossVagary::combat_dodge_right( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
 		Event_StopMove();
 		Event_FaceEnemy();
-		Event_AnimState(ANIMCHANNEL_LEGS, "Legs_DodgeRight", VAGARY_WALK_TO_DODGE_RIGHT);
-		SetWaitState("strafe");
+		Event_AnimState( ANIMCHANNEL_LEGS, "Legs_DodgeRight", VAGARY_WALK_TO_DODGE_RIGHT );
+		SetWaitState( "strafe" );
 		parms->stage = 1;
 		return SRESULT_WAIT;
 	}
 
-	if (!AnimDone(ANIMCHANNEL_LEGS, 0))
+	if( !AnimDone( ANIMCHANNEL_LEGS, 0 ) )
 	{
 		return SRESULT_WAIT;
 	}
 
 	parms->stage = 2;
 
-	nextDodge = gameLocal.DelayTime(VAGARY_DODGE_RATE);
+	nextDodge = gameLocal.DelayTime( VAGARY_DODGE_RATE );
 	return SRESULT_DONE;
 }
 
@@ -336,7 +352,8 @@ stateResult_t rvmMonsterBossVagary::combat_dodge_right(stateParms_t* parms) {
 rvmMonsterBossVagary::check_attacks
 =====================
 */
-int rvmMonsterBossVagary::check_attacks() {
+int rvmMonsterBossVagary::check_attacks()
+{
 	float canMelee;
 	float currentTime;
 	int attack_flags;
@@ -345,32 +362,41 @@ int rvmMonsterBossVagary::check_attacks() {
 
 	canMelee = TestMelee();
 	currentTime = gameLocal.SysScriptTime();
-	if (!canMelee) {
-		if (AI_PAIN && (currentTime >= nextDodge)) {
-			if (TestAnimMove("evade_left")) {
+	if( !canMelee )
+	{
+		if( AI_PAIN && ( currentTime >= nextDodge ) )
+		{
+			if( TestAnimMove( "evade_left" ) )
+			{
 				attack_flags |= ATTACK_DODGE_LEFT;
 			}
-			if (TestAnimMove("evade_right")) {
+			if( TestAnimMove( "evade_right" ) )
+			{
 				attack_flags |= ATTACK_DODGE_RIGHT;
 
 				// if we can dodge either direction, pick one
-				if (attack_flags & ATTACK_DODGE_LEFT) {
-					if (gameLocal.Random(100) < 50) {
+				if( attack_flags & ATTACK_DODGE_LEFT )
+				{
+					if( gameLocal.Random( 100 ) < 50 )
+					{
 						attack_flags &= ~ATTACK_DODGE_RIGHT;
 					}
-					else {
+					else
+					{
 						attack_flags &= ~ATTACK_DODGE_LEFT;
 					}
 				}
 			}
 		}
 		combat_node = GetCombatNode();
-		if (combat_node) {
+		if( combat_node )
+		{
 			attack_flags |= ATTACK_COMBAT_NODE;
 		}
 	}
 
-	if (canMelee) {
+	if( canMelee )
+	{
 		attack_flags |= ATTACK_MELEE;
 	}
 // jmarshall - fix throwing?
@@ -393,7 +419,7 @@ int rvmMonsterBossVagary::check_attacks() {
 rvmMonsterBossVagary::ChooseObjectToThrow
 ================
 */
-idEntity *rvmMonsterBossVagary::ChooseObjectToThrow( const idVec3& mins, const idVec3& maxs, float speed, float minDist, float offset )
+idEntity* rvmMonsterBossVagary::ChooseObjectToThrow( const idVec3& mins, const idVec3& maxs, float speed, float minDist, float offset )
 {
 	idEntity* 	ent;
 	idEntity* 	entityList[ MAX_GENTITIES ];

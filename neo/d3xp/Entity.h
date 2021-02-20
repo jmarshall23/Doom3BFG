@@ -292,7 +292,7 @@ public:
 	virtual void			FreeModelDef();
 	virtual void			FreeLightDef();
 	virtual void			Hide();
-	virtual void			Show();	
+	virtual void			Show();
 	bool					IsHidden() const;
 	void					UpdateVisuals();
 	void					UpdateModel();
@@ -533,17 +533,17 @@ protected:
 	}
 
 public:
-	int GetIntKey(const char* key)
+	int GetIntKey( const char* key )
 	{
 		int value;
-		spawnArgs.GetInt(key, "0", value);
+		spawnArgs.GetInt( key, "0", value );
 		return value;
 	}
 
-	float GetFloatKey(const char* key)
+	float GetFloatKey( const char* key )
 	{
 		float value;
-		spawnArgs.GetFloat(key, "0", value);
+		spawnArgs.GetFloat( key, "0", value );
 		return value;
 	}
 
@@ -600,7 +600,7 @@ public:
 	idVec3					GetOrigin( void );
 	float					DistanceTo( idEntity* ent );
 	float					DistanceTo( const idVec3& pos ) const;
-	idStr					GetNextKey(const char* prefix, const char* lastMatch);
+	idStr					GetNextKey( const char* prefix, const char* lastMatch );
 // jmarshall end
 
 	void					Event_GetName();
@@ -645,7 +645,7 @@ public:
 	idVec3					GetSize();
 	void					Event_GetMins();
 	void					Event_GetMaxs();
-	bool					Touches(idEntity* ent);
+	bool					Touches( idEntity* ent );
 	void					Event_Touches( idEntity* ent );
 	void					Event_SetGuiParm( const char* key, const char* val );
 	void					Event_SetGuiFloat( const char* key, float f );
@@ -656,7 +656,7 @@ public:
 	void					Event_GetFloatKey( const char* key );
 	void					Event_GetVectorKey( const char* key );
 	void					Event_GetEntityKey( const char* key );
-	idEntity*				GetEntityKey(const char* key);
+	idEntity*				GetEntityKey( const char* key );
 	void					Event_RestorePosition();
 	void					Event_UpdateCameraTarget();
 	void					Event_DistanceTo( idEntity* ent );

@@ -128,8 +128,9 @@ void idMD5Mesh::ParseMesh( idLexer& parser, int numJoints, const idJointMat* joi
 	idStr shaderName = token;
 
 	shader = declManager->FindMaterial( shaderName, false );
-	if (shader == NULL) {
-		shader = declManager->FindMaterial("textures/default_lit");
+	if( shader == NULL )
+	{
+		shader = declManager->FindMaterial( "textures/default_lit" );
 	}
 
 	//
@@ -786,8 +787,9 @@ bool idRenderModelMD5::LoadBinaryModel( idFile* file, const ID_TIME_T sourceTime
 		else
 		{
 			meshes[i].shader = declManager->FindMaterial( materialName, false );
-			if (meshes[i].shader == NULL) {
-				meshes[i].shader = declManager->FindMaterial("engine/default_lit");
+			if( meshes[i].shader == NULL )
+			{
+				meshes[i].shader = declManager->FindMaterial( "engine/default_lit" );
 			}
 		}
 

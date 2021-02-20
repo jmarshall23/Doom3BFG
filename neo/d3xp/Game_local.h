@@ -454,22 +454,28 @@ public:
 	void					MapRestart();
 	static void				MapRestart_f( const idCmdArgs& args );
 
-	float					SysScriptTime(void) const { return MS2SEC(realClientTime); }
-	float					SysScriptFrameTime(void) const { return MS2SEC(time - previousTime);  }
+	float					SysScriptTime( void ) const
+	{
+		return MS2SEC( realClientTime );
+	}
+	float					SysScriptFrameTime( void ) const
+	{
+		return MS2SEC( time - previousTime );
+	}
 
 	idMapFile* 				GetLevelMap();
 	const char* 			GetMapName() const;
 	void					DelayRemoveEntity( idEntity* entity, int delay );
 
-	bool					InfluenceActive(void) const;
-	idEntity				*GetEntity(const char* name);
+	bool					InfluenceActive( void ) const;
+	idEntity*				GetEntity( const char* name );
 
-	float					Random(float range);
-	float					RandomDelay(float min, float max);
-	float					RandomTime(float delay);	
-	float					DelayTime(float delay);
+	float					Random( float range );
+	float					RandomDelay( float min, float max );
+	float					RandomTime( float delay );
+	float					DelayTime( float delay );
 
-	idEntity*				Spawn(const char* classname);
+	idEntity*				Spawn( const char* classname );
 
 	int						NumAAS() const;
 	idAAS* 					GetAAS( int num ) const;

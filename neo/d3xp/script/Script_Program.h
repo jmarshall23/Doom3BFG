@@ -645,7 +645,8 @@ ID_INLINE int idProgram::GetReturnedInteger()
 idProgram::GetReturnedFloat
 ================
 */
-ID_INLINE float idProgram::GetReturnedFloat() {
+ID_INLINE float idProgram::GetReturnedFloat()
+{
 	return *returnDef->value.floatPtr;
 }
 
@@ -654,7 +655,8 @@ ID_INLINE float idProgram::GetReturnedFloat() {
 idProgram::GetReturnedVec3
 ================
 */
-ID_INLINE idVec3 idProgram::GetReturnedVec3() {
+ID_INLINE idVec3 idProgram::GetReturnedVec3()
+{
 	return *returnDef->value.vectorPtr;
 }
 
@@ -663,7 +665,8 @@ ID_INLINE idVec3 idProgram::GetReturnedVec3() {
 idProgram::GetReturnedString
 ================
 */
-ID_INLINE const char* idProgram::GetReturnedString() {
+ID_INLINE const char* idProgram::GetReturnedString()
+{
 	return returnDef->value.stringPtr;
 }
 
@@ -672,7 +675,8 @@ ID_INLINE const char* idProgram::GetReturnedString() {
 idProgram::GetReturnedBool
 ================
 */
-ID_INLINE bool idProgram::GetReturnedBool() {
+ID_INLINE bool idProgram::GetReturnedBool()
+{
 	return GetReturnedInteger() != 0;
 }
 // RAVEN END

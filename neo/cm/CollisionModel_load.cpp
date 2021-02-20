@@ -3856,7 +3856,7 @@ cm_model_t* idCollisionModelManagerLocal::LoadRenderModel( const char* fileName 
 	idStr( fileName ).ExtractFileExtension( extension );
 
 	// RB: DAE support
-	if((extension.Icmp("obj") != 0) && ( extension.Icmp( "ase" ) != 0 ) && ( extension.Icmp( "lwo" ) != 0 ) && ( extension.Icmp( "ma" ) != 0 ) && ( extension.Icmp( "dae" ) != 0 ) )
+	if( ( extension.Icmp( "obj" ) != 0 ) && ( extension.Icmp( "ase" ) != 0 ) && ( extension.Icmp( "lwo" ) != 0 ) && ( extension.Icmp( "ma" ) != 0 ) && ( extension.Icmp( "dae" ) != 0 ) )
 	{
 		return NULL;
 	}

@@ -2526,9 +2526,11 @@ idCVar g_recordTrace( "g_recordTrace", "0", CVAR_BOOL, "" );
 idGameLocal::RunSharedThink
 ================
 */
-void idGameLocal::RunSharedThink(void) {
+void idGameLocal::RunSharedThink( void )
+{
 	idEntity* ent;
-	for (ent = activeEntities.Next(); ent != NULL; ent = ent->activeNode.Next()) {
+	for( ent = activeEntities.Next(); ent != NULL; ent = ent->activeNode.Next() )
+	{
 		ent->SharedThink();
 	}
 }
@@ -3223,16 +3225,16 @@ void idGameLocal::CallObjectFrameCommand( idEntity* ent, const char* frameComman
 	const function_t* func;
 
 // jmarshall
-	if (ent->HasNativeFunction(frameCommand))
+	if( ent->HasNativeFunction( frameCommand ) )
 	{
-		ent->Invoke(frameCommand, NULL);
+		ent->Invoke( frameCommand, NULL );
 		return;
 	}
-	else if (ent->InvokeChild() != NULL)
+	else if( ent->InvokeChild() != NULL )
 	{
-		if (ent->InvokeChild()->HasNativeFunction(frameCommand))
+		if( ent->InvokeChild()->HasNativeFunction( frameCommand ) )
 		{
-			ent->InvokeChild()->Invoke(frameCommand, NULL);
+			ent->InvokeChild()->Invoke( frameCommand, NULL );
 			return;
 		}
 	}
@@ -6103,11 +6105,13 @@ void idGameLocal::DelayRemoveEntity( idEntity* entity, int delay )
 idGameLocal::InfluenceActive
 ===============
 */
-bool idGameLocal::InfluenceActive(void) const {
+bool idGameLocal::InfluenceActive( void ) const
+{
 	idPlayer* player;
 
 	player = gameLocal.GetLocalPlayer();
-	if (player != NULL && player->GetInfluenceLevel()) {
+	if( player != NULL && player->GetInfluenceLevel() )
+	{
 		return true;
 	}
 
@@ -6118,7 +6122,7 @@ bool idGameLocal::InfluenceActive(void) const {
 Random
 ==================
 */
-float idGameLocal::Random(float range)
+float idGameLocal::Random( float range )
 {
 	float result;
 
@@ -6132,11 +6136,12 @@ float idGameLocal::Random(float range)
 RandomDelay
 ==================
 */
-float idGameLocal::RandomDelay(float min, float max) {
+float idGameLocal::RandomDelay( float min, float max )
+{
 	float t;
 
 	t = SysScriptTime();
-	t += min + Random(max - min);
+	t += min + Random( max - min );
 
 	return t;
 }
@@ -6146,12 +6151,13 @@ float idGameLocal::RandomDelay(float min, float max) {
 DelayTime
 ==================
 */
-float idGameLocal::DelayTime(float delay) {
+float idGameLocal::DelayTime( float delay )
+{
 	float t;
 
 	t = SysScriptTime();
 	t += delay;
-	t += Random(2) - 1;
+	t += Random( 2 ) - 1;
 
 	return t;
 }
@@ -6162,7 +6168,8 @@ float idGameLocal::DelayTime(float delay) {
 RandomTime
 ==================
 */
-float idGameLocal::RandomTime(float delay) {
+float idGameLocal::RandomTime( float delay )
+{
 	float t;
 	float result;
 
@@ -6179,13 +6186,13 @@ float idGameLocal::RandomTime(float delay) {
 idThread::Event_Spawn
 ================
 */
-idEntity* idGameLocal::Spawn(const char* classname)
+idEntity* idGameLocal::Spawn( const char* classname )
 {
 	idEntity* ent;
 	idDict dict;
 
-	dict.Set("classname", classname);
-	gameLocal.SpawnEntityDef(dict, &ent);
+	dict.Set( "classname", classname );
+	gameLocal.SpawnEntityDef( dict, &ent );
 	return ent;
 }
 
@@ -6194,26 +6201,26 @@ idEntity* idGameLocal::Spawn(const char* classname)
 idGameLocal::GetEntity
 ================
 */
-idEntity *idGameLocal::GetEntity(const char* name)
+idEntity* idGameLocal::GetEntity( const char* name )
 {
 	int			entnum;
 	idEntity* ent;
 
-	assert(name);
+	assert( name );
 
-	if (name[0] == '*')
+	if( name[0] == '*' )
 	{
-		entnum = atoi(&name[1]);
-		if ((entnum < 0) || (entnum >= MAX_GENTITIES))
+		entnum = atoi( &name[1] );
+		if( ( entnum < 0 ) || ( entnum >= MAX_GENTITIES ) )
 		{
-			Error("Entity number in string out of range.");
+			Error( "Entity number in string out of range." );
 			return NULL;
 		}
 		return entities[entnum];
 	}
 	else
 	{
-		ent = gameLocal.FindEntity(name);
+		ent = gameLocal.FindEntity( name );
 		return ent;
 	}
 }

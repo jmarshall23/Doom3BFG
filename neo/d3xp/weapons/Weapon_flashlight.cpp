@@ -88,7 +88,7 @@ void rvmWeaponFlashlight::UpdateSkin( void )
 rvmWeaponFlashlight::Raise
 ================
 */
-stateResult_t rvmWeaponFlashlight::Raise(stateParms_t* parms)
+stateResult_t rvmWeaponFlashlight::Raise( stateParms_t* parms )
 {
 	enum RisingState
 	{
@@ -96,19 +96,19 @@ stateResult_t rvmWeaponFlashlight::Raise(stateParms_t* parms)
 		RISING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case RISING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
-		parms->stage = RISING_WAIT;
-		return SRESULT_WAIT;
+		case RISING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
+			parms->stage = RISING_WAIT;
+			return SRESULT_WAIT;
 
-	case RISING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, FLASHLIGHT_RAISE_TO_IDLE))
-		{
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case RISING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, FLASHLIGHT_RAISE_TO_IDLE ) )
+			{
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -119,7 +119,7 @@ stateResult_t rvmWeaponFlashlight::Raise(stateParms_t* parms)
 rvmWeaponFlashlight::Lower
 ================
 */
-stateResult_t rvmWeaponFlashlight::Lower(stateParms_t* parms)
+stateResult_t rvmWeaponFlashlight::Lower( stateParms_t* parms )
 {
 	enum LoweringState
 	{
@@ -127,20 +127,20 @@ stateResult_t rvmWeaponFlashlight::Lower(stateParms_t* parms)
 		LOWERING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case LOWERING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
-		parms->stage = LOWERING_WAIT;
-		return SRESULT_WAIT;
+		case LOWERING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
+			parms->stage = LOWERING_WAIT;
+			return SRESULT_WAIT;
 
-	case LOWERING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			SetState("Holstered");
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case LOWERING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				SetState( "Holstered" );
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -151,7 +151,7 @@ stateResult_t rvmWeaponFlashlight::Lower(stateParms_t* parms)
 rvmWeaponFlashlight::Idle
 ================
 */
-stateResult_t rvmWeaponFlashlight::Idle(stateParms_t* parms)
+stateResult_t rvmWeaponFlashlight::Idle( stateParms_t* parms )
 {
 	enum IdleState
 	{
@@ -159,17 +159,17 @@ stateResult_t rvmWeaponFlashlight::Idle(stateParms_t* parms)
 		IDLE_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case IDLE_NOTSET:
-		owner->Event_WeaponReady();
-		owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle");
-		parms->stage = IDLE_WAIT;
-		return SRESULT_WAIT;
+		case IDLE_NOTSET:
+			owner->Event_WeaponReady();
+			owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
+			parms->stage = IDLE_WAIT;
+			return SRESULT_WAIT;
 
-	case IDLE_WAIT:
-		// Do nothing.
-		return SRESULT_DONE;
+		case IDLE_WAIT:
+			// Do nothing.
+			return SRESULT_DONE;
 	}
 
 	return SRESULT_ERROR;
@@ -180,7 +180,7 @@ stateResult_t rvmWeaponFlashlight::Idle(stateParms_t* parms)
 rvmWeaponFlashlight::Fire
 ================
 */
-stateResult_t rvmWeaponFlashlight::Fire(stateParms_t* parms)
+stateResult_t rvmWeaponFlashlight::Fire( stateParms_t* parms )
 {
 	enum FIRE_State
 	{
@@ -218,7 +218,7 @@ stateResult_t rvmWeaponFlashlight::Fire(stateParms_t* parms)
 rvmWeaponFlashlight::Reload
 ================
 */
-stateResult_t rvmWeaponFlashlight::Reload(stateParms_t* parms)
+stateResult_t rvmWeaponFlashlight::Reload( stateParms_t* parms )
 {
 	enum RELOAD_State
 	{

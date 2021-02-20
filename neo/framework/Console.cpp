@@ -1356,11 +1356,11 @@ void idConsoleLocal::DrawSolidConsole( float frac )
 		renderSystem->DrawFilled( idVec4( 0.0f, 0.0f, 0.0f, 0.75f ), 0, 0, renderSystem->GetVirtualWidth(), y );
 	}
 
-	renderSystem->DrawFilled(colorGold, 0, y, renderSystem->GetVirtualWidth(), 2 );
+	renderSystem->DrawFilled( colorGold, 0, y, renderSystem->GetVirtualWidth(), 2 );
 
 	// draw the version number
 
-	renderSystem->SetColor(colorGold);
+	renderSystem->SetColor( colorGold );
 
 	// RB begin
 	//idStr version = va( "%s.%i.%i", ENGINE_VERSION, BUILD_NUMBER, BUILD_NUMBER_MINOR );
@@ -1370,7 +1370,7 @@ void idConsoleLocal::DrawSolidConsole( float frac )
 
 	i = version.Length();
 
-	#define VERSION_LINE_SPACE (SMALLCHAR_HEIGHT + 4)
+#define VERSION_LINE_SPACE (SMALLCHAR_HEIGHT + 4)
 
 	for( x = 0; x < i; x++ )
 	{
@@ -1379,21 +1379,23 @@ void idConsoleLocal::DrawSolidConsole( float frac )
 
 	}
 // jmarshall
-	idStr branchVersion = va("Branch %s", ENGINE_BRANCH);
+	idStr branchVersion = va( "Branch %s", ENGINE_BRANCH );
 	i = branchVersion.Length();
 
-	for (x = 0; x < i; x++) {
-		renderSystem->DrawSmallChar(LOCALSAFE_WIDTH - (i - x) * SMALLCHAR_WIDTH,
-			(lines - (SMALLCHAR_HEIGHT + SMALLCHAR_HEIGHT / 2)) - (VERSION_LINE_SPACE - 2), branchVersion[x]);
+	for( x = 0; x < i; x++ )
+	{
+		renderSystem->DrawSmallChar( LOCALSAFE_WIDTH - ( i - x ) * SMALLCHAR_WIDTH,
+									 ( lines - ( SMALLCHAR_HEIGHT + SMALLCHAR_HEIGHT / 2 ) ) - ( VERSION_LINE_SPACE - 2 ), branchVersion[x] );
 
 	}
 
-	idStr builddate = va("%s %s", __DATE__, __TIME__);
+	idStr builddate = va( "%s %s", __DATE__, __TIME__ );
 	i = builddate.Length();
 
-	for (x = 0; x < i; x++) {
-		renderSystem->DrawSmallChar(LOCALSAFE_WIDTH - (i - x) * SMALLCHAR_WIDTH,
-			(lines - (SMALLCHAR_HEIGHT + SMALLCHAR_HEIGHT / 2)), builddate[x]);
+	for( x = 0; x < i; x++ )
+	{
+		renderSystem->DrawSmallChar( LOCALSAFE_WIDTH - ( i - x ) * SMALLCHAR_WIDTH,
+									 ( lines - ( SMALLCHAR_HEIGHT + SMALLCHAR_HEIGHT / 2 ) ), builddate[x] );
 
 	}
 // jmarshall end

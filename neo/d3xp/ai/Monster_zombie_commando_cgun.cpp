@@ -24,7 +24,7 @@
 
 #define ATTACK_ZCC_CROUCHFIRE					ATTACK_SPECIAL1
 
-CLASS_DECLARATION(idAI, rvmMonsterZombieCommandoChaingun)
+CLASS_DECLARATION( idAI, rvmMonsterZombieCommandoChaingun )
 END_CLASS
 
 /*
@@ -32,14 +32,15 @@ END_CLASS
 rvmMonsterZombieCommandoChaingun::Init
 ========================
 */
-void rvmMonsterZombieCommandoChaingun::Init(void) {
-	fire.LinkTo(scriptObject, "fire");
-	crouch_fire.LinkTo(scriptObject, "crouch_fire");
-	step_left.LinkTo(scriptObject, "step_left");
-	step_right.LinkTo(scriptObject, "step_right");
-	nextDodge.LinkTo(scriptObject, "nextDodge");
-	nextAttack.LinkTo(scriptObject, "nextAttack");
-	nextNoFOVAttack.LinkTo(scriptObject, "nextNoFOVAttack");
+void rvmMonsterZombieCommandoChaingun::Init( void )
+{
+	fire.LinkTo( scriptObject, "fire" );
+	crouch_fire.LinkTo( scriptObject, "crouch_fire" );
+	step_left.LinkTo( scriptObject, "step_left" );
+	step_right.LinkTo( scriptObject, "step_right" );
+	nextDodge.LinkTo( scriptObject, "nextDodge" );
+	nextAttack.LinkTo( scriptObject, "nextAttack" );
+	nextNoFOVAttack.LinkTo( scriptObject, "nextNoFOVAttack" );
 	combat_node = NULL;
 }
 
@@ -48,11 +49,12 @@ void rvmMonsterZombieCommandoChaingun::Init(void) {
 rvmMonsterZombieCommandoChaingun::AI_Begin
 ========================
 */
-void rvmMonsterZombieCommandoChaingun::AI_Begin(void) {
+void rvmMonsterZombieCommandoChaingun::AI_Begin( void )
+{
 	run_distance = ZOMBIE_CGUN_RUNDISTANCE;
 	walk_turn = ZOMBIE_CGUN_WALKTURN;
 
-	Event_SetState("state_Begin");
+	Event_SetState( "state_Begin" );
 }
 
 /*
@@ -60,16 +62,17 @@ void rvmMonsterZombieCommandoChaingun::AI_Begin(void) {
 rvmMonsterZombieCommandoChaingun::state_Begin
 =====================
 */
-stateResult_t rvmMonsterZombieCommandoChaingun::state_Begin(stateParms_t* parms) {
+stateResult_t rvmMonsterZombieCommandoChaingun::state_Begin( stateParms_t* parms )
+{
 	fire = false;
 	crouch_fire = false;
 	step_left = false;
 
-	Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Idle", 8);
-	Event_AnimState(ANIMCHANNEL_LEGS, "Legs_Idle", 8);
+	Event_AnimState( ANIMCHANNEL_TORSO, "Torso_Idle", 8 );
+	Event_AnimState( ANIMCHANNEL_LEGS, "Legs_Idle", 8 );
 
-	Event_SetMoveType(MOVETYPE_ANIM);
-	Event_SetState("state_Idle");
+	Event_SetMoveType( MOVETYPE_ANIM );
+	Event_SetState( "state_Idle" );
 	return SRESULT_DONE;
 }
 
@@ -78,10 +81,11 @@ stateResult_t rvmMonsterZombieCommandoChaingun::state_Begin(stateParms_t* parms)
 rvmMonsterZombieCommandoChaingun::state_Idle
 =====================
 */
-stateResult_t rvmMonsterZombieCommandoChaingun::state_Idle(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterZombieCommandoChaingun::state_Idle( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
-		if (wait_for_enemy(parms) == SRESULT_DONE)
+		if( wait_for_enemy( parms ) == SRESULT_DONE )
 		{
 			parms->stage = 1;
 		}
@@ -91,9 +95,9 @@ stateResult_t rvmMonsterZombieCommandoChaingun::state_Idle(stateParms_t* parms) 
 
 	nextAttack = 0;
 	nextNoFOVAttack = 0;
-	nextDodge = gameLocal.RandomTime(ZOMBIE_CGUN_DODGE_RATE);
+	nextDodge = gameLocal.RandomTime( ZOMBIE_CGUN_DODGE_RATE );
 
-	Event_SetState("state_Combat");
+	Event_SetState( "state_Combat" );
 	return SRESULT_DONE;
 }
 
@@ -102,26 +106,32 @@ stateResult_t rvmMonsterZombieCommandoChaingun::state_Idle(stateParms_t* parms) 
 rvmMonsterZombieCommandoChaingun::do_attack
 =====================
 */
-void rvmMonsterZombieCommandoChaingun::do_attack(int attack_flags) {
+void rvmMonsterZombieCommandoChaingun::do_attack( int attack_flags )
+{
 	nextNoFOVAttack = gameLocal.SysScriptTime() + ZOMBIE_CGUN_NOFOVTIME;
-	if (attack_flags & ATTACK_DODGE_LEFT) {
-		stateThread.SetState("combat_dodge_left");
+	if( attack_flags & ATTACK_DODGE_LEFT )
+	{
+		stateThread.SetState( "combat_dodge_left" );
 	}
-	else if (attack_flags & ATTACK_DODGE_RIGHT) {
+	else if( attack_flags & ATTACK_DODGE_RIGHT )
+	{
 		//combat_dodge_right();
-		stateThread.SetState("combat_dodge_right");
+		stateThread.SetState( "combat_dodge_right" );
 	}
-	else if (attack_flags & ATTACK_COMBAT_NODE) {
+	else if( attack_flags & ATTACK_COMBAT_NODE )
+	{
 		//combat_ainode(combat_node);
-		gameLocal.Error("rvmMonsterZombieSecurityPistol::CombatAINode\n");
+		gameLocal.Error( "rvmMonsterZombieSecurityPistol::CombatAINode\n" );
 	}
-	else if (attack_flags & ATTACK_MISSILE) {
+	else if( attack_flags & ATTACK_MISSILE )
+	{
 		//stand_attack();
-		stateThread.SetState("stand_attack");
+		stateThread.SetState( "stand_attack" );
 	}
-	else if (attack_flags & ATTACK_ZCC_CROUCHFIRE) {
+	else if( attack_flags & ATTACK_ZCC_CROUCHFIRE )
+	{
 		//crouch_attack();
-		stateThread.SetState("crouch_attack");
+		stateThread.SetState( "crouch_attack" );
 	}
 }
 
@@ -131,7 +141,8 @@ void rvmMonsterZombieCommandoChaingun::do_attack(int attack_flags) {
 rvmMonsterZombieCommandoChaingun::check_attacks
 =====================
 */
-int rvmMonsterZombieCommandoChaingun::check_attacks() {
+int rvmMonsterZombieCommandoChaingun::check_attacks()
+{
 	float currentTime;
 	int attack_flags;
 	boolean try_attack;
@@ -140,19 +151,25 @@ int rvmMonsterZombieCommandoChaingun::check_attacks() {
 	attack_flags = 0;
 
 	currentTime = gameLocal.SysScriptTime();
-	if (AI_PAIN && (currentTime >= nextDodge)) {
-		if (TestAnimMove("evade_left")) {
+	if( AI_PAIN && ( currentTime >= nextDodge ) )
+	{
+		if( TestAnimMove( "evade_left" ) )
+		{
 			attack_flags |= ATTACK_DODGE_LEFT;
 		}
-		if (TestAnimMove("evade_right")) {
+		if( TestAnimMove( "evade_right" ) )
+		{
 			attack_flags |= ATTACK_DODGE_RIGHT;
 
 			// if we can dodge either direction, pick one
-			if (attack_flags & ATTACK_DODGE_LEFT) {
-				if (gameLocal.Random(100) < 50) {
+			if( attack_flags & ATTACK_DODGE_LEFT )
+			{
+				if( gameLocal.Random( 100 ) < 50 )
+				{
 					attack_flags &= ~ATTACK_DODGE_RIGHT;
 				}
-				else {
+				else
+				{
 					attack_flags &= ~ATTACK_DODGE_LEFT;
 				}
 			}
@@ -160,34 +177,44 @@ int rvmMonsterZombieCommandoChaingun::check_attacks() {
 	}
 
 	combat_node = GetCombatNode();
-	if (combat_node) {
+	if( combat_node )
+	{
 		attack_flags |= ATTACK_COMBAT_NODE;
 	}
 
 	reachable = CanReachEnemy();
-	if (AI_ENEMY_IN_FOV && (!reachable || (currentTime >= nextAttack))) {
+	if( AI_ENEMY_IN_FOV && ( !reachable || ( currentTime >= nextAttack ) ) )
+	{
 		try_attack = true;
 	}
-	else if ((gameLocal.SysScriptTime() > nextNoFOVAttack) && AI_ENEMY_VISIBLE && (!reachable || (currentTime >= nextAttack))) {
+	else if( ( gameLocal.SysScriptTime() > nextNoFOVAttack ) && AI_ENEMY_VISIBLE && ( !reachable || ( currentTime >= nextAttack ) ) )
+	{
 		try_attack = true;
 	}
-	else if (Touches(GetEnemy())) {
+	else if( Touches( GetEnemy() ) )
+	{
 		try_attack = true;
 	}
-	else {
+	else
+	{
 		try_attack = false;
 	}
 
-	if (try_attack) {
-		if (gameLocal.Random(1) < 0.5) {
-			if (CanHitEnemyFromAnim("crouch_range_attack_loop")) {
+	if( try_attack )
+	{
+		if( gameLocal.Random( 1 ) < 0.5 )
+		{
+			if( CanHitEnemyFromAnim( "crouch_range_attack_loop" ) )
+			{
 				attack_flags |= ATTACK_ZCC_CROUCHFIRE;
 			}
-			else if (CanHitEnemyFromAnim("range_attack_loop")) {
+			else if( CanHitEnemyFromAnim( "range_attack_loop" ) )
+			{
 				attack_flags |= ATTACK_MISSILE;
 			}
 		}
-		else if (CanHitEnemyFromAnim("range_attack_loop")) {
+		else if( CanHitEnemyFromAnim( "range_attack_loop" ) )
+		{
 			attack_flags |= ATTACK_MISSILE;
 		}
 	}
@@ -201,80 +228,90 @@ int rvmMonsterZombieCommandoChaingun::check_attacks() {
 rvmMonsterZombieCommandoChaingun::stand_attack
 =====================
 */
-stateResult_t rvmMonsterZombieCommandoChaingun::stand_attack(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterZombieCommandoChaingun::stand_attack( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
 		fire = true;
 		Event_FaceEnemy();
-		attackTime = gameLocal.RandomDelay(ZOMBIE_CGUN_STAND_ATTACK_MIN_LENGTH, ZOMBIE_CGUN_STAND_ATTACK_MAX_LENGTH);
+		attackTime = gameLocal.RandomDelay( ZOMBIE_CGUN_STAND_ATTACK_MIN_LENGTH, ZOMBIE_CGUN_STAND_ATTACK_MAX_LENGTH );
 		parms->stage = 1;
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 1)
+	if( parms->stage == 1 )
 	{
-		if (AI_ENEMY_VISIBLE)
+		if( AI_ENEMY_VISIBLE )
 		{
 			parms->stage = 2;
-			parms->param1 = gameLocal.RandomDelay(2, 5); // endtime
+			parms->param1 = gameLocal.RandomDelay( 2, 5 ); // endtime
 		}
 
 		parms->stage = 3;
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 2)
+	if( parms->stage == 2 )
 	{
 		float endtime = parms->param1;
-		if (gameLocal.SysScriptTime() < endtime)
+		if( gameLocal.SysScriptTime() < endtime )
 		{
-			if (gameLocal.InfluenceActive())
+			if( gameLocal.InfluenceActive() )
 			{
 				fire = false;
 				parms->stage = 1; // break
 			}
 
-			if (!CanHitEnemyFromAnim("range_attack_loop")) {
+			if( !CanHitEnemyFromAnim( "range_attack_loop" ) )
+			{
 				parms->stage = 1; // break
-			}			
-			if (AI_PAIN) {
+			}
+			if( AI_PAIN )
+			{
 				int attack_flags = check_attacks();
-				if (attack_flags & (ATTACK_DODGE_LEFT | ATTACK_DODGE_RIGHT)) {
+				if( attack_flags & ( ATTACK_DODGE_LEFT | ATTACK_DODGE_RIGHT ) )
+				{
 					fire = false;
-					do_attack(attack_flags);
+					do_attack( attack_flags );
 					return SRESULT_DONE;
 				}
 			}
 		}
-		else if (InAnimState(ANIMCHANNEL_TORSO, "Torso_Idle"))
+		else if( InAnimState( ANIMCHANNEL_TORSO, "Torso_Idle" ) )
 		{
-			Event_LookAtEnemy(1.0f);
+			Event_LookAtEnemy( 1.0f );
 			return SRESULT_WAIT;
 		}
 		else
 		{
-			if (gameLocal.InfluenceActive()) {
+			if( gameLocal.InfluenceActive() )
+			{
 				parms->stage = 3;
 				return SRESULT_WAIT;
 			}
 
-			if (gameLocal.SysScriptTime() > attackTime) {
+			if( gameLocal.SysScriptTime() > attackTime )
+			{
 				parms->stage = 3;
 				return SRESULT_WAIT;
 			}
 
-			if (!AI_ENEMY_VISIBLE || !CanHitEnemyFromAnim("range_attack_loop")) {
+			if( !AI_ENEMY_VISIBLE || !CanHitEnemyFromAnim( "range_attack_loop" ) )
+			{
 				parms->stage = 3;
 				return SRESULT_WAIT;
 			}
 
-			step_left = TestAnimMove("step_left");
-			step_right = TestAnimMove("step_right");
-			if (step_left && step_right) {
-				if (gameLocal.Random(100) < 50) {
+			step_left = TestAnimMove( "step_left" );
+			step_right = TestAnimMove( "step_right" );
+			if( step_left && step_right )
+			{
+				if( gameLocal.Random( 100 ) < 50 )
+				{
 					step_left = false;
 				}
-				else {
+				else
+				{
 					step_right = false;
 				}
 			}
@@ -284,10 +321,11 @@ stateResult_t rvmMonsterZombieCommandoChaingun::stand_attack(stateParms_t* parms
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 3)
+	if( parms->stage == 3 )
 	{
 		fire = false;
-		if (InAnimState(ANIMCHANNEL_TORSO, "Torso_Idle")) {
+		if( InAnimState( ANIMCHANNEL_TORSO, "Torso_Idle" ) )
+		{
 			return SRESULT_WAIT;
 		}
 
@@ -295,7 +333,7 @@ stateResult_t rvmMonsterZombieCommandoChaingun::stand_attack(stateParms_t* parms
 	}
 done:
 	// don't attack for a bit
-	nextAttack = gameLocal.RandomDelay(ZOMBIE_CGUN_ATTACK_DELAY_MIN, ZOMBIE_CGUN_ATTACK_DELAY_MAX);
+	nextAttack = gameLocal.RandomDelay( ZOMBIE_CGUN_ATTACK_DELAY_MIN, ZOMBIE_CGUN_ATTACK_DELAY_MAX );
 	nextNoFOVAttack = gameLocal.SysScriptTime() + ZOMBIE_CGUN_NOFOVTIME;
 	return SRESULT_DONE;
 }
@@ -306,44 +344,50 @@ done:
 rvmMonsterZombieCommandoChaingun::crouch_attack
 =====================
 */
-stateResult_t rvmMonsterZombieCommandoChaingun::crouch_attack(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterZombieCommandoChaingun::crouch_attack( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
 		Event_FaceEnemy();
 		crouch_fire = true;
 
-		attackTime = gameLocal.RandomDelay(ZOMBIE_CGUN_CROUCH_ATTACK_MIN_LENGTH, ZOMBIE_CGUN_CROUCH_ATTACK_MAX_LENGTH);
+		attackTime = gameLocal.RandomDelay( ZOMBIE_CGUN_CROUCH_ATTACK_MIN_LENGTH, ZOMBIE_CGUN_CROUCH_ATTACK_MAX_LENGTH );
 		parms->stage = 1;
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 1)
+	if( parms->stage == 1 )
 	{
-		if (AI_ENEMY_VISIBLE)
+		if( AI_ENEMY_VISIBLE )
 		{
-			if (gameLocal.InfluenceActive()) {
+			if( gameLocal.InfluenceActive() )
+			{
 				crouch_fire = false;
 				parms->stage = 2; // break
 				return SRESULT_WAIT;
 			}
-			if (gameLocal.SysScriptTime() > attackTime) {
+			if( gameLocal.SysScriptTime() > attackTime )
+			{
 				parms->stage = 2; // break
 				return SRESULT_WAIT;
 			}
 
-			if (AI_PAIN) {
+			if( AI_PAIN )
+			{
 				int attack_flags = check_attacks();
-				if (attack_flags & (ATTACK_DODGE_LEFT | ATTACK_DODGE_RIGHT)) {
+				if( attack_flags & ( ATTACK_DODGE_LEFT | ATTACK_DODGE_RIGHT ) )
+				{
 					crouch_fire = false;
-					Event_SetAnimPrefix("");
-					do_attack(attack_flags);
-					stateThread.PostState("state_Combat");
+					Event_SetAnimPrefix( "" );
+					do_attack( attack_flags );
+					stateThread.PostState( "state_Combat" );
 					return SRESULT_DONE;
 				}
 			}
 
-			Event_LookAtEnemy(1);
-			if (!CanHitEnemyFromAnim("range_attack_loop")) {
+			Event_LookAtEnemy( 1 );
+			if( !CanHitEnemyFromAnim( "range_attack_loop" ) )
+			{
 				parms->stage = 2; // break
 				return SRESULT_WAIT;
 			}
@@ -356,17 +400,18 @@ stateResult_t rvmMonsterZombieCommandoChaingun::crouch_attack(stateParms_t* parm
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 2)
+	if( parms->stage == 2 )
 	{
 		crouch_fire = false;
-		if (InAnimState(ANIMCHANNEL_TORSO, "Torso_CrouchAttack")) {
+		if( InAnimState( ANIMCHANNEL_TORSO, "Torso_CrouchAttack" ) )
+		{
 			return SRESULT_WAIT;
 		}
 		goto done;
 	}
 done:
 	// don't attack for a bit
-	nextAttack = gameLocal.RandomDelay(ZOMBIE_CGUN_ATTACK_DELAY_MIN, ZOMBIE_CGUN_ATTACK_DELAY_MAX);
+	nextAttack = gameLocal.RandomDelay( ZOMBIE_CGUN_ATTACK_DELAY_MIN, ZOMBIE_CGUN_ATTACK_DELAY_MAX );
 	nextNoFOVAttack = gameLocal.SysScriptTime() + ZOMBIE_CGUN_NOFOVTIME;
 
 	return SRESULT_DONE;
@@ -377,25 +422,26 @@ done:
 rvmMonsterZombieCommandoChaingun::combat_dodge_left
 =====================
 */
-stateResult_t rvmMonsterZombieCommandoChaingun::combat_dodge_left(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterZombieCommandoChaingun::combat_dodge_left( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
 		Event_StopMove();
 		Event_FaceEnemy();
-		Event_AnimState(ANIMCHANNEL_LEGS, "Legs_DodgeLeft", 8);
-		SetWaitState("strafe");
+		Event_AnimState( ANIMCHANNEL_LEGS, "Legs_DodgeLeft", 8 );
+		SetWaitState( "strafe" );
 		parms->stage = 1;
 		return SRESULT_WAIT;
 	}
 
-	if (waitState != "")
+	if( waitState != "" )
 	{
 		return SRESULT_WAIT;
 	}
 
 	parms->stage = 2;
 
-	nextDodge = gameLocal.DelayTime(ZOMBIE_CGUN_DODGE_RATE);
+	nextDodge = gameLocal.DelayTime( ZOMBIE_CGUN_DODGE_RATE );
 	return SRESULT_DONE;
 }
 
@@ -404,24 +450,25 @@ stateResult_t rvmMonsterZombieCommandoChaingun::combat_dodge_left(stateParms_t* 
 rvmMonsterZombieCommandoChaingun::combat_dodge_right
 =====================
 */
-stateResult_t rvmMonsterZombieCommandoChaingun::combat_dodge_right(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterZombieCommandoChaingun::combat_dodge_right( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
 		Event_StopMove();
 		Event_FaceEnemy();
-		Event_AnimState(ANIMCHANNEL_LEGS, "Legs_DodgeRight", 8);
-		SetWaitState("strafe");
+		Event_AnimState( ANIMCHANNEL_LEGS, "Legs_DodgeRight", 8 );
+		SetWaitState( "strafe" );
 		parms->stage = 1;
 		return SRESULT_WAIT;
 	}
 
-	if (waitState != "")
+	if( waitState != "" )
 	{
 		return SRESULT_WAIT;
 	}
 
 	parms->stage = 2;
 
-	nextDodge = gameLocal.DelayTime(ZOMBIE_CGUN_DODGE_RATE);
+	nextDodge = gameLocal.DelayTime( ZOMBIE_CGUN_DODGE_RATE );
 	return SRESULT_DONE;
 }

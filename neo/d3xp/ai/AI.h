@@ -304,12 +304,12 @@ public:
 
 	void					Spawn();
 	void					HeardSound( idEntity* ent, const char* action );
-	idEntity*				HeardSound(int ignore_team);
+	idEntity*				HeardSound( int ignore_team );
 	idActor*					GetEnemy() const;
 	void					TalkTo( idActor* actor );
 	talkState_t				GetTalkState() const;
 
-	float					EnemyRange(void);
+	float					EnemyRange( void );
 
 	bool					GetAimDir( const idVec3& firePos, idEntity* aimAtEnt, const idEntity* ignore, idVec3& aimDir ) const;
 
@@ -334,10 +334,10 @@ public:
 protected:
 	virtual void			Init() { }
 
-	bool					checkForEnemy(float use_fov);
+	bool					checkForEnemy( float use_fov );
 
 private:
-	void					idle_followPathEntities(idEntity* pathnode);
+	void					idle_followPathEntities( idEntity* pathnode );
 protected:
 
 	idScriptBool			ambush;
@@ -480,7 +480,7 @@ protected:
 	idScriptFloat			AI_SPECIAL_DAMAGE;
 	idScriptBool			AI_DEAD;
 	idScriptBool			AI_RUN;
-	idScriptBool			blocked; // its stupid they had two block states. 
+	idScriptBool			blocked; // its stupid they had two block states.
 	idScriptBool			AI_ATTACKING;
 	idScriptBool			AI_ENEMY_VISIBLE;
 	idScriptBool			AI_ENEMY_IN_FOV;
@@ -513,20 +513,23 @@ public:
 
 	virtual idThread*		ConstructScriptObject();
 protected:
-	virtual void			AI_Begin(void) { };
-	virtual int				check_attacks() { return 0; }
-	virtual void			do_attack(int attack_flags) { }
+	virtual void			AI_Begin( void ) { };
+	virtual int				check_attacks()
+	{
+		return 0;
+	}
+	virtual void			do_attack( int attack_flags ) { }
 
-	void					enemy_dead(void);
+	void					enemy_dead( void );
 
-	void					PlayCustomAnim(idStr animname, float blendIn, float blendOut);
-	void					PlayCustomCycle(idStr animname, float blendTime);
+	void					PlayCustomAnim( idStr animname, float blendIn, float blendOut );
+	void					PlayCustomCycle( idStr animname, float blendTime );
 
-	void					trigger_wakeup_targets(void);
+	void					trigger_wakeup_targets( void );
 
-	void					sight_enemy(void);
+	void					sight_enemy( void );
 
-	void					CallConstructor(void);
+	void					CallConstructor( void );
 
 	void					EnemyDead();
 	virtual bool			CanPlayChatterSounds() const;
@@ -604,8 +607,8 @@ protected:
 	void					UpdateEnemyPosition();
 	void					SetEnemy( idActor* newEnemy );
 
-	bool					CanReachEntity(idEntity* ent);
-	bool					CanReachEnemy(void);
+	bool					CanReachEntity( idEntity* ent );
+	bool					CanReachEnemy( void );
 
 	// attacks
 	void					CreateProjectileClipModel() const;
@@ -631,52 +634,52 @@ protected:
 
 	void					combat_lost();
 
-	idEntity*				GetCombatNode(void);
+	idEntity*				GetCombatNode( void );
 
-	bool					TestAnimMove(const char* animname);
+	bool					TestAnimMove( const char* animname );
 
 	void					TriggerFX( const char* joint, const char* fx );
 	idEntity*				StartEmitter( const char* name, const char* joint, const char* particle );
 	idEntity*				GetEmitter( const char* name );
 	void					StopEmitter( const char* name );
 
-	idEntity*				FindEnemyInCombatNodes(void);
+	idEntity*				FindEnemyInCombatNodes( void );
 
 	// State utilities that are nested states.
-	stateResult_t			check_blocked(stateParms_t* parms, bool& result);
-	stateResult_t			combat_chase(stateParms_t* parms, bool& result);
+	stateResult_t			check_blocked( stateParms_t* parms, bool& result );
+	stateResult_t			combat_chase( stateParms_t* parms, bool& result );
 
 	// AI script state management
 	void					LinkScriptVariables();
 	void					UpdateAIScript();
 
-	bool					MeleeAttackToJoint(const char* jointname, const char* meleeDefName);
+	bool					MeleeAttackToJoint( const char* jointname, const char* meleeDefName );
 
-	idEntity*				GetClosestHiddenTarget(const char* type);
+	idEntity*				GetClosestHiddenTarget( const char* type );
 
 	// AI States
-	stateResult_t			state_Spawner(stateParms_t* parms);
-	stateResult_t			State_WakeUp(stateParms_t* parms);
-	stateResult_t			wake_on_attackcone(stateParms_t* parms);
-	stateResult_t			walk_on_trigger(stateParms_t* parms);
-	stateResult_t			wake_on_trigger(stateParms_t* parms);	
-	stateResult_t			wake_on_enemy(stateParms_t* parms);
-	stateResult_t			wait_for_enemy(stateParms_t* parms);
-	stateResult_t			State_TriggerAnim(stateParms_t* parms);
-	stateResult_t			State_TeleportTriggered(stateParms_t* parms);
-	stateResult_t			State_TriggerHidden(stateParms_t* parms);
-	stateResult_t			wake_call_constructor(stateParms_t* parms);
-	stateResult_t			state_Killed(stateParms_t* parms);
-	stateResult_t			state_Dead(stateParms_t* parms);
-	stateResult_t			combat_wander(stateParms_t* parms);
-	stateResult_t			state_LostCombat(stateParms_t* parms);
-	stateResult_t			state_LostCombat_No_Node(stateParms_t* parms);
-	stateResult_t			state_LostCombat_Node(stateParms_t* parms);
-	stateResult_t			state_LostCombat_Finish(stateParms_t* parms);
-	stateResult_t			state_Combat(stateParms_t* parms);
+	stateResult_t			state_Spawner( stateParms_t* parms );
+	stateResult_t			State_WakeUp( stateParms_t* parms );
+	stateResult_t			wake_on_attackcone( stateParms_t* parms );
+	stateResult_t			walk_on_trigger( stateParms_t* parms );
+	stateResult_t			wake_on_trigger( stateParms_t* parms );
+	stateResult_t			wake_on_enemy( stateParms_t* parms );
+	stateResult_t			wait_for_enemy( stateParms_t* parms );
+	stateResult_t			State_TriggerAnim( stateParms_t* parms );
+	stateResult_t			State_TeleportTriggered( stateParms_t* parms );
+	stateResult_t			State_TriggerHidden( stateParms_t* parms );
+	stateResult_t			wake_call_constructor( stateParms_t* parms );
+	stateResult_t			state_Killed( stateParms_t* parms );
+	stateResult_t			state_Dead( stateParms_t* parms );
+	stateResult_t			combat_wander( stateParms_t* parms );
+	stateResult_t			state_LostCombat( stateParms_t* parms );
+	stateResult_t			state_LostCombat_No_Node( stateParms_t* parms );
+	stateResult_t			state_LostCombat_Node( stateParms_t* parms );
+	stateResult_t			state_LostCombat_Finish( stateParms_t* parms );
+	stateResult_t			state_Combat( stateParms_t* parms );
 
 	bool					CanHitEnemy();
-	bool					EntityInAttackCone(idEntity* ent);
+	bool					EntityInAttackCone( idEntity* ent );
 
 	float					EnemyRange2D();
 	float					TestChargeAttack();
@@ -686,15 +689,15 @@ protected:
 	//
 	// ai/ai_events.cpp
 	//
-	idVec3					GetJumpVelocity(const idVec3& pos, float speed, float max_height);
+	idVec3					GetJumpVelocity( const idVec3& pos, float speed, float max_height );
 	void					Event_Activate( idEntity* activator );
-	idActor*				FindEnemy(int useFOV);
+	idActor*				FindEnemy( int useFOV );
 	void					Event_Touch( idEntity* other, trace_t* trace );
 	void					Event_FindEnemy( int useFOV );
 	void					Event_FindEnemyAI( int useFOV );
-	void					Event_CheckForEnemy(float use_fov);
+	void					Event_CheckForEnemy( float use_fov );
 	void					Event_FindEnemyInCombatNodes();
-	idVec3					PredictEnemyPos(float time);
+	idVec3					PredictEnemyPos( float time );
 	void					Event_ClosestReachableEnemyOfEntity( idEntity* team_mate );
 	void					Event_HeardSound( int ignore_team );
 	void					Event_SetEnemy( idEntity* ent );
@@ -702,7 +705,7 @@ protected:
 	void					Event_MuzzleFlash( const char* jointname );
 	void					Event_CreateMissile( const char* jointname );
 	void					Event_AttackMissile( const char* jointname );
-	bool					TestAnimMoveTowardEnemy(const char* animname);
+	bool					TestAnimMoveTowardEnemy( const char* animname );
 	void					Event_FireMissileAtTarget( const char* jointname, const char* targetname );
 	void					Event_LaunchMissile( const idVec3& muzzle, const idAngles& ang );
 	void					Event_LaunchHomingMissile();
@@ -710,7 +713,7 @@ protected:
 	void					Event_LaunchProjectile( const char* entityDefName );
 	void					Event_AttackMelee( const char* meleeDefName );
 	void					Event_DirectDamage( idEntity* damageTarget, const char* damageDefName );
-	bool					CanHitEnemyFromAnim(const char* animname);
+	bool					CanHitEnemyFromAnim( const char* animname );
 	void					Event_RadiusDamageFromJoint( const char* jointname, const char* damageDefName );
 	void					Event_BeginAttack( const char* name );
 	void					Event_EndAttack();
@@ -756,7 +759,7 @@ protected:
 	void					Event_SetTalkState( int state );
 	void					Event_EnemyRange();
 	void					Event_EnemyRange2D();
-	void					Event_IsAwake(void);
+	void					Event_IsAwake( void );
 	void					Event_GetEnemy();
 	void					Event_GetEnemyPos();
 	void					Event_GetEnemyEyePos();
@@ -886,13 +889,13 @@ private:
 	bool inCustomAnim;
 	idEntity* leader;
 private:
-	stateResult_t state_idle(stateParms_t *parms);
-	stateResult_t state_idle_frame(stateParms_t* parms);
-	stateResult_t state_follow(stateParms_t* parms);
-	stateResult_t state_follow_frame(stateParms_t* parms);
-	stateResult_t state_get_closer(stateParms_t* parms);
-	stateResult_t state_killed(stateParms_t* parms);
-	stateResult_t state_talk_anim(stateParms_t* parms);
+	stateResult_t state_idle( stateParms_t* parms );
+	stateResult_t state_idle_frame( stateParms_t* parms );
+	stateResult_t state_follow( stateParms_t* parms );
+	stateResult_t state_follow_frame( stateParms_t* parms );
+	stateResult_t state_get_closer( stateParms_t* parms );
+	stateResult_t state_killed( stateParms_t* parms );
+	stateResult_t state_talk_anim( stateParms_t* parms );
 };
 
 //

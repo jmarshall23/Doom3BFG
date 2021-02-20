@@ -1749,7 +1749,8 @@ void idRenderBackend::RenderInteractions( const drawSurf_t* surfList, const view
 // jmarshall
 		idVec4 specularColor = lightColor * 2.0f;
 
-		if (vLight->lightDef->parms.noSpecular) {
+		if( vLight->lightDef->parms.noSpecular )
+		{
 			specularColor.Zero();
 		}
 // jmarshall end
