@@ -2085,6 +2085,11 @@ void idRenderBackend::AmbientPass( const drawSurf_t* const* drawSurfs, int numDr
 		return;
 	}
 
+	if( !drawSurfs )
+	{
+		return;
+	}
+
 	// if we are just doing 2D rendering, no need to fill the depth buffer
 	if( viewDef->viewEntitys == NULL )
 	{
@@ -6010,7 +6015,7 @@ void idRenderBackend::PostProcess( const void* data )
 {
 	// only do the post process step if resolution scaling is enabled. Prevents the unnecessary copying of the framebuffer and
 	// corresponding full screen quad pass.
-	if( rs_enable.GetInteger() == 0 && !r_useFilmicPostProcessEffects.GetBool() && r_antiAliasing.GetInteger() == 0 )
+	if( rs_enable.GetInteger() == 0 && !r_useFilmicPostProcessing.GetBool() && r_antiAliasing.GetInteger() == 0 )
 	{
 		return;
 	}
@@ -6120,7 +6125,7 @@ void idRenderBackend::PostProcess( const void* data )
 #endif
 	}
 
-	if( r_useFilmicPostProcessEffects.GetBool() )
+	if( r_useFilmicPostProcessing.GetBool() )
 	{
 		globalImages->currentRenderImage->CopyFramebuffer( viewport.x1, viewport.y1, viewport.GetWidth(), viewport.GetHeight() );
 

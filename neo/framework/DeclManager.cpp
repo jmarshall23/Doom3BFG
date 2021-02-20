@@ -3,7 +3,7 @@
 
 Doom 3 BFG Edition GPL Source Code
 Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-Copyright (C) 2015 Robert Beckebans
+Copyright (C) 2015-2021 Robert Beckebans
 
 This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
@@ -261,7 +261,8 @@ private:
 	static void					ReloadDecls_f( const idCmdArgs& args );
 	static void					TouchDecl_f( const idCmdArgs& args );
 	// RB begin
-	static void                 ExportDecls_f( const idCmdArgs& args );
+	static void                 ExportDeclsToBlender_f( const idCmdArgs& args );
+	static void                 ExportDeclsToTrenchBroom_f( const idCmdArgs& args );
 	// RB end
 };
 
@@ -957,7 +958,8 @@ void idDeclManagerLocal::Init()
 	cmdSystem->AddCommand( "convertPDAsToStrings", ConvertPDAsToStrings_f, CMD_FL_SYSTEM, "Converts *.pda files to text which can be plugged into *.lang files." );
 
 	// RB begin
-	cmdSystem->AddCommand( "exportDeclsToJSON", ExportDecls_f, CMD_FL_SYSTEM, "exports all entity and model defs to exported/entities.json" );
+	cmdSystem->AddCommand( "exportEntityDefsToBlender", ExportDeclsToBlender_f, CMD_FL_SYSTEM, "exports all entity and model defs to exported/entities.json" );
+	cmdSystem->AddCommand( "exportFGD", ExportDeclsToTrenchBroom_f, CMD_FL_SYSTEM, "exports all entity and model defs to exported/_tb/Doom3.fgd" );
 	// RB end
 
 	common->Printf( "------------------------------\n" );
@@ -1959,7 +1961,7 @@ void idDeclManagerLocal::TouchDecl_f( const idCmdArgs& args )
 }
 
 // RB begin
-void idDeclManagerLocal::ExportDecls_f( const idCmdArgs& args )
+void idDeclManagerLocal::ExportDeclsToBlender_f( const idCmdArgs& args )
 {
 	idStr jsonStringsFileName = "exported/entities.json";
 	idFileLocal file( fileSystem->OpenFileWrite( jsonStringsFileName, "fs_basepath" ) );
@@ -1973,7 +1975,7 @@ void idDeclManagerLocal::ExportDecls_f( const idCmdArgs& args )
 	int totalModelsCount = 0;
 
 	// avoid media cache
-	com_editors |= EDITOR_AAS;
+	com_editors |= EDITOR_EXPORTDEFS;
 
 	file->Printf( "{\n\t\"entities\": {" );
 
@@ -2002,12 +2004,635 @@ void idDeclManagerLocal::ExportDecls_f( const idCmdArgs& args )
 
 	file->Flush();
 
-	com_editors &= ~EDITOR_AAS;
+	com_editors &= ~EDITOR_EXPORTDEFS;
 
 	idLib::Printf( "\nData written to %s\n", jsonStringsFileName.c_str() );
 	idLib::Printf( "----------------------------\n" );
 	idLib::Printf( "Wrote %d Entities.\n", totalEntitiesCount );
 	idLib::Printf( "Wrote %d Models.\n", totalModelsCount );
+}
+
+class idSort_CompareEntityDefEntity : public idSort_Quick< const idDeclEntityDef*, idSort_CompareEntityDefEntity >
+{
+public:
+	int Compare( const idDeclEntityDef* const& a, const idDeclEntityDef* const& b ) const
+	{
+		return idStr::Icmp( a->GetName(), b->GetName() );
+	}
+};
+
+enum EVAR_TYPES
+{
+	EVAR_STRING,
+	EVAR_INT,
+	EVAR_FLOAT,
+	EVAR_BOOL,
+	EVAR_COLOR,
+	EVAR_MATERIAL,
+	EVAR_MODEL,
+	EVAR_GUI,
+	EVAR_SOUND
+};
+
+struct evarPrefix_t
+{
+	int type;
+	const char* prefix;
+};
+
+const evarPrefix_t EvarPrefixes[] =
+{
+	{ EVAR_STRING,  "editor_var " },
+	{ EVAR_INT,		"editor_int " },
+	{ EVAR_FLOAT,	"editor_float " },
+	{ EVAR_BOOL,	"editor_bool " },
+	{ EVAR_COLOR,	"editor_color " },
+	{ EVAR_MATERIAL, "editor_mat " },
+	{ EVAR_MODEL,	"editor_model " },
+	{ EVAR_GUI,		"editor_gui " },
+	{ EVAR_SOUND,	"editor_snd "}
+};
+
+const int NumEvarPrefixes = sizeof( EvarPrefixes ) / sizeof( evarPrefix_t );
+
+typedef struct evar_s
+{
+	int	type;
+	idStr fullname;
+	idStr name;
+	idStr desc;
+} evar_t;
+
+#include <d3xp/anim/Anim.h> // idDeclModelDef
+
+void idDeclManagerLocal::ExportDeclsToTrenchBroom_f( const idCmdArgs& args )
+{
+	extern idCVar postLoadExportModels;
+
+	// avoid media cache
+	com_editors |= EDITOR_EXPORTDEFS;
+
+	// reload entities and skip "inherit" parsing because EDITOR_EXPORTDEFS is set
+	declManagerLocal.Reload( true );
+
+	int count = declManagerLocal.linearLists[ DECL_ENTITYDEF ].Num();
+
+	static idList< const idDeclEntityDef*, TAG_IDLIB_LIST_DECL > defsSorted;//( count );
+	defsSorted.AssureSize( count );
+
+	for( int i = 0; i < count; i++ )
+	{
+		const idDeclEntityDef* decl = static_cast< const idDeclEntityDef* >( declManagerLocal.FindType( DECL_ENTITYDEF, declManagerLocal.linearLists[ DECL_ENTITYDEF ][ i ]->GetName(), false ) );
+
+		defsSorted[ i ] = decl;
+	}
+
+	defsSorted.SortWithTemplate( idSort_CompareEntityDefEntity() );
+
+	bool exportModels = false;
+
+	if( !idStr::Icmp( args.Argv( 1 ), "models" ) )
+	{
+		exportModels = true;
+		common->Printf( "exporting entity decls to FGDs with models:\n" );
+	}
+	else
+	{
+		exportModels = false;
+		common->Printf( "exporting entity decls to FGDs:\n" );
+	}
+
+	if( exportModels )
+	{
+		postLoadExportModels.SetBool( true );
+	}
+
+	idStrList filenames;
+	filenames.AddUnique( "all" );
+	filenames.AddUnique( "slim" );
+	filenames.AddUnique( "multiplayer" );
+
+	idStrList ignoreList;
+
+	// maps
+	ignoreList.AddUnique( "admin" );
+	ignoreList.AddUnique( "alphalabs1" );
+	ignoreList.AddUnique( "alphalabs2" );
+	ignoreList.AddUnique( "alphalabs3" );
+	ignoreList.AddUnique( "caverns" );
+	ignoreList.AddUnique( "cin" );
+	ignoreList.AddUnique( "comm1" );
+	ignoreList.AddUnique( "commoutside" );
+	ignoreList.AddUnique( "cpu1" );
+	ignoreList.AddUnique( "cpuboss" );
+	ignoreList.AddUnique( "delta" );
+	ignoreList.AddUnique( "ending" );
+	ignoreList.AddUnique( "enpro" );
+	ignoreList.AddUnique( "erebus" );
+	ignoreList.AddUnique( "hell" );
+	ignoreList.AddUnique( "maledict" );
+	ignoreList.AddUnique( "marscity" );
+	ignoreList.AddUnique( "monorail" );
+	ignoreList.AddUnique( "phobos2" );
+	ignoreList.AddUnique( "recycling" );
+	ignoreList.AddUnique( "ronn" );
+	ignoreList.AddUnique( "seeker" );
+	ignoreList.AddUnique( "site3" );
+	ignoreList.AddUnique( "ss" );
+	ignoreList.AddUnique( "test" );
+	ignoreList.AddUnique( "underground" );
+
+	// xbox
+	ignoreList.AddUnique( "xbox" );
+	ignoreList.AddUnique( "xmarscity" );
+	ignoreList.AddUnique( "xsp" );
+
+	// misc
+	ignoreList.AddUnique( "blooper" );
+	ignoreList.AddUnique( "npc" );
+	ignoreList.AddUnique( "zombie" );
+
+	for( int f = 0; f < filenames.Num(); f++ )
+	{
+		int totalEntitiesCount = 0;
+		int totalModelsCount = 0;
+
+		idStr fgdFileName;
+		fgdFileName.Format( "exported/_tb/DOOM-3-%s.fgd", filenames[ f ].c_str() );
+		idFileLocal file( fileSystem->OpenFileWrite( fgdFileName, "fs_basepath" ) );
+
+		if( file == NULL )
+		{
+			common->Printf( "Failed to entity declarations data to FGD.\n" );
+		}
+
+		file->Printf( "// DOOM 3 BFG game definition file (.fgd) generated by %s\n\n", ENGINE_VERSION );
+
+		for( int d = 0; d < count; d++ )
+		{
+			const idDeclEntityDef* decl = defsSorted[ d ];
+
+			totalEntitiesCount++;
+
+			// only include entityDefs with "editor_" values in them
+			if( /*f > 0 &&*/ !decl->dict.MatchPrefix( "editor_" ) )
+			{
+				bool parentHasEditorKeys = false;
+
+				const idDeclEntityDef* decl2 = decl;
+				while( 1 )
+				{
+					const idKeyValue* kv;
+					kv = decl2->dict.MatchPrefix( "inherit", NULL );
+					if( !kv )
+					{
+						break;
+					}
+
+					const idDeclEntityDef* super = static_cast<const idDeclEntityDef*>( declManager->FindType( DECL_ENTITYDEF, kv->GetValue(), false ) );
+					if( !super )
+					{
+						//src.Warning( "Unknown entityDef '%s' inherited by '%s'", kv->GetValue().c_str(), GetName() );
+						break;
+					}
+					else
+					{
+						decl2 = super;
+					}
+
+					if( decl2->dict.MatchPrefix( "editor_" ) )
+					{
+						parentHasEditorKeys = true;
+						break;
+					}
+				}
+
+				if( !parentHasEditorKeys )
+				{
+					continue;
+				}
+			}
+
+			if( f > 0 )
+			{
+				// ignore entities that begin with those prefices
+
+				bool ignore = false;
+				for( int i = 0; i < ignoreList.Num(); i++ )
+				{
+					const char* ignoreStr = ignoreList[ i ].c_str();
+					if( idStr::Icmpn( decl->GetName(), ignoreStr, ( int )strlen( ignoreStr ) ) == 0 )
+					{
+						ignore = true;
+						break;
+					}
+				}
+
+				if( ignore )
+				{
+					continue;
+				}
+			}
+
+			// filter multiplayer entities
+			bool multiplayer = ( idStr::FindText( decl->GetName(), "_mp", false ) != -1 ||
+								 idStr::FindText( decl->GetName(), "_coop", false ) != -1 );
+
+			if( f == 2 )
+			{
+				if( !multiplayer )
+				{
+					continue;
+				}
+			}
+			else
+			{
+				if( multiplayer )
+				{
+					continue;
+				}
+			}
+
+
+			//
+			// build header
+			//
+			const idKeyValue* kv;
+			kv = decl->dict.MatchPrefix( "inherit", NULL );
+
+			if( idStr::Icmp( decl->GetName(), "worldspawn" ) == 0 )
+			{
+				file->Printf( "@SolidClass " );
+			}
+			//else if( baseclass )
+			//{
+			//	file->Printf( "@BaseClass " );
+			//}
+			else
+			{
+				file->Printf( "@PointClass " );
+			}
+
+			if( kv )
+			{
+				file->Printf( "base(%s) ", kv->GetValue().c_str() );
+			}
+
+			idStr text = "";
+			kv = decl->dict.MatchPrefix( "editor_usage" );
+			while( kv != NULL )
+			{
+				text += kv->GetValue();
+				if( !kv->GetValue().Length() || ( text[ text.Length() - 1 ] != '\n' ) )
+				{
+					text += "\n";
+				}
+				kv = decl->dict.MatchPrefix( "editor_usage", kv );
+			}
+
+			if( text.IsEmpty() )
+			{
+				text += "No description";
+			}
+
+			idVec3 color;
+			if( decl->dict.GetVector( "editor_color", "0 0 1", color ) )
+			{
+				file->Printf( "color(%i %i %i) ", int( color.x * 255 ) & 0xFF, int( color.y * 255 ) & 0xFF, int( color.z * 255 ) & 0xFF );
+			}
+
+#if 1
+			//if( idStr::Icmp( decl->GetName(), "monster_zombie_maint_bald" ) == 0 )
+			if( idStr::Icmp( decl->GetName(), "monster_demon_imp" ) == 0 )
+			{
+				text += " ";
+			}
+#endif
+
+			// write size of entity
+
+			idVec3 size;
+			idBounds bounds;
+			bool writeSize = false;
+
+			if( decl->dict.GetVector( "mins", NULL, bounds[0] ) && decl->dict.GetVector( "maxs", NULL, bounds[1] ) )
+			{
+				if( bounds[0][0] > bounds[1][0] || bounds[0][1] > bounds[1][1] || bounds[0][2] > bounds[1][2] )
+				{
+					//gameLocal.Error( "Invalid bounds '%s'-'%s' on entity '%s'", bounds[0].ToString(), bounds[1].ToString(), name.c_str() );
+				}
+				else
+				{
+					writeSize = true;
+				}
+			}
+			else if( decl->dict.GetVector( "size", NULL, size ) )
+			{
+				if( ( size.x < 0.0f ) || ( size.y < 0.0f ) || ( size.z < 0.0f ) )
+				{
+					//gameLocal.Error( "Invalid size '%s' on entity '%s'", size.ToString(), name.c_str() );
+				}
+				else
+				{
+					bounds[0].Set( size.x * -0.5f, size.y * -0.5f, 0.0f );
+					bounds[1].Set( size.x * 0.5f, size.y * 0.5f, size.z );
+
+					writeSize = true;
+				}
+			}
+			else
+			{
+				idStr str;
+				decl->dict.GetString( "editor_mins", "", str );
+				if( str != "?" )
+				{
+					if( decl->dict.GetVector( "editor_mins", "0 0 0", bounds[0] ) && decl->dict.GetVector( "editor_maxs", "0 0 0", bounds[1] ) )
+					{
+						writeSize = true;
+					}
+				}
+			}
+
+			if( writeSize )
+			{
+				file->Printf( "size(%i %i %i, %i %i %i) ",
+							  int( bounds[0].x ), int( bounds[0].y ), int( bounds[0].z ),
+							  int( bounds[1].x ), int( bounds[1].y ), int( bounds[1].z ) );
+			}
+
+			// collect editor specific spawn flags
+			idList<evar_t> evars;
+
+			for( int i = 0; i < NumEvarPrefixes; i++ )
+			{
+				kv = decl->dict.MatchPrefix( EvarPrefixes[i].prefix );
+				while( kv )
+				{
+					evar_t ev;
+					ev.fullname = kv->GetKey();
+					kv->GetKey().Right( kv->GetKey().Length() - strlen( EvarPrefixes[i].prefix ), ev.name );
+					ev.desc = kv->GetValue();
+					ev.type = EvarPrefixes[i].type;
+					evars.Append( ev );
+					kv = decl->dict.MatchPrefix( EvarPrefixes[i].prefix, kv );
+				}
+			}
+
+			idDict dictToWrite;
+
+			if( idStr::Icmp( decl->GetName(), "light" ) == 0 )
+			{
+				// entityDef light
+
+				// add missing property to control the radius
+
+				evar_t ev;
+				ev.fullname = "editor_int light";
+				ev.name = "light";
+				ev.desc = "light radius";
+				ev.type = EVAR_INT;
+				evars.Append( ev );
+
+				dictToWrite.Set( "light", "300" );
+			}
+
+			if( idStr::Icmp( decl->GetName(), "light" ) == 0 ||
+					idStr::Icmp( decl->GetName(), "func_static" ) == 0 )
+			{
+				// entities with dynamic models
+
+				evar_t ev;
+				ev.fullname = "editor_model model";
+				ev.name = "model";
+				ev.desc = "Model Selection (ex mapobjects/model.obj)";
+				ev.type = EVAR_MODEL;
+				evars.Append( ev );
+
+				//dictToWrite.Set( "model", "" );
+			}
+
+			for( int i = 0; i < decl->dict.GetNumKeyVals(); i++ )
+			{
+				kv = decl->dict.GetKeyVal( i );
+
+				if( kv->GetKey().IcmpPrefix( "editor_" ) == 0 )
+				{
+					continue;
+				}
+
+				if( kv->GetKey().Icmp( "classname" ) == 0 )
+				{
+					continue;
+				}
+
+				if( kv->GetKey().Icmp( "inherit" ) == 0 )
+				{
+					continue;
+				}
+
+				// TODO FIXME cinematic md5camera animations
+				//if( kv->GetKey().IcmpPrefix( "anim" ) == 0 )
+				//{
+				//	continue;
+				//}
+
+				// is it an editor var or a regular spawn argument?
+				evar_t* ev = nullptr;
+				int vc = evars.Num();
+				for( int j = 0; j < vc; j++ )
+				{
+					if( evars[ j ].fullname.Icmp( kv->GetKey() ) == 0 )
+					{
+						ev = &evars[ j ];
+						break;
+					}
+				}
+
+				// don't print the descriptive editor var itself yet
+				if( !ev )
+				{
+					//file->Printf( "\t%s(string)\n", kv->GetKey().c_str() );
+
+					const idKeyValue* kv2 = dictToWrite.FindKey( kv->GetKey() );
+					if( !kv2 )
+					{
+						dictToWrite.Set( kv->GetKey(), kv->GetValue() );
+					}
+				}
+			}
+
+			// add editor_vars that aren't already covered by the default vars
+			for( int i = 0; i < evars.Num(); i++ )
+			{
+				const evar_t* ev = &evars[ i ];
+
+				const idKeyValue* kv2 = dictToWrite.FindKey( ev->name );
+				if( !kv2 )
+				{
+					dictToWrite.Set( ev->name, ev->desc );
+				}
+			}
+
+			// export models as OBJ
+			bool writeModel = false;
+			idStrStatic< MAX_OSPATH > exportedModelFileName;
+
+			if( idStr::Icmp( decl->GetName(), "light" ) != 0 &&
+					idStr::Icmp( decl->GetName(), "func_static" ) != 0 )
+			{
+				//kv = dictToWrite.MatchPrefix( "model" );
+				//while( kv )
+
+				const idKeyValue* kv = dictToWrite.FindKey( "model" );
+				if( kv )
+				{
+					if( kv->GetValue().Length() )
+					{
+						declManager->MediaPrint( "Precaching model %s\n", kv->GetValue().c_str() );
+
+						// HACK
+						writeModel = true;
+
+						// precache model/animations
+						const idDeclModelDef* modelDef = static_cast<const idDeclModelDef*>( declManager->FindType( DECL_MODELDEF, kv->GetValue(), false ) );
+						if( modelDef == NULL )
+						{
+							// there is no modelDef so use direct path
+							renderModelManager->FindModel( kv->GetValue() );
+
+							exportedModelFileName = "_tb/";
+							exportedModelFileName.AppendPath( kv->GetValue() );
+							exportedModelFileName.SetFileExtension( ".obj" );
+						}
+						else
+						{
+							idRenderModel* renderModel = modelDef->ModelHandle();
+							if( renderModel )
+							{
+								exportedModelFileName = "_tb/";
+								exportedModelFileName.AppendPath( renderModel->Name() );
+								exportedModelFileName.SetFileExtension( ".obj" );
+							}
+						}
+					}
+
+					//kv = dictToWrite.MatchPrefix( "model", kv );
+				}
+			}
+
+			if( writeModel && !exportedModelFileName.IsEmpty() )
+			{
+				file->Printf( "model({ \"path\": \"%s\" }) ", exportedModelFileName.c_str() );
+			}
+			else if( idStr::Icmp( decl->GetName(), "func_static" ) == 0 )
+			{
+				// dynamic model case
+				file->Printf( "model({ \"path\" : model }) " );
+			}
+
+			file->Printf( "= %s : \"%s\"\n", decl->GetName(), text.c_str() );
+			file->Printf( "[\n" );
+
+			for( int i = 0; i < dictToWrite.GetNumKeyVals(); i++ )
+			{
+				kv = dictToWrite.GetKeyVal( i );
+
+				// is it an editor var or a regular spawn argument?
+				evar_t* ev = nullptr;
+				int vc = evars.Num();
+				for( int j = 0; j < vc; j++ )
+				{
+					if( evars[ j ].name.Icmp( kv->GetKey() ) == 0 )
+					{
+						ev = &evars[ j ];
+						break;
+					}
+				}
+
+				idStr cleanKey = kv->GetKey();
+				cleanKey.ReplaceChar( ' ', '.' );
+
+				if( cleanKey.Icmp( "color" ) == 0 )
+				{
+					cleanKey = "_color";
+				}
+
+				// don't print the descriptive editor var itself yet
+				if( ev )
+				{
+					file->Printf( "\t%s", cleanKey.c_str() );
+
+					switch( ev->type )
+					{
+						case EVAR_INT :
+							file->Printf( "(integer)" );
+							break;
+
+						case EVAR_FLOAT :
+							file->Printf( "(float)" );
+							break;
+
+						case EVAR_BOOL :
+							file->Printf( "(boolean)" );
+							break;
+
+						case EVAR_COLOR :
+						case EVAR_MATERIAL :
+						case EVAR_MODEL :
+						case EVAR_GUI :
+						case EVAR_SOUND :
+						case EVAR_STRING :
+						default:
+							file->Printf( "(string)" );
+							break;
+					}
+
+					if( !ev->desc.IsEmpty() && ev->desc.Icmp( kv->GetValue().c_str() ) )
+					{
+						if( ev->type != EVAR_INT && ev->type != EVAR_FLOAT && ev->type != EVAR_BOOL )
+						{
+							file->Printf( " : \"%s\" : \"%s\"\n", ev->desc.c_str(), kv->GetValue().c_str() );
+						}
+						else
+						{
+							file->Printf( " : \"%s\" : %s\n", ev->desc.c_str(), kv->GetValue().c_str() );
+						}
+					}
+					else
+					{
+						file->Printf( " : \"%s\"\n", ev->desc.c_str() );
+					}
+				}
+				else
+				{
+					file->Printf( "\t%s(string) : \"\" : \"%s\"\n", cleanKey.c_str(), kv->GetValue().c_str() );
+				}
+			}
+
+
+			file->Printf( "]\n\n" );
+
+
+		}
+
+		file->Flush();
+
+		common->Printf( "\nData written to %s\n", fgdFileName.c_str() );
+		common->Printf( "----------------------------\n" );
+		common->Printf( "Wrote %d Entities.\n", totalEntitiesCount );
+		common->Printf( "Wrote %d Models.\n", totalModelsCount );
+
+	}
+
+	com_editors &= ~EDITOR_EXPORTDEFS;
+
+	if( exportModels )
+	{
+		postLoadExportModels.SetBool( false );
+	}
+
+	//declManagerLocal.Reload( true );
+	common->FatalError( "Exporting successful, need to restart manually" );
 }
 // RB  end
 

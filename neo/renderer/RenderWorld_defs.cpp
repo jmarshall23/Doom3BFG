@@ -760,12 +760,12 @@ ENVPROBE DEFS
 
 void R_DeriveEnvprobeData( RenderEnvprobeLocal* probe )
 {
-	idStr basename = tr.primaryWorld->mapName;
+	idStr basename = probe->world->mapName;
 	basename.StripFileExtension();
 
 	idStr fullname;
 
-	int probeIndex = tr.primaryWorld->envprobeDefs.Num() - 1;
+	int probeIndex = probe->world->envprobeDefs.Num() - 1;
 
 	// TODO get preconvolved cubemaps
 	fullname.Format( "env/%s/envprobe%i_amb", basename.c_str(), probeIndex );
