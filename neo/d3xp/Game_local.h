@@ -471,7 +471,6 @@ public:
 
 	idEntity*				Spawn(const char* classname);
 
-
 	int						NumAAS() const;
 	idAAS* 					GetAAS( int num ) const;
 	idAAS* 					GetAAS( const char* name ) const;
@@ -736,6 +735,8 @@ private:
 	void					SortActiveEntityList();
 	void					ShowTargets();
 	void					RunDebugInfo();
+
+	void					RunSharedThink();
 
 	void					InitScriptForMap();
 	void					SetScriptFPS( const float com_engineHz );
