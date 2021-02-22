@@ -31,7 +31,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "AAS_local.h"
 #include "../Game_local.h"		// for cvars and debug drawing
-
+#include "AASCallback_FindCoverArea.h"
 
 /*
 ============
@@ -424,7 +424,7 @@ void idAASLocal::ShowHideArea( const idVec3& origin, int targetAreaNum ) const
 
 	DrawCone( target, idVec3( 0, 0, 1 ), 16.0f, colorYellow );
 
-	idAASFindCover findCover( target );
+	idAASCallback_FindCoverArea findCover( target );
 	if( FindNearestGoal( goal, areaNum, origin, target, TFL_WALK | TFL_AIR, obstacles, numObstacles, findCover ) )
 	{
 		DrawArea( goal.areaNum );

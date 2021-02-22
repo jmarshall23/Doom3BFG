@@ -72,7 +72,7 @@ class idAASCallback
 {
 public:
 	virtual						~idAASCallback() {};
-	virtual	bool				TestArea( const class idAAS* aas, int areaNum ) = 0;
+	virtual	bool				AreaIsGoal( const class idAAS* aas, int areaNum ) = 0;
 };
 
 typedef int aasHandle_t;

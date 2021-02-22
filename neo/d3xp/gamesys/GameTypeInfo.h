@@ -7,9 +7,9 @@
 
 	This file has been generated with the Type Info Generator v1.1 (c) 2004 id Software
 
-	935 constants
+	934 constants
 	89 enums
-	453 classes/structs/unions
+	450 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -575,13 +575,12 @@ static constantInfo_t constantInfo[] = {
 	{ "int", "MOVE_TO_ENEMYHEIGHT", "4" },
 	{ "int", "MOVE_TO_ENTITY", "5" },
 	{ "int", "MOVE_OUT_OF_RANGE", "6" },
-	{ "int", "MOVE_TO_ATTACK_POSITION", "7" },
-	{ "int", "MOVE_TO_COVER", "8" },
-	{ "int", "MOVE_TO_POSITION", "9" },
-	{ "int", "MOVE_TO_POSITION_DIRECT", "10" },
-	{ "int", "MOVE_SLIDE_TO_POSITION", "11" },
-	{ "int", "MOVE_WANDER", "12" },
-	{ "int", "NUM_MOVE_COMMANDS", "13" },
+	{ "int", "MOVE_TO_COVER", "7" },
+	{ "int", "MOVE_TO_POSITION", "8" },
+	{ "int", "MOVE_TO_POSITION_DIRECT", "9" },
+	{ "int", "MOVE_SLIDE_TO_POSITION", "10" },
+	{ "int", "MOVE_WANDER", "11" },
+	{ "int", "NUM_MOVE_COMMANDS", "12" },
 	{ "int", "TALK_NEVER", "0" },
 	{ "int", "TALK_DEAD", "1" },
 	{ "int", "TALK_OK", "2" },
@@ -1660,13 +1659,12 @@ static enumValueInfo_t moveCommand_t_typeInfo[] = {
 	{ "MOVE_TO_ENEMYHEIGHT", 4 },
 	{ "MOVE_TO_ENTITY", 5 },
 	{ "MOVE_OUT_OF_RANGE", 6 },
-	{ "MOVE_TO_ATTACK_POSITION", 7 },
-	{ "MOVE_TO_COVER", 8 },
-	{ "MOVE_TO_POSITION", 9 },
-	{ "MOVE_TO_POSITION_DIRECT", 10 },
-	{ "MOVE_SLIDE_TO_POSITION", 11 },
-	{ "MOVE_WANDER", 12 },
-	{ "NUM_MOVE_COMMANDS", 13 },
+	{ "MOVE_TO_COVER", 7 },
+	{ "MOVE_TO_POSITION", 8 },
+	{ "MOVE_TO_POSITION_DIRECT", 9 },
+	{ "MOVE_SLIDE_TO_POSITION", 10 },
+	{ "MOVE_WANDER", 11 },
+	{ "NUM_MOVE_COMMANDS", 12 },
 	{ NULL, 0 }
 };
 
@@ -5751,30 +5749,6 @@ static classVariableInfo_t idMoveState_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static classVariableInfo_t idAASFindCover_typeInfo[] = {
-	{ ": pvsHandle_t", "hidePVS", (intptr_t)(&((idAASFindCover *)0)->hidePVS), sizeof( ((idAASFindCover *)0)->hidePVS ) },
-	{ "int[4]", "PVSAreas", (intptr_t)(&((idAASFindCover *)0)->PVSAreas), sizeof( ((idAASFindCover *)0)->PVSAreas ) },
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t idAASFindAreaOutOfRange_typeInfo[] = {
-	{ ": idVec3", "targetPos", (intptr_t)(&((idAASFindAreaOutOfRange *)0)->targetPos), sizeof( ((idAASFindAreaOutOfRange *)0)->targetPos ) },
-	{ "float", "maxDistSqr", (intptr_t)(&((idAASFindAreaOutOfRange *)0)->maxDistSqr), sizeof( ((idAASFindAreaOutOfRange *)0)->maxDistSqr ) },
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t idAASFindAttackPosition_typeInfo[] = {
-	{ ": const idAI *", "self", (intptr_t)(&((idAASFindAttackPosition *)0)->self), sizeof( ((idAASFindAttackPosition *)0)->self ) },
-	{ "idEntity *", "target", (intptr_t)(&((idAASFindAttackPosition *)0)->target), sizeof( ((idAASFindAttackPosition *)0)->target ) },
-	{ "idBounds", "excludeBounds", (intptr_t)(&((idAASFindAttackPosition *)0)->excludeBounds), sizeof( ((idAASFindAttackPosition *)0)->excludeBounds ) },
-	{ "idVec3", "targetPos", (intptr_t)(&((idAASFindAttackPosition *)0)->targetPos), sizeof( ((idAASFindAttackPosition *)0)->targetPos ) },
-	{ "idVec3", "fireOffset", (intptr_t)(&((idAASFindAttackPosition *)0)->fireOffset), sizeof( ((idAASFindAttackPosition *)0)->fireOffset ) },
-	{ "idMat3", "gravityAxis", (intptr_t)(&((idAASFindAttackPosition *)0)->gravityAxis), sizeof( ((idAASFindAttackPosition *)0)->gravityAxis ) },
-	{ "pvsHandle_t", "targetPVS", (intptr_t)(&((idAASFindAttackPosition *)0)->targetPVS), sizeof( ((idAASFindAttackPosition *)0)->targetPVS ) },
-	{ "int[4]", "PVSAreas", (intptr_t)(&((idAASFindAttackPosition *)0)->PVSAreas), sizeof( ((idAASFindAttackPosition *)0)->PVSAreas ) },
-	{ NULL, 0 }
-};
-
 static classVariableInfo_t idAI_typeInfo[] = {
 	{ ": idScriptBool", "ambush", (intptr_t)(&((idAI *)0)->ambush), sizeof( ((idAI *)0)->ambush ) },
 	{ "idScriptBool", "ignoreEnemies", (intptr_t)(&((idAI *)0)->ignoreEnemies), sizeof( ((idAI *)0)->ignoreEnemies ) },
@@ -7373,9 +7347,6 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "particleEmitter_t", "", sizeof(particleEmitter_t), particleEmitter_t_typeInfo },
 	{ "funcEmitter_t", "", sizeof(funcEmitter_t), funcEmitter_t_typeInfo },
 	{ "idMoveState", "", sizeof(idMoveState), idMoveState_typeInfo },
-	{ "idAASFindCover", "idAASCallback", sizeof(idAASFindCover), idAASFindCover_typeInfo },
-	{ "idAASFindAreaOutOfRange", "idAASCallback", sizeof(idAASFindAreaOutOfRange), idAASFindAreaOutOfRange_typeInfo },
-	{ "idAASFindAttackPosition", "idAASCallback", sizeof(idAASFindAttackPosition), idAASFindAttackPosition_typeInfo },
 	{ "idAI", "idActor", sizeof(idAI), idAI_typeInfo },
 	{ "idCombatNode", "idEntity", sizeof(idCombatNode), idCombatNode_typeInfo },
 	{ "rvmAI_Follower", "idAI", sizeof(rvmAI_Follower), rvmAI_Follower_typeInfo },

@@ -220,7 +220,6 @@ EVENT( AI_MoveToCover,						idAI::Event_MoveToCover )
 EVENT( AI_MoveToEnemy,						idAI::Event_MoveToEnemy )
 EVENT( AI_MoveToEnemyHeight,				idAI::Event_MoveToEnemyHeight )
 EVENT( AI_MoveOutOfRange,					idAI::Event_MoveOutOfRange )
-EVENT( AI_MoveToAttackPosition,				idAI::Event_MoveToAttackPosition )
 EVENT( AI_Wander,							idAI::Event_Wander )
 EVENT( AI_MoveToEntity,						idAI::Event_MoveToEntity )
 EVENT( AI_MoveToPosition,					idAI::Event_MoveToPosition )
@@ -1250,26 +1249,6 @@ void idAI::Event_MoveOutOfRange( idEntity* entity, float range )
 {
 	StopMove( MOVE_STATUS_DEST_NOT_FOUND );
 	MoveOutOfRange( entity, range );
-}
-
-/*
-=====================
-idAI::Event_MoveToAttackPosition
-=====================
-*/
-void idAI::Event_MoveToAttackPosition( idEntity* entity, const char* attack_anim )
-{
-	int anim;
-
-	StopMove( MOVE_STATUS_DEST_NOT_FOUND );
-
-	anim = GetAnim( ANIMCHANNEL_LEGS, attack_anim );
-	if( !anim )
-	{
-		gameLocal.Error( "Unknown anim '%s'", attack_anim );
-	}
-
-	MoveToAttackPosition( entity, anim );
 }
 
 /*

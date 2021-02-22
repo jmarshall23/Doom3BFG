@@ -105,7 +105,6 @@ typedef enum
 	MOVE_TO_ENEMYHEIGHT,
 	MOVE_TO_ENTITY,
 	MOVE_OUT_OF_RANGE,
-	MOVE_TO_ATTACK_POSITION,
 	MOVE_TO_COVER,
 	MOVE_TO_POSITION,
 	MOVE_TO_POSITION_DIRECT,
@@ -245,50 +244,6 @@ public:
 	idVec3					lastMoveOrigin;
 	int						lastMoveTime;
 	int						anim;
-};
-
-class idAASFindCover : public idAASCallback
-{
-public:
-	idAASFindCover( const idVec3& hideFromPos );
-	~idAASFindCover();
-
-	virtual bool		TestArea( const idAAS* aas, int areaNum );
-
-private:
-	pvsHandle_t			hidePVS;
-	int					PVSAreas[ idEntity::MAX_PVS_AREAS ];
-};
-
-class idAASFindAreaOutOfRange : public idAASCallback
-{
-public:
-	idAASFindAreaOutOfRange( const idVec3& targetPos, float maxDist );
-
-	virtual bool		TestArea( const idAAS* aas, int areaNum );
-
-private:
-	idVec3				targetPos;
-	float				maxDistSqr;
-};
-
-class idAASFindAttackPosition : public idAASCallback
-{
-public:
-	idAASFindAttackPosition( const idAI* self, const idMat3& gravityAxis, idEntity* target, const idVec3& targetPos, const idVec3& fireOffset );
-	~idAASFindAttackPosition();
-
-	virtual bool		TestArea( const idAAS* aas, int areaNum );
-
-private:
-	const idAI*			self;
-	idEntity*			target;
-	idBounds			excludeBounds;
-	idVec3				targetPos;
-	idVec3				fireOffset;
-	idMat3				gravityAxis;
-	pvsHandle_t			targetPVS;
-	int					PVSAreas[ idEntity::MAX_PVS_AREAS ];
 };
 
 class idAI : public idActor
@@ -577,7 +532,6 @@ protected:
 	bool					DirectMoveToPosition( const idVec3& pos );
 	bool					MoveToEnemyHeight();
 	bool					MoveOutOfRange( idEntity* entity, float range );
-	bool					MoveToAttackPosition( idEntity* ent, int attack_anim );
 	bool					MoveToEnemy();
 	bool					MoveToEntity( idEntity* ent );
 	bool					MoveToPosition( const idVec3& pos );
@@ -736,7 +690,6 @@ protected:
 	void					Event_MoveToEnemy();
 	void					Event_MoveToEnemyHeight();
 	void					Event_MoveOutOfRange( idEntity* entity, float range );
-	void					Event_MoveToAttackPosition( idEntity* entity, const char* attack_anim );
 	void					Event_MoveToEntity( idEntity* ent );
 	void					Event_MoveToPosition( const idVec3& pos );
 	void					Event_SlideTo( const idVec3& pos, float time );
