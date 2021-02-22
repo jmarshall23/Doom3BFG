@@ -876,4 +876,6 @@ private:
 #include "Monster_zombie_commando_tentacle.h"
 #include "monster_zombie_commando_cgun.h"
 
+#include "../bots/bot.h"
+
 #endif /* !__AI_H__ */

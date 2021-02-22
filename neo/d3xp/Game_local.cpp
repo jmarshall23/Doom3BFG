@@ -2084,7 +2084,9 @@ const char* idGameLocal::GetMPPlayerDefName() const
 idGameLocal::SpawnPlayer
 ============
 */
-void idGameLocal::SpawnPlayer( int clientNum )
+// jmarshall - bot support
+void idGameLocal::SpawnPlayer( int clientNum, bool isBot )
+// jmarshall end
 {
 	idEntity*	ent;
 	idDict		args;
@@ -2096,10 +2098,25 @@ void idGameLocal::SpawnPlayer( int clientNum )
 	args.Set( "name", va( "player%d", clientNum + 1 ) );
 	if( common->IsMultiplayer() )
 	{
-		args.Set( "classname", GetMPPlayerDefName() );
+// jmarshall - bot support.
+		if (isBot)
+		{
+			args.Set("classname", va("%s_bot", GetMPPlayerDefName()));
+		}
+		else
+		{
+			args.Set("classname", GetMPPlayerDefName());
+		}
+// jmarshall end
 	}
 	else
 	{
+// jmarshall - bot support
+		if (isBot)
+		{
+			gameLocal.Error("Bots not supported in singleplayer games!\n");
+		}
+// jmarshall end
 		// precache the player
 		args.Set( "classname", gameLocal.world->spawnArgs.GetString( "def_player", "player_doommarine" ) );
 	}
@@ -2657,7 +2674,12 @@ void idGameLocal::RunFrame( idUserCmdMgr& cmdMgr, gameReturn_t& ret )
 
 			// update our gravity vector if needed.
 			UpdateGravity();
-
+// jmarshall
+			// run the frame for the bots.
+			if (common->IsServer()) {
+				RunBotFrame(cmdMgr);
+			}
+// jmarshall end
 			// create a merged pvs for all players
 			SetupPlayerPVS();
 
@@ -6217,3 +6239,26 @@ idEntity *idGameLocal::GetEntity(const char* name)
 		return ent;
 	}
 }
+
+/*
+================
+idGameLocal::AddBot
+================
+*/
+// jmarshall - bots
+void idGameLocal::AddBot(const char* name) {
+	if (!common->IsMultiplayer())
+	{
+		common->Warning("You can only add bots during a multiplayer game!\n");
+		return;
+	}
+
+	if (!common->IsServer())
+	{
+		common->Warning("Only the server can add bots!\n");
+		return;
+	}
+
+	session->GetActingGameStateLobbyBase().AllocLobbyUserSlotForBot(name);
+}
+// jmarshall end

@@ -292,7 +292,7 @@ type* idLinkList<type>::Next() const
 }
 
 /*
-================
+================ 
 idLinkList<type>::Prev
 
 Returns the previous object in the list, or NULL if at the beginning.

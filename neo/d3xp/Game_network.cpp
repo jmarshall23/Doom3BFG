@@ -227,7 +227,9 @@ void idGameLocal::SyncPlayersWithLobbyUsers( bool initial )
 
 
 		// spawn the player
-		SpawnPlayer( freePlayerDataIndex );
+// jmarshall - bot support
+		SpawnPlayer( freePlayerDataIndex, lobby.GetLobbyUserIsBot(lobbyUserID) );
+// jmarshall end
 
 		common->UpdateLevelLoadPacifier();
 
@@ -906,7 +908,9 @@ void idGameLocal::ClientReadSnapshot( const idSnapShot& ss )
 			if( entityNumber < MAX_CLIENTS )
 			{
 				commonLocal.GetUCmdMgr().ResetPlayer( entityNumber );
-				SpawnPlayer( entityNumber );
+// jmarshall - should we tell the client this is a bot?
+				SpawnPlayer( entityNumber, false );
+// jmarshall end
 				ent = entities[ entityNumber ];
 				ent->FreeModelDef();
 			}
@@ -1553,3 +1557,17 @@ void idEventQueue::Enqueue( entityNetEvent_t* event, outOfOrderBehaviour_t behav
 	}
 	end = event;
 }
+
+// jmarshall
+/*
+================
+idGameLocal::RunBotFrame
+================
+*/
+void idGameLocal::RunBotFrame(idUserCmdMgr& cmdMgr) {
+	for (int i = 0; i < registeredBots.Num(); i++)
+	{
+		registeredBots[i]->BotInputFrame(cmdMgr);
+	}
+}
+// jmarshall end

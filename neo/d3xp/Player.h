@@ -473,6 +473,8 @@ public:
 	void					UpdateConditions();
 	void					SetViewAngles( const idAngles& angles );
 
+	virtual bool			IsBot(void) { return false; }
+
 	// Controller Shake
 	void					ControllerShakeFromDamage( int damage );
 	void					SetControllerShake( float highMagnitude, int highDuration, float lowMagnitude, int lowDuration );

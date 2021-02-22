@@ -5195,6 +5195,10 @@ intptr_t idPlayer::Invoke(const char *functionName, void *param1) {
 		UpdateConditions();
 		return 0;
 	};
+	if(functionNameHash == 58283) { // IsBot
+		IsBot();
+		return 0;
+	};
 	if(functionNameHash == 265702) { // ResetControllerShake
 		ResetControllerShake();
 		return 0;
@@ -5734,6 +5738,9 @@ bool idPlayer::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 210484) { // UpdateConditions
+		return true;
+	};
+	if(functionNameHash == 58283) { // IsBot
 		return true;
 	};
 	if(functionNameHash == 265702) { // ResetControllerShake
@@ -10010,6 +10017,53 @@ bool rvmMonsterZombieCommandoChaingun::HasNativeFunction(const char *functionNam
 		return true;
 	};
 	if(functionNameHash == 157412) { // stand_attack
+		return true;
+	};
+	return __super::HasNativeFunction(functionName);
+
+};
+
+intptr_t rvmBot::Invoke(const char *functionName, void *param1) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		Spawn();
+		return 0;
+	};
+	if(functionNameHash == 61762) { // Think
+		Think();
+		return 0;
+	};
+	if(functionNameHash == 58283) { // IsBot
+		IsBot();
+		return 0;
+	};
+	if(functionNameHash == 243275) { // BotMoveToGoalOrigin
+		BotMoveToGoalOrigin();
+		return 0;
+	};
+	if(functionNameHash == 141568) { // ServerThink
+		ServerThink();
+		return 0;
+	};
+	return __super::Invoke(functionName, param1);
+
+};
+
+bool rvmBot::HasNativeFunction(const char *functionName) {
+	int functionNameHash = idStr::Hash(functionName);
+	if(functionNameHash == 63102) { // Spawn
+		return true;
+	};
+	if(functionNameHash == 61762) { // Think
+		return true;
+	};
+	if(functionNameHash == 58283) { // IsBot
+		return true;
+	};
+	if(functionNameHash == 243275) { // BotMoveToGoalOrigin
+		return true;
+	};
+	if(functionNameHash == 141568) { // ServerThink
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);

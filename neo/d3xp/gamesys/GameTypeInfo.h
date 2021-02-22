@@ -7,9 +7,9 @@
 
 	This file has been generated with the Type Info Generator v1.1 (c) 2004 id Software
 
-	934 constants
-	89 enums
-	450 classes/structs/unions
+	941 constants
+	90 enums
+	456 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -600,6 +600,13 @@ static constantInfo_t constantInfo[] = {
 	{ "int", "SE_ENTER_OBSTACLE", "0" },
 	{ "int", "SE_FALL", "0" },
 	{ "int", "SE_LAND", "0" },
+	{ "int", "NULLMOVEFLAG", "-1" },
+	{ "int", "MOVE_PRONE", "0" },
+	{ "int", "MOVE_CROUCH", "1" },
+	{ "int", "MOVE_WALK", "2" },
+	{ "int", "MOVE_RUN2", "3" },
+	{ "int", "MOVE_SPRINT", "4" },
+	{ "int", "MOVE_JUMP", "5" },
 	{ "int", "OPTION_INVALID", "-1" },
 	{ "int", "OPTION_BUTTON_TEXT", "0" },
 	{ "int", "OPTION_SLIDER_BAR", "1" },
@@ -1699,6 +1706,17 @@ static enumValueInfo_t stopEvent_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static enumValueInfo_t botMoveFlags_t_typeInfo[] = {
+	{ "NULLMOVEFLAG", -1 },
+	{ "MOVE_PRONE", 0 },
+	{ "MOVE_CROUCH", 1 },
+	{ "MOVE_WALK", 2 },
+	{ "MOVE_RUN2", 3 },
+	{ "MOVE_SPRINT", 4 },
+	{ "MOVE_JUMP", 5 },
+	{ NULL, 0 }
+};
+
 static enumValueInfo_t menuOption_t_typeInfo[] = {
 	{ "OPTION_INVALID", -1 },
 	{ "OPTION_BUTTON_TEXT", 0 },
@@ -2060,7 +2078,7 @@ static enumValueInfo_t menuSounds_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_88_typeInfo[] = {
+static enumValueInfo_t enum_89_typeInfo[] = {
 	{ "OP_RETURN", 0 },
 	{ "OP_UINC_F", 1 },
 	{ "OP_UINCP_F", 2 },
@@ -2249,6 +2267,7 @@ static enumTypeInfo_t enumTypeInfo[] = {
 	{ "talkState_t", talkState_t_typeInfo },
 	{ "moveStatus_t", moveStatus_t_typeInfo },
 	{ "stopEvent_t", stopEvent_t_typeInfo },
+	{ "botMoveFlags_t", botMoveFlags_t_typeInfo },
 	{ "menuOption_t", menuOption_t_typeInfo },
 	{ "widgetEvent_t", widgetEvent_t_typeInfo },
 	{ "scrollType_t", scrollType_t_typeInfo },
@@ -2277,7 +2296,7 @@ static enumTypeInfo_t enumTypeInfo[] = {
 	{ "pdaHandlerWidgets_t", pdaHandlerWidgets_t_typeInfo },
 	{ "scoreboardHandlerWidgets_t", scoreboardHandlerWidgets_t_typeInfo },
 	{ "menuSounds_t", menuSounds_t_typeInfo },
-	{ "enum_88", enum_88_typeInfo },
+	{ "enum_89", enum_89_typeInfo },
 	{ NULL, NULL }
 };
 
@@ -2996,6 +3015,7 @@ static classVariableInfo_t idGameLocal_typeInfo[] = {
 	{ "idArray < int , MAX_PLAYERS >", "usercmdLastClientMilliseconds", (intptr_t)(&((idGameLocal *)0)->usercmdLastClientMilliseconds), sizeof( ((idGameLocal *)0)->usercmdLastClientMilliseconds ) },
 	{ "idArray < int , MAX_PLAYERS >", "lastCmdRunTimeOnClient", (intptr_t)(&((idGameLocal *)0)->lastCmdRunTimeOnClient), sizeof( ((idGameLocal *)0)->lastCmdRunTimeOnClient ) },
 	{ "idArray < int , MAX_PLAYERS >", "lastCmdRunTimeOnServer", (intptr_t)(&((idGameLocal *)0)->lastCmdRunTimeOnServer), sizeof( ((idGameLocal *)0)->lastCmdRunTimeOnServer ) },
+	{ "idList < rvmBot * >", "registeredBots", (intptr_t)(&((idGameLocal *)0)->registeredBots), sizeof( ((idGameLocal *)0)->registeredBots ) },
 	{ "idList < rvmGameDelayRemoveEntry_t >", "delayRemoveEntities", (intptr_t)(&((idGameLocal *)0)->delayRemoveEntities), sizeof( ((idGameLocal *)0)->delayRemoveEntities ) },
 	{ NULL, 0 }
 };
@@ -6012,6 +6032,62 @@ static classVariableInfo_t rvmMonsterZombieCommandoChaingun_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static classVariableInfo_t bot_goal_t_typeInfo[] = {
+	{ "int", "framenum", (intptr_t)(&((bot_goal_t *)0)->framenum), sizeof( ((bot_goal_t *)0)->framenum ) },
+	{ "idVec3", "origin", (intptr_t)(&((bot_goal_t *)0)->origin), sizeof( ((bot_goal_t *)0)->origin ) },
+	{ "idVec3", "nextMoveOrigin", (intptr_t)(&((bot_goal_t *)0)->nextMoveOrigin), sizeof( ((bot_goal_t *)0)->nextMoveOrigin ) },
+	{ "int", "areanum", (intptr_t)(&((bot_goal_t *)0)->areanum), sizeof( ((bot_goal_t *)0)->areanum ) },
+	{ "idVec3", "mins", (intptr_t)(&((bot_goal_t *)0)->mins), sizeof( ((bot_goal_t *)0)->mins ) },
+	{ "idVec3", "maxs", (intptr_t)(&((bot_goal_t *)0)->maxs), sizeof( ((bot_goal_t *)0)->maxs ) },
+	{ "int", "entitynum", (intptr_t)(&((bot_goal_t *)0)->entitynum), sizeof( ((bot_goal_t *)0)->entitynum ) },
+	{ "int", "number", (intptr_t)(&((bot_goal_t *)0)->number), sizeof( ((bot_goal_t *)0)->number ) },
+	{ "int", "flags", (intptr_t)(&((bot_goal_t *)0)->flags), sizeof( ((bot_goal_t *)0)->flags ) },
+	{ "int", "iteminfo", (intptr_t)(&((bot_goal_t *)0)->iteminfo), sizeof( ((bot_goal_t *)0)->iteminfo ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t fuzzyseperator_t_typeInfo[] = {
+	{ "bool", "inUse", (intptr_t)(&((fuzzyseperator_t *)0)->inUse), sizeof( ((fuzzyseperator_t *)0)->inUse ) },
+	{ "int", "index", (intptr_t)(&((fuzzyseperator_t *)0)->index), sizeof( ((fuzzyseperator_t *)0)->index ) },
+	{ "int", "value", (intptr_t)(&((fuzzyseperator_t *)0)->value), sizeof( ((fuzzyseperator_t *)0)->value ) },
+	{ "int", "type", (intptr_t)(&((fuzzyseperator_t *)0)->type), sizeof( ((fuzzyseperator_t *)0)->type ) },
+	{ "float", "weight", (intptr_t)(&((fuzzyseperator_t *)0)->weight), sizeof( ((fuzzyseperator_t *)0)->weight ) },
+	{ "float", "minweight", (intptr_t)(&((fuzzyseperator_t *)0)->minweight), sizeof( ((fuzzyseperator_t *)0)->minweight ) },
+	{ "float", "maxweight", (intptr_t)(&((fuzzyseperator_t *)0)->maxweight), sizeof( ((fuzzyseperator_t *)0)->maxweight ) },
+	{ "fuzzyseperator_t *", "child", (intptr_t)(&((fuzzyseperator_t *)0)->child), sizeof( ((fuzzyseperator_t *)0)->child ) },
+	{ "fuzzyseperator_t *", "next", (intptr_t)(&((fuzzyseperator_t *)0)->next), sizeof( ((fuzzyseperator_t *)0)->next ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t weight_t_typeInfo[] = {
+	{ "idStr", "name", (intptr_t)(&((weight_t *)0)->name), sizeof( ((weight_t *)0)->name ) },
+	{ "fuzzyseperator_t *", "firstseperator", (intptr_t)(&((weight_t *)0)->firstseperator), sizeof( ((weight_t *)0)->firstseperator ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t weightconfig_t_typeInfo[] = {
+	{ "int", "numweights", (intptr_t)(&((weightconfig_t *)0)->numweights), sizeof( ((weightconfig_t *)0)->numweights ) },
+	{ "weight_t[128]", "weights", (intptr_t)(&((weightconfig_t *)0)->weights), sizeof( ((weightconfig_t *)0)->weights ) },
+	{ "idStr", "filename", (intptr_t)(&((weightconfig_t *)0)->filename), sizeof( ((weightconfig_t *)0)->filename ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t bot_input_t_typeInfo[] = {
+	{ "float", "thinktime", (intptr_t)(&((bot_input_t *)0)->thinktime), sizeof( ((bot_input_t *)0)->thinktime ) },
+	{ "idVec3", "dir", (intptr_t)(&((bot_input_t *)0)->dir), sizeof( ((bot_input_t *)0)->dir ) },
+	{ "float", "speed", (intptr_t)(&((bot_input_t *)0)->speed), sizeof( ((bot_input_t *)0)->speed ) },
+	{ "idAngles", "viewangles", (intptr_t)(&((bot_input_t *)0)->viewangles), sizeof( ((bot_input_t *)0)->viewangles ) },
+	{ "int", "actionflags", (intptr_t)(&((bot_input_t *)0)->actionflags), sizeof( ((bot_input_t *)0)->actionflags ) },
+	{ "int", "weapon", (intptr_t)(&((bot_input_t *)0)->weapon), sizeof( ((bot_input_t *)0)->weapon ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmBot_typeInfo[] = {
+	{ "bot_input_t", "botinput", (intptr_t)(&((rvmBot *)0)->botinput), sizeof( ((rvmBot *)0)->botinput ) },
+	{ "bot_goal_t", "currentGoal", (intptr_t)(&((rvmBot *)0)->currentGoal), sizeof( ((rvmBot *)0)->currentGoal ) },
+	{ NULL, 0 }
+};
+
 static classVariableInfo_t idTestModel_typeInfo[] = {
 	{ ": idEntityPtr < idEntity >", "head", (intptr_t)(&((idTestModel *)0)->head), sizeof( ((idTestModel *)0)->head ) },
 	{ "idAnimator *", "headAnimator", (intptr_t)(&((idTestModel *)0)->headAnimator), sizeof( ((idTestModel *)0)->headAnimator ) },
@@ -7362,6 +7438,12 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "rvmMonsterZombieSecurityPistol", "rvmMonsterZombie", sizeof(rvmMonsterZombieSecurityPistol), rvmMonsterZombieSecurityPistol_typeInfo },
 	{ "rvmMonsterZombieCommandoTentacle", "rvmMonsterZombie", sizeof(rvmMonsterZombieCommandoTentacle), rvmMonsterZombieCommandoTentacle_typeInfo },
 	{ "rvmMonsterZombieCommandoChaingun", "idAI", sizeof(rvmMonsterZombieCommandoChaingun), rvmMonsterZombieCommandoChaingun_typeInfo },
+	{ "bot_goal_t", "", sizeof(bot_goal_t), bot_goal_t_typeInfo },
+	{ "fuzzyseperator_t", "", sizeof(fuzzyseperator_t), fuzzyseperator_t_typeInfo },
+	{ "weight_t", "", sizeof(weight_t), weight_t_typeInfo },
+	{ "weightconfig_t", "", sizeof(weightconfig_t), weightconfig_t_typeInfo },
+	{ "bot_input_t", "", sizeof(bot_input_t), bot_input_t_typeInfo },
+	{ "rvmBot", "idPlayer", sizeof(rvmBot), rvmBot_typeInfo },
 	{ "idTestModel", "idAnimatedEntity", sizeof(idTestModel), idTestModel_typeInfo },
 	{ "rvmWeaponFist", "rvmWeaponObject", sizeof(rvmWeaponFist), rvmWeaponFist_typeInfo },
 	{ "rvmWeaponPistol", "rvmWeaponObject", sizeof(rvmWeaponPistol), rvmWeaponPistol_typeInfo },

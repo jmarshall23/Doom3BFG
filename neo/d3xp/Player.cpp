@@ -9060,18 +9060,21 @@ void idPlayer::Think()
 	}
 
 	// Make sure voice groups are set to the right team
-	if( common->IsMultiplayer() && session->GetState() >= idSession::INGAME && entityNumber < MAX_CLIENTS )  		// The entityNumber < MAX_CLIENTS seems to quiet the static analyzer
+	if (!IsBot())
 	{
-		// Make sure we're on the right team (at the lobby level)
-		const int voiceTeam = spectating ? LOBBY_SPECTATE_TEAM_FOR_VOICE_CHAT : team;
+		if (common->IsMultiplayer() && session->GetState() >= idSession::INGAME && entityNumber < MAX_CLIENTS)  		// The entityNumber < MAX_CLIENTS seems to quiet the static analyzer
+		{
+			// Make sure we're on the right team (at the lobby level)
+			const int voiceTeam = spectating ? LOBBY_SPECTATE_TEAM_FOR_VOICE_CHAT : team;
 
-		//idLib::Printf( "SERVER: Sending voice %i / %i\n", entityNumber, voiceTeam );
+			//idLib::Printf( "SERVER: Sending voice %i / %i\n", entityNumber, voiceTeam );
 
-		// Update lobby team
-		session->GetActingGameStateLobbyBase().SetLobbyUserTeam( gameLocal.lobbyUserIDs[ entityNumber ], voiceTeam );
+			// Update lobby team
+			session->GetActingGameStateLobbyBase().SetLobbyUserTeam(gameLocal.lobbyUserIDs[entityNumber], voiceTeam);
 
-		// Update voice groups to match in case something changed
-		session->SetVoiceGroupsToTeams();
+			// Update voice groups to match in case something changed
+			session->SetVoiceGroupsToTeams();
+		}
 	}
 }
 

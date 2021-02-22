@@ -209,7 +209,9 @@ public:
 
 	bool			CanPlay( idPlayer* p );
 	bool			WantRespawn( idPlayer* p );
-
+// jmarshall
+	void			NewState(gameState_t news, idPlayer* player = NULL);
+// jmarshall end
 	void			ServerWriteInitialReliableMessages( int clientNum, lobbyUserID_t lobbyUserID );
 	void			ClientReadStartState( const idBitMsg& msg );
 	void			ClientReadWarmupTime( const idBitMsg& msg );
@@ -295,7 +297,6 @@ private:
 	bool			PointLimitHit();
 	// return team with most points
 	int				WinningTeam();
-	void			NewState( gameState_t news, idPlayer* player = NULL );
 	void			UpdateWinsLosses( idPlayer* winner );
 	// fill any empty tourney slots based on the current tourney ranks
 	void			FillTourneySlots();
