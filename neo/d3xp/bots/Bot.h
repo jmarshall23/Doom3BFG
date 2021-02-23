@@ -819,7 +819,7 @@ struct bot_state_t {
 	bot_input_t	botinput;
 };
 
-#include "BotAI/BotAI.h"
+#include "BotAI.h"
 
 #define Bot_Time() ((float)gameLocal.time / 1000.0f)
 

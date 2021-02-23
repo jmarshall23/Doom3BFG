@@ -851,30 +851,30 @@ private:
 //
 // Bosses
 //
-#include "Monster_boss_vagary.h"
+#include "../monsters/Monster_boss_vagary.h"
 
 //
 // Demons
 //
-#include "Monster_demon_hellknight.h"
-#include "Monster_demon_imp.h"
+#include "../monsters/Monster_demon_hellknight.h"
+#include "../monsters/Monster_demon_imp.h"
 
 //
 // Flying Monsters
 //
-#include "Monster_flying_lostsoul.h"
-#include "Monster_flying_cacodemon.h"
+#include "../monsters/Monster_flying_lostsoul.h"
+#include "../monsters/Monster_flying_cacodemon.h"
 
 //
 // Zombie Monsters
 //
-#include "Monster_zombie.h"
-#include "Monster_zombie_sawyer.h"
-#include "Monster_zombie_bernie.h"
-#include "Monster_zombie_morgue.h"
-#include "Monster_zombie_security_pistol.h"
-#include "Monster_zombie_commando_tentacle.h"
-#include "monster_zombie_commando_cgun.h"
+#include "../monsters/Monster_zombie.h"
+#include "../monsters/Monster_zombie_sawyer.h"
+#include "../monsters/Monster_zombie_bernie.h"
+#include "../monsters/Monster_zombie_morgue.h"
+#include "../monsters/Monster_zombie_security_pistol.h"
+#include "../monsters/Monster_zombie_commando_tentacle.h"
+#include "../monsters/monster_zombie_commando_cgun.h"
 
 #include "../bots/bot.h"
 

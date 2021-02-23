@@ -3,7 +3,7 @@
 
 #pragma hdrstop
 #include "precompiled.h"
-#include "../../Game_local.h"
+#include "../Game_local.h"
 
 rvmBotAIBotBattleNBG botAIBattleNBG;
 
