@@ -102,6 +102,8 @@ entityDef weapon_shotgun_double {
 	"editor_maxs"				"16 16 32"
 	"editor_usage"				"Double Barrel Shotgun"
 	"editor_rotatable"		"1"
+	
+	"modelindex"				"MODELINDEX_SHOTGUN"
 
 	"spawnclass"				"idItem"
 	"size"						"32 32 32"

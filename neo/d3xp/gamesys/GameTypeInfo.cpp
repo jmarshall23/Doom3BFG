@@ -4844,6 +4844,9 @@ intptr_t idItem::Invoke(const char *functionName, void *param1) {
 		Present();
 		return 0;
 	};
+	if(functionNameHash == 161386) { // GetModelIndex
+		return (intptr_t)GetModelIndex();
+	};
 	if(functionNameHash == 278761) { // ClientPredictionThink
 		ClientPredictionThink();
 		return 0;
@@ -4877,6 +4880,9 @@ bool idItem::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 90014) { // Present
+		return true;
+	};
+	if(functionNameHash == 161386) { // GetModelIndex
 		return true;
 	};
 	if(functionNameHash == 278761) { // ClientPredictionThink
@@ -5141,6 +5147,13 @@ intptr_t idPlayer::Invoke(const char *functionName, void *param1) {
 	};
 	if(functionNameHash == 50306) { // Show
 		Show();
+		return 0;
+	};
+	if(functionNameHash == 127519) { // IsShooting
+		return (intptr_t)IsShooting();
+	};
+	if(functionNameHash == 162753) { // GetViewHeight
+		GetViewHeight();
 		return 0;
 	};
 	if(functionNameHash == 48744) { // Init
@@ -5699,6 +5712,12 @@ bool idPlayer::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 50306) { // Show
+		return true;
+	};
+	if(functionNameHash == 127519) { // IsShooting
+		return true;
+	};
+	if(functionNameHash == 162753) { // GetViewHeight
 		return true;
 	};
 	if(functionNameHash == 48744) { // Init
@@ -10033,16 +10052,16 @@ intptr_t rvmBot::Invoke(const char *functionName, void *param1) {
 		Think();
 		return 0;
 	};
-	if(functionNameHash == 58283) { // IsBot
-		IsBot();
-		return 0;
-	};
 	if(functionNameHash == 243275) { // BotMoveToGoalOrigin
 		BotMoveToGoalOrigin();
 		return 0;
 	};
 	if(functionNameHash == 141568) { // ServerThink
 		ServerThink();
+		return 0;
+	};
+	if(functionNameHash == 240097) { // BotUpdateInventory
+		BotUpdateInventory();
 		return 0;
 	};
 	return __super::Invoke(functionName, param1);
@@ -10057,13 +10076,13 @@ bool rvmBot::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 61762) { // Think
 		return true;
 	};
-	if(functionNameHash == 58283) { // IsBot
-		return true;
-	};
 	if(functionNameHash == 243275) { // BotMoveToGoalOrigin
 		return true;
 	};
 	if(functionNameHash == 141568) { // ServerThink
+		return true;
+	};
+	if(functionNameHash == 240097) { // BotUpdateInventory
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);

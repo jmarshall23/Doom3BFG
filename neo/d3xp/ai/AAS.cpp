@@ -310,3 +310,14 @@ void idAASLocal::GetEdge( int edgeNum, idVec3& start, idVec3& end ) const
 	start = file->GetVertex( v[INT32_SIGNBITSET( edgeNum )] );
 	end = file->GetVertex( v[INT32_SIGNBITNOTSET( edgeNum )] );
 }
+
+/*
+============
+idAASLocal::AdjustPositionAndGetArea
+============
+*/
+int idAASLocal::AdjustPositionAndGetArea(idVec3& origin) {
+	int area = PointReachableAreaNum(origin, DefaultSearchBounds(), AREA_REACHABLE_WALK);
+	PushPointIntoAreaNum(area, origin);
+	return area;
+}

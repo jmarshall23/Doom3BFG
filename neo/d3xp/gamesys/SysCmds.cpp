@@ -33,7 +33,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "../Game_local.h"
 
 CONSOLE_COMMAND_SHIP(addBot, "adds a bot to a multiplayer game", NULL) {
-	gameLocal.AddBot("Test Bot");
+	gameLocal.AddBot("Major");
 }
 
 /*

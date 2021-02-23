@@ -365,6 +365,12 @@ void idGameLocal::Init()
 		return;
 	}
 
+	// load in the bot itemtable.
+	botItemTable = FindEntityDef("bot_itemtable", false);
+	if (botItemTable == NULL) {
+		common->FatalError("Failed to find bot_itemtable decl!\n");
+	}
+
 	// allocate space for the aas
 	const idKeyValue* kv = dict->MatchPrefix( "type" );
 	while( kv != NULL )
@@ -374,6 +380,12 @@ void idGameLocal::Init()
 		aasNames.Append( kv->GetValue() );
 		kv = dict->MatchPrefix( "type", kv );
 	}
+
+	// init all the bot systems.
+	botCharacterStatsManager.Init();
+	botFuzzyWeightManager.Init();
+	botWeaponInfoManager.Init();
+	botGoalManager.BotSetupGoalAI();
 
 	gamestate = GAMESTATE_NOMAP;
 
@@ -1301,6 +1313,12 @@ void idGameLocal::InitFromNewMap( const char* mapName, idRenderWorld* renderWorl
 
 	// free up any unused animations
 	animationLib.FlushUnusedAnims();
+// jmarshall
+	if (common->IsMultiplayer() && common->IsServer())
+	{
+		botGoalManager.InitLevelItems();
+	}
+// jmarshall end
 
 	gamestate = GAMESTATE_ACTIVE;
 
@@ -2085,7 +2103,7 @@ idGameLocal::SpawnPlayer
 ============
 */
 // jmarshall - bot support
-void idGameLocal::SpawnPlayer( int clientNum, bool isBot )
+void idGameLocal::SpawnPlayer( int clientNum, bool isBot, const char *botName)
 // jmarshall end
 {
 	idEntity*	ent;
@@ -2102,6 +2120,7 @@ void idGameLocal::SpawnPlayer( int clientNum, bool isBot )
 		if (isBot)
 		{
 			args.Set("classname", va("%s_bot", GetMPPlayerDefName()));
+			args.Set("botname", botName);
 		}
 		else
 		{
@@ -6261,4 +6280,70 @@ void idGameLocal::AddBot(const char* name) {
 
 	session->GetActingGameStateLobbyBase().AllocLobbyUserSlotForBot(name);
 }
+
+/*
+================
+idGameLocal::TravelTimeToGoal
+================
+*/
+int idGameLocal::TravelTimeToGoal(const idVec3& origin, const idVec3& goal) {
+	idAAS* aas = GetAAS("aas48");
+
+	if (aas == NULL) {
+		gameLocal.Error("idGameLocal::TraveTimeToGoal: No AAS loaded...\n");
+		return NULL;
+	}
+	//int originArea = aas->PointAreaNum(origin);
+	//idVec3 _goal = goal;
+	//int goalArea = aas->AdjustPositionAndGetArea(_goal);
+	//return aas->TravelTimeToGoalArea(originArea, origin, goalArea, TFL_WALK);
+
+	idVec3 org = origin;
+	int curAreaNum = aas->AdjustPositionAndGetArea(org);
+	int goalArea = aas->PointAreaNum(goal);
+	int travelTime;
+	idReachability* reach;
+	if (!aas->RouteToGoalArea(curAreaNum, org, goalArea, TFL_WALK | TFL_AIR, travelTime, &reach)) {
+		return NULL;
+	}
+
+	//int goalArea = aas->PointAreaNum(goal);
+	//aas->ShowWalkPath(origin, goalArea, goal);
+
+	return travelTime;
+}
+
+/*
+===============
+idGameLocal::GetBotItemEntry
+===============
+*/
+int idGameLocal::GetBotItemEntry(const char* name) {
+	const idKeyValue* keyvalue = botItemTable->dict.FindKey(name);
+	if (!keyvalue) {
+		gameLocal.Warning("GetBotItemModelIndex: Doesn't have key %s\n", name);
+		return 9;
+	}
+
+	return botItemTable->dict.GetInt(name);
+}
+
+/*
+===============
+idGameLocal::Trace
+===============
+*/
+void idGameLocal::Trace(trace_t& results, const idVec3& start, const idVec3& end, int contentMask, int passEntity) {
+	idMat3 axis;
+	axis.Identity();
+
+	if (passEntity == -1) {
+		clip.Translation(results, start, end, NULL, axis, CONTENTS_SOLID, NULL);
+	}
+	else {
+		clip.Translation(results, start, end, NULL, axis, CONTENTS_SOLID, entities[passEntity]);
+	}
+}
+
 // jmarshall end
+

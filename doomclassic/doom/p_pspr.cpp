@@ -44,7 +44,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "sounds.h"
 
 #include "p_pspr.h"
-#include "d3xp/Game_local.h"
+//#include "d3xp/Game_local.h"
 
 extern bool globalNetworking;
 

@@ -28,6 +28,8 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __PRELGHTSHADOWVOLUME_LOCAL_H__
 #define __PRELGHTSHADOWVOLUME_LOCAL_H__
 
+#include "../../idlib/precompiled.h"
+
 #include "../../../idlib/ParallelJobList_JobHeaders.h"
 #include "../../../idlib/SoftwareCache.h"
 

@@ -275,6 +275,8 @@ public:
 
 	float					GetFloat( const char* key );
 	const char*				GetKey( const char* key );
+	int						GetInt(const char* key);
+	bool					GetBool(const char* key);
 
 	// visuals
 	virtual void			Present();

@@ -61,6 +61,8 @@ entityDef weapon_pistol {
 	"model_world" 				"worldmodel_pistol"
 	"joint_attach"				"PISTOL_ATTACHER"
 	"def_dropItem"				"moveable_item_pistol"
+	
+	"modelindex"				"MODELINDEX_SHOTGUN"
 
 	"inv_name"					"Pistol"
 	"inv_weapon"				"weapon_pistol"

@@ -1,7 +1,135 @@
 // Bot.h
 //
 
-#define BOT_NOWAYPOINT			-1
+class rvmBotAIBotActionBase;
+
+// These need to match items.def
+#define INVENTORY_ARMOR				1
+#define INVENTORY_GAUNTLET			4
+#define INVENTORY_SHOTGUN			5
+#define INVENTORY_MACHINEGUN		6
+#define INVENTORY_GRENADELAUNCHER	7
+#define INVENTORY_ROCKETLAUNCHER	8
+#define INVENTORY_LIGHTNING			9
+#define INVENTORY_RAILGUN			10
+#define INVENTORY_PLASMAGUN			11
+#define INVENTORY_BFG10K			13
+#define INVENTORY_GRAPPLINGHOOK		14
+#define INVENTORY_NAILGUN			15
+#define INVENTORY_PROXLAUNCHER		16
+#define INVENTORY_CHAINGUN			17
+#define INVENTORY_SHELLS			18
+#define INVENTORY_BULLETS			19
+#define INVENTORY_GRENADES			20
+#define INVENTORY_CELLS				21
+#define INVENTORY_LIGHTNINGAMMO		22
+#define INVENTORY_ROCKETS			23
+#define INVENTORY_SLUGS				24
+#define INVENTORY_BFGAMMO			25
+#define INVENTORY_NAILS				26
+#define INVENTORY_MINES				27
+#define INVENTORY_BELT			28
+#define INVENTORY_HEALTH			29
+#define INVENTORY_TELEPORTER		30
+#define INVENTORY_MEDKIT			31
+#define INVENTORY_KAMIKAZE			32
+#define INVENTORY_PORTAL			33
+#define INVENTORY_INVULNERABILITY	34
+#define INVENTORY_QUAD				35
+#define INVENTORY_ENVIRONMENTSUIT	36
+#define INVENTORY_HASTE				37
+#define INVENTORY_INVISIBILITY		38
+#define INVENTORY_REGEN				39
+#define INVENTORY_FLIGHT			40
+#define INVENTORY_SCOUT				41
+#define INVENTORY_GUARD				42
+#define INVENTORY_DOUBLER			43
+#define INVENTORY_AMMOREGEN			44
+#define INVENTORY_REDFLAG			45
+#define INVENTORY_BLUEFLAG			46
+#define INVENTORY_NEUTRALFLAG		47
+#define INVENTORY_REDCUBE			48
+#define INVENTORY_BLUECUBE			49
+#define INVENTORY_DOUBLESHOTGUN		50
+
+#define MODELINDEX_DEFAULT			0
+#define MODELINDEX_ARMORSHARD		1
+#define MODELINDEX_ARMORCOMBAT		2
+#define MODELINDEX_ARMORBODY		3
+#define MODELINDEX_HEALTHSMALL		4
+#define MODELINDEX_HEALTH			5
+#define MODELINDEX_HEALTHLARGE		6
+#define MODELINDEX_HEALTHMEGA		7
+#define MODELINDEX_GAUNTLET			8
+#define MODELINDEX_SHOTGUN			9
+#define MODELINDEX_MACHINEGUN		10
+#define MODELINDEX_GRENADELAUNCHER	11
+#define MODELINDEX_ROCKETLAUNCHER	12
+#define MODELINDEX_LIGHTNING		13
+#define MODELINDEX_RAILGUN			14
+#define MODELINDEX_PLASMAGUN		15
+#define MODELINDEX_BFG10K			16
+#define MODELINDEX_GRAPPLINGHOOK	17
+#define MODELINDEX_SHELLS			18
+#define MODELINDEX_BULLETS			19
+#define MODELINDEX_GRENADES			20
+#define MODELINDEX_CELLS			21
+#define MODELINDEX_LIGHTNINGAMMO	22
+#define MODELINDEX_ROCKETS			23
+#define MODELINDEX_SLUGS			24
+#define MODELINDEX_BFGAMMO			25
+#define MODELINDEX_TELEPORTER		26
+#define MODELINDEX_MEDKIT			27
+#define MODELINDEX_QUAD				28
+#define MODELINDEX_ENVIRONMENTSUIT	29
+#define MODELINDEX_HASTE			30
+#define MODELINDEX_INVISIBILITY		31
+#define MODELINDEX_REGEN			32
+#define MODELINDEX_FLIGHT			33
+#define MODELINDEX_REDFLAG			34
+#define MODELINDEX_BLUEFLAG			35
+#define MODELINDEX_KAMIKAZE			36
+#define MODELINDEX_PORTAL			37
+#define MODELINDEX_INVULNERABILITY	38
+#define MODELINDEX_NAILS			39
+#define MODELINDEX_MINES			40
+#define MODELINDEX_BELT				41
+#define MODELINDEX_SCOUT			42
+#define MODELINDEX_GUARD			43
+#define MODELINDEX_DOUBLER			44
+#define MODELINDEX_AMMOREGEN		45
+#define MODELINDEX_NEUTRALFLAG		46
+#define MODELINDEX_REDCUBE			47
+#define MODELINDEX_BLUECUBE			48
+#define MODELINDEX_NAILGUN			49
+#define MODELINDEX_PROXLAUNCHER		50
+#define MODELINDEX_CHAINGUN			51
+#define MODELINDEX_POINTABLUE		52
+#define MODELINDEX_POINTBBLUE		53
+#define MODELINDEX_POINTARED		54
+#define MODELINDEX_POINTBRED		55
+#define MODELINDEX_POINTAWHITE		56
+#define MODELINDEX_POINTBWHITE		57
+#define MODELINDEX_POINTWHITE		58
+#define MODELINDEX_POINTRED			59
+#define MODELINDEX_POINTBLUE		60
+#define WEAPONINDEX_GAUNTLET			1
+#define WEAPONINDEX_MACHINEGUN			2
+#define WEAPONINDEX_SHOTGUN				3
+#define WEAPONINDEX_GRENADE_LAUNCHER	4
+#define WEAPONINDEX_ROCKET_LAUNCHER		5
+#define WEAPONINDEX_LIGHTNING			6
+#define WEAPONINDEX_RAILGUN				7
+#define WEAPONINDEX_PLASMAGUN			8
+#define WEAPONINDEX_BFG					9
+#define WEAPONINDEX_GRAPPLING_HOOK		10
+#define WEAPONINDEX_NAILGUN				11
+#define WEAPONINDEX_PROXLAUNCHER		12
+#define WEAPONINDEX_CHAINGUN			13
+
+//enemy stuff
+#define ENEMY_HORIZONTAL_DIST		200
+#define ENEMY_HEIGHT				201
 
 #define MAX_AVOIDGOALS			256
 #define MAX_GOALSTACK			8
@@ -10,39 +138,6 @@
 #define GFL_ITEM				1
 #define GFL_ROAM				2
 #define GFL_DROPPED				4
-
-//a bot goal
-struct bot_goal_t
-{
-	bot_goal_t()
-	{
-		Reset();
-	}
-
-	void Reset()
-	{
-		origin.Zero();
-		nextMoveOrigin.Zero();
-		areanum = 0;
-		mins.Zero();
-		maxs.Zero();
-		entitynum = 0;
-		number = 0;
-		flags = 0;
-		iteminfo = 0;
-		framenum = -1;
-	}
-
-	int framenum;
-	idVec3 origin;				//origin of the goal
-	idVec3 nextMoveOrigin;
-	int areanum;				//area number of the goal
-	idVec3 mins, maxs;			//mins and maxs of the goal
-	int entitynum;				//number of the goal entity
-	int number;					//goal number
-	int flags;					//goal flags
-	int iteminfo;				//item information
-};
 
 #define BLERR_NOERROR					0	//no error
 #define BLERR_LIBRARYNOTSETUP			1	//library not setup
@@ -121,6 +216,7 @@ struct weightconfig_t
 
 	void Reset()
 	{
+		inUse = false;
 		numweights = 0;
 		filename.Clear();
 
@@ -130,6 +226,7 @@ struct weightconfig_t
 		}
 	}
 
+	bool inUse;
 	int numweights;
 	weight_t weights[MAX_WEIGHTS];
 	idStr filename;
@@ -258,29 +355,48 @@ struct weightconfig_t
 #define GFL_DROPPED				4
 #define MAX_EPAIRKEY		128
 
-#if 0
 //characteristic value
-union cvalue
+struct cvalue
 {
+	cvalue()
+	{
+		integer = 0;
+		_float = 0.0f;
+		string = "";
+	}
+
 	int integer;
 	float _float;
-	char* string;
+	idStr string;
 };
+
 //a characteristic
-typedef struct bot_characteristic_s
+struct bot_characteristic_t
 {
+	bot_characteristic_t()
+	{
+		type = 0;
+	}
+
 	char type;						//characteristic type
-	union cvalue value;				//characteristic value
-} bot_characteristic_t;
+	cvalue value;				//characteristic value
+};
 
 //a bot character
-typedef struct bot_character_s
+struct bot_character_t
 {
-	char filename[MAX_QPATH];
+	bot_character_t()
+	{
+		filename = "";
+		inUse = false;
+		skill = 0.0f;
+	}
+
+	idStr filename;
+	bool inUse;
 	float skill;
-	bot_characteristic_t c[1];		//variable sized
-} bot_character_t;
-#endif
+	bot_characteristic_t c[MAX_CHARACTERISTICS];
+};
 
 //the bot input, will be converted to an usercmd_t
 //the bot input, will be converted to an usercmd_t
@@ -299,6 +415,8 @@ struct bot_input_t
 		viewangles.Zero();
 		actionflags = 0;
 		weapon = 0;
+		lastWeaponNum = 0;
+		respawn = false;
 	}
 
 	float thinktime;		//time since last output (in seconds)
@@ -307,6 +425,8 @@ struct bot_input_t
 	idAngles viewangles;		//the view angles
 	int actionflags;		//one of the ACTION_? flags
 	int weapon;				//weapon to use
+	int lastWeaponNum;
+	bool respawn;
 };
 
 #if 0
@@ -573,63 +693,9 @@ inline float AAS_Time() {
 }
 
 unsigned short int BotTravelTime(vec3_t start, vec3_t end);
-
-//projectile flags
-#define PFL_WINDOWDAMAGE			1		//projectile damages through window
-#define PFL_RETURN					2		//set when projectile returns to owner
-//weapon flags
-#define WFL_FIRERELEASED			1		//set when projectile is fired with key-up event
-//damage types
-#define DAMAGETYPE_IMPACT			1		//damage on impact
-#define DAMAGETYPE_RADIAL			2		//radial damage
-#define DAMAGETYPE_VISIBLE			4		//damage to all entities visible to the projectile
-
-typedef struct projectileinfo_s
-{
-	char name[MAX_STRINGFIELD];
-	char model[MAX_STRINGFIELD];
-	int flags;
-	float gravity;
-	int damage;
-	float radius;
-	int visdamage;
-	int damagetype;
-	int healthinc;
-	float push;
-	float detonation;
-	float bounce;
-	float bouncefric;
-	float bouncestop;
-} projectileinfo_t;
-
-typedef struct weaponinfo_s
-{
-	int valid;					//true if the weapon info is valid
-	int number;									//number of the weapon
-	char name[MAX_STRINGFIELD];
-	char model[MAX_STRINGFIELD];
-	int level;
-	int weaponindex;
-	int flags;
-	char projectile[MAX_STRINGFIELD];
-	int numprojectiles;
-	float hspread;
-	float vspread;
-	float speed;
-	float acceleration;
-	vec3_t recoil;
-	vec3_t offset;
-	vec3_t angleoffset;
-	float extrazvelocity;
-	int ammoamount;
-	int ammoindex;
-	float activate;
-	float reload;
-	float spinup;
-	float spindown;
-	projectileinfo_t proj;						//pointer to the used projectile
-} weaponinfo_t;
 #endif
+
+#define MAX_BOT_INVENTORY 256
 
 typedef enum {
 	NULLMOVEFLAG = -1,
@@ -641,6 +707,121 @@ typedef enum {
 	MOVE_JUMP,
 } botMoveFlags_t;
 
+//
+// rvmBotUtil
+//
+class rvmBotUtil {
+public:
+	static float random() {
+		return ((rand() & 0x7fff) / ((float)0x7fff));
+	}
+
+	static float crandom() {
+		return (2.0 * (random() - 0.5));
+	}
+};
+
+#include "Bot_char.h"
+#include "Bot_weights.h"
+#include "Bot_weapons.h"
+#include "Bot_goal.h"
+
+struct bot_state_t {
+	bot_state_t()
+	{
+		character = NULL;
+		gs = 0;
+		ws = 0;
+		Reset();
+	}
+	void Reset()
+	{		
+		action = 0;
+		lastaction = NULL;
+		attackerEntity = NULL;
+		client = 0;
+		entitynum = 0;
+		setupcount = 0;
+		entergame_time = 0;
+		weaponnum = 0;
+		lasthealth = 0;
+		ltg_time = 0;
+		weaponchange_time = 0;
+		enemy = 0;
+		enemyvisible_time = 0;
+		enemysuicide = 0;
+		enemysight_time = 0;
+		check_time = 0;
+		nbg_time = 0;
+		enemydeath_time = 0;
+		teleport_time = 0;
+		flags = 0;
+		firethrottlewait_time = 0;
+		attackchase_time = 0;
+		attackcrouch_time = 0;
+		attackstrafe_time = 0;
+		attackjump_time = 0;
+		firethrottleshoot_time = 0;
+		chase_time = 0;
+		thinktime = 0;
+		aimtarget.Zero();
+		lastenemyorigin.Zero();
+		origin.Zero();
+		enemyorigin.Zero();
+		random_move_position.Zero();
+		last_enemy_visible_position.Zero();
+		viewangles.Zero();
+		eye.Zero();
+		memset(&inventory[0], 0, sizeof(inventory));
+	}
+
+	bot_character_t* character;
+	rvmBotAIBotActionBase* action;
+	rvmBotAIBotActionBase* lastaction;
+	int gs;
+	int ws;
+	int enemy;
+	int client;
+	idEntity* attackerEntity;
+	int lasthealth;
+	int entitynum;
+	int setupcount;
+	int ltg_time;
+	int flags;
+	int weaponnum;
+	float thinktime;
+	float chase_time;
+	float attackjump_time;
+	float attackcrouch_time;
+	float attackstrafe_time;
+	float attackchase_time;
+	float firethrottlewait_time;
+	float firethrottleshoot_time;
+	float nbg_time;									//nearby goal time
+	float entergame_time;
+	float weaponchange_time;
+	float check_time;
+	float teleport_time;
+	float enemyvisible_time;						//time the enemy was last visible
+	int enemysuicide;								//true when the enemy of the bot suicides
+	float enemysight_time;							//time before reacting to enemy
+	float enemydeath_time;							//time the enemy died
+	idVec3 origin;
+	idVec3 aimtarget;
+	idVec3 random_move_position;
+	idVec3 last_enemy_visible_position;
+	idAngles viewangles;
+	idVec3 enemyorigin;
+	idVec3 eye;
+	idVec3 lastenemyorigin;
+	int inventory[MAX_BOT_INVENTORY];
+	bot_goal_t	currentGoal;
+	bot_input_t	botinput;
+};
+
+#include "BotAI/BotAI.h"
+
+#define Bot_Time() ((float)gameLocal.time / 1000.0f)
 
 //
 // rvmBot
@@ -655,21 +836,34 @@ public:
 	~rvmBot();
 
 	void			Spawn(void);
-	void			Think(void);
+	virtual void			Think(void) override;
+	virtual void			SpawnToPoint(const idVec3& spawn_origin, const idAngles& spawn_angles) override;
+	virtual	void			Damage(idEntity* inflictor, idEntity* attacker, const idVec3& dir, const char* damageDefName, const float damageScale, const int location) override;
 
-	virtual bool	IsBot(void) { return true; }
+	void			SetEnemy(idPlayer* player);
 
 	void			BotInputFrame(idUserCmdMgr& cmdMgr);
 	void			Bot_ResetUcmd(usercmd_t& ucmd);
+
+	static void		PresenceTypeBoundingBox(int presencetype, idVec3& mins, idVec3& maxs);
 private:
 	void			BotInputToUserCommand(bot_input_t* bi, usercmd_t* ucmd, int time);
 
 	void			BotMoveToGoalOrigin(void);
 
 	void			ServerThink(void);
+	void			BotUpdateInventory(void);
 
-	bot_input_t		botinput;
-	bot_goal_t		currentGoal;
+	bool			HasWeapon(int index) { return inventory.weapons & (1 << index); }
 private:
+	bot_state_t		bs;
+	bool			hasSpawned;
 
+private:
+	int				weapon_machinegun;
+	int				weapon_shotgun;
+	int				weapon_plasmagun;
+	int				weapon_rocketlauncher;
+private:
+	idAAS*			aas;
 };

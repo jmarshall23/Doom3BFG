@@ -2627,3 +2627,27 @@ void idStr::Split(idList<idStr>& list, const char delimiter, const char groupDel
 	Split(c_str(), list, delimiter, groupDelimiter);
 }
 // RAVEN END
+
+// jmarshall
+/*
+===================
+idStr::StripDoubleQuotes
+===================
+*/
+void idStr::StripDoubleQuotes(void) {
+	idStr temp = *this;
+	char* string = (char*)temp.c_str();
+
+	if (*string == '\"')
+	{
+		strcpy(string, string + 1);
+	}
+
+	if (string[strlen(string) - 1] == '\"')
+	{
+		string[strlen(string) - 1] = '\0';
+	}
+
+	*this = string;
+}
+// jmarshall end

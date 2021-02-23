@@ -76,7 +76,7 @@ If you have questions concerning this license or the applicable additional terms
 //#include "precompiled.h"
 //#include "../Main/PlayerProfile.h"
 //#include "../Main/PSN/PS3_Session.h"
-#include "d3xp/Game_local.h"
+//#include "d3xp/Game_local.h"
 
 //
 // D-DoomLoop()

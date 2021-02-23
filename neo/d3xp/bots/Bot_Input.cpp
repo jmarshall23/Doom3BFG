@@ -42,7 +42,14 @@ void rvmBot::BotInputToUserCommand(bot_input_t* bi, usercmd_t* ucmd, int time) {
 	//if (bi->actionflags & ACTION_FOLLOWME) ucmd->buttons |= BUTTON_FOLLOWME;
 	//
 	ucmd->impulse |= bi->weapon;
-	
+	if (bi->lastWeaponNum != bi->weapon) {
+		//ucmd->flags = UCF_IMPULSE_SEQUENCE;
+		bi->lastWeaponNum = bi->weapon;
+	}
+	else {
+		//ucmd->flags = 0;
+	}
+
 	//set the view angles
 	//NOTE: the ucmd->angles are the angles WITHOUT the delta angles
 	ucmd->angles[PITCH] = ANGLE2SHORT(bi->viewangles[PITCH]);
@@ -53,20 +60,19 @@ void rvmBot::BotInputToUserCommand(bot_input_t* bi, usercmd_t* ucmd, int time) {
 
 	//bot input speed is in the range [0, 400]
 	bi->speed = bi->speed * 127 / 400;
-
 	//set the view independent movement
-	ucmd->forwardmove = idMath::ClampChar((forward * bi->dir) * bi->speed);
-	ucmd->rightmove = idMath::ClampChar((right * bi->dir) * bi->speed);
+	ucmd->forwardmove = idMath::ClampChar(DotProduct(forward, bi->dir) * bi->speed);
+	ucmd->rightmove = idMath::ClampChar(DotProduct(right, bi->dir) * bi->speed);
 	//ucmd->upmove = abs(forward[2]) * bi->dir[2] * bi->speed;
 
 	//normal keyboard movement
-	if (bi->actionflags & ACTION_MOVEFORWARD) 
+	if (bi->actionflags & ACTION_MOVEFORWARD)
 		ucmd->forwardmove += 127;
-	if (bi->actionflags & ACTION_MOVEBACK) 
+	if (bi->actionflags & ACTION_MOVEBACK)
 		ucmd->forwardmove -= 127;
-	if (bi->actionflags & ACTION_MOVELEFT) 
+	if (bi->actionflags & ACTION_MOVELEFT)
 		ucmd->rightmove -= 127;
-	if (bi->actionflags & ACTION_MOVERIGHT) 
+	if (bi->actionflags & ACTION_MOVERIGHT)
 		ucmd->rightmove += 127;
 	
 	//jump/moveup
@@ -79,6 +85,10 @@ void rvmBot::BotInputToUserCommand(bot_input_t* bi, usercmd_t* ucmd, int time) {
 	//
 	//Com_Printf("forward = %d right = %d up = %d\n", ucmd.forwardmove, ucmd.rightmove, ucmd.upmove);
 	//Com_Printf("ucmd->serverTime = %d\n", ucmd->serverTime);
+
+	if (bi->respawn) {
+		ucmd->buttons |= BUTTON_ATTACK;
+	}
 }
 
 /*
@@ -105,7 +115,7 @@ void rvmBot::BotInputFrame(idUserCmdMgr& cmdMgr) {
 	usercmd_t botcmd = { }; //(usercmd_t&)cmdMgr.GetUserCmdForPlayer(entityNumber); // gameLocal.usercmds[entityNumber];
 
 	Bot_ResetUcmd(botcmd);
-	BotInputToUserCommand(&botinput, &botcmd, gameLocal.time);
+	BotInputToUserCommand(&bs.botinput, &botcmd, gameLocal.time);
 
 	cmdMgr.PutUserCmdForPlayer(entityNumber, botcmd);
 }

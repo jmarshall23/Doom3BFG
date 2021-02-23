@@ -286,6 +286,8 @@ public:
 	void				ExtractFileExtension( idStr& dest ) const;		// copy the file extension to another string
 	bool				CheckExtension( const char* ext );
 
+	void				StripDoubleQuotes(void);
+
 // RAVEN BEGIN
 // abahr
 	void				Split(idList<idStr>& list, const char delimiter = ',', const char groupDelimiter = '\'');

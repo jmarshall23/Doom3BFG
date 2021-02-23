@@ -320,6 +320,10 @@ typedef enum
 	CONTENTS_REMOVE_UTIL		= ~( CONTENTS_AREAPORTAL | CONTENTS_NOCSG )
 } contentsFlags_t;
 
+#define CONTENTS_SLIME  BIT(14)	// used for slime
+#define CONTENTS_FOG  BIT(15)	// used for fog
+#define CONTENTS_LAVA BIT(16)
+
 // surface types
 const int NUM_SURFACE_BITS		= 4;
 const int MAX_SURFACE_TYPES		= 1 << NUM_SURFACE_BITS;

@@ -228,7 +228,7 @@ void idGameLocal::SyncPlayersWithLobbyUsers( bool initial )
 
 		// spawn the player
 // jmarshall - bot support
-		SpawnPlayer( freePlayerDataIndex, lobby.GetLobbyUserIsBot(lobbyUserID) );
+		SpawnPlayer( freePlayerDataIndex, lobby.GetLobbyUserIsBot(lobbyUserID), lobby.GetLobbyUserName(lobbyUserID) );
 // jmarshall end
 
 		common->UpdateLevelLoadPacifier();
@@ -909,7 +909,7 @@ void idGameLocal::ClientReadSnapshot( const idSnapShot& ss )
 			{
 				commonLocal.GetUCmdMgr().ResetPlayer( entityNumber );
 // jmarshall - should we tell the client this is a bot?
-				SpawnPlayer( entityNumber, false );
+				SpawnPlayer( entityNumber, false, NULL );
 // jmarshall end
 				ent = entities[ entityNumber ];
 				ent->FreeModelDef();

@@ -54,7 +54,7 @@ If you have questions concerning this license or the applicable additional terms
 // Data.
 #include "sounds.h"
 
-#include "../../neo/d3xp/Game_local.h"
+//#include "../../neo/d3xp/Game_local.h"
 
 //
 // Animating textures and planes
@@ -1045,7 +1045,7 @@ void P_PlayerInSpecialSector (player_t* player)
 					}
 					case GAME_SKU_DOOM2_BFG: {
 						//gameLocal->UnlockAchievement( Doom2BFG_Trophies::IMPORTANT_LOOKING_DOOR_FIND_ANY_SECRET );
-						idAchievementManager::LocalUser_CompleteAchievement(ACHIEVEMENT_DOOM2_IMPORTANT_LOOKING_DOOR_FIND_ANY_SECRET );
+						//idAchievementManager::LocalUser_CompleteAchievement(ACHIEVEMENT_DOOM2_IMPORTANT_LOOKING_DOOR_FIND_ANY_SECRET );
 						break;
 					}
 					case GAME_SKU_DCC: {

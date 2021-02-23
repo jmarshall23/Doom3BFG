@@ -9,7 +9,7 @@
 
 	941 constants
 	90 enums
-	456 classes/structs/unions
+	482 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -2750,6 +2750,7 @@ static classVariableInfo_t idClip_typeInfo[] = {
 	{ "idBounds", "worldBounds", (intptr_t)(&((idClip *)0)->worldBounds), sizeof( ((idClip *)0)->worldBounds ) },
 	{ "idClipModel", "temporaryClipModel", (intptr_t)(&((idClip *)0)->temporaryClipModel), sizeof( ((idClip *)0)->temporaryClipModel ) },
 	{ "idClipModel", "defaultClipModel", (intptr_t)(&((idClip *)0)->defaultClipModel), sizeof( ((idClip *)0)->defaultClipModel ) },
+	{ "cmHandle_t", "worldCollisionModel", (intptr_t)(&((idClip *)0)->worldCollisionModel), sizeof( ((idClip *)0)->worldCollisionModel ) },
 	{ "mutable int", "touchCount", (intptr_t)(&((idClip *)0)->touchCount), sizeof( ((idClip *)0)->touchCount ) },
 	{ "int", "numTranslations", (intptr_t)(&((idClip *)0)->numTranslations), sizeof( ((idClip *)0)->numTranslations ) },
 	{ "int", "numRotations", (intptr_t)(&((idClip *)0)->numRotations), sizeof( ((idClip *)0)->numRotations ) },
@@ -3015,6 +3016,7 @@ static classVariableInfo_t idGameLocal_typeInfo[] = {
 	{ "idArray < int , MAX_PLAYERS >", "usercmdLastClientMilliseconds", (intptr_t)(&((idGameLocal *)0)->usercmdLastClientMilliseconds), sizeof( ((idGameLocal *)0)->usercmdLastClientMilliseconds ) },
 	{ "idArray < int , MAX_PLAYERS >", "lastCmdRunTimeOnClient", (intptr_t)(&((idGameLocal *)0)->lastCmdRunTimeOnClient), sizeof( ((idGameLocal *)0)->lastCmdRunTimeOnClient ) },
 	{ "idArray < int , MAX_PLAYERS >", "lastCmdRunTimeOnServer", (intptr_t)(&((idGameLocal *)0)->lastCmdRunTimeOnServer), sizeof( ((idGameLocal *)0)->lastCmdRunTimeOnServer ) },
+	{ "const idDeclEntityDef *", "botItemTable", (intptr_t)(&((idGameLocal *)0)->botItemTable), sizeof( ((idGameLocal *)0)->botItemTable ) },
 	{ "idList < rvmBot * >", "registeredBots", (intptr_t)(&((idGameLocal *)0)->registeredBots), sizeof( ((idGameLocal *)0)->registeredBots ) },
 	{ "idList < rvmGameDelayRemoveEntry_t >", "delayRemoveEntities", (intptr_t)(&((idGameLocal *)0)->delayRemoveEntities), sizeof( ((idGameLocal *)0)->delayRemoveEntities ) },
 	{ NULL, 0 }
@@ -4635,6 +4637,7 @@ static classVariableInfo_t idItem_typeInfo[] = {
 	{ "bool", "spin", (intptr_t)(&((idItem *)0)->spin), sizeof( ((idItem *)0)->spin ) },
 	{ "bool", "pulse", (intptr_t)(&((idItem *)0)->pulse), sizeof( ((idItem *)0)->pulse ) },
 	{ "bool", "canPickUp", (intptr_t)(&((idItem *)0)->canPickUp), sizeof( ((idItem *)0)->canPickUp ) },
+	{ "int", "modelindex", (intptr_t)(&((idItem *)0)->modelindex), sizeof( ((idItem *)0)->modelindex ) },
 	{ "int", "itemShellHandle", (intptr_t)(&((idItem *)0)->itemShellHandle), sizeof( ((idItem *)0)->itemShellHandle ) },
 	{ "const idMaterial *", "shellMaterial", (intptr_t)(&((idItem *)0)->shellMaterial), sizeof( ((idItem *)0)->shellMaterial ) },
 	{ "mutable bool", "inView", (intptr_t)(&((idItem *)0)->inView), sizeof( ((idItem *)0)->inView ) },
@@ -6032,20 +6035,6 @@ static classVariableInfo_t rvmMonsterZombieCommandoChaingun_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static classVariableInfo_t bot_goal_t_typeInfo[] = {
-	{ "int", "framenum", (intptr_t)(&((bot_goal_t *)0)->framenum), sizeof( ((bot_goal_t *)0)->framenum ) },
-	{ "idVec3", "origin", (intptr_t)(&((bot_goal_t *)0)->origin), sizeof( ((bot_goal_t *)0)->origin ) },
-	{ "idVec3", "nextMoveOrigin", (intptr_t)(&((bot_goal_t *)0)->nextMoveOrigin), sizeof( ((bot_goal_t *)0)->nextMoveOrigin ) },
-	{ "int", "areanum", (intptr_t)(&((bot_goal_t *)0)->areanum), sizeof( ((bot_goal_t *)0)->areanum ) },
-	{ "idVec3", "mins", (intptr_t)(&((bot_goal_t *)0)->mins), sizeof( ((bot_goal_t *)0)->mins ) },
-	{ "idVec3", "maxs", (intptr_t)(&((bot_goal_t *)0)->maxs), sizeof( ((bot_goal_t *)0)->maxs ) },
-	{ "int", "entitynum", (intptr_t)(&((bot_goal_t *)0)->entitynum), sizeof( ((bot_goal_t *)0)->entitynum ) },
-	{ "int", "number", (intptr_t)(&((bot_goal_t *)0)->number), sizeof( ((bot_goal_t *)0)->number ) },
-	{ "int", "flags", (intptr_t)(&((bot_goal_t *)0)->flags), sizeof( ((bot_goal_t *)0)->flags ) },
-	{ "int", "iteminfo", (intptr_t)(&((bot_goal_t *)0)->iteminfo), sizeof( ((bot_goal_t *)0)->iteminfo ) },
-	{ NULL, 0 }
-};
-
 static classVariableInfo_t fuzzyseperator_t_typeInfo[] = {
 	{ "bool", "inUse", (intptr_t)(&((fuzzyseperator_t *)0)->inUse), sizeof( ((fuzzyseperator_t *)0)->inUse ) },
 	{ "int", "index", (intptr_t)(&((fuzzyseperator_t *)0)->index), sizeof( ((fuzzyseperator_t *)0)->index ) },
@@ -6066,9 +6055,31 @@ static classVariableInfo_t weight_t_typeInfo[] = {
 };
 
 static classVariableInfo_t weightconfig_t_typeInfo[] = {
+	{ "bool", "inUse", (intptr_t)(&((weightconfig_t *)0)->inUse), sizeof( ((weightconfig_t *)0)->inUse ) },
 	{ "int", "numweights", (intptr_t)(&((weightconfig_t *)0)->numweights), sizeof( ((weightconfig_t *)0)->numweights ) },
 	{ "weight_t[128]", "weights", (intptr_t)(&((weightconfig_t *)0)->weights), sizeof( ((weightconfig_t *)0)->weights ) },
 	{ "idStr", "filename", (intptr_t)(&((weightconfig_t *)0)->filename), sizeof( ((weightconfig_t *)0)->filename ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t cvalue_typeInfo[] = {
+	{ "int", "integer", (intptr_t)(&((cvalue *)0)->integer), sizeof( ((cvalue *)0)->integer ) },
+	{ "float", "_float", (intptr_t)(&((cvalue *)0)->_float), sizeof( ((cvalue *)0)->_float ) },
+	{ "idStr", "string", (intptr_t)(&((cvalue *)0)->string), sizeof( ((cvalue *)0)->string ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t bot_characteristic_t_typeInfo[] = {
+	{ "char", "type", (intptr_t)(&((bot_characteristic_t *)0)->type), sizeof( ((bot_characteristic_t *)0)->type ) },
+	{ "cvalue", "value", (intptr_t)(&((bot_characteristic_t *)0)->value), sizeof( ((bot_characteristic_t *)0)->value ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t bot_character_t_typeInfo[] = {
+	{ "idStr", "filename", (intptr_t)(&((bot_character_t *)0)->filename), sizeof( ((bot_character_t *)0)->filename ) },
+	{ "bool", "inUse", (intptr_t)(&((bot_character_t *)0)->inUse), sizeof( ((bot_character_t *)0)->inUse ) },
+	{ "float", "skill", (intptr_t)(&((bot_character_t *)0)->skill), sizeof( ((bot_character_t *)0)->skill ) },
+	{ "bot_characteristic_t[80]", "c", (intptr_t)(&((bot_character_t *)0)->c), sizeof( ((bot_character_t *)0)->c ) },
 	{ NULL, 0 }
 };
 
@@ -6079,12 +6090,266 @@ static classVariableInfo_t bot_input_t_typeInfo[] = {
 	{ "idAngles", "viewangles", (intptr_t)(&((bot_input_t *)0)->viewangles), sizeof( ((bot_input_t *)0)->viewangles ) },
 	{ "int", "actionflags", (intptr_t)(&((bot_input_t *)0)->actionflags), sizeof( ((bot_input_t *)0)->actionflags ) },
 	{ "int", "weapon", (intptr_t)(&((bot_input_t *)0)->weapon), sizeof( ((bot_input_t *)0)->weapon ) },
+	{ "int", "lastWeaponNum", (intptr_t)(&((bot_input_t *)0)->lastWeaponNum), sizeof( ((bot_input_t *)0)->lastWeaponNum ) },
+	{ "bool", "respawn", (intptr_t)(&((bot_input_t *)0)->respawn), sizeof( ((bot_input_t *)0)->respawn ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmBotUtil_typeInfo[] = {
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t idBotCharacterStatsManager_typeInfo[] = {
+	{ "bot_character_t *", "default_char_profile", (intptr_t)(&((idBotCharacterStatsManager *)0)->default_char_profile), sizeof( ((idBotCharacterStatsManager *)0)->default_char_profile ) },
+	{ "bot_character_t[256]", "charStatsList", (intptr_t)(&((idBotCharacterStatsManager *)0)->charStatsList), sizeof( ((idBotCharacterStatsManager *)0)->charStatsList ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t idBotFuzzyWeightManager_typeInfo[] = {
+	{ "weightconfig_t[128]", "weightFileList", (intptr_t)(&((idBotFuzzyWeightManager *)0)->weightFileList), sizeof( ((idBotFuzzyWeightManager *)0)->weightFileList ) },
+	{ "fuzzyseperator_t[8192]", "fuzzyseperators", (intptr_t)(&((idBotFuzzyWeightManager *)0)->fuzzyseperators), sizeof( ((idBotFuzzyWeightManager *)0)->fuzzyseperators ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t projectileinfo_t_typeInfo[] = {
+	{ "idStr", "name", (intptr_t)(&((projectileinfo_t *)0)->name), sizeof( ((projectileinfo_t *)0)->name ) },
+	{ "idStr", "model", (intptr_t)(&((projectileinfo_t *)0)->model), sizeof( ((projectileinfo_t *)0)->model ) },
+	{ "int", "flags", (intptr_t)(&((projectileinfo_t *)0)->flags), sizeof( ((projectileinfo_t *)0)->flags ) },
+	{ "float", "gravity", (intptr_t)(&((projectileinfo_t *)0)->gravity), sizeof( ((projectileinfo_t *)0)->gravity ) },
+	{ "int", "damage", (intptr_t)(&((projectileinfo_t *)0)->damage), sizeof( ((projectileinfo_t *)0)->damage ) },
+	{ "float", "radius", (intptr_t)(&((projectileinfo_t *)0)->radius), sizeof( ((projectileinfo_t *)0)->radius ) },
+	{ "int", "visdamage", (intptr_t)(&((projectileinfo_t *)0)->visdamage), sizeof( ((projectileinfo_t *)0)->visdamage ) },
+	{ "int", "damagetype", (intptr_t)(&((projectileinfo_t *)0)->damagetype), sizeof( ((projectileinfo_t *)0)->damagetype ) },
+	{ "int", "healthinc", (intptr_t)(&((projectileinfo_t *)0)->healthinc), sizeof( ((projectileinfo_t *)0)->healthinc ) },
+	{ "float", "push", (intptr_t)(&((projectileinfo_t *)0)->push), sizeof( ((projectileinfo_t *)0)->push ) },
+	{ "float", "detonation", (intptr_t)(&((projectileinfo_t *)0)->detonation), sizeof( ((projectileinfo_t *)0)->detonation ) },
+	{ "float", "bounce", (intptr_t)(&((projectileinfo_t *)0)->bounce), sizeof( ((projectileinfo_t *)0)->bounce ) },
+	{ "float", "bouncefric", (intptr_t)(&((projectileinfo_t *)0)->bouncefric), sizeof( ((projectileinfo_t *)0)->bouncefric ) },
+	{ "float", "bouncestop", (intptr_t)(&((projectileinfo_t *)0)->bouncestop), sizeof( ((projectileinfo_t *)0)->bouncestop ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t weaponinfo_t_typeInfo[] = {
+	{ "int", "valid", (intptr_t)(&((weaponinfo_t *)0)->valid), sizeof( ((weaponinfo_t *)0)->valid ) },
+	{ "int", "number", (intptr_t)(&((weaponinfo_t *)0)->number), sizeof( ((weaponinfo_t *)0)->number ) },
+	{ "idStr", "name", (intptr_t)(&((weaponinfo_t *)0)->name), sizeof( ((weaponinfo_t *)0)->name ) },
+	{ "idStr", "model", (intptr_t)(&((weaponinfo_t *)0)->model), sizeof( ((weaponinfo_t *)0)->model ) },
+	{ "int", "level", (intptr_t)(&((weaponinfo_t *)0)->level), sizeof( ((weaponinfo_t *)0)->level ) },
+	{ "int", "weaponindex", (intptr_t)(&((weaponinfo_t *)0)->weaponindex), sizeof( ((weaponinfo_t *)0)->weaponindex ) },
+	{ "int", "flags", (intptr_t)(&((weaponinfo_t *)0)->flags), sizeof( ((weaponinfo_t *)0)->flags ) },
+	{ "idStr", "projectile", (intptr_t)(&((weaponinfo_t *)0)->projectile), sizeof( ((weaponinfo_t *)0)->projectile ) },
+	{ "int", "numprojectiles", (intptr_t)(&((weaponinfo_t *)0)->numprojectiles), sizeof( ((weaponinfo_t *)0)->numprojectiles ) },
+	{ "float", "hspread", (intptr_t)(&((weaponinfo_t *)0)->hspread), sizeof( ((weaponinfo_t *)0)->hspread ) },
+	{ "float", "vspread", (intptr_t)(&((weaponinfo_t *)0)->vspread), sizeof( ((weaponinfo_t *)0)->vspread ) },
+	{ "float", "speed", (intptr_t)(&((weaponinfo_t *)0)->speed), sizeof( ((weaponinfo_t *)0)->speed ) },
+	{ "float", "acceleration", (intptr_t)(&((weaponinfo_t *)0)->acceleration), sizeof( ((weaponinfo_t *)0)->acceleration ) },
+	{ "idVec3", "recoil", (intptr_t)(&((weaponinfo_t *)0)->recoil), sizeof( ((weaponinfo_t *)0)->recoil ) },
+	{ "idVec3", "offset", (intptr_t)(&((weaponinfo_t *)0)->offset), sizeof( ((weaponinfo_t *)0)->offset ) },
+	{ "idVec3", "angleoffset", (intptr_t)(&((weaponinfo_t *)0)->angleoffset), sizeof( ((weaponinfo_t *)0)->angleoffset ) },
+	{ "float", "extrazvelocity", (intptr_t)(&((weaponinfo_t *)0)->extrazvelocity), sizeof( ((weaponinfo_t *)0)->extrazvelocity ) },
+	{ "int", "ammoamount", (intptr_t)(&((weaponinfo_t *)0)->ammoamount), sizeof( ((weaponinfo_t *)0)->ammoamount ) },
+	{ "int", "ammoindex", (intptr_t)(&((weaponinfo_t *)0)->ammoindex), sizeof( ((weaponinfo_t *)0)->ammoindex ) },
+	{ "float", "activate", (intptr_t)(&((weaponinfo_t *)0)->activate), sizeof( ((weaponinfo_t *)0)->activate ) },
+	{ "float", "reload", (intptr_t)(&((weaponinfo_t *)0)->reload), sizeof( ((weaponinfo_t *)0)->reload ) },
+	{ "float", "spinup", (intptr_t)(&((weaponinfo_t *)0)->spinup), sizeof( ((weaponinfo_t *)0)->spinup ) },
+	{ "float", "spindown", (intptr_t)(&((weaponinfo_t *)0)->spindown), sizeof( ((weaponinfo_t *)0)->spindown ) },
+	{ "projectileinfo_t", "proj", (intptr_t)(&((weaponinfo_t *)0)->proj), sizeof( ((weaponinfo_t *)0)->proj ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t bot_weaponstate_t_typeInfo[] = {
+	{ "bool", "inUse", (intptr_t)(&((bot_weaponstate_t *)0)->inUse), sizeof( ((bot_weaponstate_t *)0)->inUse ) },
+	{ "weightconfig_t *", "weaponweightconfig", (intptr_t)(&((bot_weaponstate_t *)0)->weaponweightconfig), sizeof( ((bot_weaponstate_t *)0)->weaponweightconfig ) },
+	{ "int[32]", "weaponweightindex", (intptr_t)(&((bot_weaponstate_t *)0)->weaponweightindex), sizeof( ((bot_weaponstate_t *)0)->weaponweightindex ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t idBotWeaponInfoManager_typeInfo[] = {
+	{ ": idList < projectileinfo_t >", "projectileinfo", (intptr_t)(&((idBotWeaponInfoManager *)0)->projectileinfo), sizeof( ((idBotWeaponInfoManager *)0)->projectileinfo ) },
+	{ "bot_weaponstate_t[1]", "botweaponstates", (intptr_t)(&((idBotWeaponInfoManager *)0)->botweaponstates), sizeof( ((idBotWeaponInfoManager *)0)->botweaponstates ) },
+	{ "weaponinfo_t[32]", "weaponinfo", (intptr_t)(&((idBotWeaponInfoManager *)0)->weaponinfo), sizeof( ((idBotWeaponInfoManager *)0)->weaponinfo ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t bot_goal_t_typeInfo[] = {
+	{ "int", "framenum", (intptr_t)(&((bot_goal_t *)0)->framenum), sizeof( ((bot_goal_t *)0)->framenum ) },
+	{ "idVec3", "origin", (intptr_t)(&((bot_goal_t *)0)->origin), sizeof( ((bot_goal_t *)0)->origin ) },
+	{ "idVec3", "nextMoveOrigin", (intptr_t)(&((bot_goal_t *)0)->nextMoveOrigin), sizeof( ((bot_goal_t *)0)->nextMoveOrigin ) },
+	{ "int", "areanum", (intptr_t)(&((bot_goal_t *)0)->areanum), sizeof( ((bot_goal_t *)0)->areanum ) },
+	{ "idVec3", "mins", (intptr_t)(&((bot_goal_t *)0)->mins), sizeof( ((bot_goal_t *)0)->mins ) },
+	{ "idVec3", "maxs", (intptr_t)(&((bot_goal_t *)0)->maxs), sizeof( ((bot_goal_t *)0)->maxs ) },
+	{ "int", "entitynum", (intptr_t)(&((bot_goal_t *)0)->entitynum), sizeof( ((bot_goal_t *)0)->entitynum ) },
+	{ "int", "number", (intptr_t)(&((bot_goal_t *)0)->number), sizeof( ((bot_goal_t *)0)->number ) },
+	{ "int", "flags", (intptr_t)(&((bot_goal_t *)0)->flags), sizeof( ((bot_goal_t *)0)->flags ) },
+	{ "int", "iteminfo", (intptr_t)(&((bot_goal_t *)0)->iteminfo), sizeof( ((bot_goal_t *)0)->iteminfo ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t maplocation_t_typeInfo[] = {
+	{ "idVec3", "origin", (intptr_t)(&((maplocation_t *)0)->origin), sizeof( ((maplocation_t *)0)->origin ) },
+	{ "int", "areanum", (intptr_t)(&((maplocation_t *)0)->areanum), sizeof( ((maplocation_t *)0)->areanum ) },
+	{ "idStr", "name", (intptr_t)(&((maplocation_t *)0)->name), sizeof( ((maplocation_t *)0)->name ) },
+	{ "maplocation_t *", "next", (intptr_t)(&((maplocation_t *)0)->next), sizeof( ((maplocation_t *)0)->next ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t campspot_t_typeInfo[] = {
+	{ "idVec3", "origin", (intptr_t)(&((campspot_t *)0)->origin), sizeof( ((campspot_t *)0)->origin ) },
+	{ "int", "areanum", (intptr_t)(&((campspot_t *)0)->areanum), sizeof( ((campspot_t *)0)->areanum ) },
+	{ "idStr", "name", (intptr_t)(&((campspot_t *)0)->name), sizeof( ((campspot_t *)0)->name ) },
+	{ "float", "range", (intptr_t)(&((campspot_t *)0)->range), sizeof( ((campspot_t *)0)->range ) },
+	{ "float", "weight", (intptr_t)(&((campspot_t *)0)->weight), sizeof( ((campspot_t *)0)->weight ) },
+	{ "float", "wait", (intptr_t)(&((campspot_t *)0)->wait), sizeof( ((campspot_t *)0)->wait ) },
+	{ "float", "random", (intptr_t)(&((campspot_t *)0)->random), sizeof( ((campspot_t *)0)->random ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t levelitem_t_typeInfo[] = {
+	{ "idStr", "name", (intptr_t)(&((levelitem_t *)0)->name), sizeof( ((levelitem_t *)0)->name ) },
+	{ "int", "number", (intptr_t)(&((levelitem_t *)0)->number), sizeof( ((levelitem_t *)0)->number ) },
+	{ "int", "iteminfo", (intptr_t)(&((levelitem_t *)0)->iteminfo), sizeof( ((levelitem_t *)0)->iteminfo ) },
+	{ "int", "flags", (intptr_t)(&((levelitem_t *)0)->flags), sizeof( ((levelitem_t *)0)->flags ) },
+	{ "float", "weight", (intptr_t)(&((levelitem_t *)0)->weight), sizeof( ((levelitem_t *)0)->weight ) },
+	{ "idVec3", "origin", (intptr_t)(&((levelitem_t *)0)->origin), sizeof( ((levelitem_t *)0)->origin ) },
+	{ "idVec3", "goalorigin", (intptr_t)(&((levelitem_t *)0)->goalorigin), sizeof( ((levelitem_t *)0)->goalorigin ) },
+	{ "idItem *", "item", (intptr_t)(&((levelitem_t *)0)->item), sizeof( ((levelitem_t *)0)->item ) },
+	{ "float", "timeout", (intptr_t)(&((levelitem_t *)0)->timeout), sizeof( ((levelitem_t *)0)->timeout ) },
+	{ "levelitem_t *", "prev", (intptr_t)(&((levelitem_t *)0)->prev), sizeof( ((levelitem_t *)0)->prev ) },
+	{ "levelitem_t *", "next", (intptr_t)(&((levelitem_t *)0)->next), sizeof( ((levelitem_t *)0)->next ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t iteminfo_t_typeInfo[] = {
+	{ "idStr", "classname", (intptr_t)(&((iteminfo_t *)0)->classname), sizeof( ((iteminfo_t *)0)->classname ) },
+	{ "idStr", "name", (intptr_t)(&((iteminfo_t *)0)->name), sizeof( ((iteminfo_t *)0)->name ) },
+	{ "idStr", "model", (intptr_t)(&((iteminfo_t *)0)->model), sizeof( ((iteminfo_t *)0)->model ) },
+	{ "int", "modelindex", (intptr_t)(&((iteminfo_t *)0)->modelindex), sizeof( ((iteminfo_t *)0)->modelindex ) },
+	{ "int", "type", (intptr_t)(&((iteminfo_t *)0)->type), sizeof( ((iteminfo_t *)0)->type ) },
+	{ "int", "index", (intptr_t)(&((iteminfo_t *)0)->index), sizeof( ((iteminfo_t *)0)->index ) },
+	{ "float", "respawntime", (intptr_t)(&((iteminfo_t *)0)->respawntime), sizeof( ((iteminfo_t *)0)->respawntime ) },
+	{ "idVec3", "mins", (intptr_t)(&((iteminfo_t *)0)->mins), sizeof( ((iteminfo_t *)0)->mins ) },
+	{ "idVec3", "maxs", (intptr_t)(&((iteminfo_t *)0)->maxs), sizeof( ((iteminfo_t *)0)->maxs ) },
+	{ "int", "number", (intptr_t)(&((iteminfo_t *)0)->number), sizeof( ((iteminfo_t *)0)->number ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t itemconfig_t_typeInfo[] = {
+	{ "int", "numiteminfo", (intptr_t)(&((itemconfig_t *)0)->numiteminfo), sizeof( ((itemconfig_t *)0)->numiteminfo ) },
+	{ "iteminfo_t[256]", "iteminfo", (intptr_t)(&((itemconfig_t *)0)->iteminfo), sizeof( ((itemconfig_t *)0)->iteminfo ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t bot_goalstate_t_typeInfo[] = {
+	{ "weightconfig_t *", "itemweightconfig", (intptr_t)(&((bot_goalstate_t *)0)->itemweightconfig), sizeof( ((bot_goalstate_t *)0)->itemweightconfig ) },
+	{ "int *", "itemweightindex", (intptr_t)(&((bot_goalstate_t *)0)->itemweightindex), sizeof( ((bot_goalstate_t *)0)->itemweightindex ) },
+	{ "int", "client", (intptr_t)(&((bot_goalstate_t *)0)->client), sizeof( ((bot_goalstate_t *)0)->client ) },
+	{ "int", "lastreachabilityarea", (intptr_t)(&((bot_goalstate_t *)0)->lastreachabilityarea), sizeof( ((bot_goalstate_t *)0)->lastreachabilityarea ) },
+	{ "bot_goal_t[8]", "goalstack", (intptr_t)(&((bot_goalstate_t *)0)->goalstack), sizeof( ((bot_goalstate_t *)0)->goalstack ) },
+	{ "int", "goalstacktop", (intptr_t)(&((bot_goalstate_t *)0)->goalstacktop), sizeof( ((bot_goalstate_t *)0)->goalstacktop ) },
+	{ "int[256]", "avoidgoals", (intptr_t)(&((bot_goalstate_t *)0)->avoidgoals), sizeof( ((bot_goalstate_t *)0)->avoidgoals ) },
+	{ "float[256]", "avoidgoaltimes", (intptr_t)(&((bot_goalstate_t *)0)->avoidgoaltimes), sizeof( ((bot_goalstate_t *)0)->avoidgoaltimes ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t idBotGoalManager_typeInfo[] = {
+	{ ": bot_goalstate_t[1]", "botgoalstates", (intptr_t)(&((idBotGoalManager *)0)->botgoalstates), sizeof( ((idBotGoalManager *)0)->botgoalstates ) },
+	{ "itemconfig_t", "itemconfiglocal", (intptr_t)(&((idBotGoalManager *)0)->itemconfiglocal), sizeof( ((idBotGoalManager *)0)->itemconfiglocal ) },
+	{ "itemconfig_t *", "itemconfig", (intptr_t)(&((idBotGoalManager *)0)->itemconfig), sizeof( ((idBotGoalManager *)0)->itemconfig ) },
+	{ "levelitem_t[256]", "levelitemheap", (intptr_t)(&((idBotGoalManager *)0)->levelitemheap), sizeof( ((idBotGoalManager *)0)->levelitemheap ) },
+	{ "levelitem_t *", "freelevelitems", (intptr_t)(&((idBotGoalManager *)0)->freelevelitems), sizeof( ((idBotGoalManager *)0)->freelevelitems ) },
+	{ "levelitem_t *", "levelitems", (intptr_t)(&((idBotGoalManager *)0)->levelitems), sizeof( ((idBotGoalManager *)0)->levelitems ) },
+	{ "int", "numlevelitems", (intptr_t)(&((idBotGoalManager *)0)->numlevelitems), sizeof( ((idBotGoalManager *)0)->numlevelitems ) },
+	{ "idList < maplocation_t >", "maplocations", (intptr_t)(&((idBotGoalManager *)0)->maplocations), sizeof( ((idBotGoalManager *)0)->maplocations ) },
+	{ "idList < campspot_t >", "campspots", (intptr_t)(&((idBotGoalManager *)0)->campspots), sizeof( ((idBotGoalManager *)0)->campspots ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t bot_state_t_typeInfo[] = {
+	{ "bot_character_t *", "character", (intptr_t)(&((bot_state_t *)0)->character), sizeof( ((bot_state_t *)0)->character ) },
+	{ "rvmBotAIBotActionBase *", "action", (intptr_t)(&((bot_state_t *)0)->action), sizeof( ((bot_state_t *)0)->action ) },
+	{ "rvmBotAIBotActionBase *", "lastaction", (intptr_t)(&((bot_state_t *)0)->lastaction), sizeof( ((bot_state_t *)0)->lastaction ) },
+	{ "int", "gs", (intptr_t)(&((bot_state_t *)0)->gs), sizeof( ((bot_state_t *)0)->gs ) },
+	{ "int", "ws", (intptr_t)(&((bot_state_t *)0)->ws), sizeof( ((bot_state_t *)0)->ws ) },
+	{ "int", "enemy", (intptr_t)(&((bot_state_t *)0)->enemy), sizeof( ((bot_state_t *)0)->enemy ) },
+	{ "int", "client", (intptr_t)(&((bot_state_t *)0)->client), sizeof( ((bot_state_t *)0)->client ) },
+	{ "idEntity *", "attackerEntity", (intptr_t)(&((bot_state_t *)0)->attackerEntity), sizeof( ((bot_state_t *)0)->attackerEntity ) },
+	{ "int", "lasthealth", (intptr_t)(&((bot_state_t *)0)->lasthealth), sizeof( ((bot_state_t *)0)->lasthealth ) },
+	{ "int", "entitynum", (intptr_t)(&((bot_state_t *)0)->entitynum), sizeof( ((bot_state_t *)0)->entitynum ) },
+	{ "int", "setupcount", (intptr_t)(&((bot_state_t *)0)->setupcount), sizeof( ((bot_state_t *)0)->setupcount ) },
+	{ "int", "ltg_time", (intptr_t)(&((bot_state_t *)0)->ltg_time), sizeof( ((bot_state_t *)0)->ltg_time ) },
+	{ "int", "flags", (intptr_t)(&((bot_state_t *)0)->flags), sizeof( ((bot_state_t *)0)->flags ) },
+	{ "int", "weaponnum", (intptr_t)(&((bot_state_t *)0)->weaponnum), sizeof( ((bot_state_t *)0)->weaponnum ) },
+	{ "float", "thinktime", (intptr_t)(&((bot_state_t *)0)->thinktime), sizeof( ((bot_state_t *)0)->thinktime ) },
+	{ "float", "chase_time", (intptr_t)(&((bot_state_t *)0)->chase_time), sizeof( ((bot_state_t *)0)->chase_time ) },
+	{ "float", "attackjump_time", (intptr_t)(&((bot_state_t *)0)->attackjump_time), sizeof( ((bot_state_t *)0)->attackjump_time ) },
+	{ "float", "attackcrouch_time", (intptr_t)(&((bot_state_t *)0)->attackcrouch_time), sizeof( ((bot_state_t *)0)->attackcrouch_time ) },
+	{ "float", "attackstrafe_time", (intptr_t)(&((bot_state_t *)0)->attackstrafe_time), sizeof( ((bot_state_t *)0)->attackstrafe_time ) },
+	{ "float", "attackchase_time", (intptr_t)(&((bot_state_t *)0)->attackchase_time), sizeof( ((bot_state_t *)0)->attackchase_time ) },
+	{ "float", "firethrottlewait_time", (intptr_t)(&((bot_state_t *)0)->firethrottlewait_time), sizeof( ((bot_state_t *)0)->firethrottlewait_time ) },
+	{ "float", "firethrottleshoot_time", (intptr_t)(&((bot_state_t *)0)->firethrottleshoot_time), sizeof( ((bot_state_t *)0)->firethrottleshoot_time ) },
+	{ "float", "nbg_time", (intptr_t)(&((bot_state_t *)0)->nbg_time), sizeof( ((bot_state_t *)0)->nbg_time ) },
+	{ "float", "entergame_time", (intptr_t)(&((bot_state_t *)0)->entergame_time), sizeof( ((bot_state_t *)0)->entergame_time ) },
+	{ "float", "weaponchange_time", (intptr_t)(&((bot_state_t *)0)->weaponchange_time), sizeof( ((bot_state_t *)0)->weaponchange_time ) },
+	{ "float", "check_time", (intptr_t)(&((bot_state_t *)0)->check_time), sizeof( ((bot_state_t *)0)->check_time ) },
+	{ "float", "teleport_time", (intptr_t)(&((bot_state_t *)0)->teleport_time), sizeof( ((bot_state_t *)0)->teleport_time ) },
+	{ "float", "enemyvisible_time", (intptr_t)(&((bot_state_t *)0)->enemyvisible_time), sizeof( ((bot_state_t *)0)->enemyvisible_time ) },
+	{ "int", "enemysuicide", (intptr_t)(&((bot_state_t *)0)->enemysuicide), sizeof( ((bot_state_t *)0)->enemysuicide ) },
+	{ "float", "enemysight_time", (intptr_t)(&((bot_state_t *)0)->enemysight_time), sizeof( ((bot_state_t *)0)->enemysight_time ) },
+	{ "float", "enemydeath_time", (intptr_t)(&((bot_state_t *)0)->enemydeath_time), sizeof( ((bot_state_t *)0)->enemydeath_time ) },
+	{ "idVec3", "origin", (intptr_t)(&((bot_state_t *)0)->origin), sizeof( ((bot_state_t *)0)->origin ) },
+	{ "idVec3", "aimtarget", (intptr_t)(&((bot_state_t *)0)->aimtarget), sizeof( ((bot_state_t *)0)->aimtarget ) },
+	{ "idVec3", "random_move_position", (intptr_t)(&((bot_state_t *)0)->random_move_position), sizeof( ((bot_state_t *)0)->random_move_position ) },
+	{ "idVec3", "last_enemy_visible_position", (intptr_t)(&((bot_state_t *)0)->last_enemy_visible_position), sizeof( ((bot_state_t *)0)->last_enemy_visible_position ) },
+	{ "idAngles", "viewangles", (intptr_t)(&((bot_state_t *)0)->viewangles), sizeof( ((bot_state_t *)0)->viewangles ) },
+	{ "idVec3", "enemyorigin", (intptr_t)(&((bot_state_t *)0)->enemyorigin), sizeof( ((bot_state_t *)0)->enemyorigin ) },
+	{ "idVec3", "eye", (intptr_t)(&((bot_state_t *)0)->eye), sizeof( ((bot_state_t *)0)->eye ) },
+	{ "idVec3", "lastenemyorigin", (intptr_t)(&((bot_state_t *)0)->lastenemyorigin), sizeof( ((bot_state_t *)0)->lastenemyorigin ) },
+	{ "int[256]", "inventory", (intptr_t)(&((bot_state_t *)0)->inventory), sizeof( ((bot_state_t *)0)->inventory ) },
+	{ "bot_goal_t", "currentGoal", (intptr_t)(&((bot_state_t *)0)->currentGoal), sizeof( ((bot_state_t *)0)->currentGoal ) },
+	{ "bot_input_t", "botinput", (intptr_t)(&((bot_state_t *)0)->botinput), sizeof( ((bot_state_t *)0)->botinput ) },
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmBotAIBotActionBase_typeInfo[] = {
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmBotAIBotSeekLTG_typeInfo[] = {
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmBotAIBotRespawn_typeInfo[] = {
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmBotAIBotBattleRetreat_typeInfo[] = {
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmBotAIBotBattleFight_typeInfo[] = {
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmBotAIBotBattleChase_typeInfo[] = {
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmBotAIBotBattleNBG_typeInfo[] = {
+	{ NULL, 0 }
+};
+
+static classVariableInfo_t rvmBotAIBotSeekNBG_typeInfo[] = {
 	{ NULL, 0 }
 };
 
 static classVariableInfo_t rvmBot_typeInfo[] = {
-	{ "bot_input_t", "botinput", (intptr_t)(&((rvmBot *)0)->botinput), sizeof( ((rvmBot *)0)->botinput ) },
-	{ "bot_goal_t", "currentGoal", (intptr_t)(&((rvmBot *)0)->currentGoal), sizeof( ((rvmBot *)0)->currentGoal ) },
+	{ ": bot_state_t", "bs", (intptr_t)(&((rvmBot *)0)->bs), sizeof( ((rvmBot *)0)->bs ) },
+	{ "bool", "hasSpawned", (intptr_t)(&((rvmBot *)0)->hasSpawned), sizeof( ((rvmBot *)0)->hasSpawned ) },
+	{ ": int", "weapon_machinegun", (intptr_t)(&((rvmBot *)0)->weapon_machinegun), sizeof( ((rvmBot *)0)->weapon_machinegun ) },
+	{ "int", "weapon_shotgun", (intptr_t)(&((rvmBot *)0)->weapon_shotgun), sizeof( ((rvmBot *)0)->weapon_shotgun ) },
+	{ "int", "weapon_plasmagun", (intptr_t)(&((rvmBot *)0)->weapon_plasmagun), sizeof( ((rvmBot *)0)->weapon_plasmagun ) },
+	{ "int", "weapon_rocketlauncher", (intptr_t)(&((rvmBot *)0)->weapon_rocketlauncher), sizeof( ((rvmBot *)0)->weapon_rocketlauncher ) },
+	{ ": idAAS *", "aas", (intptr_t)(&((rvmBot *)0)->aas), sizeof( ((rvmBot *)0)->aas ) },
 	{ NULL, 0 }
 };
 
@@ -7438,11 +7703,37 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "rvmMonsterZombieSecurityPistol", "rvmMonsterZombie", sizeof(rvmMonsterZombieSecurityPistol), rvmMonsterZombieSecurityPistol_typeInfo },
 	{ "rvmMonsterZombieCommandoTentacle", "rvmMonsterZombie", sizeof(rvmMonsterZombieCommandoTentacle), rvmMonsterZombieCommandoTentacle_typeInfo },
 	{ "rvmMonsterZombieCommandoChaingun", "idAI", sizeof(rvmMonsterZombieCommandoChaingun), rvmMonsterZombieCommandoChaingun_typeInfo },
-	{ "bot_goal_t", "", sizeof(bot_goal_t), bot_goal_t_typeInfo },
 	{ "fuzzyseperator_t", "", sizeof(fuzzyseperator_t), fuzzyseperator_t_typeInfo },
 	{ "weight_t", "", sizeof(weight_t), weight_t_typeInfo },
 	{ "weightconfig_t", "", sizeof(weightconfig_t), weightconfig_t_typeInfo },
+	{ "cvalue", "", sizeof(cvalue), cvalue_typeInfo },
+	{ "bot_characteristic_t", "", sizeof(bot_characteristic_t), bot_characteristic_t_typeInfo },
+	{ "bot_character_t", "", sizeof(bot_character_t), bot_character_t_typeInfo },
 	{ "bot_input_t", "", sizeof(bot_input_t), bot_input_t_typeInfo },
+	{ "rvmBotUtil", "", sizeof(rvmBotUtil), rvmBotUtil_typeInfo },
+	{ "idBotCharacterStatsManager", "", sizeof(idBotCharacterStatsManager), idBotCharacterStatsManager_typeInfo },
+	{ "idBotFuzzyWeightManager", "", sizeof(idBotFuzzyWeightManager), idBotFuzzyWeightManager_typeInfo },
+	{ "projectileinfo_t", "", sizeof(projectileinfo_t), projectileinfo_t_typeInfo },
+	{ "weaponinfo_t", "", sizeof(weaponinfo_t), weaponinfo_t_typeInfo },
+	{ "bot_weaponstate_t", "", sizeof(bot_weaponstate_t), bot_weaponstate_t_typeInfo },
+	{ "idBotWeaponInfoManager", "", sizeof(idBotWeaponInfoManager), idBotWeaponInfoManager_typeInfo },
+	{ "bot_goal_t", "", sizeof(bot_goal_t), bot_goal_t_typeInfo },
+	{ "maplocation_t", "", sizeof(maplocation_t), maplocation_t_typeInfo },
+	{ "campspot_t", "", sizeof(campspot_t), campspot_t_typeInfo },
+	{ "levelitem_t", "", sizeof(levelitem_t), levelitem_t_typeInfo },
+	{ "iteminfo_t", "", sizeof(iteminfo_t), iteminfo_t_typeInfo },
+	{ "itemconfig_t", "", sizeof(itemconfig_t), itemconfig_t_typeInfo },
+	{ "bot_goalstate_t", "", sizeof(bot_goalstate_t), bot_goalstate_t_typeInfo },
+	{ "idBotGoalManager", "", sizeof(idBotGoalManager), idBotGoalManager_typeInfo },
+	{ "bot_state_t", "", sizeof(bot_state_t), bot_state_t_typeInfo },
+	{ "rvmBotAIBotActionBase", "", sizeof(rvmBotAIBotActionBase), rvmBotAIBotActionBase_typeInfo },
+	{ "rvmBotAIBotSeekLTG", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotSeekLTG), rvmBotAIBotSeekLTG_typeInfo },
+	{ "rvmBotAIBotRespawn", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotRespawn), rvmBotAIBotRespawn_typeInfo },
+	{ "rvmBotAIBotBattleRetreat", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotBattleRetreat), rvmBotAIBotBattleRetreat_typeInfo },
+	{ "rvmBotAIBotBattleFight", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotBattleFight), rvmBotAIBotBattleFight_typeInfo },
+	{ "rvmBotAIBotBattleChase", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotBattleChase), rvmBotAIBotBattleChase_typeInfo },
+	{ "rvmBotAIBotBattleNBG", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotBattleNBG), rvmBotAIBotBattleNBG_typeInfo },
+	{ "rvmBotAIBotSeekNBG", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotSeekNBG), rvmBotAIBotSeekNBG_typeInfo },
 	{ "rvmBot", "idPlayer", sizeof(rvmBot), rvmBot_typeInfo },
 	{ "idTestModel", "idAnimatedEntity", sizeof(idTestModel), idTestModel_typeInfo },
 	{ "rvmWeaponFist", "rvmWeaponObject", sizeof(rvmWeaponFist), rvmWeaponFist_typeInfo },
