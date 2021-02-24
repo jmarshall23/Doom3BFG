@@ -330,6 +330,7 @@ idRenderModel* idRenderModelManagerLocal::GetModel( const char* _modelName, bool
 				// in memory as well
 				model->TouchData();
 			}
+
 			model->SetLevelLoadReferenced( true );
 			return model;
 		}

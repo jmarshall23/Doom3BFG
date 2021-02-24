@@ -475,9 +475,10 @@ bool idRenderModelStatic::LoadBinaryModel( idFile* file, const ID_TIME_T sourceT
 				//{
 				//	file->ReadVec4( tri.preLightShadowVertexes[ j ].xyzw );
 				//}
-				for (int j = 0; j < numInFile; j++) {
+				for( int j = 0; j < numInFile; j++ )
+				{
 					idVec4 stub;
-					file->ReadVec4(stub);
+					file->ReadVec4( stub );
 				}
 // jmarshall end
 			}
@@ -516,7 +517,7 @@ bool idRenderModelStatic::LoadBinaryModel( idFile* file, const ID_TIME_T sourceT
 			int numSilEdges = 0;
 			file->ReadBig( numSilEdges );
 			if( numSilEdges > 0 )
-			{				
+			{
 				for( int j = 0; j < numSilEdges; j++ )
 				{
 					triIndex_t stub;
@@ -666,7 +667,7 @@ void idRenderModelStatic::WriteBinaryModel( idFile* file, ID_TIME_T* _timeStamp 
 			//{
 			//	file->WriteBig( ( int ) 0 );
 			//}
-			file->WriteBig((int)0);
+			file->WriteBig( ( int )0 );
 
 			file->WriteBig( tri.numIndexes );
 

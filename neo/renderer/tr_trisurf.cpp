@@ -1791,7 +1791,7 @@ deformInfo_t* R_BuildDeformInfo( int numVerts, const idDrawVert* verts, int numI
 	}
 
 	R_RangeCheckIndexes( &tri );
-	R_CreateSilIndexes( &tri );	
+	R_CreateSilIndexes( &tri );
 	R_DuplicateMirroredVertexes( &tri );		// split mirror points into multiple points
 	R_CreateDupVerts( &tri );
 	if( useUnsmoothedTangents )

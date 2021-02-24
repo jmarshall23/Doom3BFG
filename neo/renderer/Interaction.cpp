@@ -672,7 +672,7 @@ void idInteraction::CreateStaticInteraction()
 				interactionGenerated = true;
 				R_FreeStaticTriSurf( lightTris );
 			}
-		}	
+		}
 	}
 
 	// if none of the surfaces generated anything, don't even bother checking?

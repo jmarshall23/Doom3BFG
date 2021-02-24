@@ -71,6 +71,7 @@ class idThread;
 class idEditEntities;
 class idLocationEntity;
 class idMenuHandler_Shell;
+class EnvironmentProbe; // RB
 class rvmBot;
 
 const int MAX_CLIENTS			= MAX_PLAYERS;
@@ -755,6 +756,9 @@ private:
 	// commons used by init, shutdown, and restart
 	void					MapPopulate();
 	void					MapClear( bool clearClients );
+
+	// RB: spawn environment probes if there aren't any by default
+	void					PopulateEnvironmentProbes();
 
 	pvsHandle_t				GetClientPVS( idPlayer* player, pvsType_t type );
 	void					SetupPlayerPVS();

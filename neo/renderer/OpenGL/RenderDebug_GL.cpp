@@ -1528,7 +1528,7 @@ Debugging tool
 */
 void idRenderBackend::DBG_ShowEdges( drawSurf_t** drawSurfs, int numDrawSurfs )
 {
-	
+
 }
 
 /*
@@ -1619,7 +1619,7 @@ void idRenderBackend::DBG_ShowViewEnvprobes()
 
 	GL_State( GLS_DEFAULT | GLS_CULL_TWOSIDED );
 
-	renderProgManager.BindShader_Environment();
+	renderProgManager.BindShader_Octahedron();
 
 	int count = 0;
 	for( viewEnvprobe_t* vProbe = viewDef->viewEnvprobes; vProbe != NULL; vProbe = vProbe->next )
