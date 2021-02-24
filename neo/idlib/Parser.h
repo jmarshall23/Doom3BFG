@@ -95,7 +95,7 @@ public:
 	// free the current source
 	void			FreeSource( bool keepDefines = false );
 
-	int				Parse1DMatrixLegacy(int x, float* m);
+	int				Parse1DMatrixLegacy( int x, float* m );
 
 	// returns true if a source is loaded
 	int				IsLoaded() const

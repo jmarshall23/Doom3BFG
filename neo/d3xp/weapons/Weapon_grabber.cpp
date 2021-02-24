@@ -55,7 +55,7 @@ void rvmWeaponGrabber::Init( idWeapon* weapon )
 rvmWeaponGrabber::Raise
 ===============
 */
-stateResult_t rvmWeaponGrabber::Raise(stateParms_t* parms)
+stateResult_t rvmWeaponGrabber::Raise( stateParms_t* parms )
 {
 	enum RisingState
 	{
@@ -63,19 +63,19 @@ stateResult_t rvmWeaponGrabber::Raise(stateParms_t* parms)
 		RISING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case RISING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
-		parms->stage = RISING_WAIT;
-		return SRESULT_WAIT;
+		case RISING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
+			parms->stage = RISING_WAIT;
+			return SRESULT_WAIT;
 
-	case RISING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, GRABBER_RAISE_TO_IDLE))
-		{
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case RISING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, GRABBER_RAISE_TO_IDLE ) )
+			{
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -87,7 +87,7 @@ stateResult_t rvmWeaponGrabber::Raise(stateParms_t* parms)
 rvmWeaponGrabber::Lower
 ===============
 */
-stateResult_t rvmWeaponGrabber::Lower(stateParms_t* parms)
+stateResult_t rvmWeaponGrabber::Lower( stateParms_t* parms )
 {
 	enum LoweringState
 	{
@@ -95,20 +95,20 @@ stateResult_t rvmWeaponGrabber::Lower(stateParms_t* parms)
 		LOWERING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case LOWERING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
-		parms->stage = LOWERING_WAIT;
-		return SRESULT_WAIT;
+		case LOWERING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
+			parms->stage = LOWERING_WAIT;
+			return SRESULT_WAIT;
 
-	case LOWERING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			SetState("Holstered");
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case LOWERING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				SetState( "Holstered" );
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -138,7 +138,7 @@ if ( grabState == 1 || grabState == 2 ) {
 rvmWeaponGrabber::Idle
 ===============
 */
-stateResult_t rvmWeaponGrabber::Idle(stateParms_t* parms)
+stateResult_t rvmWeaponGrabber::Idle( stateParms_t* parms )
 {
 	int grabState = 0;
 
@@ -158,7 +158,7 @@ stateResult_t rvmWeaponGrabber::Idle(stateParms_t* parms)
 		parms->stage = IDLE_GRABBER_OPEN;
 	}
 
-	switch(parms->stage)
+	switch( parms->stage )
 	{
 		case IDLE_NOTSET:
 			owner->Event_WeaponReady();
@@ -334,7 +334,7 @@ void rvmWeaponGrabber::UpdateWarningSound()
 rvmWeaponGrabber::Fire
 ===============
 */
-stateResult_t rvmWeaponGrabber::Fire(stateParms_t* parms)
+stateResult_t rvmWeaponGrabber::Fire( stateParms_t* parms )
 {
 	//int grabState;
 	//
@@ -394,7 +394,7 @@ stateResult_t rvmWeaponGrabber::Fire(stateParms_t* parms)
 rvmWeaponGrabber::Reload
 ===============
 */
-stateResult_t rvmWeaponGrabber::Reload(stateParms_t* parms)
+stateResult_t rvmWeaponGrabber::Reload( stateParms_t* parms )
 {
 	return SRESULT_DONE;
 }

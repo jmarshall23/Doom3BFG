@@ -401,13 +401,14 @@ void idLight::Spawn()
 	spawnArgs.GetInt( "count", "1", count );
 
 // jmarshall
-	lightStyleFrameTime = spawnArgs.GetInt("ls_frametime", "0");
-	lightStyle = spawnArgs.GetInt("style", 0);
+	lightStyleFrameTime = spawnArgs.GetInt( "ls_frametime", "0" );
+	lightStyle = spawnArgs.GetInt( "style", 0 );
 
-	int numStyles = spawnArgs.GetInt("num_styles", "0");
-	for (int i = 0; i < numStyles; i++) {
-		idStr style = spawnArgs.GetString(va("light_style%d", i));
-		light_styles.Append(style);
+	int numStyles = spawnArgs.GetInt( "num_styles", "0" );
+	for( int i = 0; i < numStyles; i++ )
+	{
+		idStr style = spawnArgs.GetString( va( "light_style%d", i ) );
+		light_styles.Append( style );
 	}
 // jmarshall end
 
@@ -906,7 +907,8 @@ idLight::SharedThink
 ================
 */
 // jmarshall
-void idLight::SharedThink() {
+void idLight::SharedThink()
+{
 	float lightval;
 	int cl;
 	int stringlength;
@@ -915,12 +917,14 @@ void idLight::SharedThink() {
 	int otime;
 	int lastch, nextch;
 
-	if (lightStyle == -1) {
+	if( lightStyle == -1 )
+	{
 		return;
 	}
 
-	if (lightStyle > light_styles.Num()) {
-		gameLocal.Error("Light style out of range\n");
+	if( lightStyle > light_styles.Num() )
+	{
+		gameLocal.Error( "Light style out of range\n" );
 		return;
 	}
 
@@ -930,7 +934,8 @@ void idLight::SharedThink() {
 	stringlength = dl_stylestring.Length();
 
 	// it's been a long time since you were updated, lets assume a reset
-	if (otime > 2 * lightStyleFrameTime) {
+	if( otime > 2 * lightStyleFrameTime )
+	{
 		otime = 0;
 		lightStyleState.dl_frame = lightStyleState.dl_oldframe = 0;
 		lightStyleState.dl_backlerp = 0;
@@ -938,44 +943,47 @@ void idLight::SharedThink() {
 
 	lightStyleState.dl_time = gameLocal.time;
 
-	offset = ((float)otime) / lightStyleFrameTime;
-	offsetwhole = (int)offset;
+	offset = ( ( float )otime ) / lightStyleFrameTime;
+	offsetwhole = ( int )offset;
 
 	lightStyleState.dl_backlerp += offset;
 
 
-	if (lightStyleState.dl_backlerp > 1) {                     // we're moving on to the next frame
-		lightStyleState.dl_oldframe = lightStyleState.dl_oldframe + (int)lightStyleState.dl_backlerp;
+	if( lightStyleState.dl_backlerp > 1 )                      // we're moving on to the next frame
+	{
+		lightStyleState.dl_oldframe = lightStyleState.dl_oldframe + ( int )lightStyleState.dl_backlerp;
 		lightStyleState.dl_frame = lightStyleState.dl_oldframe + 1;
-		if (lightStyleState.dl_oldframe >= stringlength) {
-			lightStyleState.dl_oldframe = (lightStyleState.dl_oldframe) % stringlength;
+		if( lightStyleState.dl_oldframe >= stringlength )
+		{
+			lightStyleState.dl_oldframe = ( lightStyleState.dl_oldframe ) % stringlength;
 			//if (cent->dl_oldframe < 3 && cent->dl_sound) { // < 3 so if an alarm comes back into the pvs it will only start a sound if it's going to be closely synced with the light, otherwise wait till the next cycle
 			//	engine->S_StartSound(NULL, cent->currentState.number, CHAN_AUTO, cgs.gameSounds[cent->dl_sound]);
 			//}
 		}
 
-		if (lightStyleState.dl_frame >= stringlength) {
-			lightStyleState.dl_frame = (lightStyleState.dl_frame) % stringlength;
+		if( lightStyleState.dl_frame >= stringlength )
+		{
+			lightStyleState.dl_frame = ( lightStyleState.dl_frame ) % stringlength;
 		}
 
-		lightStyleState.dl_backlerp = lightStyleState.dl_backlerp - (int)lightStyleState.dl_backlerp;
+		lightStyleState.dl_backlerp = lightStyleState.dl_backlerp - ( int )lightStyleState.dl_backlerp;
 	}
 
 
 	lastch = dl_stylestring[lightStyleState.dl_oldframe] - 'a';
 	nextch = dl_stylestring[lightStyleState.dl_frame] - 'a';
 
-	lightval = (lastch * (1.0 - lightStyleState.dl_backlerp)) + (nextch * lightStyleState.dl_backlerp);
+	lightval = ( lastch * ( 1.0 - lightStyleState.dl_backlerp ) ) + ( nextch * lightStyleState.dl_backlerp );
 
 	// ydnar: dlight values go from 0-1.5ish
 #if 0
-	lightval = (lightval * (1000.0f / 24.0f)) - 200.0f; // they want 'm' as the "middle" value as 300
-	lightval = max(0.0f, lightval);
-	lightval = min(1000.0f, lightval);
+	lightval = ( lightval * ( 1000.0f / 24.0f ) ) - 200.0f; // they want 'm' as the "middle" value as 300
+	lightval = max( 0.0f, lightval );
+	lightval = min( 1000.0f, lightval );
 #else
 	lightval *= 0.071429;
-	lightval = Max(0.0f, lightval);
-	lightval = Min(20.0f, lightval);
+	lightval = Max( 0.0f, lightval );
+	lightval = Min( 20.0f, lightval );
 #endif
 
 	renderLight.lightRadius.x = lightval * lightStyleBase.x;
@@ -983,9 +991,9 @@ void idLight::SharedThink() {
 	renderLight.lightRadius.z = lightval * lightStyleBase.z;
 
 
-	if (!common->IsClient())
+	if( !common->IsClient() )
 	{
-		BecomeActive(TH_THINK);
+		BecomeActive( TH_THINK );
 	}
 
 	PresentLightDefChange();

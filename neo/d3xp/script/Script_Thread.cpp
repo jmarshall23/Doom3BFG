@@ -793,7 +793,8 @@ bool idThread::IsWaiting()
 idThread::ClearStack
 ================
 */
-void idThread::ClearStack() {
+void idThread::ClearStack()
+{
 	interpreter.Reset();
 }
 
@@ -802,8 +803,9 @@ void idThread::ClearStack() {
 idThread::PushInt
 ================
 */
-void idThread::PushInt(int value) {
-	interpreter.Push(value);
+void idThread::PushInt( int value )
+{
+	interpreter.Push( value );
 }
 
 /*
@@ -811,8 +813,9 @@ void idThread::PushInt(int value) {
 idThread::PushFloat
 ================
 */
-void idThread::PushFloat(float value) {
-	interpreter.Push(*(int*)&value);
+void idThread::PushFloat( float value )
+{
+	interpreter.Push( *( int* )&value );
 }
 
 /*
@@ -820,9 +823,11 @@ void idThread::PushFloat(float value) {
 idThread::PushVec3
 ================
 */
-void idThread::PushVec3(const idVec3& value) {
-	for (int ix = 0; ix < value.GetDimension(); ++ix) {
-		PushFloat(value[ix]);
+void idThread::PushVec3( const idVec3& value )
+{
+	for( int ix = 0; ix < value.GetDimension(); ++ix )
+	{
+		PushFloat( value[ix] );
 	}
 }
 
@@ -831,10 +836,11 @@ void idThread::PushVec3(const idVec3& value) {
 idThread::PushEntity
 ================
 */
-void idThread::PushEntity(const idEntity* ent) {
-	assert(ent);
+void idThread::PushEntity( const idEntity* ent )
+{
+	assert( ent );
 
-	PushInt(ent->entityNumber + 1);
+	PushInt( ent->entityNumber + 1 );
 }
 
 /*
@@ -842,8 +848,9 @@ void idThread::PushEntity(const idEntity* ent) {
 idThread::PushString
 ================
 */
-void idThread::PushString(const char* string) {
-	interpreter.PushString(string);
+void idThread::PushString( const char* string )
+{
+	interpreter.PushString( string );
 }
 
 /*
@@ -851,8 +858,9 @@ void idThread::PushString(const char* string) {
 idThread::PushBool
 ================
 */
-void idThread::PushBool(bool value) {
-	PushInt((int)value);
+void idThread::PushBool( bool value )
+{
+	PushInt( ( int )value );
 }
 // RAVEN END
 

@@ -64,7 +64,8 @@ typedef enum
 } flagStatus_t;
 
 // jmarshall
-enum mpLeaderStatus_t {
+enum mpLeaderStatus_t
+{
 	LEAD_STATUS_NOTSET,
 	LEAD_STATUS_NOLEAD,
 	LEAD_STATUS_INLEAD
@@ -233,7 +234,7 @@ public:
 	bool			CanPlay( idPlayer* p );
 	bool			WantRespawn( idPlayer* p );
 // jmarshall
-	void			NewState(gameState_t news, idPlayer* player = NULL);
+	void			NewState( gameState_t news, idPlayer* player = NULL );
 // jmarshall end
 	void			ServerWriteInitialReliableMessages( int clientNum, lobbyUserID_t lobbyUserID );
 	void			ClientReadStartState( const idBitMsg& msg );

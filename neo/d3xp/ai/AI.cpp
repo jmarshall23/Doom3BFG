@@ -310,9 +310,10 @@ void idAI::Save( idSaveGame* savefile ) const
 idAI::combat_lost
 =====================
 */
-void idAI::combat_lost() {
+void idAI::combat_lost()
+{
 	//if (!ignore_lostcombat) {
-		SetState("state_LostCombat");
+	SetState( "state_LostCombat" );
 	//}
 }
 
@@ -322,7 +323,7 @@ void idAI::combat_lost() {
 idAI::GetCombatNode
 =====================
 */
-idEntity *idAI::GetCombatNode(void)
+idEntity* idAI::GetCombatNode( void )
 {
 	int				i;
 	float			dist;
@@ -332,40 +333,40 @@ idEntity *idAI::GetCombatNode(void)
 	idCombatNode* bestNode;
 	idActor* enemyEnt = enemy.GetEntity();
 
-	if (!targets.Num())
+	if( !targets.Num() )
 	{
 		// no combat nodes
-		return (NULL);
+		return ( NULL );
 	}
 
-	if (!enemyEnt || !EnemyPositionValid())
+	if( !enemyEnt || !EnemyPositionValid() )
 	{
 		// don't return a combat node if we don't have an enemy or
 		// if we can see he's not in the last place we saw him
 
-		if (team == 0)
+		if( team == 0 )
 		{
 			// find the closest attack node to the player
 			bestNode = NULL;
 			const idVec3& myPos = physicsObj.GetOrigin();
 			const idVec3& playerPos = gameLocal.GetLocalPlayer()->GetPhysics()->GetOrigin();
 
-			bestDist = (myPos - playerPos).LengthSqr();
+			bestDist = ( myPos - playerPos ).LengthSqr();
 
-			for (i = 0; i < targets.Num(); i++)
+			for( i = 0; i < targets.Num(); i++ )
 			{
 				targetEnt = targets[i].GetEntity();
-				if (!targetEnt || !targetEnt->IsType(idCombatNode::Type))
+				if( !targetEnt || !targetEnt->IsType( idCombatNode::Type ) )
 				{
 					continue;
 				}
 
-				node = static_cast<idCombatNode*>(targetEnt);
-				if (!node->IsDisabled())
+				node = static_cast<idCombatNode*>( targetEnt );
+				if( !node->IsDisabled() )
 				{
 					idVec3 org = node->GetPhysics()->GetOrigin();
-					dist = (playerPos - org).LengthSqr();
-					if (dist < bestDist)
+					dist = ( playerPos - org ).LengthSqr();
+					if( dist < bestDist )
 					{
 						bestNode = node;
 						bestDist = dist;
@@ -382,21 +383,21 @@ idEntity *idAI::GetCombatNode(void)
 	// find the closest attack node that can see our enemy and is closer than our enemy
 	bestNode = NULL;
 	const idVec3& myPos = physicsObj.GetOrigin();
-	bestDist = (myPos - lastVisibleEnemyPos).LengthSqr();
-	for (i = 0; i < targets.Num(); i++)
+	bestDist = ( myPos - lastVisibleEnemyPos ).LengthSqr();
+	for( i = 0; i < targets.Num(); i++ )
 	{
 		targetEnt = targets[i].GetEntity();
-		if (!targetEnt || !targetEnt->IsType(idCombatNode::Type))
+		if( !targetEnt || !targetEnt->IsType( idCombatNode::Type ) )
 		{
 			continue;
 		}
 
-		node = static_cast<idCombatNode*>(targetEnt);
-		if (!node->IsDisabled() && node->EntityInView(enemyEnt, lastVisibleEnemyPos))
+		node = static_cast<idCombatNode*>( targetEnt );
+		if( !node->IsDisabled() && node->EntityInView( enemyEnt, lastVisibleEnemyPos ) )
 		{
 			idVec3 org = node->GetPhysics()->GetOrigin();
-			dist = (myPos - org).LengthSqr();
-			if (dist < bestDist)
+			dist = ( myPos - org ).LengthSqr();
+			if( dist < bestDist )
 			{
 				bestNode = node;
 				bestDist = dist;
@@ -412,26 +413,26 @@ idEntity *idAI::GetCombatNode(void)
 idAI::TestAnimMove
 =====================
 */
-bool idAI::TestAnimMove(const char* animname)
+bool idAI::TestAnimMove( const char* animname )
 {
 	int				anim;
 	predictedPath_t path;
 	idVec3			moveVec;
 
-	anim = GetAnim(ANIMCHANNEL_LEGS, animname);
-	if (!anim)
+	anim = GetAnim( ANIMCHANNEL_LEGS, animname );
+	if( !anim )
 	{
-		gameLocal.DWarning("missing '%s' animation on '%s' (%s)", animname, name.c_str(), GetEntityDefName());
+		gameLocal.DWarning( "missing '%s' animation on '%s' (%s)", animname, name.c_str(), GetEntityDefName() );
 		return false;
 	}
 
-	moveVec = animator.TotalMovementDelta(anim) * idAngles(0.0f, ideal_yaw, 0.0f).ToMat3() * physicsObj.GetGravityAxis();
-	idAI::PredictPath(this, aas, physicsObj.GetOrigin(), moveVec, 1000, 1000, (move.moveType == MOVETYPE_FLY) ? SE_BLOCKED : (SE_ENTER_OBSTACLE | SE_BLOCKED | SE_ENTER_LEDGE_AREA), path);
+	moveVec = animator.TotalMovementDelta( anim ) * idAngles( 0.0f, ideal_yaw, 0.0f ).ToMat3() * physicsObj.GetGravityAxis();
+	idAI::PredictPath( this, aas, physicsObj.GetOrigin(), moveVec, 1000, 1000, ( move.moveType == MOVETYPE_FLY ) ? SE_BLOCKED : ( SE_ENTER_OBSTACLE | SE_BLOCKED | SE_ENTER_LEDGE_AREA ), path );
 
-	if (ai_debugMove.GetBool())
+	if( ai_debugMove.GetBool() )
 	{
-		gameRenderWorld->DebugLine(colorGreen, physicsObj.GetOrigin(), physicsObj.GetOrigin() + moveVec, 1);
-		gameRenderWorld->DebugBounds(path.endEvent == 0 ? colorYellow : colorRed, physicsObj.GetBounds(), physicsObj.GetOrigin() + moveVec, 1);
+		gameRenderWorld->DebugLine( colorGreen, physicsObj.GetOrigin(), physicsObj.GetOrigin() + moveVec, 1 );
+		gameRenderWorld->DebugBounds( path.endEvent == 0 ? colorYellow : colorRed, physicsObj.GetBounds(), physicsObj.GetOrigin() + moveVec, 1 );
 	}
 
 	return path.endEvent == 0;
@@ -653,44 +654,45 @@ void idAI::Restore( idRestoreGame* savefile )
 idAI::FindEnemyInCombatNodes
 =====================
 */
-idEntity* idAI::FindEnemyInCombatNodes(void) {
+idEntity* idAI::FindEnemyInCombatNodes( void )
+{
 	int				i, j;
 	idCombatNode* node;
 	idEntity* ent;
 	idEntity* targetEnt;
 	idActor* actor;
 
-	if (!gameLocal.InPlayerPVS(this))
+	if( !gameLocal.InPlayerPVS( this ) )
 	{
 		// don't locate the player when we're not in his PVS
 		return NULL;
 	}
 
-	for (i = 0; i < gameLocal.numClients; i++)
+	for( i = 0; i < gameLocal.numClients; i++ )
 	{
 		ent = gameLocal.entities[i];
 
-		if (!ent || !ent->IsType(idActor::Type))
+		if( !ent || !ent->IsType( idActor::Type ) )
 		{
 			continue;
 		}
 
-		actor = static_cast<idActor*>(ent);
-		if ((actor->health <= 0) || !(ReactionTo(actor) & ATTACK_ON_SIGHT))
+		actor = static_cast<idActor*>( ent );
+		if( ( actor->health <= 0 ) || !( ReactionTo( actor ) & ATTACK_ON_SIGHT ) )
 		{
 			continue;
 		}
 
-		for (j = 0; j < targets.Num(); j++)
+		for( j = 0; j < targets.Num(); j++ )
 		{
 			targetEnt = targets[j].GetEntity();
-			if (!targetEnt || !targetEnt->IsType(idCombatNode::Type))
+			if( !targetEnt || !targetEnt->IsType( idCombatNode::Type ) )
 			{
 				continue;
 			}
 
-			node = static_cast<idCombatNode*>(targetEnt);
-			if (!node->IsDisabled() && node->EntityInView(actor, actor->GetPhysics()->GetOrigin()))
+			node = static_cast<idCombatNode*>( targetEnt );
+			if( !node->IsDisabled() && node->EntityInView( actor, actor->GetPhysics()->GetOrigin() ) )
 			{
 				return actor;
 			}
@@ -976,38 +978,44 @@ void idAI::Spawn()
 	StopMove( MOVE_STATUS_DONE );
 
 	// Only AI that derives off of ai_monster_base can support native AI.
-	supportsNative = scriptObject.GetFunction("supports_native") != NULL;
+	supportsNative = scriptObject.GetFunction( "supports_native" ) != NULL;
 
-	if (supportsNative)
+	if( supportsNative )
 	{
-		stateThread.SetOwner(this);
+		stateThread.SetOwner( this );
 		Init();
 
 		isAwake = false;
 
-		teleportType = GetIntKey("teleport");
-		triggerAnim = GetKey("trigger_anim");
+		teleportType = GetIntKey( "teleport" );
+		triggerAnim = GetKey( "trigger_anim" );
 
-		if (GetIntKey("spawner")) {
-			stateThread.SetState("state_Spawner");
+		if( GetIntKey( "spawner" ) )
+		{
+			stateThread.SetState( "state_Spawner" );
 		}
 
-		if (!GetIntKey("ignore_flashlight")) {
+		if( !GetIntKey( "ignore_flashlight" ) )
+		{
 			// allow waking up from the flashlight
-			Event_WakeOnFlashlight(true);
+			Event_WakeOnFlashlight( true );
 		}
 
-		if (triggerAnim != "") {
-			stateThread.SetState("State_TriggerAnim");
+		if( triggerAnim != "" )
+		{
+			stateThread.SetState( "State_TriggerAnim" );
 		}
-		else if (teleportType > 0) {
-			stateThread.SetState("State_TeleportTriggered");
+		else if( teleportType > 0 )
+		{
+			stateThread.SetState( "State_TeleportTriggered" );
 		}
-		else if (GetIntKey("hide")) {
-			stateThread.SetState("State_TriggerHidden");
+		else if( GetIntKey( "hide" ) )
+		{
+			stateThread.SetState( "State_TriggerHidden" );
 		}
-		else {
-			stateThread.SetState("State_WakeUp");
+		else
+		{
+			stateThread.SetState( "State_WakeUp" );
 		}
 	}
 
@@ -1154,59 +1162,73 @@ void idAI::DormantEnd()
 idAI::checkForEnemy
 ======================
 */
-bool idAI::checkForEnemy(float use_fov) {
+bool idAI::checkForEnemy( float use_fov )
+{
 	idEntity* enemy = NULL;
 	idVec3 size;
 	float dist;
 
-	if (gameLocal.InfluenceActive()) {
+	if( gameLocal.InfluenceActive() )
+	{
 		return false;
 	}
 
-	if (AI_PAIN) {
+	if( AI_PAIN )
+	{
 		// get out of ambush mode when shot
 		ambush = false;
 	}
 
-	if (ignoreEnemies) {
+	if( ignoreEnemies )
+	{
 		// while we're following paths, we only respond to enemies on pain, or when close enough to them
-		if (stay_on_attackpath) {
+		if( stay_on_attackpath )
+		{
 			// don't exit attack_path when close to enemy
 			return false;
 		}
 
 		enemy = this->enemy.GetEntity();
-		if (!enemy) {
-			enemy = FindEnemy(false);
+		if( !enemy )
+		{
+			enemy = FindEnemy( false );
 		}
 
-		if (!enemy) {
+		if( !enemy )
+		{
 			return false;
 		}
 
 		size = GetSize();
-		dist = (size.x * 1.414) + 16;  // diagonal distance plus 16 units
-		if (EnemyRange() > dist) {
+		dist = ( size.x * 1.414 ) + 16; // diagonal distance plus 16 units
+		if( EnemyRange() > dist )
+		{
 			return false;
 		}
 	}
-	else {
-		if (this->enemy.GetEntity()) {
+	else
+	{
+		if( this->enemy.GetEntity() )
+		{
 			// we were probably triggered (which sets our enemy)
 			return true;
 		}
 
-		if (!ignore_sight) {
-			enemy = FindEnemy(use_fov);
+		if( !ignore_sight )
+		{
+			enemy = FindEnemy( use_fov );
 		}
 
-		if (!enemy) {
-			if (ambush) {
+		if( !enemy )
+		{
+			if( ambush )
+			{
 				return false;
 			}
 
-			enemy = HeardSound(true);
-			if (!enemy) {
+			enemy = HeardSound( true );
+			if( !enemy )
+			{
 				return false;
 			}
 		}
@@ -1220,7 +1242,7 @@ bool idAI::checkForEnemy(float use_fov) {
 	// don't use the fov for sight anymore
 	idle_sight_fov = false;
 
-	Event_SetEnemy(enemy);
+	Event_SetEnemy( enemy );
 	return true;
 }
 
@@ -1245,7 +1267,7 @@ void idAI::Think()
 
 	if( thinkFlags & TH_THINK )
 	{
-		if (supportsNative)
+		if( supportsNative )
 		{
 			stateThread.Execute();
 		}
@@ -1382,21 +1404,21 @@ idAI::LinkScriptVariables
 */
 void idAI::LinkScriptVariables()
 {
-	run_distance.LinkTo(scriptObject, "run_distance");
-	walk_turn.LinkTo(scriptObject, "walk_turn");
-	ambush.LinkTo(scriptObject, "ambush");
-	ignoreEnemies.LinkTo(scriptObject, "ignoreEnemies");
-	stay_on_attackpath.LinkTo(scriptObject, "stay_on_attackpath");
-	ignore_sight.LinkTo(scriptObject, "ignore_sight");
-	idle_sight_fov.LinkTo(scriptObject, "idle_sight_fov");
+	run_distance.LinkTo( scriptObject, "run_distance" );
+	walk_turn.LinkTo( scriptObject, "walk_turn" );
+	ambush.LinkTo( scriptObject, "ambush" );
+	ignoreEnemies.LinkTo( scriptObject, "ignoreEnemies" );
+	stay_on_attackpath.LinkTo( scriptObject, "stay_on_attackpath" );
+	ignore_sight.LinkTo( scriptObject, "ignore_sight" );
+	idle_sight_fov.LinkTo( scriptObject, "idle_sight_fov" );
 	AI_TALK.LinkTo(	scriptObject, "AI_TALK" );
 	AI_DAMAGE.LinkTo(	scriptObject, "AI_DAMAGE" );
 	AI_PAIN.LinkTo(	scriptObject, "AI_PAIN" );
 	AI_SPECIAL_DAMAGE.LinkTo(	scriptObject, "AI_SPECIAL_DAMAGE" );
 	AI_DEAD.LinkTo(	scriptObject, "AI_DEAD" );
 	AI_RUN.LinkTo(	scriptObject, "run" );
-	blocked.LinkTo(scriptObject, "blocked");
-	AI_ATTACKING.LinkTo(scriptObject, "AI_ATTACKING");
+	blocked.LinkTo( scriptObject, "blocked" );
+	AI_ATTACKING.LinkTo( scriptObject, "AI_ATTACKING" );
 	AI_ENEMY_VISIBLE.LinkTo(	scriptObject, "AI_ENEMY_VISIBLE" );
 	AI_ENEMY_IN_FOV.LinkTo(	scriptObject, "AI_ENEMY_IN_FOV" );
 	AI_ENEMY_DEAD.LinkTo(	scriptObject, "AI_ENEMY_DEAD" );
@@ -1436,7 +1458,7 @@ void idAI::UpdateAIScript()
 idAI::GetClosestHiddenTarget
 =====================
 */
-idEntity *idAI::GetClosestHiddenTarget(const char* type)
+idEntity* idAI::GetClosestHiddenTarget( const char* type )
 {
 	int	i;
 	idEntity* ent;
@@ -1446,18 +1468,18 @@ idEntity *idAI::GetClosestHiddenTarget(const char* type)
 	const idVec3& org = physicsObj.GetOrigin();
 	idActor* enemyEnt = enemy.GetEntity();
 
-	if (!enemyEnt)
+	if( !enemyEnt )
 	{
 		// no enemy to hide from
 		return NULL;
 	}
 
-	if (targets.Num() == 1)
+	if( targets.Num() == 1 )
 	{
 		ent = targets[0].GetEntity();
-		if (ent != NULL && idStr::Cmp(ent->GetEntityDefName(), type) == 0)
+		if( ent != NULL && idStr::Cmp( ent->GetEntityDefName(), type ) == 0 )
 		{
-			if (!EntityCanSeePos(enemyEnt, lastVisibleEnemyPos, ent->GetPhysics()->GetOrigin()))
+			if( !EntityCanSeePos( enemyEnt, lastVisibleEnemyPos, ent->GetPhysics()->GetOrigin() ) )
 			{
 				return ent;
 			}
@@ -1467,16 +1489,16 @@ idEntity *idAI::GetClosestHiddenTarget(const char* type)
 
 	bestEnt = NULL;
 	bestTime = idMath::INFINITY;
-	for (i = 0; i < targets.Num(); i++)
+	for( i = 0; i < targets.Num(); i++ )
 	{
 		ent = targets[i].GetEntity();
-		if (ent != NULL && idStr::Cmp(ent->GetEntityDefName(), type) == 0)
+		if( ent != NULL && idStr::Cmp( ent->GetEntityDefName(), type ) == 0 )
 		{
 			const idVec3& destOrg = ent->GetPhysics()->GetOrigin();
-			time = TravelDistance(org, destOrg);
-			if ((time >= 0.0f) && (time < bestTime))
+			time = TravelDistance( org, destOrg );
+			if( ( time >= 0.0f ) && ( time < bestTime ) )
 			{
-				if (!EntityCanSeePos(enemyEnt, lastVisibleEnemyPos, destOrg))
+				if( !EntityCanSeePos( enemyEnt, lastVisibleEnemyPos, destOrg ) )
 				{
 					bestEnt = ent;
 					bestTime = time;
@@ -1840,7 +1862,7 @@ void idAI::Killed( idEntity* inflictor, idEntity* attacker, int damage, const id
 
 	restartParticles = false;
 
-	stateThread.SetState("state_Killed");
+	stateThread.SetState( "state_Killed" );
 	SetWaitState( "" );
 
 	const idKeyValue* kv = spawnArgs.MatchPrefix( "def_drops", NULL );
@@ -2174,25 +2196,27 @@ bool idAI::EnemyPositionValid() const
 idAI::PlayCustomAnim
 ================
 */
-void idAI::PlayCustomAnim(idStr animname, float blendIn, float blendOut) {	
+void idAI::PlayCustomAnim( idStr animname, float blendIn, float blendOut )
+{
 	scriptThread->ClearStack();
-	scriptThread->PushEntity(this);
-	scriptThread->PushString(animname);
-	scriptThread->PushFloat(blendIn);
-	scriptThread->PushFloat(blendOut);
-	scriptThread->CallFunction(scriptObject.GetFunction("playCustomAnim"), false);
+	scriptThread->PushEntity( this );
+	scriptThread->PushString( animname );
+	scriptThread->PushFloat( blendIn );
+	scriptThread->PushFloat( blendOut );
+	scriptThread->CallFunction( scriptObject.GetFunction( "playCustomAnim" ), false );
 }
 /*
 ================
 idAI::PlayCustomCycle
 ================
 */
-void idAI::PlayCustomCycle(idStr animname, float blendTime) {
+void idAI::PlayCustomCycle( idStr animname, float blendTime )
+{
 	scriptThread->ClearStack();
-	scriptThread->PushEntity(this);
-	scriptThread->PushString(animname);
-	scriptThread->PushFloat(blendTime);
-	scriptThread->CallFunction(scriptObject.GetFunction("playCustomCycle"), false);
+	scriptThread->PushEntity( this );
+	scriptThread->PushString( animname );
+	scriptThread->PushFloat( blendTime );
+	scriptThread->CallFunction( scriptObject.GetFunction( "playCustomCycle" ), false );
 }
 
 /*
@@ -2200,24 +2224,28 @@ void idAI::PlayCustomCycle(idStr animname, float blendTime) {
 idAI::trigger_wakeup_targets
 ======================
 */
-void idAI::trigger_wakeup_targets(void) {
+void idAI::trigger_wakeup_targets( void )
+{
 	idStr key;
 	idStr name;
 	idEntity* ent;
 
-	key = GetNextKey("wakeup_target", "");
-	while (key != "") {
-		name = GetKey(key);
-		ent = gameLocal.FindEntity(name);
-		if (!ent) {
-			idLib::Warning("Unknown wakeup_target '" + name + "' on entity '" + GetName() + "'");
+	key = GetNextKey( "wakeup_target", "" );
+	while( key != "" )
+	{
+		name = GetKey( key );
+		ent = gameLocal.FindEntity( name );
+		if( !ent )
+		{
+			idLib::Warning( "Unknown wakeup_target '" + name + "' on entity '" + GetName() + "'" );
 		}
-		else {
-			ent->Signal(SIG_TRIGGER);
-			ent->ProcessEvent(&EV_Activate, gameLocal.GetLocalPlayer());
+		else
+		{
+			ent->Signal( SIG_TRIGGER );
+			ent->ProcessEvent( &EV_Activate, gameLocal.GetLocalPlayer() );
 			ent->TriggerGuis();
 		}
-		key = GetNextKey("wakeup_target", key);
+		key = GetNextKey( "wakeup_target", key );
 	}
 }
 
@@ -2226,21 +2254,24 @@ void idAI::trigger_wakeup_targets(void) {
 idAI::checkForEnemy
 ======================
 */
-void idAI::sight_enemy(void) {
+void idAI::sight_enemy( void )
+{
 	idStr animname;
 
 	Event_FaceEnemy();
-	animname = GetKey("on_activate");
-	if (animname != "") {
+	animname = GetKey( "on_activate" );
+	if( animname != "" )
+	{
 		// don't go dormant during on_activate anims since they
 		// may end up floating in air during no gravity anims.
-		Event_SetNeverDormant(true);
-		if (GetIntKey("walk_on_sight")) {
+		Event_SetNeverDormant( true );
+		if( GetIntKey( "walk_on_sight" ) )
+		{
 			Event_MoveToEnemy();
 		}
-		Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Sight", 4);
+		Event_AnimState( ANIMCHANNEL_TORSO, "Torso_Sight", 4 );
 		//waitAction("sight"); // jmarshall implement this?
-		Event_SetNeverDormant(GetFloatKey("neverdormant"));
+		Event_SetNeverDormant( GetFloatKey( "neverdormant" ) );
 	}
 }
 
@@ -3003,14 +3034,17 @@ void idAI::DirectDamage( const char* meleeDefName, idEntity* ent )
 idAI::enemy_dead
 =====================
 */
-void idAI::enemy_dead(void) {
+void idAI::enemy_dead( void )
+{
 	AI_ENEMY_DEAD = false;
-	checkForEnemy(false);
-	if (!GetEnemy()) {
-		SetState("state_Idle");
+	checkForEnemy( false );
+	if( !GetEnemy() )
+	{
+		SetState( "state_Idle" );
 	}
-	else {
-		SetState("state_Combat");
+	else
+	{
+		SetState( "state_Combat" );
 	}
 }
 
@@ -3541,23 +3575,23 @@ Can be overridden by subclasses when a thread doesn't need to be allocated.
 idThread* idAI::ConstructScriptObject()
 {
 	// make sure we have a scriptObject
-	if (!scriptObject.HasObject())
+	if( !scriptObject.HasObject() )
 	{
-		gameLocal.Error("No scriptobject set on '%s'.  Check the '%s' entityDef.", name.c_str(), GetEntityDefName());
+		gameLocal.Error( "No scriptobject set on '%s'.  Check the '%s' entityDef.", name.c_str(), GetEntityDefName() );
 	}
 
-	if (!scriptThread)
+	if( !scriptThread )
 	{
 		// create script thread
 		scriptThread = new idThread();
 		scriptThread->ManualDelete();
 		scriptThread->ManualControl();
-		scriptThread->SetThreadName(name.c_str());
+		scriptThread->SetThreadName( name.c_str() );
 	}
 	else
 	{
 		scriptThread->EndThread();
-	}	
+	}
 
 	return scriptThread;
 }
@@ -3567,19 +3601,20 @@ idThread* idAI::ConstructScriptObject()
 CallConstructor
 ================
 */
-void idAI::CallConstructor(void) {
+void idAI::CallConstructor( void )
+{
 	const function_t* constructor;
 
 	// call script object's constructor
 	constructor = scriptObject.GetConstructor();
-	if (constructor)
+	if( constructor )
 	{
 		//gameLocal.Error( "Missing constructor on '%s' for entity '%s'", scriptObject.GetTypeName(), name.c_str() );
 		// init the script object's data
 		scriptObject.ClearObject();
 
 		// just set the current function on the script.  we'll execute in the subclasses.
-		scriptThread->CallFunction(this, constructor, true);
+		scriptThread->CallFunction( this, constructor, true );
 	}
 
 	AI_Begin();

@@ -12,7 +12,8 @@ rvmBotAIBotSeekNBG botAISeekNBG;
 rvmBotAIBotSeekNBG::Think
 =====================
 */
-void rvmBotAIBotSeekNBG::Think(bot_state_t* bs) {
+void rvmBotAIBotSeekNBG::Think( bot_state_t* bs )
+{
 	bot_goal_t goal;
 	idVec3 target, dir;
 	//bot_moveresult_t moveresult;
@@ -28,7 +29,8 @@ void rvmBotAIBotSeekNBG::Think(bot_state_t* bs) {
 	//}
 
 	// respawn if dead.
-	if (BotIsDead(bs)) {
+	if( BotIsDead( bs ) )
+	{
 		bs->action = &botAIRespawn;
 		return;
 	}
@@ -46,17 +48,21 @@ void rvmBotAIBotSeekNBG::Think(bot_state_t* bs) {
 	//no enemy
 	bs->enemy = -1;
 	//if the bot has no goal
-	if (!botGoalManager.BotGetTopGoal(bs->gs, &goal))
+	if( !botGoalManager.BotGetTopGoal( bs->gs, &goal ) )
+	{
 		bs->nbg_time = 0;
+	}
 	//if the bot touches the current goal
-	else if (BotReachedGoal(bs, &goal)) {
-		BotChooseWeapon(bs);
+	else if( BotReachedGoal( bs, &goal ) )
+	{
+		BotChooseWeapon( bs );
 		bs->nbg_time = 0;
 	}
 
-	if (bs->nbg_time < Bot_Time()) {
+	if( bs->nbg_time < Bot_Time() )
+	{
 		//pop the current goal from the stack
-		botGoalManager.BotPopGoal(bs->gs);
+		botGoalManager.BotPopGoal( bs->gs );
 		//check for new nearby items right away
 		//NOTE: we canNOT reset the check_time to zero because it would create an endless loop of node switches
 		bs->check_time = Bot_Time() + 0.05;
@@ -79,7 +85,7 @@ void rvmBotAIBotSeekNBG::Think(bot_state_t* bs) {
 	//	trap_BotResetAvoidReach(bs->ms);
 	//	bs->nbg_time = 0;
 	//}
-	BotMoveToGoal(bs, &goal);
+	BotMoveToGoal( bs, &goal );
 
 	//check if the bot is blocked
 	//BotAIBlocked(bs, &moveresult, qtrue);
@@ -114,16 +120,19 @@ void rvmBotAIBotSeekNBG::Think(bot_state_t* bs) {
 	//if (moveresult.flags & MOVERESULT_MOVEMENTWEAPON) bs->weaponnum = moveresult.weapon;
 // jmarshall end
 	//if there is an enemy
-	if (BotFindEnemy(bs, -1)) {
-		if (BotWantsToRetreat(bs)) {
+	if( BotFindEnemy( bs, -1 ) )
+	{
+		if( BotWantsToRetreat( bs ) )
+		{
 			//keep the current long term goal and retreat
 			//AIEnter_Battle_NBG(bs, "seek nbg: found enemy");
 			bs->action = &botAIBattleNBG;
 		}
-		else {
+		else
+		{
 			//trap_BotResetLastAvoidReach(bs->ms);
 			//empty the goal stack
-			botGoalManager.BotEmptyGoalStack(bs->gs);
+			botGoalManager.BotEmptyGoalStack( bs->gs );
 			//go fight
 			//AIEnter_Battle_Fight(bs, "seek nbg: found enemy");
 			bs->action = &botAIBattleFight;

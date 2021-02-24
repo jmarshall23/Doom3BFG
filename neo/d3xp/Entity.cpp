@@ -1742,8 +1742,9 @@ float idEntity::GetFloat( const char* key )
 idEntity::GetInt
 ==============
 */
-int idEntity::GetInt(const char* key) {
-	return spawnArgs.GetInt(key, "0");
+int idEntity::GetInt( const char* key )
+{
+	return spawnArgs.GetInt( key, "0" );
 }
 
 /*
@@ -1751,8 +1752,9 @@ int idEntity::GetInt(const char* key) {
 idEntity::GetBool
 ==============
 */
-bool idEntity::GetBool(const char* key) {
-	return spawnArgs.GetBool(key, "0");
+bool idEntity::GetBool( const char* key )
+{
+	return spawnArgs.GetBool( key, "0" );
 }
 
 /*
@@ -5199,7 +5201,7 @@ idVec3 idEntity::GetSize()
 	idBounds bounds;
 
 	bounds = GetPhysics()->GetBounds();
-	return (bounds[1] - bounds[0]);
+	return ( bounds[1] - bounds[0] );
 }
 
 /*
@@ -5227,9 +5229,9 @@ void idEntity::Event_GetMaxs()
 idEntity::Event_Touches
 ================
 */
-bool idEntity::Touches(idEntity* ent)
+bool idEntity::Touches( idEntity* ent )
 {
-	if (!ent)
+	if( !ent )
 	{
 		return false;
 	}
@@ -5237,7 +5239,7 @@ bool idEntity::Touches(idEntity* ent)
 	const idBounds& myBounds = GetPhysics()->GetAbsBounds();
 	const idBounds& entBounds = ent->GetPhysics()->GetAbsBounds();
 
-	return (myBounds.IntersectsBounds(entBounds));
+	return ( myBounds.IntersectsBounds( entBounds ) );
 }
 
 /*
@@ -5246,8 +5248,8 @@ idEntity::Event_Touches
 ================
 */
 void idEntity::Event_Touches( idEntity* ent )
-{	
-	idThread::ReturnInt(Touches(ent));
+{
+	idThread::ReturnInt( Touches( ent ) );
 }
 
 /*
@@ -5323,24 +5325,25 @@ void idEntity::Event_GetNextKey( const char* prefix, const char* lastMatch )
 idEntity::GetNextKey
 ================
 */
-idStr idEntity::GetNextKey(const char* prefix, const char* lastMatch) {
+idStr idEntity::GetNextKey( const char* prefix, const char* lastMatch )
+{
 	const idKeyValue* kv;
 	const idKeyValue* previous;
 
-	if (*lastMatch)
+	if( *lastMatch )
 	{
-		previous = spawnArgs.FindKey(lastMatch);
+		previous = spawnArgs.FindKey( lastMatch );
 	}
 	else
 	{
 		previous = NULL;
 	}
 
-	kv = spawnArgs.MatchPrefix(prefix, previous);
-	if (!kv)
+	kv = spawnArgs.MatchPrefix( prefix, previous );
+	if( !kv )
 	{
 		return "";
-	}	
+	}
 	return kv->GetKey();
 }
 
@@ -5414,20 +5417,21 @@ void idEntity::Event_GetVectorKey( const char* key )
 idEntity::GetEntityKey
 ================
 */
-idEntity* idEntity::GetEntityKey(const char* key) {
+idEntity* idEntity::GetEntityKey( const char* key )
+{
 	idEntity* ent;
 	const char* entname;
 
-	if (!spawnArgs.GetString(key, NULL, &entname))
+	if( !spawnArgs.GetString( key, NULL, &entname ) )
 	{
-		idThread::ReturnEntity(NULL);
+		idThread::ReturnEntity( NULL );
 		return NULL;
 	}
 
-	ent = gameLocal.FindEntity(entname);
-	if (!ent)
+	ent = gameLocal.FindEntity( entname );
+	if( !ent )
 	{
-		gameLocal.Warning("Couldn't find entity '%s' specified in '%s' key in entity '%s'", entname, key, name.c_str());
+		gameLocal.Warning( "Couldn't find entity '%s' specified in '%s' key in entity '%s'", entname, key, name.c_str() );
 	}
 
 	return ent;
@@ -5438,8 +5442,9 @@ idEntity* idEntity::GetEntityKey(const char* key) {
 idEntity::Event_GetEntityKey
 ================
 */
-void idEntity::Event_GetEntityKey( const char* key ) {
-	idThread::ReturnEntity(GetEntityKey(key));
+void idEntity::Event_GetEntityKey( const char* key )
+{
+	idThread::ReturnEntity( GetEntityKey( key ) );
 }
 
 /*

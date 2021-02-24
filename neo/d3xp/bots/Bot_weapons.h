@@ -116,8 +116,10 @@ struct bot_weaponstate_t
 	{
 		inUse = false;
 		weaponweightconfig = NULL;
-		for (int i = 0; i < BOT_MAX_WEAPONS; i++)
+		for( int i = 0; i < BOT_MAX_WEAPONS; i++ )
+		{
 			weaponweightindex[i] = 0;
+		}
 	}
 
 	bool inUse;
@@ -128,26 +130,27 @@ struct bot_weaponstate_t
 //
 // idBotWeaponInfoManager
 //
-class idBotWeaponInfoManager {
+class idBotWeaponInfoManager
+{
 public:
-	void	Init(void);
+	void	Init( void );
 
-	int		BotLoadWeaponWeights(int weaponstate, char* filename);
-	void	BotGetWeaponInfo(int weaponstate, int weapon, weaponinfo_t* weaponinfo);
-	int		BotChooseBestFightWeapon(int weaponstate, int* inventory);
-	void	BotResetWeaponState(int weaponstate);
-	int		BotAllocWeaponState(void);
-	void	BotFreeWeaponState(int ws);
+	int		BotLoadWeaponWeights( int weaponstate, char* filename );
+	void	BotGetWeaponInfo( int weaponstate, int weapon, weaponinfo_t* weaponinfo );
+	int		BotChooseBestFightWeapon( int weaponstate, int* inventory );
+	void	BotResetWeaponState( int weaponstate );
+	int		BotAllocWeaponState( void );
+	void	BotFreeWeaponState( int ws );
 private:
-	int		BotValidWeaponNumber(int weaponnum);
-	bot_weaponstate_t* BotWeaponStateFromHandle(int handle);
-	void	WeaponWeightIndex(weightconfig_t* wwc, bot_weaponstate_t* weaponState);
-	void	BotFreeWeaponWeights(int weaponstate);
+	int		BotValidWeaponNumber( int weaponnum );
+	bot_weaponstate_t* BotWeaponStateFromHandle( int handle );
+	void	WeaponWeightIndex( weightconfig_t* wwc, bot_weaponstate_t* weaponState );
+	void	BotFreeWeaponWeights( int weaponstate );
 private:
-	void	LoadWeaponConfig(char* filename);
+	void	LoadWeaponConfig( char* filename );
 
-	void	ParseWeaponInfo(idParser& parser, weaponinfo_t& newWeaponInfo);
-	void	ParseProjectileInfo(idParser& parser, projectileinfo_t& newProjectileInfo);
+	void	ParseWeaponInfo( idParser& parser, weaponinfo_t& newWeaponInfo );
+	void	ParseProjectileInfo( idParser& parser, projectileinfo_t& newProjectileInfo );
 private:
 	idList<projectileinfo_t> projectileinfo;
 	bot_weaponstate_t botweaponstates[MAX_CLIENTS + 1];

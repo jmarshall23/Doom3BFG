@@ -41,9 +41,9 @@ If you have questions concerning this license or the applicable additional terms
 OBJ_Parse
 =================
 */
-objModel_t* OBJ_Parse(const char* fileName, const char* objFileBuffer, int length)
+objModel_t* OBJ_Parse( const char* fileName, const char* objFileBuffer, int length )
 {
-	objModel_t* model = new(TAG_MODEL) objModel_t;
+	objModel_t* model = new( TAG_MODEL ) objModel_t;
 
 	idLexer src;
 	idToken	token, token2;
@@ -64,16 +64,16 @@ objModel_t* OBJ_Parse(const char* fileName, const char* objFileBuffer, int lengt
 
 	idStrStatic< MAX_OSPATH >	material;
 
-	src.LoadMemory(objFileBuffer, length, fileName, 0);
+	src.LoadMemory( objFileBuffer, length, fileName, 0 );
 
-	while (true)
+	while( true )
 	{
-		if (!src.ReadToken(&token))
+		if( !src.ReadToken( &token ) )
 		{
 			break;
 		}
 
-		if (token == "v")
+		if( token == "v" )
 		{
 			idVec3 vertex;
 #if 0
@@ -85,40 +85,40 @@ objModel_t* OBJ_Parse(const char* fileName, const char* objFileBuffer, int lengt
 			vertex.y = src.ParseFloat();
 			vertex.z = src.ParseFloat();
 #endif
-			vertexes.Append(vertex);
+			vertexes.Append( vertex );
 		}
-		else if (token == "vt")
+		else if( token == "vt" )
 		{
 			idVec2 st;
 			st.x = src.ParseFloat();
 			st.y = 1.0f - src.ParseFloat();
-			texCoords.Append(st);
+			texCoords.Append( st );
 		}
-		else if (token == "#")
+		else if( token == "#" )
 		{
 			idStr line;
 
 			// Skip comments
-			src.ReadRestOfLine(line);
+			src.ReadRestOfLine( line );
 		}
-		else if (token == "mtllib")
+		else if( token == "mtllib" )
 		{
 			idStr line;
 
 			// We don't use obj materials.
-			src.ReadRestOfLine(line);
+			src.ReadRestOfLine( line );
 		}
-		else if (token == "s")
+		else if( token == "s" )
 		{
 			idStr line;
-			src.ReadRestOfLine(line);
+			src.ReadRestOfLine( line );
 		}
-		else if (token == "o" || token == "g")
+		else if( token == "o" || token == "g" )
 		{
 			idStr line;
-			src.ReadRestOfLine(line);
+			src.ReadRestOfLine( line );
 
-			if (objVertexes.Num())
+			if( objVertexes.Num() )
 			{
 				objObject_t* obj = new objObject_t;
 
@@ -135,40 +135,40 @@ objModel_t* OBJ_Parse(const char* fileName, const char* objFileBuffer, int lengt
 				objNormals.Clear();
 				objIndices.Clear();
 
-				model->objects.Append(obj);
+				model->objects.Append( obj );
 			}
 		}
-		else if (token == "usemtl")
+		else if( token == "usemtl" )
 		{
 			idStr line;
-			src.ReadRestOfLine(line);
+			src.ReadRestOfLine( line );
 
 			material = line;
 		}
-		else if (token == "vn")
+		else if( token == "vn" )
 		{
 			idVec3 normal;
 			normal.x = src.ParseFloat();
 			normal.y = src.ParseFloat();
 			normal.z = src.ParseFloat();
-			normals.Append(normal);
+			normals.Append( normal );
 		}
-		else if (token == "f")
+		else if( token == "f" )
 		{
 			idStr line;
 			int vertexIndex[3];
 			int uvIndex[3];
 			int normalIndex[3];
 
-			src.ReadRestOfLine(line);
+			src.ReadRestOfLine( line );
 
-			int matches = sscanf(line.c_str(), "%d/%d/%d %d/%d/%d %d/%d/%d", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
-			if (matches != 9)
+			int matches = sscanf( line.c_str(), "%d/%d/%d %d/%d/%d %d/%d/%d", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
+			if( matches != 9 )
 			{
-				common->FatalError("Failed to parse face line");
+				common->FatalError( "Failed to parse face line" );
 			}
 
-			for (int i = 0; i < 3; i++)
+			for( int i = 0; i < 3; i++ )
 			{
 				idDrawVert drawVert;
 
@@ -180,21 +180,21 @@ objModel_t* OBJ_Parse(const char* fileName, const char* objFileBuffer, int lengt
 				//drawVert.SetTexCoord( texCoords[texidx] );
 				//drawVert.SetNormal( normals[normalidx] );
 
-				objVertexes.Append(vertexes[vertidx]);
-				objTexCoords.Append(texCoords[texidx]);
-				objNormals.Append(normals[normalidx]);
+				objVertexes.Append( vertexes[vertidx] );
+				objTexCoords.Append( texCoords[texidx] );
+				objNormals.Append( normals[normalidx] );
 
 				//objIndices.Append( vertidx - numCollectedVerts );
-				objIndices.Append(objIndices.Num());
+				objIndices.Append( objIndices.Num() );
 			}
 		}
 		else
 		{
-			common->FatalError("idRenderModelStatic::ParseOBJ: Unknown or unexpected token %s", token.c_str());
+			common->FatalError( "idRenderModelStatic::ParseOBJ: Unknown or unexpected token %s", token.c_str() );
 		}
 	}
 
-	if (objVertexes.Num())
+	if( objVertexes.Num() )
 	{
 		objObject_t* obj = new objObject_t;
 
@@ -205,7 +205,7 @@ objModel_t* OBJ_Parse(const char* fileName, const char* objFileBuffer, int lengt
 		obj->normals = objNormals;
 		obj->indexes = objIndices;
 
-		model->objects.Append(obj);
+		model->objects.Append( obj );
 	}
 
 	return model;
@@ -216,22 +216,22 @@ objModel_t* OBJ_Parse(const char* fileName, const char* objFileBuffer, int lengt
 OBJ_Load
 =================
 */
-objModel_t* OBJ_Load(const char* fileName)
+objModel_t* OBJ_Load( const char* fileName )
 {
 	char* objBuffer;
 	ID_TIME_T timeStamp;
 	objModel_t* obj;
 
-	int objBufferLen = fileSystem->ReadFile(fileName, (void**)&objBuffer, &timeStamp);
-	if (objBufferLen <= 0 || objBuffer == nullptr)
+	int objBufferLen = fileSystem->ReadFile( fileName, ( void** )&objBuffer, &timeStamp );
+	if( objBufferLen <= 0 || objBuffer == nullptr )
 	{
 		return NULL;
 	}
 
-	obj = OBJ_Parse(fileName, objBuffer, objBufferLen);
+	obj = OBJ_Parse( fileName, objBuffer, objBufferLen );
 	obj->timeStamp = timeStamp;
 
-	fileSystem->FreeFile(objBuffer);
+	fileSystem->FreeFile( objBuffer );
 
 	return obj;
 }
@@ -241,14 +241,14 @@ objModel_t* OBJ_Load(const char* fileName)
 OBJ_Free
 =================
 */
-void OBJ_Free(objModel_t* model)
+void OBJ_Free( objModel_t* model )
 {
-	if (!model)
+	if( !model )
 	{
 		return;
 	}
 
-	for (int i = 0; i < model->objects.Num(); i++)
+	for( int i = 0; i < model->objects.Num(); i++ )
 	{
 		objObject_t* obj = model->objects[i];
 

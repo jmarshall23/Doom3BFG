@@ -48,7 +48,7 @@ void rvmWeaponBFG::Init( idWeapon* weapon )
 rvmWeaponBFG::Raise
 ===============
 */
-stateResult_t rvmWeaponBFG::Raise(stateParms_t* parms)
+stateResult_t rvmWeaponBFG::Raise( stateParms_t* parms )
 {
 	enum RisingState
 	{
@@ -56,19 +56,19 @@ stateResult_t rvmWeaponBFG::Raise(stateParms_t* parms)
 		RISING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case RISING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
-		parms->stage = RISING_WAIT;
-		return SRESULT_WAIT;
+		case RISING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
+			parms->stage = RISING_WAIT;
+			return SRESULT_WAIT;
 
-	case RISING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, BFG_RAISE_TO_IDLE))
-		{
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case RISING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, BFG_RAISE_TO_IDLE ) )
+			{
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -80,7 +80,7 @@ stateResult_t rvmWeaponBFG::Raise(stateParms_t* parms)
 rvmWeaponBFG::Lower
 ===============
 */
-stateResult_t rvmWeaponBFG::Lower(stateParms_t* parms)
+stateResult_t rvmWeaponBFG::Lower( stateParms_t* parms )
 {
 	enum LoweringState
 	{
@@ -88,20 +88,20 @@ stateResult_t rvmWeaponBFG::Lower(stateParms_t* parms)
 		LOWERING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case LOWERING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
-		parms->stage = LOWERING_WAIT;
-		return SRESULT_WAIT;
+		case LOWERING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
+			parms->stage = LOWERING_WAIT;
+			return SRESULT_WAIT;
 
-	case LOWERING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			SetState("Holstered");
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case LOWERING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				SetState( "Holstered" );
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -112,7 +112,7 @@ stateResult_t rvmWeaponBFG::Lower(stateParms_t* parms)
 rvmWeaponBFG::Idle
 ===============
 */
-stateResult_t rvmWeaponBFG::Idle(stateParms_t* parms)
+stateResult_t rvmWeaponBFG::Idle( stateParms_t* parms )
 {
 	enum IdleState
 	{
@@ -120,26 +120,26 @@ stateResult_t rvmWeaponBFG::Idle(stateParms_t* parms)
 		IDLE_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case IDLE_NOTSET:
-		
-		if (!owner->AmmoInClip())
-		{
-			owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle_empty");
-			owner->Event_WeaponOutOfAmmo();
-		}
-		else
-		{
-			owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle");
-			owner->Event_WeaponReady();
-		}
-		parms->stage = IDLE_WAIT;
-		return SRESULT_WAIT;
+		case IDLE_NOTSET:
 
-	case IDLE_WAIT:
-		// Do nothing.
-		return SRESULT_DONE;
+			if( !owner->AmmoInClip() )
+			{
+				owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle_empty" );
+				owner->Event_WeaponOutOfAmmo();
+			}
+			else
+			{
+				owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
+				owner->Event_WeaponReady();
+			}
+			parms->stage = IDLE_WAIT;
+			return SRESULT_WAIT;
+
+		case IDLE_WAIT:
+			// Do nothing.
+			return SRESULT_DONE;
 	}
 
 	return SRESULT_ERROR;
@@ -150,7 +150,7 @@ stateResult_t rvmWeaponBFG::Idle(stateParms_t* parms)
 rvmWeaponBFG::Fire
 ===============
 */
-stateResult_t rvmWeaponBFG::Fire(stateParms_t* parms)
+stateResult_t rvmWeaponBFG::Fire( stateParms_t* parms )
 {
 	float time_held;
 	float power = 0.0f;
@@ -169,7 +169,7 @@ stateResult_t rvmWeaponBFG::Fire(stateParms_t* parms)
 		FIRE_DONE
 	};
 
-	if (ammoClip == 0 && owner->AmmoAvailable() && parms->stage == 0)
+	if( ammoClip == 0 && owner->AmmoAvailable() && parms->stage == 0 )
 	{
 		//owner->WeaponState( WP_RELOAD, PISTOL_IDLE_TO_RELOAD );
 		owner->Reload();
@@ -328,7 +328,7 @@ void rvmWeaponBFG::OverCharge()
 rvmWeaponBFG::Reload
 ===============
 */
-stateResult_t rvmWeaponBFG::Reload(stateParms_t* parms)
+stateResult_t rvmWeaponBFG::Reload( stateParms_t* parms )
 {
 	enum RELOAD_State
 	{
@@ -336,20 +336,20 @@ stateResult_t rvmWeaponBFG::Reload(stateParms_t* parms)
 		RELOAD_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case RELOAD_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "reload", false);
-		parms->stage = RELOAD_WAIT;
-		return SRESULT_WAIT;
+		case RELOAD_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "reload", false );
+			parms->stage = RELOAD_WAIT;
+			return SRESULT_WAIT;
 
-	case RELOAD_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			owner->Event_AddToClip(owner->ClipSize());
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case RELOAD_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				owner->Event_AddToClip( owner->ClipSize() );
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 	return SRESULT_ERROR;
 }

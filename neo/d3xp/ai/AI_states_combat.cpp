@@ -10,29 +10,30 @@ idAI::state_Combat
 This is the main state for all enemies.
 =====================
 */
-stateResult_t idAI::state_Combat(stateParms_t* parms) {
+stateResult_t idAI::state_Combat( stateParms_t* parms )
+{
 	float attack_flags;
 
-	if (parms->stage == 1 || parms->stage == 2)
+	if( parms->stage == 1 || parms->stage == 2 )
 	{
 		bool result;
-		if (combat_chase(parms, result) == SRESULT_DONE)
+		if( combat_chase( parms, result ) == SRESULT_DONE )
 		{
 			parms->substage = 0;
-			if (result)
+			if( result )
 			{
 				parms->stage = 0;
 				return SRESULT_WAIT;
 			}
 
-			if (parms->stage == 1)
+			if( parms->stage == 1 )
 			{
 				Event_LocateEnemy();
 				parms->stage = 2;
 				return SRESULT_WAIT;
 			}
 
-			if (parms->stage == 2)
+			if( parms->stage == 2 )
 			{
 				combat_lost();
 				parms->stage = 0;
@@ -44,23 +45,27 @@ stateResult_t idAI::state_Combat(stateParms_t* parms) {
 	}
 
 	Event_FaceEnemy();
-	if (AI_ENEMY_IN_FOV) {
-		Event_LookAtEnemy(1);
+	if( AI_ENEMY_IN_FOV )
+	{
+		Event_LookAtEnemy( 1 );
 	}
 
-	if (gameLocal.InfluenceActive()) {
+	if( gameLocal.InfluenceActive() )
+	{
 		return SRESULT_WAIT;
 	}
 
-	if (AI_ENEMY_DEAD) {
+	if( AI_ENEMY_DEAD )
+	{
 		enemy_dead();
 	}
 
 	attack_flags = check_attacks();
-	if (attack_flags) {
+	if( attack_flags )
+	{
 		stateThread.Clear();
-		do_attack(attack_flags);
-		stateThread.PostState("state_Combat");
+		do_attack( attack_flags );
+		stateThread.PostState( "state_Combat" );
 		return SRESULT_DONE_FRAME;
 	}
 
@@ -75,7 +80,8 @@ stateResult_t idAI::state_Combat(stateParms_t* parms) {
 idAI::state_LostCombat
 =====================
 */
-stateResult_t idAI::state_LostCombat(stateParms_t* parms) {	
+stateResult_t idAI::state_LostCombat( stateParms_t* parms )
+{
 	idVec3 ang;
 	float dist;
 	float yaw;
@@ -85,13 +91,15 @@ stateResult_t idAI::state_LostCombat(stateParms_t* parms) {
 	lost_time = gameLocal.SysScriptTime() + gameLocal.SysScriptFrameTime();
 	allow_attack = gameLocal.SysScriptTime() + 4;
 
-	lost_combat_node = GetClosestHiddenTarget("ai_lostcombat");
-	if (lost_combat_node) {
-		stateThread.SetState("state_LostCombat_Node");
+	lost_combat_node = GetClosestHiddenTarget( "ai_lostcombat" );
+	if( lost_combat_node )
+	{
+		stateThread.SetState( "state_LostCombat_Node" );
 		return SRESULT_DONE;
 	}
-	else {
-		stateThread.SetState("state_LostCombat_No_Node");
+	else
+	{
+		stateThread.SetState( "state_LostCombat_No_Node" );
 		return SRESULT_DONE;
 	}
 
@@ -103,7 +111,8 @@ stateResult_t idAI::state_LostCombat(stateParms_t* parms) {
 idAI::state_LostCombat_Node
 =====================
 */
-stateResult_t idAI::state_LostCombat_Node(stateParms_t* parms) {
+stateResult_t idAI::state_LostCombat_Node( stateParms_t* parms )
+{
 	idVec3 ang;
 	float dist;
 	float yaw;
@@ -111,10 +120,11 @@ stateResult_t idAI::state_LostCombat_Node(stateParms_t* parms) {
 	idEntity* possibleEnemy;
 	idEntity* node = lost_combat_node;
 
-	if (parms->stage == 0)
+	if( parms->stage == 0 )
 	{
-		dist = DistanceTo(node);
-		if (dist < 40) {
+		dist = DistanceTo( node );
+		if( dist < 40 )
+		{
 			// fixes infinite loops when close to lost combat node
 			return SRESULT_DONE;
 		}
@@ -123,31 +133,33 @@ stateResult_t idAI::state_LostCombat_Node(stateParms_t* parms) {
 
 		return SRESULT_WAIT;
 	}
-	
-	if (parms->stage == 1)
+
+	if( parms->stage == 1 )
 	{
 		AI_RUN = true;
-		Event_MoveToEntity(node);
+		Event_MoveToEntity( node );
 
 		parms->stage = 2;
 
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 2)
+	if( parms->stage == 2 )
 	{
-		if (!AI_MOVE_DONE)
+		if( !AI_MOVE_DONE )
 		{
-			if (gameLocal.InfluenceActive())
+			if( gameLocal.InfluenceActive() )
 			{
 				parms->stage = 3;
 				return SRESULT_WAIT;
 			}
 
-			possibleEnemy = HeardSound(true);
-			if (possibleEnemy) {
-				if (CanReachEntity(possibleEnemy)) {
-					Event_SetEnemy(possibleEnemy);
+			possibleEnemy = HeardSound( true );
+			if( possibleEnemy )
+			{
+				if( CanReachEntity( possibleEnemy ) )
+				{
+					Event_SetEnemy( possibleEnemy );
 					parms->stage = 3;
 					return SRESULT_WAIT;
 				}
@@ -162,27 +174,29 @@ stateResult_t idAI::state_LostCombat_Node(stateParms_t* parms) {
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 4)
+	if( parms->stage == 4 )
 	{
 		bool result;
-		if (check_blocked(parms, result) == SRESULT_DONE)
+		if( check_blocked( parms, result ) == SRESULT_DONE )
 		{
 			parms->substage = 0;
-			if (result)
+			if( result )
 			{
 				parms->stage = 3;
 				return SRESULT_WAIT;
 			}
 
 			// allow attacks when enemy is outside of fov
-			if (gameLocal.SysScriptTime() > allow_attack) {
+			if( gameLocal.SysScriptTime() > allow_attack )
+			{
 				AI_ENEMY_IN_FOV = AI_ENEMY_VISIBLE;
 			}
 
 			attack_flags = check_attacks();
-			if (attack_flags) {
-				do_attack(attack_flags);
-				stateThread.PostState("state_Combat");
+			if( attack_flags )
+			{
+				do_attack( attack_flags );
+				stateThread.PostState( "state_Combat" );
 				return SRESULT_DONE;
 			}
 
@@ -192,26 +206,29 @@ stateResult_t idAI::state_LostCombat_Node(stateParms_t* parms) {
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 3)
+	if( parms->stage == 3 )
 	{
-		ang = idVec3(0.0f, current_yaw, 0.0f);
-		Event_TurnTo(ang.y);
+		ang = idVec3( 0.0f, current_yaw, 0.0f );
+		Event_TurnTo( ang.y );
 
 		parms->stage = 5;
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 5)
+	if( parms->stage == 5 )
 	{
-		if (!AI_MOVE_DONE)
+		if( !AI_MOVE_DONE )
 		{
-			if (CanReachEnemy()) {
-				if (HeardSound(true)) {
+			if( CanReachEnemy() )
+			{
+				if( HeardSound( true ) )
+				{
 					parms->stage = 6;
 					return SRESULT_WAIT;
 				}
 
-				if (AI_ENEMY_IN_FOV || AI_PAIN) {
+				if( AI_ENEMY_IN_FOV || AI_PAIN )
+				{
 					parms->stage = 6;
 					return SRESULT_WAIT;
 				}
@@ -221,7 +238,7 @@ stateResult_t idAI::state_LostCombat_Node(stateParms_t* parms) {
 		return SRESULT_WAIT;
 	}
 
-	stateThread.SetState("state_LostCombat_Finish");
+	stateThread.SetState( "state_LostCombat_Finish" );
 	return SRESULT_DONE;
 }
 
@@ -230,14 +247,15 @@ stateResult_t idAI::state_LostCombat_Node(stateParms_t* parms) {
 idAI::state_LostCombat_No_Node
 =====================
 */
-stateResult_t idAI::state_LostCombat_No_Node(stateParms_t* parms) {
-	if (parms->stage == 7)
+stateResult_t idAI::state_LostCombat_No_Node( stateParms_t* parms )
+{
+	if( parms->stage == 7 )
 	{
 		bool result;
-		if (check_blocked(parms, result) == SRESULT_DONE)
+		if( check_blocked( parms, result ) == SRESULT_DONE )
 		{
 			parms->substage = 0;
-			if (result)
+			if( result )
 			{
 				parms->stage = 5;
 			}
@@ -250,7 +268,7 @@ stateResult_t idAI::state_LostCombat_No_Node(stateParms_t* parms) {
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 0)
+	if( parms->stage == 0 )
 	{
 		AI_RUN = true;
 		Event_MoveToCover();
@@ -259,9 +277,10 @@ stateResult_t idAI::state_LostCombat_No_Node(stateParms_t* parms) {
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 1)
+	if( parms->stage == 1 )
 	{
-		if (AI_DEST_UNREACHABLE) {
+		if( AI_DEST_UNREACHABLE )
+		{
 			parms->stage = 2;
 		}
 
@@ -270,9 +289,9 @@ stateResult_t idAI::state_LostCombat_No_Node(stateParms_t* parms) {
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 2)
+	if( parms->stage == 2 )
 	{
-		if (combat_wander(parms) != SRESULT_DONE)
+		if( combat_wander( parms ) != SRESULT_DONE )
 		{
 			return SRESULT_WAIT;
 		}
@@ -282,46 +301,56 @@ stateResult_t idAI::state_LostCombat_No_Node(stateParms_t* parms) {
 	}
 
 	// if we're not already in cover
-	if (parms->stage == 3)
+	if( parms->stage == 3 )
 	{
-		if (!AI_MOVE_DONE) {
+		if( !AI_MOVE_DONE )
+		{
 			parms->stage = 4;
 		}
-		else {
+		else
+		{
 			goto done;
 		}
 
 		return SRESULT_DONE;
 	}
 
-	if (parms->stage == 4)
+	if( parms->stage == 4 )
 	{
-		if(!AI_MOVE_DONE) {
-			if (gameLocal.InfluenceActive()) {
+		if( !AI_MOVE_DONE )
+		{
+			if( gameLocal.InfluenceActive() )
+			{
 				parms->stage = 5;
 				return SRESULT_WAIT;
 			}
 			// allow attacks when enemy is outside of fov
-			if (gameLocal.SysScriptTime() > allow_attack) {
+			if( gameLocal.SysScriptTime() > allow_attack )
+			{
 				AI_ENEMY_IN_FOV = AI_ENEMY_VISIBLE;
 			}
 			attack_flags = check_attacks();
-			if (attack_flags) {
-				do_attack(attack_flags);
-				stateThread.PostState("state_Combat");
+			if( attack_flags )
+			{
+				do_attack( attack_flags );
+				stateThread.PostState( "state_Combat" );
 				return SRESULT_DONE;
 			}
 
-			idEntity *possibleEnemy = HeardSound(true);
-			if (possibleEnemy) {
-				if (CanReachEntity(possibleEnemy)) {
-					Event_SetEnemy(possibleEnemy);
+			idEntity* possibleEnemy = HeardSound( true );
+			if( possibleEnemy )
+			{
+				if( CanReachEntity( possibleEnemy ) )
+				{
+					Event_SetEnemy( possibleEnemy );
 					parms->stage = 5;
 					return SRESULT_WAIT;
 				}
 			}
-			if (CanReachEnemy()) {
-				if (AI_ENEMY_IN_FOV || AI_PAIN) {
+			if( CanReachEnemy() )
+			{
+				if( AI_ENEMY_IN_FOV || AI_PAIN )
+				{
 					parms->stage = 5;
 					return SRESULT_WAIT;
 				}
@@ -329,7 +358,8 @@ stateResult_t idAI::state_LostCombat_No_Node(stateParms_t* parms) {
 
 			parms->stage = 7; // check_blocked
 		}
-		else {
+		else
+		{
 			parms->stage = 6;
 			return SRESULT_WAIT;
 		}
@@ -338,16 +368,19 @@ stateResult_t idAI::state_LostCombat_No_Node(stateParms_t* parms) {
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 5)
+	if( parms->stage == 5 )
 	{
-		if (!gameLocal.InfluenceActive()) {
-			if (AI_ENEMY_VISIBLE) {
+		if( !gameLocal.InfluenceActive() )
+		{
+			if( AI_ENEMY_VISIBLE )
+			{
 				Event_FaceEnemy();
 			}
-			else if (AI_MOVE_DONE) {
+			else if( AI_MOVE_DONE )
+			{
 				// turn around to face the way we came
 				float yaw = current_yaw;
-				Event_TurnTo(yaw + 180);
+				Event_TurnTo( yaw + 180 );
 			}
 		}
 
@@ -356,7 +389,7 @@ stateResult_t idAI::state_LostCombat_No_Node(stateParms_t* parms) {
 	}
 
 done:
-	stateThread.SetState("state_LostCombat_Finish");
+	stateThread.SetState( "state_LostCombat_Finish" );
 	return SRESULT_DONE;
 }
 
@@ -365,20 +398,24 @@ done:
 idAI::state_LostCombat_Finish
 =====================
 */
-stateResult_t idAI::state_LostCombat_Finish(stateParms_t* parms) {
-	if (lost_time >= gameLocal.SysScriptTime()) {
-		if (combat_wander(parms) != SRESULT_DONE)
+stateResult_t idAI::state_LostCombat_Finish( stateParms_t* parms )
+{
+	if( lost_time >= gameLocal.SysScriptTime() )
+	{
+		if( combat_wander( parms ) != SRESULT_DONE )
 		{
 			return SRESULT_WAIT;
 		}
 	}
 
-	if (AI_ENEMY_VISIBLE || gameLocal.InfluenceActive()) {
-		stateThread.SetState("state_Combat");
+	if( AI_ENEMY_VISIBLE || gameLocal.InfluenceActive() )
+	{
+		stateThread.SetState( "state_Combat" );
 	}
-	else {
+	else
+	{
 		Event_ClearEnemy();
-		stateThread.SetState("state_Idle");
+		stateThread.SetState( "state_Idle" );
 	}
 
 	return SRESULT_DONE;
@@ -389,11 +426,12 @@ stateResult_t idAI::state_LostCombat_Finish(stateParms_t* parms) {
 idAI::combat_wander
 =====================
 */
-stateResult_t idAI::combat_wander(stateParms_t* parms) {
+stateResult_t idAI::combat_wander( stateParms_t* parms )
+{
 	float mintime;
 	float endtime;
 
-	if (parms->stage == 0)
+	if( parms->stage == 0 )
 	{
 		parms->param1 = gameLocal.SysScriptTime() + 0.2;
 		parms->param2 = gameLocal.SysScriptTime() + 3;
@@ -407,28 +445,31 @@ stateResult_t idAI::combat_wander(stateParms_t* parms) {
 	mintime = parms->param1;
 	endtime = parms->param2;
 
-	if (parms->stage == 1)
+	if( parms->stage == 1 )
 	{
-		if (gameLocal.SysScriptTime() < endtime)
+		if( gameLocal.SysScriptTime() < endtime )
 		{
-			if (gameLocal.InfluenceActive())
+			if( gameLocal.InfluenceActive() )
 			{
 				parms->stage = 2;
 				return SRESULT_WAIT;
 			}
-			// jmarshall - todo 
-						//if (check_attacks()) {
-						//	break;
-						//}
+			// jmarshall - todo
+			//if (check_attacks()) {
+			//	break;
+			//}
 			// jmarshall end
 
-			if (gameLocal.SysScriptTime() > mintime) {
-				if (HeardSound(true)) {
+			if( gameLocal.SysScriptTime() > mintime )
+			{
+				if( HeardSound( true ) )
+				{
 					parms->stage = 2;
 					return SRESULT_WAIT;
 				}
 
-				if (AI_ENEMY_IN_FOV || AI_PAIN) {
+				if( AI_ENEMY_IN_FOV || AI_PAIN )
+				{
 					parms->stage = 2;
 					return SRESULT_WAIT;
 				}
@@ -442,6 +483,6 @@ stateResult_t idAI::combat_wander(stateParms_t* parms) {
 		return SRESULT_WAIT;
 	}
 
-	SetState("state_Combat");
+	SetState( "state_Combat" );
 	return SRESULT_DONE;
 }

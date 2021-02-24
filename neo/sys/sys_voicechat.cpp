@@ -228,7 +228,8 @@ void idVoiceChatMgr::SetTalkerGroup( const lobbyUser_t* user, int lobbyType, int
 	//	idLib::Printf( "SetTalkerGroup: Talker not found.\n" );
 	//	return;
 	//}
-	if (i == -1) {
+	if( i == -1 )
+	{
 		return;
 	}
 // jmarshall end

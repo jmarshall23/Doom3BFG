@@ -39,7 +39,7 @@ void rvmWeaponPistol::Init( idWeapon* weapon )
 rvmWeaponPistol::Raise
 ===============
 */
-stateResult_t rvmWeaponPistol::Raise(stateParms_t* parms)
+stateResult_t rvmWeaponPistol::Raise( stateParms_t* parms )
 {
 	enum RisingState
 	{
@@ -47,19 +47,19 @@ stateResult_t rvmWeaponPistol::Raise(stateParms_t* parms)
 		RISING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case RISING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
-		parms->stage = RISING_WAIT;
-		return SRESULT_WAIT;
+		case RISING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
+			parms->stage = RISING_WAIT;
+			return SRESULT_WAIT;
 
-	case RISING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, PISTOL_RAISE_TO_IDLE))
-		{
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case RISING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, PISTOL_RAISE_TO_IDLE ) )
+			{
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -71,7 +71,7 @@ stateResult_t rvmWeaponPistol::Raise(stateParms_t* parms)
 rvmWeaponPistol::Lower
 ===============
 */
-stateResult_t rvmWeaponPistol::Lower(stateParms_t* parms)
+stateResult_t rvmWeaponPistol::Lower( stateParms_t* parms )
 {
 	enum LoweringState
 	{
@@ -79,20 +79,20 @@ stateResult_t rvmWeaponPistol::Lower(stateParms_t* parms)
 		LOWERING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
 		case LOWERING_NOTSET:
-			owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
 			parms->stage = LOWERING_WAIT;
-		return SRESULT_WAIT;
+			return SRESULT_WAIT;
 
 		case LOWERING_WAIT:
-			if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
 			{
-				SetState("Holstered");
+				SetState( "Holstered" );
 				return SRESULT_DONE;
 			}
-		return SRESULT_WAIT;
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -103,7 +103,7 @@ stateResult_t rvmWeaponPistol::Lower(stateParms_t* parms)
 rvmWeaponPistol::Idle
 ===============
 */
-stateResult_t rvmWeaponPistol::Idle(stateParms_t* parms)
+stateResult_t rvmWeaponPistol::Idle( stateParms_t* parms )
 {
 	enum IdleState
 	{
@@ -111,7 +111,7 @@ stateResult_t rvmWeaponPistol::Idle(stateParms_t* parms)
 		IDLE_WAIT
 	};
 
-	switch(parms->stage)
+	switch( parms->stage )
 	{
 		case IDLE_NOTSET:
 			owner->Event_WeaponReady();
@@ -139,7 +139,7 @@ stateResult_t rvmWeaponPistol::Idle(stateParms_t* parms)
 rvmWeaponPistol::Fire
 ===============
 */
-stateResult_t rvmWeaponPistol::Fire(stateParms_t* parms)
+stateResult_t rvmWeaponPistol::Fire( stateParms_t* parms )
 {
 	int ammoClip = owner->AmmoInClip();
 
@@ -156,7 +156,7 @@ stateResult_t rvmWeaponPistol::Fire(stateParms_t* parms)
 		return SRESULT_DONE;
 	}
 
-	switch(parms->stage)
+	switch( parms->stage )
 	{
 		case FIRE_NOTSET:
 			next_attack = gameLocal.realClientTime + SEC2MS( PISTOL_FIRERATE );
@@ -190,7 +190,7 @@ stateResult_t rvmWeaponPistol::Fire(stateParms_t* parms)
 rvmWeaponPistol::Reload
 ===============
 */
-stateResult_t rvmWeaponPistol::Reload(stateParms_t* parms)
+stateResult_t rvmWeaponPistol::Reload( stateParms_t* parms )
 {
 	enum RELOAD_State
 	{

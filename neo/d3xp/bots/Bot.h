@@ -220,7 +220,7 @@ struct weightconfig_t
 		numweights = 0;
 		filename.Clear();
 
-		for(int i = 0; i < MAX_WEIGHTS; i++)
+		for( int i = 0; i < MAX_WEIGHTS; i++ )
 		{
 			weights[i].Reset();
 		}
@@ -503,7 +503,7 @@ typedef struct bot_state_s
 	int entityeventTime[1024];						//last entity event time
 	//
 	bot_settings_t settings;						//several bot settings
-	int (*ainode)(struct bot_state_s* bs);			//current AI node
+	int ( *ainode )( struct bot_state_s* bs );			//current AI node
 	float thinktime;								//time the bot thinks this frame
 	vec3_t origin;									//origin of the bot
 	vec3_t velocity;								//velocity of the bot
@@ -650,7 +650,7 @@ typedef struct bot_state_s
 	bot_waypoint_t* curpatrolpoint;					//current patrol point the bot is going for
 	int patrolflags;								//patrol flags
 
-// jmarshall	
+// jmarshall
 	bot_goal_t  currentgoal;
 
 	vec3_t		currentMoveGoal;
@@ -670,34 +670,36 @@ typedef struct bot_state_s
 	bot_input_t input;
 } bot_state_t;
 
-void BotUpdateInput(bot_state_t* bs, int time, int elapsed_time);
-qboolean BotIsDead(bot_state_t* bs);
+void BotUpdateInput( bot_state_t* bs, int time, int elapsed_time );
+qboolean BotIsDead( bot_state_t* bs );
 
-void AIEnter_Respawn(bot_state_t* bs, char* s);
+void AIEnter_Respawn( bot_state_t* bs, char* s );
 
 extern float floattime;
 #define FloatTime() floattime
 
 
-float Characteristic_BFloat(bot_character_t* ch, int index, float min, float max);
-void Characteristic_String(bot_character_t* ch, int index, char* buf, int size);
+float Characteristic_BFloat( bot_character_t* ch, int index, float min, float max );
+void Characteristic_String( bot_character_t* ch, int index, char* buf, int size );
 
-bot_character_t* BotLoadCharacterFromFile(char* charfile, int skill);
+bot_character_t* BotLoadCharacterFromFile( char* charfile, int skill );
 
-void BotInitLevelItems(void);
+void BotInitLevelItems( void );
 
-void BotChooseWeapon(bot_state_t* bs);
+void BotChooseWeapon( bot_state_t* bs );
 
-inline float AAS_Time() {
+inline float AAS_Time()
+{
 	return floattime;
 }
 
-unsigned short int BotTravelTime(vec3_t start, vec3_t end);
+unsigned short int BotTravelTime( vec3_t start, vec3_t end );
 #endif
 
 #define MAX_BOT_INVENTORY 256
 
-typedef enum {
+typedef enum
+{
 	NULLMOVEFLAG = -1,
 	MOVE_PRONE,
 	MOVE_CROUCH,
@@ -710,14 +712,17 @@ typedef enum {
 //
 // rvmBotUtil
 //
-class rvmBotUtil {
+class rvmBotUtil
+{
 public:
-	static float random() {
-		return ((rand() & 0x7fff) / ((float)0x7fff));
+	static float random()
+	{
+		return ( ( rand() & 0x7fff ) / ( ( float )0x7fff ) );
 	}
 
-	static float crandom() {
-		return (2.0 * (random() - 0.5));
+	static float crandom()
+	{
+		return ( 2.0 * ( random() - 0.5 ) );
 	}
 };
 
@@ -726,7 +731,8 @@ public:
 #include "Bot_weapons.h"
 #include "Bot_goal.h"
 
-struct bot_state_t {
+struct bot_state_t
+{
 	bot_state_t()
 	{
 		character = NULL;
@@ -735,7 +741,7 @@ struct bot_state_t {
 		Reset();
 	}
 	void Reset()
-	{		
+	{
 		action = 0;
 		lastaction = NULL;
 		attackerEntity = NULL;
@@ -772,7 +778,7 @@ struct bot_state_t {
 		last_enemy_visible_position.Zero();
 		viewangles.Zero();
 		eye.Zero();
-		memset(&inventory[0], 0, sizeof(inventory));
+		memset( &inventory[0], 0, sizeof( inventory ) );
 	}
 
 	bot_character_t* character;
@@ -826,35 +832,39 @@ struct bot_state_t {
 //
 // rvmBot
 //
-class rvmBot : public idPlayer {
+class rvmBot : public idPlayer
+{
 public:
 	friend class rvmBotAI;
 
-	CLASS_PROTOTYPE(rvmBot);
+	CLASS_PROTOTYPE( rvmBot );
 
 	rvmBot();
 	~rvmBot();
 
-	void			Spawn(void);
-	virtual void			Think(void) override;
-	virtual void			SpawnToPoint(const idVec3& spawn_origin, const idAngles& spawn_angles) override;
-	virtual	void			Damage(idEntity* inflictor, idEntity* attacker, const idVec3& dir, const char* damageDefName, const float damageScale, const int location) override;
+	void			Spawn( void );
+	virtual void			Think( void ) override;
+	virtual void			SpawnToPoint( const idVec3& spawn_origin, const idAngles& spawn_angles ) override;
+	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const idVec3& dir, const char* damageDefName, const float damageScale, const int location ) override;
 
-	void			SetEnemy(idPlayer* player);
+	void			SetEnemy( idPlayer* player );
 
-	void			BotInputFrame(idUserCmdMgr& cmdMgr);
-	void			Bot_ResetUcmd(usercmd_t& ucmd);
+	void			BotInputFrame( idUserCmdMgr& cmdMgr );
+	void			Bot_ResetUcmd( usercmd_t& ucmd );
 
-	static void		PresenceTypeBoundingBox(int presencetype, idVec3& mins, idVec3& maxs);
+	static void		PresenceTypeBoundingBox( int presencetype, idVec3& mins, idVec3& maxs );
 private:
-	void			BotInputToUserCommand(bot_input_t* bi, usercmd_t* ucmd, int time);
+	void			BotInputToUserCommand( bot_input_t* bi, usercmd_t* ucmd, int time );
 
-	void			BotMoveToGoalOrigin(void);
+	void			BotMoveToGoalOrigin( void );
 
-	void			ServerThink(void);
-	void			BotUpdateInventory(void);
+	void			ServerThink( void );
+	void			BotUpdateInventory( void );
 
-	bool			HasWeapon(int index) { return inventory.weapons & (1 << index); }
+	bool			HasWeapon( int index )
+	{
+		return inventory.weapons & ( 1 << index );
+	}
 private:
 	bot_state_t		bs;
 	bool			hasSpawned;

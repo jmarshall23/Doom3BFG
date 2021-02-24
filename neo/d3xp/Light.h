@@ -42,7 +42,8 @@ extern const idEventDef EV_Light_SetLightParm;
 extern const idEventDef EV_Light_SetLightParms;
 
 // jmarshall
-struct rvmLightStyleState_t {
+struct rvmLightStyleState_t
+{
 	rvmLightStyleState_t();
 
 	int				dl_frame;
@@ -52,7 +53,8 @@ struct rvmLightStyleState_t {
 	float			dl_backlerp;
 };
 
-ID_INLINE rvmLightStyleState_t::rvmLightStyleState_t() {
+ID_INLINE rvmLightStyleState_t::rvmLightStyleState_t()
+{
 	dl_frame = 0;
 	dl_framef = 0;
 	dl_oldframe = 0;

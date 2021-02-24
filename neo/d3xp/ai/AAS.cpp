@@ -316,8 +316,9 @@ void idAASLocal::GetEdge( int edgeNum, idVec3& start, idVec3& end ) const
 idAASLocal::AdjustPositionAndGetArea
 ============
 */
-int idAASLocal::AdjustPositionAndGetArea(idVec3& origin) {
-	int area = PointReachableAreaNum(origin, DefaultSearchBounds(), AREA_REACHABLE_WALK);
-	PushPointIntoAreaNum(area, origin);
+int idAASLocal::AdjustPositionAndGetArea( idVec3& origin )
+{
+	int area = PointReachableAreaNum( origin, DefaultSearchBounds(), AREA_REACHABLE_WALK );
+	PushPointIntoAreaNum( area, origin );
 	return area;
 }

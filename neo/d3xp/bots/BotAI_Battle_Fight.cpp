@@ -12,24 +12,28 @@ rvmBotAIBotBattleFight botAIBattleFight;
 rvmBotAIBotBattleFight::Think
 =====================
 */
-void rvmBotAIBotBattleFight::Think(bot_state_t* bs) {
+void rvmBotAIBotBattleFight::Think( bot_state_t* bs )
+{
 	int areanum;
 	idVec3 target;
 	idPlayer* entinfo;
 
 	// respawn if dead.
-	if (BotIsDead(bs)) {
+	if( BotIsDead( bs ) )
+	{
 		bs->action = &botAIRespawn;
 		return;
 	}
 
 	//if there is another better enemy
-	if (BotFindEnemy(bs, bs->enemy)) {
-		common->DPrintf("found new better enemy\n");
+	if( BotFindEnemy( bs, bs->enemy ) )
+	{
+		common->DPrintf( "found new better enemy\n" );
 	}
 
 	//if no enemy
-	if (bs->enemy < 0) {
+	if( bs->enemy < 0 )
+	{
 		bs->action = &botAIActionSeekLTG;
 		return;
 	}
@@ -38,12 +42,15 @@ void rvmBotAIBotBattleFight::Think(bot_state_t* bs) {
 	entinfo = gameLocal.entities[bs->enemy]->Cast<idPlayer>();// &g_entities[bs->enemy];
 
 	//if the enemy is dead
-	if (bs->enemydeath_time) {
-		if (bs->enemydeath_time < Bot_Time() - 1.0) {
+	if( bs->enemydeath_time )
+	{
+		if( bs->enemydeath_time < Bot_Time() - 1.0 )
+		{
 			bs->enemydeath_time = 0;
-			if (bs->enemysuicide) {
+			if( bs->enemysuicide )
+			{
 				// jmarshall - bot chat
-								//BotChat_EnemySuicide(bs);
+				//BotChat_EnemySuicide(bs);
 				// jmarshall end
 			}
 			// jmarshall - bot chat stand
@@ -60,8 +67,10 @@ void rvmBotAIBotBattleFight::Think(bot_state_t* bs) {
 			return;
 		}
 	}
-	else {
-		if (EntityIsDead(entinfo)) {
+	else
+	{
+		if( EntityIsDead( entinfo ) )
+		{
 			bs->enemydeath_time = Bot_Time();
 		}
 	}
@@ -85,7 +94,7 @@ void rvmBotAIBotBattleFight::Think(bot_state_t* bs) {
 //	bs->lastenemyareanum = areanum;
 
 	//update the attack inventory values
-	BotUpdateBattleInventory(bs, bs->enemy);
+	BotUpdateBattleInventory( bs, bs->enemy );
 
 	//if the bot's health decreased
 // jmarshall - bot chat
@@ -108,20 +117,23 @@ void rvmBotAIBotBattleFight::Think(bot_state_t* bs) {
 // jmarshall end
 
 	//if the enemy is not visible
-	if (!BotEntityVisible(bs->entitynum, bs->eye, bs->viewangles, 360, bs->enemy)) {
-		if (BotWantsToChase(bs)) {
+	if( !BotEntityVisible( bs->entitynum, bs->eye, bs->viewangles, 360, bs->enemy ) )
+	{
+		if( BotWantsToChase( bs ) )
+		{
 			//AIEnter_Battle_Chase(bs, "battle fight: enemy out of sight");
 			bs->action = &botAIBattleChase;
 			return;
 		}
-		else {
+		else
+		{
 			//AIEnter_Seek_LTG(bs, "battle fight: enemy out of sight");
 			bs->action = &botAIActionSeekLTG;
 			return;
 		}
 	}
 	//use holdable items
-	BotBattleUseItems(bs);
+	BotBattleUseItems( bs );
 	//
 	//bs->tfl = TFL_DEFAULT;
 	//if (bot_grapple.integer) bs->tfl |= TFL_GRAPPLEHOOK;
@@ -132,9 +144,9 @@ void rvmBotAIBotBattleFight::Think(bot_state_t* bs) {
 	//	bs->tfl |= TFL_ROCKETJUMP;
 	//}
 	//choose the best weapon to fight with
-	BotChooseWeapon(bs);
+	BotChooseWeapon( bs );
 	//do attack movements
-	BotAttackMove(bs, 0);
+	BotAttackMove( bs, 0 );
 
 	//if the movement failed
 	//if (moveresult.failure) {
@@ -146,14 +158,16 @@ void rvmBotAIBotBattleFight::Think(bot_state_t* bs) {
 	//BotAIBlocked(bs, &moveresult, qfalse);
 
 	//aim at the enemy
-	BotAimAtEnemy(bs);
+	BotAimAtEnemy( bs );
 
 	//attack the enemy if possible
-	BotCheckAttack(bs);
+	BotCheckAttack( bs );
 
 	//if the bot wants to retreat
-	if (!(bs->flags & BFL_FIGHTSUICIDAL)) {
-		if (BotWantsToRetreat(bs)) {
+	if( !( bs->flags & BFL_FIGHTSUICIDAL ) )
+	{
+		if( BotWantsToRetreat( bs ) )
+		{
 			//AIEnter_Battle_Retreat(bs, "battle fight: wants to retreat");
 			bs->action = &botAIBattleRetreat;
 			return;

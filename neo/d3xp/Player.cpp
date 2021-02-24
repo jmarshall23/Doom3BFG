@@ -9060,9 +9060,9 @@ void idPlayer::Think()
 	}
 
 	// Make sure voice groups are set to the right team
-	if (!IsBot())
+	if( !IsBot() )
 	{
-		if (common->IsMultiplayer() && session->GetState() >= idSession::INGAME && entityNumber < MAX_CLIENTS)  		// The entityNumber < MAX_CLIENTS seems to quiet the static analyzer
+		if( common->IsMultiplayer() && session->GetState() >= idSession::INGAME && entityNumber < MAX_CLIENTS )  		// The entityNumber < MAX_CLIENTS seems to quiet the static analyzer
 		{
 			// Make sure we're on the right team (at the lobby level)
 			const int voiceTeam = spectating ? LOBBY_SPECTATE_TEAM_FOR_VOICE_CHAT : team;
@@ -9070,7 +9070,7 @@ void idPlayer::Think()
 			//idLib::Printf( "SERVER: Sending voice %i / %i\n", entityNumber, voiceTeam );
 
 			// Update lobby team
-			session->GetActingGameStateLobbyBase().SetLobbyUserTeam(gameLocal.lobbyUserIDs[entityNumber], voiceTeam);
+			session->GetActingGameStateLobbyBase().SetLobbyUserTeam( gameLocal.lobbyUserIDs[entityNumber], voiceTeam );
 
 			// Update voice groups to match in case something changed
 			session->SetVoiceGroupsToTeams();
@@ -12540,7 +12540,8 @@ gameExpansionType_t idPlayer::GetExpansionType() const
 idPlayer::IsShooting
 ==============
 */
-bool idPlayer::IsShooting(void) {
+bool idPlayer::IsShooting( void )
+{
 	return AI_ATTACK_HELD;
 }
 
@@ -12549,22 +12550,28 @@ bool idPlayer::IsShooting(void) {
 idPlayer::GetViewHeight
 ==============
 */
-float idPlayer::GetViewHeight(void) {
+float idPlayer::GetViewHeight( void )
+{
 	float newEyeOffset = 0;
 
-	if (spectating) {
+	if( spectating )
+	{
 		newEyeOffset = 0.0f;
 	}
-	else if (health <= 0) {
+	else if( health <= 0 )
+	{
 		newEyeOffset = pm_deadviewheight.GetFloat();
 	}
-	else if (physicsObj.IsCrouching()) {
+	else if( physicsObj.IsCrouching() )
+	{
 		newEyeOffset = pm_crouchviewheight.GetFloat();
 	}
-	else if (GetBindMaster() && GetBindMaster()->IsType(idAFEntity_Vehicle::Type)) {
+	else if( GetBindMaster() && GetBindMaster()->IsType( idAFEntity_Vehicle::Type ) )
+	{
 		newEyeOffset = 0.0f;
 	}
-	else {
+	else
+	{
 		newEyeOffset = pm_normalviewheight.GetFloat();
 	}
 

@@ -47,7 +47,7 @@ struct objModel_t
 };
 
 
-objModel_t* OBJ_Load(const char* fileName);
-void		OBJ_Free(objModel_t* obj);
+objModel_t* OBJ_Load( const char* fileName );
+void		OBJ_Free( objModel_t* obj );
 
 #endif /* !__MODEL_ASE_H__ */

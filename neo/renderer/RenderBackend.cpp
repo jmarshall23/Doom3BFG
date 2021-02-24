@@ -1639,22 +1639,6 @@ void idRenderBackend::RenderInteractions( const drawSurf_t* surfList, const view
 	idStaticList< const drawSurf_t*, MAX_COMPLEX_INTERACTIONS_PER_LIGHT > complexSurfaces;
 	for( const drawSurf_t* walk = surfList; walk != NULL; walk = walk->nextOnLight )
 	{
-
-		// make sure the triangle culling is done
-		if( walk->shadowVolumeState != SHADOWVOLUME_DONE )
-		{
-			assert( walk->shadowVolumeState == SHADOWVOLUME_UNFINISHED || walk->shadowVolumeState == SHADOWVOLUME_DONE );
-
-			uint64 start = Sys_Microseconds();
-			while( walk->shadowVolumeState == SHADOWVOLUME_UNFINISHED )
-			{
-				Sys_Yield();
-			}
-			uint64 end = Sys_Microseconds();
-
-			pc.cpuShadowMicroSec += end - start;
-		}
-
 		const idMaterial* surfaceShader = walk->material;
 		if( surfaceShader->GetFastPathBumpImage() )
 		{
@@ -1749,7 +1733,8 @@ void idRenderBackend::RenderInteractions( const drawSurf_t* surfList, const view
 // jmarshall
 		idVec4 specularColor = lightColor * 2.0f;
 
-		if (vLight->lightDef->parms.noSpecular) {
+		if( vLight->lightDef->parms.noSpecular )
+		{
 			specularColor.Zero();
 		}
 // jmarshall end
@@ -2640,21 +2625,6 @@ void idRenderBackend::StencilShadowPass( const drawSurf_t* drawSurfs, const view
 			// temporarily jump over the scissor and draw so the gl error callback doesn't get hit
 		}
 
-		// make sure the shadow volume is done
-		if( drawSurf->shadowVolumeState != SHADOWVOLUME_DONE )
-		{
-			assert( drawSurf->shadowVolumeState == SHADOWVOLUME_UNFINISHED || drawSurf->shadowVolumeState == SHADOWVOLUME_DONE );
-
-			uint64 start = Sys_Microseconds();
-			while( drawSurf->shadowVolumeState == SHADOWVOLUME_UNFINISHED )
-			{
-				Sys_Yield();
-			}
-			uint64 end = Sys_Microseconds();
-
-			pc.cpuShadowMicroSec += end - start;
-		}
-
 		if( drawSurf->numIndexes == 0 )
 		{
 			continue;	// a job may have created an empty shadow volume
@@ -3288,24 +3258,6 @@ void idRenderBackend::ShadowMapPass( const drawSurf_t* drawSurfs, const viewLigh
 
 	for( const drawSurf_t* drawSurf = drawSurfs; drawSurf != NULL; drawSurf = drawSurf->nextOnLight )
 	{
-
-#if 1
-		// make sure the shadow occluder geometry is done
-		if( drawSurf->shadowVolumeState != SHADOWVOLUME_DONE )
-		{
-			assert( drawSurf->shadowVolumeState == SHADOWVOLUME_UNFINISHED || drawSurf->shadowVolumeState == SHADOWVOLUME_DONE );
-
-			uint64 start = Sys_Microseconds();
-			while( drawSurf->shadowVolumeState == SHADOWVOLUME_UNFINISHED )
-			{
-				Sys_Yield();
-			}
-			uint64 end = Sys_Microseconds();
-
-			pc.cpuShadowMicroSec += end - start;
-		}
-#endif
-
 		if( drawSurf->numIndexes == 0 )
 		{
 			continue;	// a job may have created an empty shadow geometry

@@ -78,7 +78,10 @@ public:
 	virtual void			Present();
 
 // jmarshall
-	int						GetModelIndex() const { return modelindex; }
+	int						GetModelIndex() const
+	{
+		return modelindex;
+	}
 // jmarshall end
 
 	enum
@@ -112,7 +115,7 @@ private:
 	bool					spin;
 	bool					pulse;
 	bool					canPickUp;
-// jmarshall 
+// jmarshall
 	int						modelindex;
 // jmarshall end
 

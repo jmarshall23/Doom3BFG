@@ -326,15 +326,20 @@ void idMultiplayerGame::UpdatePlayerRanks()
 	numRankedPlayers = 0;
 
 // jmarshall
-	memset(playerStateSorted, 0, sizeof(playerStateSorted));
+	memset( playerStateSorted, 0, sizeof( playerStateSorted ) );
 	numRankedPlayers = 0;
 
 	// Find the highest current frag count.
-	for (j = 0; j < gameLocal.numClients; j++) {
-		if (leadFragCount < playerState[j].fragCount)
+	for( j = 0; j < gameLocal.numClients; j++ )
+	{
+		if( leadFragCount < playerState[j].fragCount )
+		{
 			leadFragCount = playerState[j].fragCount;
-		else if (leadFragCount == playerState[j].fragCount && leadFragCount > 0)
+		}
+		else if( leadFragCount == playerState[j].fragCount && leadFragCount > 0 )
+		{
 			tiedScore = true;
+		}
 	}
 // jmarshall end
 
@@ -420,30 +425,37 @@ void idMultiplayerGame::UpdatePlayerRanks()
 
 // jmarshall
 	// Check for rank changes.
-	if (gameLocal.gameType == GAME_DM && gameState >= GAMEON && leadFragCount > 0) {
-		for (j = 0; j < gameLocal.numClients; j++) {
-			if (playerStateSorted[j] == NULL)
+	if( gameLocal.gameType == GAME_DM && gameState >= GAMEON && leadFragCount > 0 )
+	{
+		for( j = 0; j < gameLocal.numClients; j++ )
+		{
+			if( playerStateSorted[j] == NULL )
+			{
 				continue;
+			}
 
-			if (!tiedScore && (playerStateSorted[j]->currentLeader == LEAD_STATUS_NOLEAD || playerStateSorted[j]->currentLeader == LEAD_STATUS_NOTSET) && j == 0) {
-				PlayGlobalSound(playerStateSorted[j]->clientnum, SND_LEADGAINED, NULL);
+			if( !tiedScore && ( playerStateSorted[j]->currentLeader == LEAD_STATUS_NOLEAD || playerStateSorted[j]->currentLeader == LEAD_STATUS_NOTSET ) && j == 0 )
+			{
+				PlayGlobalSound( playerStateSorted[j]->clientnum, SND_LEADGAINED, NULL );
 				playerStateSorted[j]->currentLeader = LEAD_STATUS_INLEAD;
 				playerStateSorted[j]->tiednotified = false;
 			}
-			else if ((playerStateSorted[j]->currentLeader == LEAD_STATUS_INLEAD || playerStateSorted[j]->currentLeader == LEAD_STATUS_NOTSET) && j > 0) {
-				PlayGlobalSound(playerStateSorted[j]->clientnum, SND_LEADLOST, NULL);
+			else if( ( playerStateSorted[j]->currentLeader == LEAD_STATUS_INLEAD || playerStateSorted[j]->currentLeader == LEAD_STATUS_NOTSET ) && j > 0 )
+			{
+				PlayGlobalSound( playerStateSorted[j]->clientnum, SND_LEADLOST, NULL );
 				playerStateSorted[j]->currentLeader = LEAD_STATUS_NOLEAD;
 				playerStateSorted[j]->tiednotified = false;
 			}
-			else if (tiedScore && playerStateSorted[j]->fragCount == leadFragCount) {
-				if (!playerStateSorted[j]->tiednotified)
+			else if( tiedScore && playerStateSorted[j]->fragCount == leadFragCount )
+			{
+				if( !playerStateSorted[j]->tiednotified )
 				{
 					playerStateSorted[j]->currentLeader = LEAD_STATUS_NOLEAD;
-					PlayGlobalSound(playerStateSorted[j]->clientnum, SND_LEADTIED, NULL);
+					PlayGlobalSound( playerStateSorted[j]->clientnum, SND_LEADTIED, NULL );
 					playerStateSorted[j]->tiednotified = true;
 				}
 			}
-			else if (playerStateSorted[j]->currentLeader == LEAD_STATUS_NOLEAD)
+			else if( playerStateSorted[j]->currentLeader == LEAD_STATUS_NOLEAD )
 			{
 				playerStateSorted[j]->tiednotified = false;
 			}

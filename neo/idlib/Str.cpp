@@ -2577,8 +2577,9 @@ CONSOLE_COMMAND( testStrId, "prints a localized string", 0 )
 idStr::Split
 ================
 */
-void idStr::Split(const char* source, idList<idStr>& list, const char delimiter, const char groupDelimiter) {
-	const idStr localSource(source);
+void idStr::Split( const char* source, idList<idStr>& list, const char delimiter, const char groupDelimiter )
+{
+	const idStr localSource( source );
 	int sourceLength = localSource.Length();
 	idStr element;
 	int startIndex = 0;
@@ -2586,23 +2587,27 @@ void idStr::Split(const char* source, idList<idStr>& list, const char delimiter,
 	char currentChar = '\0';
 
 	list.Clear();
-	while (startIndex < sourceLength) {
+	while( startIndex < sourceLength )
+	{
 		currentChar = localSource[startIndex];
-		if (currentChar == groupDelimiter) {
-			endIndex = localSource.Find(groupDelimiter, ++startIndex);
-			if (endIndex == -1) {
-				common->Error("Couldn't find expected char %c in idStr::Split\n", groupDelimiter);
+		if( currentChar == groupDelimiter )
+		{
+			endIndex = localSource.Find( groupDelimiter, ++startIndex );
+			if( endIndex == -1 )
+			{
+				common->Error( "Couldn't find expected char %c in idStr::Split\n", groupDelimiter );
 			}
-			element = localSource.Mid(startIndex, endIndex);
-			element.Strip(groupDelimiter);
-			list.Append(element);
+			element = localSource.Mid( startIndex, endIndex );
+			element.Strip( groupDelimiter );
+			list.Append( element );
 			element.Clear();
 			startIndex = endIndex + 1;
 			continue;
 		}
-		else if (currentChar == delimiter) {
+		else if( currentChar == delimiter )
+		{
 			element += '\0';
-			list.Append(element);
+			list.Append( element );
 			element.Clear();
 			endIndex = ++startIndex;
 			continue;
@@ -2612,9 +2617,10 @@ void idStr::Split(const char* source, idList<idStr>& list, const char delimiter,
 		element += currentChar;
 	}
 
-	if (element.Length()) {
+	if( element.Length() )
+	{
 		element += '\0';
-		list.Append(element);
+		list.Append( element );
 	}
 }
 
@@ -2623,8 +2629,9 @@ void idStr::Split(const char* source, idList<idStr>& list, const char delimiter,
 idStr::Split
 ================
 */
-void idStr::Split(idList<idStr>& list, const char delimiter, const char groupDelimiter) {
-	Split(c_str(), list, delimiter, groupDelimiter);
+void idStr::Split( idList<idStr>& list, const char delimiter, const char groupDelimiter )
+{
+	Split( c_str(), list, delimiter, groupDelimiter );
 }
 // RAVEN END
 
@@ -2634,18 +2641,19 @@ void idStr::Split(idList<idStr>& list, const char delimiter, const char groupDel
 idStr::StripDoubleQuotes
 ===================
 */
-void idStr::StripDoubleQuotes(void) {
+void idStr::StripDoubleQuotes( void )
+{
 	idStr temp = *this;
-	char* string = (char*)temp.c_str();
+	char* string = ( char* )temp.c_str();
 
-	if (*string == '\"')
+	if( *string == '\"' )
 	{
-		strcpy(string, string + 1);
+		strcpy( string, string + 1 );
 	}
 
-	if (string[strlen(string) - 1] == '\"')
+	if( string[strlen( string ) - 1] == '\"' )
 	{
-		string[strlen(string) - 1] = '\0';
+		string[strlen( string ) - 1] = '\0';
 	}
 
 	*this = string;

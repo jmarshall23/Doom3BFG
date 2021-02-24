@@ -455,28 +455,34 @@ public:
 	void					MapRestart();
 	static void				MapRestart_f( const idCmdArgs& args );
 
-	float					SysScriptTime(void) const { return MS2SEC(realClientTime); }
-	float					SysScriptFrameTime(void) const { return MS2SEC(time - previousTime);  }
+	float					SysScriptTime( void ) const
+	{
+		return MS2SEC( realClientTime );
+	}
+	float					SysScriptFrameTime( void ) const
+	{
+		return MS2SEC( time - previousTime );
+	}
 
 	idMapFile* 				GetLevelMap();
 	const char* 			GetMapName() const;
 	void					DelayRemoveEntity( idEntity* entity, int delay );
 
-	bool					InfluenceActive(void) const;
-	idEntity				*GetEntity(const char* name);
+	bool					InfluenceActive( void ) const;
+	idEntity*				GetEntity( const char* name );
 // jmarshall - bots
-	void					AddBot(const char* name);
-	int						TravelTimeToGoal(const idVec3& origin, const idVec3& goal);
-	int						GetBotItemEntry(const char* name);
-	void					Trace(trace_t& results, const idVec3& start, const idVec3& end, int contentMask, int passEntity);
-	void					AlertBots(idPlayer* player, idVec3 alert_position);
+	void					AddBot( const char* name );
+	int						TravelTimeToGoal( const idVec3& origin, const idVec3& goal );
+	int						GetBotItemEntry( const char* name );
+	void					Trace( trace_t& results, const idVec3& start, const idVec3& end, int contentMask, int passEntity );
+	void					AlertBots( idPlayer* player, idVec3 alert_position );
 // jmarshall end
-	float					Random(float range);
-	float					RandomDelay(float min, float max);
-	float					RandomTime(float delay);	
-	float					DelayTime(float delay);
+	float					Random( float range );
+	float					RandomDelay( float min, float max );
+	float					RandomTime( float delay );
+	float					DelayTime( float delay );
 
-	idEntity*				Spawn(const char* classname);
+	idEntity*				Spawn( const char* classname );
 
 	int						NumAAS() const;
 	idAAS* 					GetAAS( int num ) const;
@@ -610,10 +616,19 @@ public:
 		return nextGibTime;
 	};
 // jmarshall
-	idAAS*					GetBotAAS(void) { return bot_aas; }
+	idAAS*					GetBotAAS( void )
+	{
+		return bot_aas;
+	}
 
-	void					RegisterBot(rvmBot* bot) { registeredBots.AddUnique(bot); }
-	void					UnRegisterBot(rvmBot* bot) { registeredBots.Remove(bot); }
+	void					RegisterBot( rvmBot* bot )
+	{
+		registeredBots.AddUnique( bot );
+	}
+	void					UnRegisterBot( rvmBot* bot )
+	{
+		registeredBots.Remove( bot );
+	}
 // jmarshall end
 
 	virtual bool				InhibitControls();
@@ -754,8 +769,8 @@ private:
 	void					InitScriptForMap();
 	void					SetScriptFPS( const float com_engineHz );
 // jmarshall - bots
-	void					RunBotFrame(idUserCmdMgr& cmdMgr);
-	void					SpawnPlayer( int clientNum, bool isBot, const char* botName);
+	void					RunBotFrame( idUserCmdMgr& cmdMgr );
+	void					SpawnPlayer( int clientNum, bool isBot, const char* botName );
 // jmarshall end
 
 	void					InitConsoleCommands();

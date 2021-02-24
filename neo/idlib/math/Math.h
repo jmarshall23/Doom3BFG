@@ -363,19 +363,28 @@ public:
 
 	static void					Init();
 
-	static float				AngleMod(float a);
-	static float				RSqrt(float x);
+	static float				AngleMod( float a );
+	static float				RSqrt( float x );
 
-	static idVec3				CrossProduct(const idVec3& a, const idVec3& b);
-	static float				DistanceSquared(idVec3 p1, idVec3 p2);
-	static float				Distance(idVec3 p1, idVec3 p2);
-	static idVec3				ReflectVector(idVec3 vector, idVec3 normal);
-	static idVec4				CreateVector(float x, float y, float z, float w);
-	static idVec3				CreateVector(float x, float y, float z);
+	static idVec3				CrossProduct( const idVec3& a, const idVec3& b );
+	static float				DistanceSquared( idVec3 p1, idVec3 p2 );
+	static float				Distance( idVec3 p1, idVec3 p2 );
+	static idVec3				ReflectVector( idVec3 vector, idVec3 normal );
+	static idVec4				CreateVector( float x, float y, float z, float w );
+	static idVec3				CreateVector( float x, float y, float z );
 
-	static int					Rand() { return rand(); }
-	static float				FRand() { return Rand() / (float)RAND_MAX; }
-	static float				FRandRange(float min, float max) { return min + (max - min) * FRand(); }
+	static int					Rand()
+	{
+		return rand();
+	}
+	static float				FRand()
+	{
+		return Rand() / ( float )RAND_MAX;
+	}
+	static float				FRandRange( float min, float max )
+	{
+		return min + ( max - min ) * FRand();
+	}
 
 	static float				InvSqrt( float x );			// inverse square root with 32 bits precision, returns huge number when x == 0.0
 	static float				InvSqrt16( float x );		// inverse square root with 16 bits precision, returns huge number when x == 0.0
@@ -1612,21 +1621,23 @@ inline float idMath::LerpToWithScale( const float cur, const float dest, const f
 idMath::Ftob
 ========================
 */
-ID_INLINE float idMath::AngleMod(float a) {
-	a = (360.0 / 65536) * ((int)(a * (65536 / 360.0)) & 65535);
+ID_INLINE float idMath::AngleMod( float a )
+{
+	a = ( 360.0 / 65536 ) * ( ( int )( a * ( 65536 / 360.0 ) ) & 65535 );
 	return a;
 }
 
-ID_INLINE float idMath::RSqrt(float x) {
+ID_INLINE float idMath::RSqrt( float x )
+{
 
 	long i;
 	float y, r;
 
 	y = x * 0.5f;
-	i = *reinterpret_cast<long*>(&x);
-	i = 0x5f3759df - (i >> 1);
-	r = *reinterpret_cast<float*>(&i);
-	r = r * (1.5f - r * r * y);
+	i = *reinterpret_cast<long*>( &x );
+	i = 0x5f3759df - ( i >> 1 );
+	r = *reinterpret_cast<float*>( &i );
+	r = r * ( 1.5f - r * r * y );
 	return r;
 }
 

@@ -184,7 +184,7 @@ void idAASLocal::DrawArea( int areaNum ) const
 	for( i = 0; i < numFaces; i++ )
 	{
 		DrawFace( abs( file->GetFaceIndex( firstFace + i ) ), file->GetFaceIndex( firstFace + i ) < 0 );
-	}	
+	}
 }
 
 /*
@@ -203,18 +203,20 @@ idAASLocal::DrawAreas
 ============
 */
 // jmarshall
-void idAASLocal::DrawAreas(void) const {
-	int viewAreaNum = PointReachableAreaNum(gameLocal.GetLocalPlayer()->GetOrigin(), DefaultSearchBounds(), (AREA_REACHABLE_WALK | AREA_REACHABLE_FLY));
+void idAASLocal::DrawAreas( void ) const
+{
+	int viewAreaNum = PointReachableAreaNum( gameLocal.GetLocalPlayer()->GetOrigin(), DefaultSearchBounds(), ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) );
 
-	DrawArea(viewAreaNum);
+	DrawArea( viewAreaNum );
 
-	aasArea_t area = file->GetArea(viewAreaNum);
+	aasArea_t area = file->GetArea( viewAreaNum );
 	idReachability* reach = area.reach;
 
 	int numRenderedAreas = 0;
-	while (reach != NULL && numRenderedAreas < 230) {		
+	while( reach != NULL && numRenderedAreas < 230 )
+	{
 		int areaNum = reach->toAreaNum;
-		DrawArea(areaNum);
+		DrawArea( areaNum );
 
 		reach = reach->next;
 		numRenderedAreas++;

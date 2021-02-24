@@ -80,20 +80,41 @@ public:
 
 	virtual void			Init( idWeapon* weapon );
 
-	void					SetState(const char* state) { stateThread.SetState(state); }
-	void					AppendState(const char* state) { stateThread.PostState(state); }
-	void					Execute(void) { stateThread.Execute(); }
-	bool					IsRunning(void) { return stateThread.IsExecuting(); }
-	bool					IsStateRunning(const char* name) { return stateThread.CurrentStateIs(name); }
+	void					SetState( const char* state )
+	{
+		stateThread.SetState( state );
+	}
+	void					AppendState( const char* state )
+	{
+		stateThread.PostState( state );
+	}
+	void					Execute( void )
+	{
+		stateThread.Execute();
+	}
+	bool					IsRunning( void )
+	{
+		return stateThread.IsExecuting();
+	}
+	bool					IsStateRunning( const char* name )
+	{
+		return stateThread.CurrentStateIs( name );
+	}
 
-	virtual void			OwnerDied(void) { }
+	virtual void			OwnerDied( void ) { }
 
 	bool					IsFiring();
 	bool					IsReloading();
 
-	stateResult_t			Holstered(stateParms_t* parms) { return SRESULT_WAIT; }
+	stateResult_t			Holstered( stateParms_t* parms )
+	{
+		return SRESULT_WAIT;
+	}
 
-	virtual bool			IsHolstered(void) { return IsStateRunning("Holstered"); }
+	virtual bool			IsHolstered( void )
+	{
+		return IsStateRunning( "Holstered" );
+	}
 
 protected:
 	idWeapon* owner;
@@ -119,7 +140,10 @@ public:
 	virtual bool			ShouldConstructScriptObjectAtSpawn() const;
 	void					SetFlashlightOwner( idPlayer* owner );
 
-	virtual idClass*		InvokeChild() override { return currentWeaponObject; }
+	virtual idClass*		InvokeChild() override
+	{
+		return currentWeaponObject;
+	}
 
 	static void				CacheWeapon( const char* weaponName );
 

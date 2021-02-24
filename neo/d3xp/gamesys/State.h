@@ -34,7 +34,7 @@ struct stateParms_t
 	float	subparam2;
 
 
-	void	Wait(float seconds);
+	void	Wait( float seconds );
 
 	void	Save( idSaveGame* saveFile ) const;
 	void	Restore( idRestoreGame* saveFile );

@@ -322,14 +322,17 @@ ID_INLINE int idLexer::GetFlags()
 }
 
 // jmarshall
-class rvmScopedLexerBaseFolder {
+class rvmScopedLexerBaseFolder
+{
 public:
-	rvmScopedLexerBaseFolder(const char* baseFolder) {
-		idLexer::SetBaseFolder(baseFolder);
+	rvmScopedLexerBaseFolder( const char* baseFolder )
+	{
+		idLexer::SetBaseFolder( baseFolder );
 	}
 
-	~rvmScopedLexerBaseFolder() {
-		idLexer::SetBaseFolder("");
+	~rvmScopedLexerBaseFolder()
+	{
+		idLexer::SetBaseFolder( "" );
 	}
 };
 // jmarshall end

@@ -9,8 +9,9 @@ const int HISTORY_COUNT = 50;
 stateParms_t::Wait
 =====================
 */
-void stateParms_t::Wait(float seconds) { 
-	time = gameLocal.time + SEC2MS(seconds); 
+void stateParms_t::Wait( float seconds )
+{
+	time = gameLocal.time + SEC2MS( seconds );
 }
 
 /*
@@ -200,7 +201,7 @@ void rvStateThread::Clear( bool ignoreStateCalls )
 		{
 			//owner->ProcessState ( call->state, call->parms );
 			//owner->SetStateParms(call->parms);
-			owner->Invoke( call->state, &call->parms);
+			owner->Invoke( call->state, &call->parms );
 		}
 		call->node.Remove();
 		delete call;
@@ -311,16 +312,19 @@ stateResult_t rvStateThread::Execute( void )
 		stateName  = call->state;
 		stateStage = call->parms.stage;
 
-		if (g_debugState.GetBool()) {
-			if (call->parms.stage) {
-				gameLocal.Printf("%s: %s (%d)\n", name.c_str(), call->state.c_str(), call->parms.stage);
+		if( g_debugState.GetBool() )
+		{
+			if( call->parms.stage )
+			{
+				gameLocal.Printf( "%s: %s (%d)\n", name.c_str(), call->state.c_str(), call->parms.stage );
 			}
-			else {
-				gameLocal.Printf("%s: %s\n", name.c_str(), call->state.c_str());
+			else
+			{
+				gameLocal.Printf( "%s: %s\n", name.c_str(), call->state.c_str() );
 			}
 		}
 
-		// Actually call the state function		
+		// Actually call the state function
 		lastResult = ( stateResult_t )owner->Invoke( call->state, &call->parms );
 		switch( lastResult )
 		{

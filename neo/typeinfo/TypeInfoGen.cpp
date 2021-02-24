@@ -854,14 +854,14 @@ void idTypeInfoGen::ParseScope( const char* scope, bool isTemplate, idParser& sr
 					}
 					else if( token == "void" )
 					{
-						
+
 					}
-					else if (token == "stateParms_t")
+					else if( token == "stateParms_t" )
 					{
 						function.paramStateInput = "stateParms_t";
-						src.ReadToken(&token); // *
-						src.ReadToken(&token); // variable name
-					}					
+						src.ReadToken( &token ); // *
+						src.ReadToken( &token ); // variable name
+					}
 					else
 					{
 						function.isValidFunction = false;
@@ -1372,9 +1372,9 @@ void idTypeInfoGen::WriteTypeInfo( const char* fileName ) const
 				filecpp->WriteFloatString( "\tif(functionNameHash == %d) { // %s\n", hash, varName );
 
 				idStr functionCall = varName;
-				if (info->functions[j].paramStateInput != "")
+				if( info->functions[j].paramStateInput != "" )
 				{
-					functionCall += va("((%s *)param1)", info->functions[j].paramStateInput.c_str());
+					functionCall += va( "((%s *)param1)", info->functions[j].paramStateInput.c_str() );
 				}
 				else
 				{
@@ -1383,112 +1383,116 @@ void idTypeInfoGen::WriteTypeInfo( const char* fileName ) const
 
 				if( !strstr( info->functions[j].returnType.c_str(), "*" ) && info->functions[j].returnType != "stateResult_t " && info->functions[j].returnType != "int " && info->functions[j].returnType != "short " && info->functions[j].returnType != "bool " )
 				{
-					filecpp->WriteFloatString( "\t\t%s;\n", functionCall.c_str());
+					filecpp->WriteFloatString( "\t\t%s;\n", functionCall.c_str() );
 					filecpp->WriteFloatString( "\t\treturn 0;\n", varName );
 				}
 				else
 				{
-					filecpp->WriteFloatString( "\t\treturn (intptr_t)%s;\n", functionCall.c_str());
+					filecpp->WriteFloatString( "\t\treturn (intptr_t)%s;\n", functionCall.c_str() );
 				}
 				filecpp->WriteFloatString( "\t};\n" );
 			}
 
-			if (typeInfoName == "idClass") {
-				filecpp->WriteFloatString("\treturn 0;\n\n");
+			if( typeInfoName == "idClass" )
+			{
+				filecpp->WriteFloatString( "\treturn 0;\n\n" );
 			}
-			else {
-				filecpp->WriteFloatString("\treturn __super::Invoke(functionName, param1);\n\n");
+			else
+			{
+				filecpp->WriteFloatString( "\treturn __super::Invoke(functionName, param1);\n\n" );
 			}
 			filecpp->WriteFloatString( "};\n\n" );
 		}
 
-		if (info->functions.Num() > 0)
+		if( info->functions.Num() > 0 )
 		{
-			filecpp->WriteFloatString("bool %s::HasNativeFunction(const char *functionName) {\n", typeInfoName.c_str(), typeName.c_str());
+			filecpp->WriteFloatString( "bool %s::HasNativeFunction(const char *functionName) {\n", typeInfoName.c_str(), typeName.c_str() );
 			//file->WriteFloatString("\tTypeInfoVariableArgs();\n");
-			filecpp->WriteFloatString("\tint functionNameHash = idStr::Hash(functionName);\n");
-			for (j = 0; j < info->functions.Num(); j++)
+			filecpp->WriteFloatString( "\tint functionNameHash = idStr::Hash(functionName);\n" );
+			for( j = 0; j < info->functions.Num(); j++ )
 			{
 				//const char* varType = info->functions[j].returnType.c_str();
 				const char* varName = info->functions[j].name.c_str();
 
-				if (info->functions[j].name[0] == '(')
+				if( info->functions[j].name[0] == '(' )
 				{
 					continue;
 				}
 
-				if (info->functions[j].name[0] == ':')
+				if( info->functions[j].name[0] == ':' )
 				{
 					continue;
 				}
 
-				if (!info->functions[j].isValidFunction)
+				if( !info->functions[j].isValidFunction )
 				{
 					continue;
 				}
 
 				idStr tempName = info->functions[j].name;
-				tempName.Replace("_s", "_t");
+				tempName.Replace( "_s", "_t" );
 
 				// constructors/deconstrctors
-				if (typeName == info->functions[j].name)
+				if( typeName == info->functions[j].name )
 				{
 					continue;
 				}
 
-				if (strstr(varName, "idMenuDataSource")) // HACK!
+				if( strstr( varName, "idMenuDataSource" ) ) // HACK!
 				{
 					continue;
 				}
 
-				if (strstr(varName, "idMenuScreen")) // HACK!
+				if( strstr( varName, "idMenuScreen" ) ) // HACK!
 				{
 					continue;
 				}
 
-				if (strstr(varName, "doomLeaderboard_t")) // HACK!
+				if( strstr( varName, "doomLeaderboard_t" ) ) // HACK!
 				{
 					continue;
 				}
 
-				if (strstr(varName, "optionData_t")) // HACK!
+				if( strstr( varName, "optionData_t" ) ) // HACK!
 				{
 					continue;
 				}
 
-				if (strstr(varName, "rididBodyIState_s")) // HACK!
+				if( strstr( varName, "rididBodyIState_s" ) ) // HACK!
 				{
 					continue;
 				}
 
-				if (strstr(varName, "simulatedProjectile_t")) // HACK!
+				if( strstr( varName, "simulatedProjectile_t" ) ) // HACK!
 				{
 					continue;
 				}
 
-				if (typeName == tempName)
+				if( typeName == tempName )
 				{
 					continue;
 				}
 
-				if (info->functions[j].isStatic)
+				if( info->functions[j].isStatic )
 				{
 					continue;
 				}
 
-				int hash = idStr::Hash(varName);
-				filecpp->WriteFloatString("\tif(functionNameHash == %d) { // %s\n", hash, varName);
-				filecpp->WriteFloatString("\t\treturn true;\n");
-				filecpp->WriteFloatString("\t};\n");
+				int hash = idStr::Hash( varName );
+				filecpp->WriteFloatString( "\tif(functionNameHash == %d) { // %s\n", hash, varName );
+				filecpp->WriteFloatString( "\t\treturn true;\n" );
+				filecpp->WriteFloatString( "\t};\n" );
 			}
 
-			if (typeInfoName == "idClass") {
-				filecpp->WriteFloatString("\treturn false;\n\n");
+			if( typeInfoName == "idClass" )
+			{
+				filecpp->WriteFloatString( "\treturn false;\n\n" );
 			}
-			else {
-				filecpp->WriteFloatString("\treturn __super::HasNativeFunction(functionName);\n\n");
+			else
+			{
+				filecpp->WriteFloatString( "\treturn __super::HasNativeFunction(functionName);\n\n" );
 			}
-			filecpp->WriteFloatString("};\n\n");
+			filecpp->WriteFloatString( "};\n\n" );
 		}
 
 		file->WriteFloatString( "static classVariableInfo_t %s_typeInfo[] = {\n", typeInfoName.c_str() );

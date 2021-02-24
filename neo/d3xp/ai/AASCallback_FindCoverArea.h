@@ -14,12 +14,13 @@
 ===============================================================================
 */
 
-class idAASCallback_FindCoverArea : public idAASCallback_AvoidLocation {
+class idAASCallback_FindCoverArea : public idAASCallback_AvoidLocation
+{
 public:
-							idAASCallback_FindCoverArea( const idVec3 &hideFromPos );
-							~idAASCallback_FindCoverArea();
+	idAASCallback_FindCoverArea( const idVec3& hideFromPos );
+	~idAASCallback_FindCoverArea();
 
-	virtual bool			AreaIsGoal( const idAAS *aas, int areaNum );
+	virtual bool			AreaIsGoal( const idAAS* aas, int areaNum );
 
 private:
 	static const int		MAX_PVS_AREAS = 4;

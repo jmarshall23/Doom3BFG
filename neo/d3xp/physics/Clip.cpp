@@ -878,7 +878,7 @@ idClip::Init
 ===============
 */
 void idClip::Init()
-{	
+{
 	idVec3 size, maxSector = vec3_origin;
 
 	// clear clip sectors
@@ -888,7 +888,7 @@ void idClip::Init()
 	touchCount = -1;
 	// get world map bounds
 	worldCollisionModel = collisionModelManager->LoadModel( "worldMap" );
-	collisionModelManager->GetModelBounds(worldCollisionModel, worldBounds );
+	collisionModelManager->GetModelBounds( worldCollisionModel, worldBounds );
 	// create world sectors
 	CreateClipSectors_r( 0, worldBounds, maxSector );
 
@@ -1769,11 +1769,13 @@ int idClip::Contacts( contactInfo_t* contacts, const int maxContacts, const idVe
 idClip::PointContents
 ============
 */
-int idClip::PointContents(const idVec3 p) {
+int idClip::PointContents( const idVec3 p )
+{
 	int contents = -1;
 
-	contents = collisionModelManager->PointContents(p, worldCollisionModel);
-	if (contents > 0) {
+	contents = collisionModelManager->PointContents( p, worldCollisionModel );
+	if( contents > 0 )
+	{
 		return contents;
 	}
 

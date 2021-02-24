@@ -228,7 +228,7 @@ void idGameLocal::SyncPlayersWithLobbyUsers( bool initial )
 
 		// spawn the player
 // jmarshall - bot support
-		SpawnPlayer( freePlayerDataIndex, lobby.GetLobbyUserIsBot(lobbyUserID), lobby.GetLobbyUserName(lobbyUserID) );
+		SpawnPlayer( freePlayerDataIndex, lobby.GetLobbyUserIsBot( lobbyUserID ), lobby.GetLobbyUserName( lobbyUserID ) );
 // jmarshall end
 
 		common->UpdateLevelLoadPacifier();
@@ -1564,10 +1564,11 @@ void idEventQueue::Enqueue( entityNetEvent_t* event, outOfOrderBehaviour_t behav
 idGameLocal::RunBotFrame
 ================
 */
-void idGameLocal::RunBotFrame(idUserCmdMgr& cmdMgr) {
-	for (int i = 0; i < registeredBots.Num(); i++)
+void idGameLocal::RunBotFrame( idUserCmdMgr& cmdMgr )
+{
+	for( int i = 0; i < registeredBots.Num(); i++ )
 	{
-		registeredBots[i]->BotInputFrame(cmdMgr);
+		registeredBots[i]->BotInputFrame( cmdMgr );
 	}
 }
 // jmarshall end

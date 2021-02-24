@@ -118,7 +118,7 @@ void rvmWeaponChainGun::SpinDown()
 rvmWeaponChainGun::Raise
 ===============
 */
-stateResult_t rvmWeaponChainGun::Raise(stateParms_t* parms)
+stateResult_t rvmWeaponChainGun::Raise( stateParms_t* parms )
 {
 	enum RisingState
 	{
@@ -126,19 +126,19 @@ stateResult_t rvmWeaponChainGun::Raise(stateParms_t* parms)
 		RISING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case RISING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
-		parms->stage = RISING_WAIT;
-		return SRESULT_WAIT;
+		case RISING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
+			parms->stage = RISING_WAIT;
+			return SRESULT_WAIT;
 
-	case RISING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, CHAINGUN_RAISE_TO_IDLE))
-		{
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case RISING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, CHAINGUN_RAISE_TO_IDLE ) )
+			{
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -150,7 +150,7 @@ stateResult_t rvmWeaponChainGun::Raise(stateParms_t* parms)
 rvmWeaponChainGun::Lower
 ===============
 */
-stateResult_t rvmWeaponChainGun::Lower(stateParms_t* parms)
+stateResult_t rvmWeaponChainGun::Lower( stateParms_t* parms )
 {
 	enum LoweringState
 	{
@@ -158,20 +158,20 @@ stateResult_t rvmWeaponChainGun::Lower(stateParms_t* parms)
 		LOWERING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case LOWERING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
-		parms->stage = LOWERING_WAIT;
-		return SRESULT_WAIT;
+		case LOWERING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
+			parms->stage = LOWERING_WAIT;
+			return SRESULT_WAIT;
 
-	case LOWERING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			SetState("Holstered");
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case LOWERING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				SetState( "Holstered" );
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -182,7 +182,7 @@ stateResult_t rvmWeaponChainGun::Lower(stateParms_t* parms)
 rvmWeaponChainGun::Idle
 ===============
 */
-stateResult_t rvmWeaponChainGun::Idle(stateParms_t* parms)
+stateResult_t rvmWeaponChainGun::Idle( stateParms_t* parms )
 {
 	enum IdleState
 	{
@@ -190,25 +190,25 @@ stateResult_t rvmWeaponChainGun::Idle(stateParms_t* parms)
 		IDLE_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case IDLE_NOTSET:
-		
-		if (!owner->AmmoInClip())
-		{
-			owner->Event_WeaponOutOfAmmo();
-		}
-		else
-		{
-			owner->Event_WeaponReady();
-		}
-		owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle");
-		parms->stage = IDLE_WAIT;
-		return SRESULT_WAIT;
+		case IDLE_NOTSET:
 
-	case IDLE_WAIT:
-		// Do nothing.
-		return SRESULT_DONE;
+			if( !owner->AmmoInClip() )
+			{
+				owner->Event_WeaponOutOfAmmo();
+			}
+			else
+			{
+				owner->Event_WeaponReady();
+			}
+			owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
+			parms->stage = IDLE_WAIT;
+			return SRESULT_WAIT;
+
+		case IDLE_WAIT:
+			// Do nothing.
+			return SRESULT_DONE;
 	}
 
 	return SRESULT_ERROR;
@@ -219,7 +219,7 @@ stateResult_t rvmWeaponChainGun::Idle(stateParms_t* parms)
 rvmWeaponChainGun::Fire
 ===============
 */
-stateResult_t rvmWeaponChainGun::Fire(stateParms_t* parms)
+stateResult_t rvmWeaponChainGun::Fire( stateParms_t* parms )
 {
 	float ammoClip;
 //	float currentTime;
@@ -281,7 +281,7 @@ stateResult_t rvmWeaponChainGun::Fire(stateParms_t* parms)
 					numSkipFrames = 0;
 				}
 				else
-				{					
+				{
 					SpinDown();
 					return SRESULT_DONE;
 				}
@@ -297,7 +297,7 @@ stateResult_t rvmWeaponChainGun::Fire(stateParms_t* parms)
 rvmWeaponChainGun::Reload
 ===============
 */
-stateResult_t rvmWeaponChainGun::Reload(stateParms_t* parms)
+stateResult_t rvmWeaponChainGun::Reload( stateParms_t* parms )
 {
 	enum RELOAD_State
 	{
@@ -305,20 +305,20 @@ stateResult_t rvmWeaponChainGun::Reload(stateParms_t* parms)
 		RELOAD_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case RELOAD_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "reload", false);
-		parms->stage = RELOAD_WAIT;
-		return SRESULT_WAIT;
+		case RELOAD_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "reload", false );
+			parms->stage = RELOAD_WAIT;
+			return SRESULT_WAIT;
 
-	case RELOAD_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			owner->Event_AddToClip(owner->ClipSize());
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case RELOAD_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				owner->Event_AddToClip( owner->ClipSize() );
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 	return SRESULT_ERROR;
 }

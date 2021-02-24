@@ -12,8 +12,10 @@ rvmBotAIBotRespawn botAIRespawn;
 rvmBotAIBotRespawn::Think
 =====================
 */
-void rvmBotAIBotRespawn::Think(bot_state_t* bs) {
-	if(!BotIsDead(bs)) {
+void rvmBotAIBotRespawn::Think( bot_state_t* bs )
+{
+	if( !BotIsDead( bs ) )
+	{
 		bs->botinput.respawn = false;
 		bs->action = &botAIActionSeekLTG;
 		return;

@@ -136,7 +136,7 @@ public:
 									  const idTraceModel* trm, const idMat3& trmAxis, int contentMask,
 									  cmHandle_t model, const idVec3& modelOrigin, const idMat3& modelAxis ) = 0;
 
-	virtual int		PointContents(const idVec3 p, cmHandle_t model) = 0;
+	virtual int		PointContents( const idVec3 p, cmHandle_t model ) = 0;
 
 	// Tests collision detection.
 	virtual void			DebugOutput( const idVec3& origin ) = 0;

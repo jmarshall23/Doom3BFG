@@ -12,27 +12,29 @@
 ===============================================================================
 */
 
-struct idAASObstacle {
+struct idAASObstacle
+{
 	idBounds				absBounds;		// absolute bounds of obstacle
 	mutable idBounds		expAbsBounds;	// expanded absolute bounds of obstacle
 };
 
-class idAASCallback_AvoidLocation : public idAASCallback {
+class idAASCallback_AvoidLocation : public idAASCallback
+{
 public:
-							idAASCallback_AvoidLocation();
-							~idAASCallback_AvoidLocation();
+	idAASCallback_AvoidLocation();
+	~idAASCallback_AvoidLocation();
 
-	void					SetAvoidLocation( const idVec3 &start, const idVec3 &avoidLocation );
-	void					SetObstacles( const idAAS *aas, const idAASObstacle *obstacles, int numObstacles );
+	void					SetAvoidLocation( const idVec3& start, const idVec3& avoidLocation );
+	void					SetObstacles( const idAAS* aas, const idAASObstacle* obstacles, int numObstacles );
 
-	virtual bool			PathValid( const idAAS *aas, const idVec3 &start, const idVec3 &end );
-	virtual int				AdditionalTravelTimeForPath( const idAAS *aas, const idVec3 &start, const idVec3 &end );
-	virtual bool			AreaIsGoal( const idAAS *aas, int areaNum ) = 0;
+	virtual bool			PathValid( const idAAS* aas, const idVec3& start, const idVec3& end );
+	virtual int				AdditionalTravelTimeForPath( const idAAS* aas, const idVec3& start, const idVec3& end );
+	virtual bool			AreaIsGoal( const idAAS* aas, int areaNum ) = 0;
 
 private:
 	idVec3					avoidLocation;
 	float					avoidDist;
-	const idAASObstacle *	obstacles;
+	const idAASObstacle* 	obstacles;
 	int						numObstacles;
 };
 

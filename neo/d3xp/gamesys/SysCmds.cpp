@@ -32,12 +32,14 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "../Game_local.h"
 
-CONSOLE_COMMAND_SHIP(addBot, "adds a bot to a multiplayer game", NULL) {	
-	if (args.Argc() < 2) {
-		common->Warning("USAGE: addbot <botfile> e.g. addbot major or addbot dark - see botfiles/bots for more details\n");
+CONSOLE_COMMAND_SHIP( addBot, "adds a bot to a multiplayer game", NULL )
+{
+	if( args.Argc() < 2 )
+	{
+		common->Warning( "USAGE: addbot <botfile> e.g. addbot major or addbot dark - see botfiles/bots for more details\n" );
 		return;
 	}
-	gameLocal.AddBot(args.Argv(1));
+	gameLocal.AddBot( args.Argv( 1 ) );
 }
 
 /*

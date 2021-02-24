@@ -205,7 +205,7 @@ public:
 	void					UpdateAnimState();
 	void					SetAnimState( int channel, const char* name, int blendFrames );
 	const char* 			GetAnimState( int channel ) const;
-	idAnimState&			GetAnimStateVar(int channel);
+	idAnimState&			GetAnimStateVar( int channel );
 	bool					InAnimState( int channel, const char* name ) const;
 	const char* 			WaitState() const;
 	void					SetWaitState( const char* _waitstate );
@@ -285,7 +285,7 @@ protected:
 	// copies animation from body to head joints
 	void					CopyJointsFromBodyToHead();
 
-	bool					AnimDone(int channel, int blendFrames);
+	bool					AnimDone( int channel, int blendFrames );
 
 protected:
 	void					SyncAnimChannels( int channel, int syncToChannel, int blendFrames );
@@ -322,9 +322,9 @@ protected:
 	void					Event_AnimDone( int channel, int blendFrames );
 	void					Event_HasAnim( int channel, const char* name );
 	void					Event_CheckAnim( int channel, const char* animname );
-	idStr					ChooseAnim(int channel, const char* animname);
+	idStr					ChooseAnim( int channel, const char* animname );
 	void					Event_ChooseAnim( int channel, const char* animname );
-	float					AnimLength(int channel, const char* animname);
+	float					AnimLength( int channel, const char* animname );
 	void					Event_AnimLength( int channel, const char* animname );
 	void					Event_AnimDistance( int channel, const char* animname );
 	void					Event_HasEnemies();

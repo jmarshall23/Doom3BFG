@@ -4065,25 +4065,30 @@ idParser::Parse1DMatrixLegacy
 ================
 */
 // jmarshall
-int idParser::Parse1DMatrixLegacy(int x, float* m) {
+int idParser::Parse1DMatrixLegacy( int x, float* m )
+{
 	int i;
 
-	if (!idParser::ExpectTokenString("{")) {
+	if( !idParser::ExpectTokenString( "{" ) )
+	{
 		return false;
 	}
 
-	for (i = 0; i < x; i++) {
+	for( i = 0; i < x; i++ )
+	{
 		m[i] = idParser::ParseFloat();
 
-		if (i < x - 1)
+		if( i < x - 1 )
 		{
-			if (!idParser::ExpectTokenString(",")) {
+			if( !idParser::ExpectTokenString( "," ) )
+			{
 				return false;
 			}
 		}
 	}
 
-	if (!idParser::ExpectTokenString("}")) {
+	if( !idParser::ExpectTokenString( "}" ) )
+	{
 		return false;
 	}
 	return true;

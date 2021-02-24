@@ -14,7 +14,7 @@
 
 #define ATTACK_TENTACLE			ATTACK_SPECIAL1
 
-CLASS_DECLARATION(rvmMonsterZombie, rvmMonsterZombieCommandoTentacle)
+CLASS_DECLARATION( rvmMonsterZombie, rvmMonsterZombieCommandoTentacle )
 END_CLASS
 
 /*
@@ -22,8 +22,9 @@ END_CLASS
 rvmMonsterZombieCommandoTentacle::Init
 =================
 */
-void rvmMonsterZombieCommandoTentacle::Init(void) {
-	
+void rvmMonsterZombieCommandoTentacle::Init( void )
+{
+
 }
 
 /*
@@ -31,11 +32,12 @@ void rvmMonsterZombieCommandoTentacle::Init(void) {
 rvmMonsterZombieCommandoTentacle::AI_Begin
 =================
 */
-void rvmMonsterZombieCommandoTentacle::AI_Begin(void) {
+void rvmMonsterZombieCommandoTentacle::AI_Begin( void )
+{
 	run_distance = ZCT_RUNDISTANCE;
 	walk_turn = ZCT_WALKTURN;
 
-	Event_SetState("state_Begin");
+	Event_SetState( "state_Begin" );
 }
 
 /*
@@ -43,12 +45,13 @@ void rvmMonsterZombieCommandoTentacle::AI_Begin(void) {
 rvmMonsterZombieCommandoTentacle::state_Begin
 =====================
 */
-stateResult_t rvmMonsterZombieCommandoTentacle::state_Begin(stateParms_t* parms) {
-	Event_AnimState(ANIMCHANNEL_TORSO, "Torso_Idle", 8);
-	Event_AnimState(ANIMCHANNEL_LEGS, "Legs_Idle", 8);
+stateResult_t rvmMonsterZombieCommandoTentacle::state_Begin( stateParms_t* parms )
+{
+	Event_AnimState( ANIMCHANNEL_TORSO, "Torso_Idle", 8 );
+	Event_AnimState( ANIMCHANNEL_LEGS, "Legs_Idle", 8 );
 
-	Event_SetMoveType(MOVETYPE_ANIM);
-	Event_SetState("state_Idle");
+	Event_SetMoveType( MOVETYPE_ANIM );
+	Event_SetState( "state_Idle" );
 	return SRESULT_DONE;
 }
 
@@ -57,10 +60,11 @@ stateResult_t rvmMonsterZombieCommandoTentacle::state_Begin(stateParms_t* parms)
 rvmMonsterZombieCommandoTentacle::state_Idle
 =====================
 */
-stateResult_t rvmMonsterZombieCommandoTentacle::state_Idle(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterZombieCommandoTentacle::state_Idle( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
-		if (wait_for_enemy(parms) == SRESULT_DONE)
+		if( wait_for_enemy( parms ) == SRESULT_DONE )
 		{
 			parms->stage = 1;
 		}
@@ -72,7 +76,7 @@ stateResult_t rvmMonsterZombieCommandoTentacle::state_Idle(stateParms_t* parms) 
 	nextAttack = 0;
 	nextNoFOVAttack = 0;
 
-	Event_SetState("state_Combat");
+	Event_SetState( "state_Combat" );
 	return SRESULT_DONE;
 }
 
@@ -81,26 +85,30 @@ stateResult_t rvmMonsterZombieCommandoTentacle::state_Idle(stateParms_t* parms) 
 monster_zombie::combat_melee
 =====================
 */
-stateResult_t rvmMonsterZombieCommandoTentacle::combat_melee(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterZombieCommandoTentacle::combat_melee( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
 		tentacleDamage = false;
 		Event_FaceEnemy();
-		Event_AnimState(ANIMCHANNEL_TORSO, "Torso_MeleeAttack", 8);
+		Event_AnimState( ANIMCHANNEL_TORSO, "Torso_MeleeAttack", 8 );
 		//SetWaitState("melee_attack");
 		parms->stage = 1;
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 1)
+	if( parms->stage == 1 )
 	{
-		if (InAnimState(ANIMCHANNEL_TORSO, "Torso_MeleeAttack")) {
-			Event_LookAtEnemy(1);
-			if (tentacleDamage) {
-				if (MeleeAttackToJoint("joint13", "melee_commandoTentacle")) {
+		if( InAnimState( ANIMCHANNEL_TORSO, "Torso_MeleeAttack" ) )
+		{
+			Event_LookAtEnemy( 1 );
+			if( tentacleDamage )
+			{
+				if( MeleeAttackToJoint( "joint13", "melee_commandoTentacle" ) )
+				{
 					tentacleDamage = false;
 				}
-			}			
+			}
 		}
 		else
 		{
@@ -121,22 +129,26 @@ stateResult_t rvmMonsterZombieCommandoTentacle::combat_melee(stateParms_t* parms
 monster_zombie::combat_tentacle
 =====================
 */
-stateResult_t rvmMonsterZombieCommandoTentacle::combat_tentacle(stateParms_t* parms) {
-	if (parms->stage == 0)
+stateResult_t rvmMonsterZombieCommandoTentacle::combat_tentacle( stateParms_t* parms )
+{
+	if( parms->stage == 0 )
 	{
 		tentacleDamage = false;
 		Event_FaceEnemy();
-		Event_AnimState(ANIMCHANNEL_TORSO, "Torso_TentacleAttack", 4);
+		Event_AnimState( ANIMCHANNEL_TORSO, "Torso_TentacleAttack", 4 );
 		//SetWaitState("melee_attack");
 		parms->stage = 1;
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 1)
+	if( parms->stage == 1 )
 	{
-		if (InAnimState(ANIMCHANNEL_TORSO, "Torso_TentacleAttack")) {
-			if (tentacleDamage) {
-				if (MeleeAttackToJoint("joint13", "melee_commandoTentacle")) {
+		if( InAnimState( ANIMCHANNEL_TORSO, "Torso_TentacleAttack" ) )
+		{
+			if( tentacleDamage )
+			{
+				if( MeleeAttackToJoint( "joint13", "melee_commandoTentacle" ) )
+				{
 					tentacleDamage = false;
 				}
 			}
@@ -159,21 +171,26 @@ stateResult_t rvmMonsterZombieCommandoTentacle::combat_tentacle(stateParms_t* pa
 rvmMonsterZombieCommandoTentacle::check_attacks
 =====================
 */
-int rvmMonsterZombieCommandoTentacle::check_attacks() {
+int rvmMonsterZombieCommandoTentacle::check_attacks()
+{
 	int attack_flags;
 	float range;
 	float currentTime;
 
 	attack_flags = 0;
-	if (TestMelee()) {
+	if( TestMelee() )
+	{
 		attack_flags |= ATTACK_MELEE;
 	}
 
-	if (((gameLocal.SysScriptTime() > nextNoFOVAttack) && AI_ENEMY_VISIBLE) || AI_ENEMY_IN_FOV) {
+	if( ( ( gameLocal.SysScriptTime() > nextNoFOVAttack ) && AI_ENEMY_VISIBLE ) || AI_ENEMY_IN_FOV )
+	{
 		range = EnemyRange();
 		currentTime = gameLocal.SysScriptTime();
-		if ((range < ZCT_TENTACLE_RANGE_MAX) && (!CanReachEnemy() || (currentTime >= nextAttack))) {
-			if (CanHitEnemy()) {
+		if( ( range < ZCT_TENTACLE_RANGE_MAX ) && ( !CanReachEnemy() || ( currentTime >= nextAttack ) ) )
+		{
+			if( CanHitEnemy() )
+			{
 				attack_flags |= ATTACK_TENTACLE;
 			}
 		}
@@ -187,13 +204,16 @@ int rvmMonsterZombieCommandoTentacle::check_attacks() {
 rvmMonsterZombieCommandoTentacle::do_attack
 =====================
 */
-void rvmMonsterZombieCommandoTentacle::do_attack(int attack_flags) {
-	if (attack_flags & ATTACK_MELEE) {
+void rvmMonsterZombieCommandoTentacle::do_attack( int attack_flags )
+{
+	if( attack_flags & ATTACK_MELEE )
+	{
 		AI_ATTACKING = true;
-		SetState("combat_melee");
+		SetState( "combat_melee" );
 	}
-	else if (attack_flags & ATTACK_TENTACLE) {
-		SetState("combat_tentacle");
+	else if( attack_flags & ATTACK_TENTACLE )
+	{
+		SetState( "combat_tentacle" );
 	}
 }
 
@@ -204,7 +224,8 @@ rvmMonsterZombieCommandoTentacle::tentacle_attack_start
 Called from md5Anim frame via TypeInfoGen invoke
 =====================
 */
-void rvmMonsterZombieCommandoTentacle::tentacle_attack_start() {
+void rvmMonsterZombieCommandoTentacle::tentacle_attack_start()
+{
 	tentacleDamage = true;
 }
 
@@ -215,6 +236,7 @@ rvmMonsterZombieCommandoTentacle::tentacle_attack_end
 Called from md5Anim frame via TypeInfoGen invoke
 =====================
 */
-void rvmMonsterZombieCommandoTentacle::tentacle_attack_end() {
+void rvmMonsterZombieCommandoTentacle::tentacle_attack_end()
+{
 	tentacleDamage = false;
 }

@@ -7,7 +7,7 @@
 
 //#define DEBUG_AI_GOAL
 #ifdef RANDOMIZE
-#define UNDECIDEDFUZZY
+	#define UNDECIDEDFUZZY
 #endif //RANDOMIZE
 #define DROPPEDWEIGHT
 //minimum avoid goal time
@@ -184,10 +184,10 @@ struct itemconfig_t
 		Reset();
 	}
 
-	void Reset(void)
+	void Reset( void )
 	{
 		numiteminfo = 0;
-		for(int i = 0; i < MAX_BOT_ITEM_INFO; i++)
+		for( int i = 0; i < MAX_BOT_ITEM_INFO; i++ )
 		{
 			iteminfo[i].Reset();
 		}
@@ -210,7 +210,8 @@ struct bot_goalstate_t
 	{
 		itemweightconfig = NULL;
 
-		if(itemweightindex != NULL) {
+		if( itemweightindex != NULL )
+		{
 			delete itemweightindex;
 		}
 		itemweightindex = NULL;
@@ -218,22 +219,25 @@ struct bot_goalstate_t
 		lastreachabilityarea = 0;
 		goalstacktop = 0;
 
-		for (int i = 0; i < MAX_AVOIDGOALS; i++)
+		for( int i = 0; i < MAX_AVOIDGOALS; i++ )
 		{
 			avoidgoals[i] = 0;
 			avoidgoaltimes[i] = 0;
 		}
-	} 
+	}
 
-	~bot_goalstate_t() {
-		if (itemweightindex != NULL) {
+	~bot_goalstate_t()
+	{
+		if( itemweightindex != NULL )
+		{
 			delete itemweightindex;
 		}
 
 		itemweightindex = NULL;
 	}
 
-	bool InUse() {
+	bool InUse()
+	{
 		return client != -1;
 	}
 
@@ -250,85 +254,86 @@ struct bot_goalstate_t
 	float avoidgoaltimes[MAX_AVOIDGOALS];		//times to avoid the goals
 };
 
-class idBotGoalManager {
+class idBotGoalManager
+{
 public:
 	idBotGoalManager();
 
-	int BotSetupGoalAI(void);
+	int BotSetupGoalAI( void );
 
-	void InitLevelItems(void);
-	void UpdateEntityItems(void);
+	void InitLevelItems( void );
+	void UpdateEntityItems( void );
 
-	void BotPushGoal(int goalstate, bot_goal_t* goal);
-	void BotPopGoal(int goalstate);
-	void BotEmptyGoalStack(int goalstate);
+	void BotPushGoal( int goalstate, bot_goal_t* goal );
+	void BotPopGoal( int goalstate );
+	void BotEmptyGoalStack( int goalstate );
 
-	int BotLoadItemWeights(int goalstate, char* filename);
-	void BotResetGoalState(int goalstate);
+	int BotLoadItemWeights( int goalstate, char* filename );
+	void BotResetGoalState( int goalstate );
 
-	int BotItemGoalInVisButNotVisible(int viewer, idVec3 eye, idAngles viewangles, bot_goal_t* goal);
+	int BotItemGoalInVisButNotVisible( int viewer, idVec3 eye, idAngles viewangles, bot_goal_t* goal );
 
-	int BotChooseLTGItem(int goalstate, idVec3 origin, int* inventory, int travelflags);
-	int BotChooseNBGItem(int goalstate, idVec3 origin, int* inventory, int travelflags, bot_goal_t* ltg, float maxtime);
+	int BotChooseLTGItem( int goalstate, idVec3 origin, int* inventory, int travelflags );
+	int BotChooseNBGItem( int goalstate, idVec3 origin, int* inventory, int travelflags, bot_goal_t* ltg, float maxtime );
 
-	int BotTouchingGoal(idVec3 origin, bot_goal_t* goal);
+	int BotTouchingGoal( idVec3 origin, bot_goal_t* goal );
 
-	int BotAllocGoalState(int client);
+	int BotAllocGoalState( int client );
 
-	void BotGoalName(int number, char* name, int size);
+	void BotGoalName( int number, char* name, int size );
 
-	void BotFreeGoalState(int handle);
-	void BotShutdownGoalAI(void);
-	void BotFreeItemWeights(int goalstate);
+	void BotFreeGoalState( int handle );
+	void BotShutdownGoalAI( void );
+	void BotFreeItemWeights( int goalstate );
 public:
-	bool BotNearGoal(idVec3 p1, idVec3 p2);
-	int BotGetTopGoal(int goalstate, bot_goal_t* goal);
-	int BotGetSecondGoal(int goalstate, bot_goal_t* goal);
+	bool BotNearGoal( idVec3 p1, idVec3 p2 );
+	int BotGetTopGoal( int goalstate, bot_goal_t* goal );
+	int BotGetSecondGoal( int goalstate, bot_goal_t* goal );
 public:
-	void BotDumpGoalStack(int goalstate);
+	void BotDumpGoalStack( int goalstate );
 public:
-	int BotGetLevelItemGoal(int index, char* name, bot_goal_t* goal);
-	void BotSetAvoidGoalTime(int goalstate, int number, float avoidtime);
-	float BotAvoidGoalTime(int goalstate, int number);
-	void BotResetAvoidGoals(int goalstate);
-	void BotDumpAvoidGoals(int goalstate);
-	void BotAddToAvoidGoals(bot_goalstate_t* gs, int number, float avoidtime);
-	void BotRemoveFromAvoidGoals(int goalstate, int number);
-	int BotGetMapLocationGoal(char* name, bot_goal_t* goal);
-	int BotGetNextCampSpotGoal(int num, bot_goal_t* goal);
-	void BotFindEntityForLevelItem(levelitem_t* li);
+	int BotGetLevelItemGoal( int index, char* name, bot_goal_t* goal );
+	void BotSetAvoidGoalTime( int goalstate, int number, float avoidtime );
+	float BotAvoidGoalTime( int goalstate, int number );
+	void BotResetAvoidGoals( int goalstate );
+	void BotDumpAvoidGoals( int goalstate );
+	void BotAddToAvoidGoals( bot_goalstate_t* gs, int number, float avoidtime );
+	void BotRemoveFromAvoidGoals( int goalstate, int number );
+	int BotGetMapLocationGoal( char* name, bot_goal_t* goal );
+	int BotGetNextCampSpotGoal( int num, bot_goal_t* goal );
+	void BotFindEntityForLevelItem( levelitem_t* li );
 private:
 
-	levelitem_t* AllocLevelItem(void);
-	void FreeLevelItem(levelitem_t* li);
+	levelitem_t* AllocLevelItem( void );
+	void FreeLevelItem( levelitem_t* li );
 
-	void AddLevelItemToList(levelitem_t* li);
-	void RemoveLevelItemFromList(levelitem_t* li);
+	void AddLevelItemToList( levelitem_t* li );
+	void RemoveLevelItemFromList( levelitem_t* li );
 
-	void BotFreeInfoEntities(void);
+	void BotFreeInfoEntities( void );
 
-	void BotInitInfoEntities(void);
+	void BotInitInfoEntities( void );
 
-	void InitLevelItemHeap(void);
-	int* ItemWeightIndex(weightconfig_t* iwc, itemconfig_t* ic);
-	itemconfig_t* LoadItemConfig(char* filename);
-	void BotSaveGoalFuzzyLogic(int goalstate, char* filename);
-	void BotMutateGoalFuzzyLogic(int goalstate, float range);
-	bot_goalstate_t* BotGoalStateFromHandle(int handle);	
-	void BotInterbreedGoalFuzzyLogic(int parent1, int parent2, int child);
+	void InitLevelItemHeap( void );
+	int* ItemWeightIndex( weightconfig_t* iwc, itemconfig_t* ic );
+	itemconfig_t* LoadItemConfig( char* filename );
+	void BotSaveGoalFuzzyLogic( int goalstate, char* filename );
+	void BotMutateGoalFuzzyLogic( int goalstate, float range );
+	bot_goalstate_t* BotGoalStateFromHandle( int handle );
+	void BotInterbreedGoalFuzzyLogic( int parent1, int parent2, int child );
 private:
-	void ParseItemInfo(idParser& parser, iteminfo_t* itemInfo);
+	void ParseItemInfo( idParser& parser, iteminfo_t* itemInfo );
 private:
 	bot_goalstate_t botgoalstates[MAX_CLIENTS + 1];
-	
+
 	//item configuration
 	itemconfig_t		itemconfiglocal;
-	itemconfig_t		*itemconfig;
-	
+	itemconfig_t*		itemconfig;
+
 	//level items
 	levelitem_t levelitemheap[MAX_BOT_LEVEL_ITEMS];
-	levelitem_t *freelevelitems;
-	levelitem_t *levelitems;
+	levelitem_t* freelevelitems;
+	levelitem_t* levelitems;
 	int numlevelitems;
 
 	//map locations

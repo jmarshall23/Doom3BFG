@@ -366,9 +366,10 @@ void idGameLocal::Init()
 	}
 
 	// load in the bot itemtable.
-	botItemTable = FindEntityDef("bot_itemtable", false);
-	if (botItemTable == NULL) {
-		common->FatalError("Failed to find bot_itemtable decl!\n");
+	botItemTable = FindEntityDef( "bot_itemtable", false );
+	if( botItemTable == NULL )
+	{
+		common->FatalError( "Failed to find bot_itemtable decl!\n" );
 	}
 
 	// allocate space for the aas
@@ -1078,7 +1079,7 @@ void idGameLocal::LoadMap( const char* mapName, int randseed )
 		aasList[ i ]->Init( idStr( mapFileName ).SetFileExtension( aasNames[ i ] ).c_str(), mapFile->GetGeometryCRC() );
 	}
 
-	bot_aas = GetAAS("aas48");
+	bot_aas = GetAAS( "aas48" );
 
 	// clear the smoke particle free list
 	smokeParticles->Init();
@@ -1316,7 +1317,7 @@ void idGameLocal::InitFromNewMap( const char* mapName, idRenderWorld* renderWorl
 	// free up any unused animations
 	animationLib.FlushUnusedAnims();
 // jmarshall
-	if (common->IsMultiplayer() && common->IsServer())
+	if( common->IsMultiplayer() && common->IsServer() )
 	{
 		botGoalManager.InitLevelItems();
 	}
@@ -2105,7 +2106,7 @@ idGameLocal::SpawnPlayer
 ============
 */
 // jmarshall - bot support
-void idGameLocal::SpawnPlayer( int clientNum, bool isBot, const char *botName)
+void idGameLocal::SpawnPlayer( int clientNum, bool isBot, const char* botName )
 // jmarshall end
 {
 	idEntity*	ent;
@@ -2119,23 +2120,23 @@ void idGameLocal::SpawnPlayer( int clientNum, bool isBot, const char *botName)
 	if( common->IsMultiplayer() )
 	{
 // jmarshall - bot support.
-		if (isBot)
+		if( isBot )
 		{
-			args.Set("classname", va("%s_bot", GetMPPlayerDefName()));
-			args.Set("botname", botName);
+			args.Set( "classname", va( "%s_bot", GetMPPlayerDefName() ) );
+			args.Set( "botname", botName );
 		}
 		else
 		{
-			args.Set("classname", GetMPPlayerDefName());
+			args.Set( "classname", GetMPPlayerDefName() );
 		}
 // jmarshall end
 	}
 	else
 	{
 // jmarshall - bot support
-		if (isBot)
+		if( isBot )
 		{
-			gameLocal.Error("Bots not supported in singleplayer games!\n");
+			gameLocal.Error( "Bots not supported in singleplayer games!\n" );
 		}
 // jmarshall end
 		// precache the player
@@ -2564,9 +2565,11 @@ idCVar g_recordTrace( "g_recordTrace", "0", CVAR_BOOL, "" );
 idGameLocal::RunSharedThink
 ================
 */
-void idGameLocal::RunSharedThink(void) {
+void idGameLocal::RunSharedThink( void )
+{
 	idEntity* ent;
-	for (ent = activeEntities.Next(); ent != NULL; ent = ent->activeNode.Next()) {
+	for( ent = activeEntities.Next(); ent != NULL; ent = ent->activeNode.Next() )
+	{
 		ent->SharedThink();
 	}
 }
@@ -2697,8 +2700,9 @@ void idGameLocal::RunFrame( idUserCmdMgr& cmdMgr, gameReturn_t& ret )
 			UpdateGravity();
 // jmarshall
 			// run the frame for the bots.
-			if (common->IsServer()) {
-				RunBotFrame(cmdMgr);
+			if( common->IsServer() )
+			{
+				RunBotFrame( cmdMgr );
 			}
 // jmarshall end
 			// create a merged pvs for all players
@@ -3266,16 +3270,16 @@ void idGameLocal::CallObjectFrameCommand( idEntity* ent, const char* frameComman
 	const function_t* func;
 
 // jmarshall
-	if (ent->HasNativeFunction(frameCommand))
+	if( ent->HasNativeFunction( frameCommand ) )
 	{
-		ent->Invoke(frameCommand, NULL);
+		ent->Invoke( frameCommand, NULL );
 		return;
 	}
-	else if (ent->InvokeChild() != NULL)
+	else if( ent->InvokeChild() != NULL )
 	{
-		if (ent->InvokeChild()->HasNativeFunction(frameCommand))
+		if( ent->InvokeChild()->HasNativeFunction( frameCommand ) )
 		{
-			ent->InvokeChild()->Invoke(frameCommand, NULL);
+			ent->InvokeChild()->Invoke( frameCommand, NULL );
 			return;
 		}
 	}
@@ -3379,8 +3383,9 @@ void idGameLocal::RunDebugInfo()
 	{
 		return;
 	}
-// jmarshall 
-	if (aas_showAreas.GetBool()) {
+// jmarshall
+	if( aas_showAreas.GetBool() )
+	{
 		idAAS* aas = bot_aas;
 
 		aas->DrawAreas();
@@ -4451,14 +4456,14 @@ void idGameLocal::AlertAI( idEntity* ent )
 
 // jmarshall
 		// Alert any bots near were we just exploded.
-		if (common->IsMultiplayer() && common->IsServer())
+		if( common->IsMultiplayer() && common->IsServer() )
 		{
 			idPlayer* player = ent->Cast<idPlayer>();
-			if (player)
+			if( player )
 			{
-				AlertBots(player, ent->GetOrigin());
+				AlertBots( player, ent->GetOrigin() );
 			}
-			
+
 		}
 // jmarshall end
 	}
@@ -6166,11 +6171,13 @@ void idGameLocal::DelayRemoveEntity( idEntity* entity, int delay )
 idGameLocal::InfluenceActive
 ===============
 */
-bool idGameLocal::InfluenceActive(void) const {
+bool idGameLocal::InfluenceActive( void ) const
+{
 	idPlayer* player;
 
 	player = gameLocal.GetLocalPlayer();
-	if (player != NULL && player->GetInfluenceLevel()) {
+	if( player != NULL && player->GetInfluenceLevel() )
+	{
 		return true;
 	}
 
@@ -6181,7 +6188,7 @@ bool idGameLocal::InfluenceActive(void) const {
 Random
 ==================
 */
-float idGameLocal::Random(float range)
+float idGameLocal::Random( float range )
 {
 	float result;
 
@@ -6195,11 +6202,12 @@ float idGameLocal::Random(float range)
 RandomDelay
 ==================
 */
-float idGameLocal::RandomDelay(float min, float max) {
+float idGameLocal::RandomDelay( float min, float max )
+{
 	float t;
 
 	t = SysScriptTime();
-	t += min + Random(max - min);
+	t += min + Random( max - min );
 
 	return t;
 }
@@ -6209,12 +6217,13 @@ float idGameLocal::RandomDelay(float min, float max) {
 DelayTime
 ==================
 */
-float idGameLocal::DelayTime(float delay) {
+float idGameLocal::DelayTime( float delay )
+{
 	float t;
 
 	t = SysScriptTime();
 	t += delay;
-	t += Random(2) - 1;
+	t += Random( 2 ) - 1;
 
 	return t;
 }
@@ -6225,7 +6234,8 @@ float idGameLocal::DelayTime(float delay) {
 RandomTime
 ==================
 */
-float idGameLocal::RandomTime(float delay) {
+float idGameLocal::RandomTime( float delay )
+{
 	float t;
 	float result;
 
@@ -6242,13 +6252,13 @@ float idGameLocal::RandomTime(float delay) {
 idThread::Event_Spawn
 ================
 */
-idEntity* idGameLocal::Spawn(const char* classname)
+idEntity* idGameLocal::Spawn( const char* classname )
 {
 	idEntity* ent;
 	idDict dict;
 
-	dict.Set("classname", classname);
-	gameLocal.SpawnEntityDef(dict, &ent);
+	dict.Set( "classname", classname );
+	gameLocal.SpawnEntityDef( dict, &ent );
 	return ent;
 }
 
@@ -6257,26 +6267,26 @@ idEntity* idGameLocal::Spawn(const char* classname)
 idGameLocal::GetEntity
 ================
 */
-idEntity *idGameLocal::GetEntity(const char* name)
+idEntity* idGameLocal::GetEntity( const char* name )
 {
 	int			entnum;
 	idEntity* ent;
 
-	assert(name);
+	assert( name );
 
-	if (name[0] == '*')
+	if( name[0] == '*' )
 	{
-		entnum = atoi(&name[1]);
-		if ((entnum < 0) || (entnum >= MAX_GENTITIES))
+		entnum = atoi( &name[1] );
+		if( ( entnum < 0 ) || ( entnum >= MAX_GENTITIES ) )
 		{
-			Error("Entity number in string out of range.");
+			Error( "Entity number in string out of range." );
 			return NULL;
 		}
 		return entities[entnum];
 	}
 	else
 	{
-		ent = gameLocal.FindEntity(name);
+		ent = gameLocal.FindEntity( name );
 		return ent;
 	}
 }
@@ -6287,20 +6297,21 @@ idGameLocal::AddBot
 ================
 */
 // jmarshall - bots
-void idGameLocal::AddBot(const char* name) {
-	if (!common->IsMultiplayer())
+void idGameLocal::AddBot( const char* name )
+{
+	if( !common->IsMultiplayer() )
 	{
-		common->Warning("You can only add bots during a multiplayer game!\n");
+		common->Warning( "You can only add bots during a multiplayer game!\n" );
 		return;
 	}
 
-	if (!common->IsServer())
+	if( !common->IsServer() )
 	{
-		common->Warning("Only the server can add bots!\n");
+		common->Warning( "Only the server can add bots!\n" );
 		return;
 	}
 
-	session->GetActingGameStateLobbyBase().AllocLobbyUserSlotForBot(name);
+	session->GetActingGameStateLobbyBase().AllocLobbyUserSlotForBot( name );
 }
 
 /*
@@ -6308,11 +6319,13 @@ void idGameLocal::AddBot(const char* name) {
 idGameLocal::TravelTimeToGoal
 ================
 */
-int idGameLocal::TravelTimeToGoal(const idVec3& origin, const idVec3& goal) {
+int idGameLocal::TravelTimeToGoal( const idVec3& origin, const idVec3& goal )
+{
 	idAAS* aas = bot_aas;
 
-	if (aas == NULL) {
-		gameLocal.Error("idGameLocal::TraveTimeToGoal: No AAS loaded...\n");
+	if( aas == NULL )
+	{
+		gameLocal.Error( "idGameLocal::TraveTimeToGoal: No AAS loaded...\n" );
 		return NULL;
 	}
 	//int originArea = aas->PointAreaNum(origin);
@@ -6321,11 +6334,12 @@ int idGameLocal::TravelTimeToGoal(const idVec3& origin, const idVec3& goal) {
 	//return aas->TravelTimeToGoalArea(originArea, origin, goalArea, TFL_WALK);
 
 	idVec3 org = origin;
-	int curAreaNum = aas->AdjustPositionAndGetArea(org);
-	int goalArea = aas->PointAreaNum(goal);
+	int curAreaNum = aas->AdjustPositionAndGetArea( org );
+	int goalArea = aas->PointAreaNum( goal );
 	int travelTime;
 	idReachability* reach;
-	if (!aas->RouteToGoalArea(curAreaNum, org, goalArea, TFL_WALK | TFL_AIR, travelTime, &reach)) {
+	if( !aas->RouteToGoalArea( curAreaNum, org, goalArea, TFL_WALK | TFL_AIR, travelTime, &reach ) )
+	{
 		return NULL;
 	}
 
@@ -6340,14 +6354,16 @@ int idGameLocal::TravelTimeToGoal(const idVec3& origin, const idVec3& goal) {
 idGameLocal::GetBotItemEntry
 ===============
 */
-int idGameLocal::GetBotItemEntry(const char* name) {
-	const idKeyValue* keyvalue = botItemTable->dict.FindKey(name);
-	if (!keyvalue) {
-		gameLocal.Warning("GetBotItemModelIndex: Doesn't have key %s\n", name);
+int idGameLocal::GetBotItemEntry( const char* name )
+{
+	const idKeyValue* keyvalue = botItemTable->dict.FindKey( name );
+	if( !keyvalue )
+	{
+		gameLocal.Warning( "GetBotItemModelIndex: Doesn't have key %s\n", name );
 		return 9;
 	}
 
-	return botItemTable->dict.GetInt(name);
+	return botItemTable->dict.GetInt( name );
 }
 
 /*
@@ -6355,15 +6371,18 @@ int idGameLocal::GetBotItemEntry(const char* name) {
 idGameLocal::Trace
 ===============
 */
-void idGameLocal::Trace(trace_t& results, const idVec3& start, const idVec3& end, int contentMask, int passEntity) {
+void idGameLocal::Trace( trace_t& results, const idVec3& start, const idVec3& end, int contentMask, int passEntity )
+{
 	idMat3 axis;
 	axis.Identity();
 
-	if (passEntity == -1) {
-		clip.Translation(results, start, end, NULL, axis, CONTENTS_SOLID, NULL);
+	if( passEntity == -1 )
+	{
+		clip.Translation( results, start, end, NULL, axis, CONTENTS_SOLID, NULL );
 	}
-	else {
-		clip.Translation(results, start, end, NULL, axis, CONTENTS_SOLID, entities[passEntity]);
+	else
+	{
+		clip.Translation( results, start, end, NULL, axis, CONTENTS_SOLID, entities[passEntity] );
 	}
 }
 
@@ -6372,22 +6391,29 @@ void idGameLocal::Trace(trace_t& results, const idVec3& start, const idVec3& end
 idGameLocal::AlertBots
 ===================
 */
-void idGameLocal::AlertBots(idPlayer * player, idVec3 alert_position) {
-	for (int i = 0; i < MAX_CLIENTS; i++) {
+void idGameLocal::AlertBots( idPlayer* player, idVec3 alert_position )
+{
+	for( int i = 0; i < MAX_CLIENTS; i++ )
+	{
 		rvmBot* bot = NULL;
 
-		if (entities[i] == NULL)
+		if( entities[i] == NULL )
+		{
 			continue;
+		}
 
 		bot = entities[i]->Cast<rvmBot>();
-		if (bot == NULL)
+		if( bot == NULL )
+		{
 			continue;
+		}
 
 		trace_t tr;
-		Trace(tr, alert_position, bot->GetRenderEntity()->origin, CONTENTS_SOLID, 0);
+		Trace( tr, alert_position, bot->GetRenderEntity()->origin, CONTENTS_SOLID, 0 );
 
-		if (tr.fraction == 1.0f) {
-			bot->SetEnemy(player);
+		if( tr.fraction == 1.0f )
+		{
+			bot->SetEnemy( player );
 		}
 	}
 }

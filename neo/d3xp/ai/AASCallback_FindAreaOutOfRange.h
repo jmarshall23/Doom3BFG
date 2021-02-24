@@ -14,11 +14,12 @@
 ===============================================================================
 */
 
-class idAASCallback_FindAreaOutOfRange : public idAASCallback_AvoidLocation {
+class idAASCallback_FindAreaOutOfRange : public idAASCallback_AvoidLocation
+{
 public:
-							idAASCallback_FindAreaOutOfRange( const idVec3 &targetPos, float maxDist );
+	idAASCallback_FindAreaOutOfRange( const idVec3& targetPos, float maxDist );
 
-	virtual bool			AreaIsGoal( const idAAS *aas, int areaNum );
+	virtual bool			AreaIsGoal( const idAAS* aas, int areaNum );
 
 private:
 	idVec3					targetPos;

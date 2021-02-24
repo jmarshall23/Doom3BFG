@@ -451,8 +451,8 @@ public:
 	virtual void			Hide();
 	virtual void			Show();
 
-	bool					IsShooting(void);
-	float					GetViewHeight(void);
+	bool					IsShooting( void );
+	float					GetViewHeight( void );
 
 	void					Init();
 	void					PrepareForRestart();
@@ -476,7 +476,10 @@ public:
 	void					UpdateConditions();
 	void					SetViewAngles( const idAngles& angles );
 
-	virtual bool			IsBot(void) { return false; }
+	virtual bool			IsBot( void )
+	{
+		return false;
+	}
 
 	// Controller Shake
 	void					ControllerShakeFromDamage( int damage );

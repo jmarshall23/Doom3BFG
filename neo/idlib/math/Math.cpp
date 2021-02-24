@@ -166,7 +166,8 @@ float idMath::BitsToFloat( int i, int exponentBits, int mantissaBits )
 idMath::Distance
 ===================
 */
-float idMath::Distance(idVec3 p1, idVec3 p2) {
+float idMath::Distance( idVec3 p1, idVec3 p2 )
+{
 	idVec3 v = p2 - p1;
 	return v.Length();
 }
@@ -176,7 +177,8 @@ float idMath::Distance(idVec3 p1, idVec3 p2) {
 idMath::DistanceSquared
 ===================
 */
-float idMath::DistanceSquared(idVec3 p1, idVec3 p2) {
+float idMath::DistanceSquared( idVec3 p1, idVec3 p2 )
+{
 	idVec3 v = p2 - p1;
 	return v.LengthSqr();
 }
@@ -186,8 +188,9 @@ float idMath::DistanceSquared(idVec3 p1, idVec3 p2) {
 idMath::CrossProduct
 ========================
 */
-idVec3 idMath::CrossProduct(const idVec3& a, const idVec3& b) {
-	return a.Cross(b);
+idVec3 idMath::CrossProduct( const idVec3& a, const idVec3& b )
+{
+	return a.Cross( b );
 }
 
 /*
@@ -195,8 +198,9 @@ idVec3 idMath::CrossProduct(const idVec3& a, const idVec3& b) {
 idMath::CreateVector
 ========================
 */
-idVec3 idMath::CreateVector(float x, float y, float z) {
-	return idVec3(x, y, z);
+idVec3 idMath::CreateVector( float x, float y, float z )
+{
+	return idVec3( x, y, z );
 }
 
 /*
@@ -204,8 +208,9 @@ idVec3 idMath::CreateVector(float x, float y, float z) {
 idMath::CreateVector
 ========================
 */
-idVec4 idMath::CreateVector(float x, float y, float z, float w) {
-	return idVec4(x, y, z, w);
+idVec4 idMath::CreateVector( float x, float y, float z, float w )
+{
+	return idVec4( x, y, z, w );
 }
 
 /*
@@ -213,7 +218,8 @@ idVec4 idMath::CreateVector(float x, float y, float z, float w) {
 idMath::ReflectVector
 ========================
 */
-idVec3 idMath::ReflectVector(idVec3 vector, idVec3 normal) {
-	float n = 2 * DotProduct(vector, normal);
+idVec3 idMath::ReflectVector( idVec3 vector, idVec3 normal )
+{
+	float n = 2 * DotProduct( vector, normal );
 	return vector - normal * n;
 }

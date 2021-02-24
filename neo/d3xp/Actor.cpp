@@ -1510,12 +1510,14 @@ void idActor::SetState( const char* statename )
 {
 	const function_t* newState;
 
-	if (HasNativeFunction(statename)) {
-		stateThread.SetState(statename);
+	if( HasNativeFunction( statename ) )
+	{
+		stateThread.SetState( statename );
 	}
-	else {
-		newState = GetScriptFunction(statename);
-		SetState(newState);
+	else
+	{
+		newState = GetScriptFunction( statename );
+		SetState( newState );
 	}
 }
 
@@ -2058,8 +2060,9 @@ bool idActor::HasEnemies() const
 idActor::AnimDone
 ================
 */
-bool idActor::AnimDone(int channel, int blendFrames) {
-	return GetAnimStateVar(channel).AnimDone(blendFrames);
+bool idActor::AnimDone( int channel, int blendFrames )
+{
+	return GetAnimStateVar( channel ).AnimDone( blendFrames );
 }
 
 /*
@@ -2239,14 +2242,19 @@ const char* idActor::GetAnimState( int channel ) const
 idActor::GetAnimStateVar
 =====================
 */
-idAnimState& idActor::GetAnimStateVar(int channel) {
-	switch (channel) {
-	case ANIMCHANNEL_LEGS:		return legsAnim;
-	case ANIMCHANNEL_TORSO:		return torsoAnim;
-	case ANIMCHANNEL_HEAD:		return headAnim;
-	default:
-		gameLocal.Error("idActor::GetAnimState: Unknown anim channel");
-		return torsoAnim;
+idAnimState& idActor::GetAnimStateVar( int channel )
+{
+	switch( channel )
+	{
+		case ANIMCHANNEL_LEGS:
+			return legsAnim;
+		case ANIMCHANNEL_TORSO:
+			return torsoAnim;
+		case ANIMCHANNEL_HEAD:
+			return headAnim;
+		default:
+			gameLocal.Error( "idActor::GetAnimState: Unknown anim channel" );
+			return torsoAnim;
 	}
 }
 
@@ -3675,7 +3683,7 @@ idActor::Event_AnimDone
 */
 void idActor::Event_AnimDone( int channel, int blendFrames )
 {
-	idThread::ReturnInt(AnimDone(channel, blendFrames));
+	idThread::ReturnInt( AnimDone( channel, blendFrames ) );
 }
 
 /*
@@ -3683,26 +3691,26 @@ void idActor::Event_AnimDone( int channel, int blendFrames )
 idActor::Event_AnimDone
 ===============
 */
-bool idActor::AnimDone(int channel, int blendFrames) const
+bool idActor::AnimDone( int channel, int blendFrames ) const
 {
 	bool result;
 
-	switch (channel)
+	switch( channel )
 	{
-	case ANIMCHANNEL_HEAD:
-		result = headAnim.AnimDone(blendFrames);
-		break;
+		case ANIMCHANNEL_HEAD:
+			result = headAnim.AnimDone( blendFrames );
+			break;
 
-	case ANIMCHANNEL_TORSO:
-		result = torsoAnim.AnimDone(blendFrames);
-		break;
+		case ANIMCHANNEL_TORSO:
+			result = torsoAnim.AnimDone( blendFrames );
+			break;
 
-	case ANIMCHANNEL_LEGS:
-		result = legsAnim.AnimDone(blendFrames);
-		break;
+		case ANIMCHANNEL_LEGS:
+			result = legsAnim.AnimDone( blendFrames );
+			break;
 
-	default:
-		gameLocal.Error("Unknown anim group");
+		default:
+			gameLocal.Error( "Unknown anim group" );
 	}
 
 	return result;
@@ -3750,23 +3758,23 @@ void idActor::Event_CheckAnim( int channel, const char* animname )
 idActor::ChooseAnim
 ================
 */
-idStr idActor::ChooseAnim(int channel, const char* animname)
+idStr idActor::ChooseAnim( int channel, const char* animname )
 {
 	int anim;
 
-	anim = GetAnim(channel, animname);
-	if (anim)
+	anim = GetAnim( channel, animname );
+	if( anim )
 	{
-		if (channel == ANIMCHANNEL_HEAD)
+		if( channel == ANIMCHANNEL_HEAD )
 		{
-			if (head.GetEntity())
+			if( head.GetEntity() )
 			{
-				return head.GetEntity()->GetAnimator()->AnimFullName(anim);
+				return head.GetEntity()->GetAnimator()->AnimFullName( anim );
 			}
 		}
 		else
 		{
-			return animator.AnimFullName(anim);
+			return animator.AnimFullName( anim );
 		}
 	}
 
@@ -3780,7 +3788,7 @@ idActor::Event_ChooseAnim
 */
 void idActor::Event_ChooseAnim( int channel, const char* animname )
 {
-	idThread::ReturnString(ChooseAnim(channel, animname));
+	idThread::ReturnString( ChooseAnim( channel, animname ) );
 }
 
 /*
@@ -3788,27 +3796,27 @@ void idActor::Event_ChooseAnim( int channel, const char* animname )
 idActor::Event_AnimLength
 ================
 */
-float idActor::AnimLength(int channel, const char* animname)
+float idActor::AnimLength( int channel, const char* animname )
 {
 	int anim;
 
-	anim = GetAnim(channel, animname);
-	if (anim)
+	anim = GetAnim( channel, animname );
+	if( anim )
 	{
-		if (channel == ANIMCHANNEL_HEAD)
+		if( channel == ANIMCHANNEL_HEAD )
 		{
-			if (head.GetEntity())
+			if( head.GetEntity() )
 			{
-				return (MS2SEC(head.GetEntity()->GetAnimator()->AnimLength(anim)));
+				return ( MS2SEC( head.GetEntity()->GetAnimator()->AnimLength( anim ) ) );
 			}
 		}
 		else
 		{
-			return (MS2SEC(animator.AnimLength(anim)));
+			return ( MS2SEC( animator.AnimLength( anim ) ) );
 		}
 	}
 
-	return (0.0f);
+	return ( 0.0f );
 }
 
 /*
@@ -3817,8 +3825,8 @@ idActor::Event_AnimLength
 ================
 */
 void idActor::Event_AnimLength( int channel, const char* animname )
-{	
-	idThread::ReturnFloat(AnimLength(channel, animname));
+{
+	idThread::ReturnFloat( AnimLength( channel, animname ) );
 }
 
 /*
@@ -3953,9 +3961,9 @@ idActor::Event_SetState
 */
 void idActor::Event_SetState( const char* name )
 {
-	if (HasNativeFunction(name))
+	if( HasNativeFunction( name ) )
 	{
-		stateThread.SetState(name);
+		stateThread.SetState( name );
 		return;
 	}
 

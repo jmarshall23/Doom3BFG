@@ -124,9 +124,9 @@ public:
 	virtual bool				FindNearestGoal( aasGoal_t& goal, int areaNum, const idVec3 origin, const idVec3& target, int travelFlags, aasObstacle_t* obstacles, int numObstacles, idAASCallback& callback ) const;
 // jmarshall
 	virtual const idBounds&		DefaultSearchBounds() const;
-	virtual int					AdjustPositionAndGetArea(idVec3& origin);
-	virtual void				ShowArea(const idVec3& origin) const;
-	virtual void				DrawAreas(void) const;
+	virtual int					AdjustPositionAndGetArea( idVec3& origin );
+	virtual void				ShowArea( const idVec3& origin ) const;
+	virtual void				DrawAreas( void ) const;
 // jmarshall end
 private:
 	idAASFile* 					file;

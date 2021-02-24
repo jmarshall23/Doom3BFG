@@ -58,7 +58,7 @@ void rvmWeaponDoubleShotgun::Init( idWeapon* weapon )
 rvmWeaponDoubleShotgun::Raise
 ===============
 */
-stateResult_t rvmWeaponDoubleShotgun::Raise(stateParms_t* parms)
+stateResult_t rvmWeaponDoubleShotgun::Raise( stateParms_t* parms )
 {
 	enum RisingState
 	{
@@ -66,12 +66,12 @@ stateResult_t rvmWeaponDoubleShotgun::Raise(stateParms_t* parms)
 		RISING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
 		case RISING_NOTSET:
-			owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
 			parms->stage = RISING_WAIT;
-		return SRESULT_WAIT;
+			return SRESULT_WAIT;
 
 		case RISING_WAIT:
 			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, SHOTGUN_DOUBLE_RAISE_TO_IDLE ) )
@@ -90,7 +90,7 @@ stateResult_t rvmWeaponDoubleShotgun::Raise(stateParms_t* parms)
 rvmWeaponDoubleShotgun::Lower
 ===============
 */
-stateResult_t rvmWeaponDoubleShotgun::Lower(stateParms_t* parms)
+stateResult_t rvmWeaponDoubleShotgun::Lower( stateParms_t* parms )
 {
 	enum LoweringState
 	{
@@ -98,20 +98,20 @@ stateResult_t rvmWeaponDoubleShotgun::Lower(stateParms_t* parms)
 		LOWERING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case LOWERING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
-		parms->stage = LOWERING_WAIT;
-		return SRESULT_WAIT;
+		case LOWERING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
+			parms->stage = LOWERING_WAIT;
+			return SRESULT_WAIT;
 
-	case LOWERING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			SetState("Holstered");
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case LOWERING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				SetState( "Holstered" );
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -122,7 +122,7 @@ stateResult_t rvmWeaponDoubleShotgun::Lower(stateParms_t* parms)
 rvmWeaponDoubleShotgun::Idle
 ===============
 */
-stateResult_t rvmWeaponDoubleShotgun::Idle(stateParms_t* parms)
+stateResult_t rvmWeaponDoubleShotgun::Idle( stateParms_t* parms )
 {
 	//float currentTime = 0;
 	float clip_size;
@@ -165,7 +165,7 @@ stateResult_t rvmWeaponDoubleShotgun::Idle(stateParms_t* parms)
 rvmWeaponDoubleShotgun::Fire
 ===============
 */
-stateResult_t rvmWeaponDoubleShotgun::Fire(stateParms_t* parms)
+stateResult_t rvmWeaponDoubleShotgun::Fire( stateParms_t* parms )
 {
 	int ammoClip = owner->AmmoInClip();
 
@@ -175,7 +175,7 @@ stateResult_t rvmWeaponDoubleShotgun::Fire(stateParms_t* parms)
 		FIRE_WAIT
 	};
 
-	if (ammoClip == 0 && owner->AmmoAvailable() && parms->stage == 0)
+	if( ammoClip == 0 && owner->AmmoAvailable() && parms->stage == 0 )
 	{
 		//owner->WeaponState( WP_RELOAD, PISTOL_IDLE_TO_RELOAD );
 		owner->Reload();
@@ -215,7 +215,7 @@ stateResult_t rvmWeaponDoubleShotgun::Fire(stateParms_t* parms)
 rvmWeaponDoubleShotgun::Reload
 ===============
 */
-stateResult_t rvmWeaponDoubleShotgun::Reload(stateParms_t* parms)
+stateResult_t rvmWeaponDoubleShotgun::Reload( stateParms_t* parms )
 {
 	enum RELOAD_State
 	{
@@ -223,20 +223,20 @@ stateResult_t rvmWeaponDoubleShotgun::Reload(stateParms_t* parms)
 		RELOAD_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case RELOAD_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "reload_start", false);
-		parms->stage = RELOAD_WAIT;
-		return SRESULT_WAIT;
+		case RELOAD_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "reload_start", false );
+			parms->stage = RELOAD_WAIT;
+			return SRESULT_WAIT;
 
-	case RELOAD_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			owner->Event_AddToClip(owner->ClipSize());
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case RELOAD_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				owner->Event_AddToClip( owner->ClipSize() );
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 	return SRESULT_ERROR;
 }
@@ -246,6 +246,7 @@ stateResult_t rvmWeaponDoubleShotgun::Reload(stateParms_t* parms)
 rvmWeaponDoubleShotgun::EjectBrass
 ===============
 */
-void rvmWeaponDoubleShotgun::EjectBrass(void) {
+void rvmWeaponDoubleShotgun::EjectBrass( void )
+{
 
 }

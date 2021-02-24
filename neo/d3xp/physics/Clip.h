@@ -295,7 +295,7 @@ public:
 	int						Contents( const idVec3& start,
 									  const idClipModel* mdl, const idMat3& trmAxis, int contentMask, const idEntity* passEntity );
 
-	int						PointContents(const idVec3 p);
+	int						PointContents( const idVec3 p );
 
 	// special case translations versus the rest of the world
 	bool					TracePoint( trace_t& results, const idVec3& start, const idVec3& end,

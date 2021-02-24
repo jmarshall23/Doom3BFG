@@ -5,7 +5,7 @@
 #include "precompiled.h"
 #include "../Game_local.h"
 
-CLASS_DECLARATION(rvmWeaponObject, rvmWeaponChainsaw)
+CLASS_DECLARATION( rvmWeaponObject, rvmWeaponChainsaw )
 END_CLASS
 
 #define CHAINSAW_FIRERATE			0.1
@@ -21,9 +21,9 @@ END_CLASS
 rvmWeaponChainsaw::Init
 ===============
 */
-void rvmWeaponChainsaw::Init(idWeapon* weapon)
+void rvmWeaponChainsaw::Init( idWeapon* weapon )
 {
-	rvmWeaponObject::Init(weapon);
+	rvmWeaponObject::Init( weapon );
 
 	next_attack = 0;
 }
@@ -34,7 +34,7 @@ void rvmWeaponChainsaw::Init(idWeapon* weapon)
 rvmWeaponChainsaw::Raise
 ===============
 */
-stateResult_t rvmWeaponChainsaw::Raise(stateParms_t* parms)
+stateResult_t rvmWeaponChainsaw::Raise( stateParms_t* parms )
 {
 	enum RisingState
 	{
@@ -42,19 +42,19 @@ stateResult_t rvmWeaponChainsaw::Raise(stateParms_t* parms)
 		RISING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case RISING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "raise", false);
-		parms->stage = RISING_WAIT;
-		return SRESULT_WAIT;
+		case RISING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "raise", false );
+			parms->stage = RISING_WAIT;
+			return SRESULT_WAIT;
 
-	case RISING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, CHAINSAW_RAISE_TO_IDLE))
-		{
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case RISING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, CHAINSAW_RAISE_TO_IDLE ) )
+			{
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -66,7 +66,7 @@ stateResult_t rvmWeaponChainsaw::Raise(stateParms_t* parms)
 rvmWeaponChainsaw::Lower
 ===============
 */
-stateResult_t rvmWeaponChainsaw::Lower(stateParms_t* parms)
+stateResult_t rvmWeaponChainsaw::Lower( stateParms_t* parms )
 {
 	enum LoweringState
 	{
@@ -74,20 +74,20 @@ stateResult_t rvmWeaponChainsaw::Lower(stateParms_t* parms)
 		LOWERING_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case LOWERING_NOTSET:
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "putaway", false);
-		parms->stage = LOWERING_WAIT;
-		return SRESULT_WAIT;
+		case LOWERING_NOTSET:
+			owner->Event_PlayAnim( ANIMCHANNEL_ALL, "putaway", false );
+			parms->stage = LOWERING_WAIT;
+			return SRESULT_WAIT;
 
-	case LOWERING_WAIT:
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
-		{
-			SetState("Holstered");
-			return SRESULT_DONE;
-		}
-		return SRESULT_WAIT;
+		case LOWERING_WAIT:
+			if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
+			{
+				SetState( "Holstered" );
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;
 	}
 
 	return SRESULT_ERROR;
@@ -98,7 +98,7 @@ stateResult_t rvmWeaponChainsaw::Lower(stateParms_t* parms)
 rvmWeaponChainsaw::Idle
 ===============
 */
-stateResult_t rvmWeaponChainsaw::Idle(stateParms_t* parms)
+stateResult_t rvmWeaponChainsaw::Idle( stateParms_t* parms )
 {
 	enum IdleState
 	{
@@ -106,17 +106,17 @@ stateResult_t rvmWeaponChainsaw::Idle(stateParms_t* parms)
 		IDLE_WAIT
 	};
 
-	switch (parms->stage)
+	switch( parms->stage )
 	{
-	case IDLE_NOTSET:
-		owner->Event_WeaponReady();
-		owner->Event_PlayCycle(ANIMCHANNEL_ALL, "idle");
-		parms->stage = IDLE_WAIT;
-		return SRESULT_WAIT;
+		case IDLE_NOTSET:
+			owner->Event_WeaponReady();
+			owner->Event_PlayCycle( ANIMCHANNEL_ALL, "idle" );
+			parms->stage = IDLE_WAIT;
+			return SRESULT_WAIT;
 
-	case IDLE_WAIT:
-		// Do nothing.
-		return SRESULT_DONE;
+		case IDLE_WAIT:
+			// Do nothing.
+			return SRESULT_DONE;
 	}
 
 	return SRESULT_ERROR;
@@ -127,7 +127,8 @@ stateResult_t rvmWeaponChainsaw::Idle(stateParms_t* parms)
 rvmWeaponChainsaw::Reload
 ===============
 */
-stateResult_t rvmWeaponChainsaw::Reload(stateParms_t* parms) {
+stateResult_t rvmWeaponChainsaw::Reload( stateParms_t* parms )
+{
 	return SRESULT_DONE;
 }
 
@@ -136,21 +137,22 @@ stateResult_t rvmWeaponChainsaw::Reload(stateParms_t* parms) {
 rvmWeaponChainsaw::Fire
 ===============
 */
-stateResult_t rvmWeaponChainsaw::Fire(stateParms_t* parms) {
+stateResult_t rvmWeaponChainsaw::Fire( stateParms_t* parms )
+{
 	float currentTime;
 
-	if (parms->stage == 0)
+	if( parms->stage == 0 )
 	{
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "melee_start", false);
+		owner->Event_PlayAnim( ANIMCHANNEL_ALL, "melee_start", false );
 		owner->Event_Melee();
-		owner->Event_StartSound("snd_startattack", SND_CHANNEL_WEAPON, false);
+		owner->Event_StartSound( "snd_startattack", SND_CHANNEL_WEAPON, false );
 		parms->stage = 1;
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 1)
+	if( parms->stage == 1 )
 	{
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 3))
+		if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 3 ) )
 		{
 			parms->stage = 2;
 			return SRESULT_WAIT;
@@ -159,16 +161,16 @@ stateResult_t rvmWeaponChainsaw::Fire(stateParms_t* parms) {
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 2)
+	if( parms->stage == 2 )
 	{
-		owner->Event_StartSound("snd_attack", SND_CHANNEL_WEAPON, false);
+		owner->Event_StartSound( "snd_attack", SND_CHANNEL_WEAPON, false );
 		parms->stage = 3;
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 3)
+	if( parms->stage == 3 )
 	{
-		if (owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+		if( owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
 		{
 			parms->stage = 4;
 			return SRESULT_WAIT;
@@ -177,9 +179,9 @@ stateResult_t rvmWeaponChainsaw::Fire(stateParms_t* parms) {
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 4)
+	if( parms->stage == 4 )
 	{
-		owner->Event_PlayCycle(ANIMCHANNEL_ALL, "melee_loop");
+		owner->Event_PlayCycle( ANIMCHANNEL_ALL, "melee_loop" );
 		next_attack = gameLocal.SysScriptTime();
 
 		parms->stage = 5;
@@ -187,12 +189,13 @@ stateResult_t rvmWeaponChainsaw::Fire(stateParms_t* parms) {
 		return SRESULT_WAIT;
 	}
 
-	if (parms->stage == 5)
+	if( parms->stage == 5 )
 	{
-		if (owner->IsFiring())
+		if( owner->IsFiring() )
 		{
 			currentTime = gameLocal.SysScriptTime();
-			if (currentTime >= next_attack) {
+			if( currentTime >= next_attack )
+			{
 				owner->Event_Melee();
 				next_attack = currentTime + CHAINSAW_FIRERATE;
 			}
@@ -205,15 +208,15 @@ stateResult_t rvmWeaponChainsaw::Fire(stateParms_t* parms) {
 		}
 	}
 
-	if (parms->stage == 6)
+	if( parms->stage == 6 )
 	{
-		owner->Event_StartSound("snd_stopattack", SND_CHANNEL_WEAPON, false);
-		owner->Event_PlayAnim(ANIMCHANNEL_ALL, "melee_end", false);
+		owner->Event_StartSound( "snd_stopattack", SND_CHANNEL_WEAPON, false );
+		owner->Event_PlayAnim( ANIMCHANNEL_ALL, "melee_end", false );
 		parms->stage = 7;
 		return SRESULT_WAIT;
 	}
 
-	if (!owner->Event_AnimDone(ANIMCHANNEL_ALL, 0))
+	if( !owner->Event_AnimDone( ANIMCHANNEL_ALL, 0 ) )
 	{
 		return SRESULT_WAIT;
 	}
