@@ -3,7 +3,7 @@
 
 Doom 3 BFG Edition GPL Source Code
 Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-Copyright (C) 2021 Robert Beckebans
+Copyright (C) 2020 Robert Beckebans
 
 This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
@@ -27,37 +27,38 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#ifndef __MODEL_OBJ_H__
-#define __MODEL_OBJ_H__
+#include "renderprogs/global.inc.hlsl"
 
-/*
-===============================================================================
 
-	Wavefront OBJ loader.
-	This is meant to be a very simple model format and we don't even care for .mtl files
-	because we want all material properties to be defined through the D3 material system
+// *INDENT-OFF*
+uniform sampler2D	samp0 : register(s0); // texture 0 is octahedron cube map
 
-===============================================================================
-*/
-
-struct objObject_t
-{
-	idStrStatic< MAX_OSPATH >	material;
-
-	idList<idVec3>				vertexes;
-	idList<idVec2>				texcoords;
-	idList<idVec3>				normals;
-	idList<triIndex_t>			indexes;
+struct PS_IN {
+	float4 position		: VPOS;
+	float3 texcoord0	: TEXCOORD0_centroid;
+	float3 texcoord1	: TEXCOORD1_centroid;
+	float4 color		: COLOR0;
 };
 
-struct objModel_t
-{
-	ID_TIME_T							timeStamp;
-	idList<objObject_t*, TAG_MODEL>		objects;
+struct PS_OUT {
+	float4 color : COLOR;
 };
+// *INDENT-ON*
 
+void main( PS_IN fragment, out PS_OUT result )
+{
 
-objModel_t* OBJ_Load( const char* fileName );
-void		OBJ_Free( objModel_t* obj );
+	float3 globalNormal = normalize( fragment.texcoord1 );
+	float3 globalEye = normalize( fragment.texcoord0 );
 
-#endif /* !__MODEL_OBJ_H__ */
+	float3 reflectionVector = _float3( dot3( globalEye, globalNormal ) );
+	reflectionVector *= globalNormal;
+	reflectionVector = ( reflectionVector * 2.0f ) - globalEye;
+
+	float2 normalizedOctCoord = octEncode( reflectionVector );
+	float2 normalizedOctCoordZeroOne = ( normalizedOctCoord + float2( 1.0 ) ) * 0.5;
+
+	float4 envMap = tex2D( samp0, normalizedOctCoordZeroOne );
+
+	result.color = float4( sRGBToLinearRGB( envMap.xyz ), 1.0f ) * fragment.color;
+}

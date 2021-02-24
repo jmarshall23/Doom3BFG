@@ -330,6 +330,7 @@ idRenderModel* idRenderModelManagerLocal::GetModel( const char* _modelName, bool
 				// in memory as well
 				model->TouchData();
 			}
+
 			model->SetLevelLoadReferenced( true );
 			return model;
 		}
@@ -341,7 +342,7 @@ idRenderModel* idRenderModelManagerLocal::GetModel( const char* _modelName, bool
 
 	idRenderModel* model = NULL;
 
-	// RB: added dae
+	// RB: Collada DAE and Wavefront OBJ
 	if( ( extension.Icmp( "dae" ) == 0 ) || ( extension.Icmp( "obj" ) == 0 ) || ( extension.Icmp( "ase" ) == 0 ) || ( extension.Icmp( "lwo" ) == 0 ) || ( extension.Icmp( "flt" ) == 0 ) || ( extension.Icmp( "ma" ) == 0 ) )
 	{
 		model = new( TAG_MODEL ) idRenderModelStatic;
@@ -367,7 +368,6 @@ idRenderModel* idRenderModelManagerLocal::GetModel( const char* _modelName, bool
 
 	if( model != NULL )
 	{
-
 		generatedFileName = "generated/rendermodels/";
 		generatedFileName.AppendPath( canonical );
 		generatedFileName.SetFileExtension( va( "b%s", extension.c_str() ) );
@@ -447,6 +447,12 @@ idRenderModel* idRenderModelManagerLocal::GetModel( const char* _modelName, bool
 		idStrStatic< MAX_OSPATH > exportedFileName;
 
 		exportedFileName = "exported/rendermodels/";
+
+		if( com_editors & EDITOR_EXPORTDEFS )
+		{
+			exportedFileName = "_tb/";
+		}
+
 		exportedFileName.AppendPath( canonical );
 		exportedFileName.SetFileExtension( ".obj" );
 

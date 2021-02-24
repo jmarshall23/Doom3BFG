@@ -3,7 +3,7 @@
 
 Doom 3 BFG Edition GPL Source Code
 Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-Copyright (C) 2021 Robert Beckebans
+Copyright (C) 2014 Robert Beckebans
 
 This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
@@ -27,37 +27,29 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#ifndef __MODEL_OBJ_H__
-#define __MODEL_OBJ_H__
+#include "renderprogs/global.inc.hlsl"
 
-/*
-===============================================================================
 
-	Wavefront OBJ loader.
-	This is meant to be a very simple model format and we don't even care for .mtl files
-	because we want all material properties to be defined through the D3 material system
+// *INDENT-OFF*
+uniform sampler2DArray samp0 : register(s0);
 
-===============================================================================
-*/
-
-struct objObject_t
+struct PS_IN
 {
-	idStrStatic< MAX_OSPATH >	material;
-
-	idList<idVec3>				vertexes;
-	idList<idVec2>				texcoords;
-	idList<idVec3>				normals;
-	idList<triIndex_t>			indexes;
+	float4 position : VPOS;
+	float2 texcoord0 : TEXCOORD0_centroid;
 };
 
-struct objModel_t
+struct PS_OUT
 {
-	ID_TIME_T							timeStamp;
-	idList<objObject_t*, TAG_MODEL>		objects;
+	float4 color : COLOR;
 };
+// *INDENT-ON*
 
+void main( PS_IN fragment, out PS_OUT result )
+{
+	float3 tc;
+	tc.xy = fragment.texcoord0.xy;
+	tc.z = rpScreenCorrectionFactor.x; // layer
 
-objModel_t* OBJ_Load( const char* fileName );
-void		OBJ_Free( objModel_t* obj );
-
-#endif /* !__MODEL_OBJ_H__ */
+	result.color = texture( samp0, tc );// * rpColor;
+}

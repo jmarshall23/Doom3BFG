@@ -3,7 +3,6 @@
 
 Doom 3 BFG Edition GPL Source Code
 Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
-Copyright (C) 2021 Robert Beckebans
 
 This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
@@ -27,37 +26,40 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#ifndef __MODEL_OBJ_H__
-#define __MODEL_OBJ_H__
+#include "renderprogs/global.inc.hlsl"
 
-/*
-===============================================================================
 
-	Wavefront OBJ loader.
-	This is meant to be a very simple model format and we don't even care for .mtl files
-	because we want all material properties to be defined through the D3 material system
-
-===============================================================================
-*/
-
-struct objObject_t
-{
-	idStrStatic< MAX_OSPATH >	material;
-
-	idList<idVec3>				vertexes;
-	idList<idVec2>				texcoords;
-	idList<idVec3>				normals;
-	idList<triIndex_t>			indexes;
+// *INDENT-OFF*
+struct VS_IN {
+	float4 position : POSITION;
+	float2 texcoord : TEXCOORD0;
+	float4 normal : NORMAL;
+	float4 tangent : TANGENT;
+	float4 color : COLOR0;
 };
 
-struct objModel_t
-{
-	ID_TIME_T							timeStamp;
-	idList<objObject_t*, TAG_MODEL>		objects;
+struct VS_OUT {
+	float4 position : POSITION;
+	float2 texcoord0 : TEXCOORD0;
 };
+// *INDENT-ON*
 
+void main( VS_IN vertex, out VS_OUT result )
+{
+	result.position.x = dot4( vertex.position, rpMVPmatrixX );
+	result.position.y = dot4( vertex.position, rpMVPmatrixY );
+	result.position.z = dot4( vertex.position, rpMVPmatrixZ );
+	result.position.w = dot4( vertex.position, rpMVPmatrixW );
 
-objModel_t* OBJ_Load( const char* fileName );
-void		OBJ_Free( objModel_t* obj );
-
-#endif /* !__MODEL_OBJ_H__ */
+	// compute oldschool texgen or multiply by texture matrix
+	BRANCH if( rpTexGen0Enabled.x > 0.0 )
+	{
+		result.texcoord0.x = dot4( vertex.position, rpTexGen0S );
+		result.texcoord0.y = dot4( vertex.position, rpTexGen0T );
+	}
+	else
+	{
+		result.texcoord0.x = dot4( vertex.texcoord.xy, rpTextureMatrixS );
+		result.texcoord0.y = dot4( vertex.texcoord.xy, rpTextureMatrixT );
+	}
+}

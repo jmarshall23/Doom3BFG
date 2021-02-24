@@ -867,7 +867,7 @@ void R_AddSingleModel( viewEntity_t* vEntity )
 						{
 							// throw the entire source surface at it without any per-triangle culling
 							lightDrawSurf->numIndexes = tri->numIndexes;
-							lightDrawSurf->indexCache = tri->indexCache;							
+							lightDrawSurf->indexCache = tri->indexCache;
 						}
 
 						lightDrawSurf->ambientCache = tri->ambientCache;

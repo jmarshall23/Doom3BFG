@@ -569,7 +569,7 @@ void R_AddLights()
 		{
 			R_ShowColoredScreenRect( vLight->scissorRect, vLight->lightDef->index );
 		}
-	}	
+	}
 }
 
 /*

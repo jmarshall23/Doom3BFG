@@ -329,22 +329,22 @@ public:
 	void	BindShader_TextureVertexColor()
 	{
 		BindShader_Builtin( BUILTIN_TEXTURE_VERTEXCOLOR );
-	};
+	}
 
 	void	BindShader_TextureVertexColor_sRGB()
 	{
 		BindShader_Builtin( BUILTIN_TEXTURE_VERTEXCOLOR_SRGB );
-	};
+	}
 
 	void	BindShader_TextureVertexColorSkinned()
 	{
 		BindShader_Builtin( BUILTIN_TEXTURE_VERTEXCOLOR_SKINNED );
-	};
+	}
 
 	void	BindShader_TextureTexGenVertexColor()
 	{
 		BindShader_Builtin( BUILTIN_TEXTURE_TEXGEN_VERTEXCOLOR );
-	};
+	}
 
 	void	BindShader_Interaction()
 	{
@@ -448,6 +448,16 @@ public:
 	void	BindShader_PBR_Interaction_ShadowMapping_Parallel_Skinned()
 	{
 		BindShader_Builtin( BUILTIN_PBR_INTERACTION_SHADOW_MAPPING_PARALLEL_SKINNED );
+	}
+
+	void	BindShader_Octahedron()
+	{
+		BindShader_Builtin( BUILTIN_OCTAHEDRON );
+	}
+
+	void	BindShader_OctahedronSkinned()
+	{
+		BindShader_Builtin( BUILTIN_OCTAHEDRON_SKINNED );
 	}
 	// RB end
 
@@ -755,6 +765,9 @@ private:
 		BUILTIN_PBR_INTERACTION_SHADOW_MAPPING_POINT_SKINNED,
 		BUILTIN_PBR_INTERACTION_SHADOW_MAPPING_PARALLEL,
 		BUILTIN_PBR_INTERACTION_SHADOW_MAPPING_PARALLEL_SKINNED,
+
+		BUILTIN_OCTAHEDRON,
+		BUILTIN_OCTAHEDRON_SKINNED,
 		// RB end
 		BUILTIN_ENVIRONMENT,
 		BUILTIN_ENVIRONMENT_SKINNED,
