@@ -7,8 +7,8 @@
 
 	This file has been generated with the Type Info Generator v1.1 (c) 2004 id Software
 
-	941 constants
-	90 enums
+	952 constants
+	91 enums
 	482 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
@@ -166,6 +166,9 @@ static constantInfo_t constantInfo[] = {
 	{ "int", "FLAGSTATUS_TAKEN", "1" },
 	{ "int", "FLAGSTATUS_STRAY", "2" },
 	{ "int", "FLAGSTATUS_NONE", "3" },
+	{ "int", "LEAD_STATUS_NOTSET", "0" },
+	{ "int", "LEAD_STATUS_NOLEAD", "1" },
+	{ "int", "LEAD_STATUS_INLEAD", "2" },
 	{ "const int", "NUM_CHAT_NOTIFY", "5" },
 	{ "const int", "CHAT_FADE_TIME", "400" },
 	{ "const int", "FRAGLIMIT_DELAY", "2000" },
@@ -188,7 +191,15 @@ static constantInfo_t constantInfo[] = {
 	{ "int", "SND_FLAG_TAKEN_THEIRS", "11" },
 	{ "int", "SND_FLAG_DROPPED_YOURS", "12" },
 	{ "int", "SND_FLAG_DROPPED_THEIRS", "13" },
-	{ "int", "SND_COUNT", "14" },
+	{ "int", "SND_LEADGAINED", "14" },
+	{ "int", "SND_LEADLOST", "15" },
+	{ "int", "SND_LEADTIED", "16" },
+	{ "int", "SND_WELCOMEDOM", "17" },
+	{ "int", "SND_ONEFRAG", "18" },
+	{ "int", "SND_TWOFRAG", "19" },
+	{ "int", "SND_THREEFRAG", "20" },
+	{ "int", "SND_PREPAREFORBATTLE", "21" },
+	{ "int", "SND_COUNT", "22" },
 	{ "int", "idMultiplayerGame::INACTIVE", "0" },
 	{ "int", "idMultiplayerGame::WARMUP", "1" },
 	{ "int", "idMultiplayerGame::COUNTDOWN", "2" },
@@ -1132,6 +1143,13 @@ static enumValueInfo_t flagStatus_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static enumValueInfo_t mpLeaderStatus_t_typeInfo[] = {
+	{ "LEAD_STATUS_NOTSET", 0 },
+	{ "LEAD_STATUS_NOLEAD", 1 },
+	{ "LEAD_STATUS_INLEAD", 2 },
+	{ NULL, 0 }
+};
+
 static enumValueInfo_t snd_evt_t_typeInfo[] = {
 	{ "SND_YOUWIN", 0 },
 	{ "SND_YOULOSE", 1 },
@@ -1147,7 +1165,15 @@ static enumValueInfo_t snd_evt_t_typeInfo[] = {
 	{ "SND_FLAG_TAKEN_THEIRS", 11 },
 	{ "SND_FLAG_DROPPED_YOURS", 12 },
 	{ "SND_FLAG_DROPPED_THEIRS", 13 },
-	{ "SND_COUNT", 14 },
+	{ "SND_LEADGAINED", 14 },
+	{ "SND_LEADLOST", 15 },
+	{ "SND_LEADTIED", 16 },
+	{ "SND_WELCOMEDOM", 17 },
+	{ "SND_ONEFRAG", 18 },
+	{ "SND_TWOFRAG", 19 },
+	{ "SND_THREEFRAG", 20 },
+	{ "SND_PREPAREFORBATTLE", 21 },
+	{ "SND_COUNT", 22 },
 	{ NULL, 0 }
 };
 
@@ -1186,7 +1212,7 @@ static enumValueInfo_t idMultiplayerGame_msg_evt_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_13_typeInfo[] = {
+static enumValueInfo_t enum_14_typeInfo[] = {
 	{ "GAME_RELIABLE_MESSAGE_SYNCEDCVARS", 0 },
 	{ "GAME_RELIABLE_MESSAGE_SPAWN_PLAYER", 1 },
 	{ "GAME_RELIABLE_MESSAGE_CHAT", 2 },
@@ -1319,7 +1345,7 @@ static enumValueInfo_t constraintType_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_25_typeInfo[] = {
+static enumValueInfo_t enum_26_typeInfo[] = {
 	{ "TH_ALL", -1 },
 	{ "TH_THINK", 1 },
 	{ "TH_PHYSICS", 2 },
@@ -1344,7 +1370,7 @@ static enumValueInfo_t signalNum_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idEntity_enum_27_typeInfo[] = {
+static enumValueInfo_t idEntity_enum_28_typeInfo[] = {
 	{ "EVENT_STARTSOUNDSHADER", 0 },
 	{ "EVENT_STOPSOUNDSHADER", 1 },
 	{ "EVENT_MAXEVENTS", 2 },
@@ -1358,19 +1384,19 @@ static enumValueInfo_t idEntity_interpolationBehavior_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idAnimatedEntity_enum_29_typeInfo[] = {
+static enumValueInfo_t idAnimatedEntity_enum_30_typeInfo[] = {
 	{ "EVENT_ADD_DAMAGE_EFFECT", 2 },
 	{ "EVENT_MAXEVENTS", 3 },
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idPlayerStart_enum_30_typeInfo[] = {
+static enumValueInfo_t idPlayerStart_enum_31_typeInfo[] = {
 	{ "EVENT_TELEPORTPLAYER", 2 },
 	{ "EVENT_MAXEVENTS", 3 },
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idProjectile_enum_31_typeInfo[] = {
+static enumValueInfo_t idProjectile_enum_32_typeInfo[] = {
 	{ "EVENT_DAMAGE_EFFECT", 2 },
 	{ "EVENT_MAXEVENTS", 3 },
 	{ NULL, 0 }
@@ -1385,7 +1411,7 @@ static enumValueInfo_t idProjectile_projectileState_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idWeapon_enum_33_typeInfo[] = {
+static enumValueInfo_t idWeapon_enum_34_typeInfo[] = {
 	{ "EVENT_RELOAD", 2 },
 	{ "EVENT_ENDRELOAD", 3 },
 	{ "EVENT_CHANGESKIN", 4 },
@@ -1393,13 +1419,13 @@ static enumValueInfo_t idWeapon_enum_33_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idLight_enum_34_typeInfo[] = {
+static enumValueInfo_t idLight_enum_35_typeInfo[] = {
 	{ "EVENT_BECOMEBROKEN", 2 },
 	{ "EVENT_MAXEVENTS", 3 },
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t EnvironmentProbe_enum_35_typeInfo[] = {
+static enumValueInfo_t EnvironmentProbe_enum_36_typeInfo[] = {
 	{ "EVENT_BECOMEBROKEN", 2 },
 	{ "EVENT_MAXEVENTS", 3 },
 	{ NULL, 0 }
@@ -1412,7 +1438,7 @@ static enumValueInfo_t itemGiveFlags_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idItem_enum_37_typeInfo[] = {
+static enumValueInfo_t idItem_enum_38_typeInfo[] = {
 	{ "EVENT_PICKUP", 2 },
 	{ "EVENT_RESPAWN", 3 },
 	{ "EVENT_RESPAWNFX", 4 },
@@ -1424,7 +1450,7 @@ static enumValueInfo_t idItem_enum_37_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t FxFader_enum_38_typeInfo[] = {
+static enumValueInfo_t FxFader_enum_39_typeInfo[] = {
 	{ "FX_STATE_OFF", 0 },
 	{ "FX_STATE_RAMPUP", 1 },
 	{ "FX_STATE_RAMPDOWN", 2 },
@@ -1529,7 +1555,7 @@ static enumValueInfo_t gameExpansionType_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_42_typeInfo[] = {
+static enumValueInfo_t enum_43_typeInfo[] = {
 	{ "BERSERK", 0 },
 	{ "INVISIBILITY", 1 },
 	{ "MEGAHEALTH", 2 },
@@ -1542,7 +1568,7 @@ static enumValueInfo_t enum_42_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_43_typeInfo[] = {
+static enumValueInfo_t enum_44_typeInfo[] = {
 	{ "SPEED", 0 },
 	{ "PROJECTILE_DAMAGE", 1 },
 	{ "MELEE_DAMAGE", 2 },
@@ -1550,7 +1576,7 @@ static enumValueInfo_t enum_43_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_44_typeInfo[] = {
+static enumValueInfo_t enum_45_typeInfo[] = {
 	{ "INFLUENCE_NONE", 0 },
 	{ "INFLUENCE_LEVEL1", 1 },
 	{ "INFLUENCE_LEVEL2", 2 },
@@ -1558,7 +1584,7 @@ static enumValueInfo_t enum_44_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idPlayer_enum_45_typeInfo[] = {
+static enumValueInfo_t idPlayer_enum_46_typeInfo[] = {
 	{ "EVENT_IMPULSE", 2 },
 	{ "EVENT_EXIT_TELEPORTER", 3 },
 	{ "EVENT_ABORT_TELEPORTER", 4 },
@@ -1618,7 +1644,7 @@ static enumValueInfo_t moverState_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idExplodingBarrel_enum_51_typeInfo[] = {
+static enumValueInfo_t idExplodingBarrel_enum_52_typeInfo[] = {
 	{ "EVENT_EXPLODE", 2 },
 	{ "EVENT_MAXEVENTS", 3 },
 	{ NULL, 0 }
@@ -1632,7 +1658,7 @@ static enumValueInfo_t idExplodingBarrel_explode_state_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idSecurityCamera_enum_53_typeInfo[] = {
+static enumValueInfo_t idSecurityCamera_enum_54_typeInfo[] = {
 	{ "SCANNING", 0 },
 	{ "LOSINGINTEREST", 1 },
 	{ "ALERT", 2 },
@@ -1640,7 +1666,7 @@ static enumValueInfo_t idSecurityCamera_enum_53_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t idBrittleFracture_enum_54_typeInfo[] = {
+static enumValueInfo_t idBrittleFracture_enum_55_typeInfo[] = {
 	{ "EVENT_PROJECT_DECAL", 2 },
 	{ "EVENT_SHATTER", 3 },
 	{ "EVENT_MAXEVENTS", 4 },
@@ -2078,7 +2104,7 @@ static enumValueInfo_t menuSounds_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_89_typeInfo[] = {
+static enumValueInfo_t enum_90_typeInfo[] = {
 	{ "OP_RETURN", 0 },
 	{ "OP_UINC_F", 1 },
 	{ "OP_UINCP_F", 2 },
@@ -2217,10 +2243,11 @@ static enumTypeInfo_t enumTypeInfo[] = {
 	{ "pvsType_t", pvsType_t_typeInfo },
 	{ "gameType_t", gameType_t_typeInfo },
 	{ "flagStatus_t", flagStatus_t_typeInfo },
+	{ "mpLeaderStatus_t", mpLeaderStatus_t_typeInfo },
 	{ "snd_evt_t", snd_evt_t_typeInfo },
 	{ "idMultiplayerGame::gameState_t", idMultiplayerGame_gameState_t_typeInfo },
 	{ "idMultiplayerGame::msg_evt_t", idMultiplayerGame_msg_evt_t_typeInfo },
-	{ "enum_13", enum_13_typeInfo },
+	{ "enum_14", enum_14_typeInfo },
 	{ "gameState_t", gameState_t_typeInfo },
 	{ "idEventQueue::outOfOrderBehaviour_t", idEventQueue_outOfOrderBehaviour_t_typeInfo },
 	{ "slowmoState_t", slowmoState_t_typeInfo },
@@ -2232,36 +2259,36 @@ static enumTypeInfo_t enumTypeInfo[] = {
 	{ "pmtype_t", pmtype_t_typeInfo },
 	{ "waterLevel_t", waterLevel_t_typeInfo },
 	{ "constraintType_t", constraintType_t_typeInfo },
-	{ "enum_25", enum_25_typeInfo },
+	{ "enum_26", enum_26_typeInfo },
 	{ "signalNum_t", signalNum_t_typeInfo },
-	{ "idEntity::enum_27", idEntity_enum_27_typeInfo },
+	{ "idEntity::enum_28", idEntity_enum_28_typeInfo },
 	{ "idEntity::interpolationBehavior_t", idEntity_interpolationBehavior_t_typeInfo },
-	{ "idAnimatedEntity::enum_29", idAnimatedEntity_enum_29_typeInfo },
-	{ "idPlayerStart::enum_30", idPlayerStart_enum_30_typeInfo },
-	{ "idProjectile::enum_31", idProjectile_enum_31_typeInfo },
+	{ "idAnimatedEntity::enum_30", idAnimatedEntity_enum_30_typeInfo },
+	{ "idPlayerStart::enum_31", idPlayerStart_enum_31_typeInfo },
+	{ "idProjectile::enum_32", idProjectile_enum_32_typeInfo },
 	{ "idProjectile::projectileState_t", idProjectile_projectileState_t_typeInfo },
-	{ "idWeapon::enum_33", idWeapon_enum_33_typeInfo },
-	{ "idLight::enum_34", idLight_enum_34_typeInfo },
-	{ "EnvironmentProbe::enum_35", EnvironmentProbe_enum_35_typeInfo },
+	{ "idWeapon::enum_34", idWeapon_enum_34_typeInfo },
+	{ "idLight::enum_35", idLight_enum_35_typeInfo },
+	{ "EnvironmentProbe::enum_36", EnvironmentProbe_enum_36_typeInfo },
 	{ "itemGiveFlags_t", itemGiveFlags_t_typeInfo },
-	{ "idItem::enum_37", idItem_enum_37_typeInfo },
-	{ "FxFader::enum_38", FxFader_enum_38_typeInfo },
+	{ "idItem::enum_38", idItem_enum_38_typeInfo },
+	{ "FxFader::enum_39", FxFader_enum_39_typeInfo },
 	{ "playerIconType_t", playerIconType_t_typeInfo },
 	{ "achievement_t", achievement_t_typeInfo },
 	{ "gameExpansionType_t", gameExpansionType_t_typeInfo },
-	{ "enum_42", enum_42_typeInfo },
 	{ "enum_43", enum_43_typeInfo },
 	{ "enum_44", enum_44_typeInfo },
-	{ "idPlayer::enum_45", idPlayer_enum_45_typeInfo },
+	{ "enum_45", enum_45_typeInfo },
+	{ "idPlayer::enum_46", idPlayer_enum_46_typeInfo },
 	{ "idMover::moveStage_t", idMover_moveStage_t_typeInfo },
 	{ "idMover::moverCommand_t", idMover_moverCommand_t_typeInfo },
 	{ "idMover::moverDir_t", idMover_moverDir_t_typeInfo },
 	{ "idElevator::elevatorState_t", idElevator_elevatorState_t_typeInfo },
 	{ "moverState_t", moverState_t_typeInfo },
-	{ "idExplodingBarrel::enum_51", idExplodingBarrel_enum_51_typeInfo },
+	{ "idExplodingBarrel::enum_52", idExplodingBarrel_enum_52_typeInfo },
 	{ "idExplodingBarrel::explode_state_t", idExplodingBarrel_explode_state_t_typeInfo },
-	{ "idSecurityCamera::enum_53", idSecurityCamera_enum_53_typeInfo },
-	{ "idBrittleFracture::enum_54", idBrittleFracture_enum_54_typeInfo },
+	{ "idSecurityCamera::enum_54", idSecurityCamera_enum_54_typeInfo },
+	{ "idBrittleFracture::enum_55", idBrittleFracture_enum_55_typeInfo },
 	{ "moveType_t", moveType_t_typeInfo },
 	{ "moveCommand_t", moveCommand_t_typeInfo },
 	{ "talkState_t", talkState_t_typeInfo },
@@ -2296,7 +2323,7 @@ static enumTypeInfo_t enumTypeInfo[] = {
 	{ "pdaHandlerWidgets_t", pdaHandlerWidgets_t_typeInfo },
 	{ "scoreboardHandlerWidgets_t", scoreboardHandlerWidgets_t_typeInfo },
 	{ "menuSounds_t", menuSounds_t_typeInfo },
-	{ "enum_89", enum_89_typeInfo },
+	{ "enum_90", enum_90_typeInfo },
 	{ NULL, NULL }
 };
 
@@ -2836,6 +2863,9 @@ static classVariableInfo_t mpPlayerState_t_typeInfo[] = {
 	{ "int", "wins", (intptr_t)(&((mpPlayerState_t *)0)->wins), sizeof( ((mpPlayerState_t *)0)->wins ) },
 	{ "bool", "scoreBoardUp", (intptr_t)(&((mpPlayerState_t *)0)->scoreBoardUp), sizeof( ((mpPlayerState_t *)0)->scoreBoardUp ) },
 	{ "int", "deaths", (intptr_t)(&((mpPlayerState_t *)0)->deaths), sizeof( ((mpPlayerState_t *)0)->deaths ) },
+	{ "int", "clientnum", (intptr_t)(&((mpPlayerState_t *)0)->clientnum), sizeof( ((mpPlayerState_t *)0)->clientnum ) },
+	{ "mpLeaderStatus_t", "currentLeader", (intptr_t)(&((mpPlayerState_t *)0)->currentLeader), sizeof( ((mpPlayerState_t *)0)->currentLeader ) },
+	{ "bool", "tiednotified", (intptr_t)(&((mpPlayerState_t *)0)->tiednotified), sizeof( ((mpPlayerState_t *)0)->tiednotified ) },
 	{ NULL, 0 }
 };
 

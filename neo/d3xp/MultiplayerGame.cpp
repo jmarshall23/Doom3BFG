@@ -94,20 +94,32 @@ idCVar g_spectatorChat( "g_spectatorChat", "0", CVAR_GAME | CVAR_ARCHIVE | CVAR_
 // sounds in this list get precached on MP start
 const char* idMultiplayerGame::GlobalSoundStrings[] =
 {
-	"sound/vo/feedback/voc_youwin.wav",
-	"sound/vo/feedback/voc_youlose.wav",
-	"sound/vo/feedback/fight.wav",
-	"sound/vo/feedback/three.wav",
-	"sound/vo/feedback/two.wav",
-	"sound/vo/feedback/one.wav",
-	"sound/vo/feedback/sudden_death.wav",
+// jmarshall
+	"sound/feedback/voc_youwin.wav",
+	"sound/feedback/voc_youlose.wav",
+	"sound/feedback/begin.wav",
+	"sound/feedback/3.wav",
+	"sound/feedback/2.wav",
+	"sound/feedback/1.wav",
+// jmarshall
+	"sound/feedback/sudden_death.wav",
 	"sound/vo/ctf/flag_capped_yours.wav",
 	"sound/vo/ctf/flag_capped_theirs.wav",
 	"sound/vo/ctf/flag_return.wav",
 	"sound/vo/ctf/flag_taken_yours.wav",
 	"sound/vo/ctf/flag_taken_theirs.wav",
 	"sound/vo/ctf/flag_dropped_yours.wav",
-	"sound/vo/ctf/flag_dropped_theirs.wav"
+	"sound/vo/ctf/flag_dropped_theirs.wav",
+// jmarshall
+	"sound/feedback/leadgained.wav",
+	"sound/feedback/leadlost.wav",
+	"sound/feedback/leadtied.wav",
+	"sound/feedback/welcomedom.ogg",
+	"sound/feedback/1fragleft.wav",
+	"sound/feedback/2fragsleft.wav",
+	"sound/feedback/3fragsleft.wav",
+	"sound/feedback/prepareforbattle.wav"
+// jmarshall end
 };
 
 // handy verbose
@@ -222,6 +234,10 @@ void idMultiplayerGame::SpawnPlayer( int clientNum )
 			p->tourneyRank++;
 		}
 	}
+
+// jmarshall - this goes here so the bot gets the correct clientnum.
+	playerState[clientNum].clientnum = clientNum;
+// jmarshall end
 }
 
 /*
@@ -297,9 +313,30 @@ void idMultiplayerGame::UpdatePlayerRanks()
 	idPlayer* players[MAX_CLIENTS];
 	idEntity* ent;
 	idPlayer* player;
+// jmarshall
+	mpPlayerState_t* playerStateSorted[MAX_CLIENTS];
+// jmarshall end
+
+// jmarshall
+	int leadFragCount = 0;
+	bool tiedScore = false;
+// jmarshall end
 
 	memset( players, 0, sizeof( players ) );
 	numRankedPlayers = 0;
+
+// jmarshall
+	memset(playerStateSorted, 0, sizeof(playerStateSorted));
+	numRankedPlayers = 0;
+
+	// Find the highest current frag count.
+	for (j = 0; j < gameLocal.numClients; j++) {
+		if (leadFragCount < playerState[j].fragCount)
+			leadFragCount = playerState[j].fragCount;
+		else if (leadFragCount == playerState[j].fragCount && leadFragCount > 0)
+			tiedScore = true;
+	}
+// jmarshall end
 
 	for( i = 0; i < gameLocal.numClients; i++ )
 	{
@@ -358,17 +395,61 @@ void idMultiplayerGame::UpdatePlayerRanks()
 				for( k = numRankedPlayers; k > j; k-- )
 				{
 					players[ k ] = players[ k - 1 ];
+// jmarshall
+					playerStateSorted[k] = &playerState[k - 1];
+// jmarshall end
 				}
 				players[ j ] = player;
+
+// jmarshall
+				playerStateSorted[j] = &playerState[i];
+// jmarshall end
 				break;
 			}
 		}
 		if( j == numRankedPlayers )
 		{
 			players[ numRankedPlayers ] = player;
+
+// jmarshall
+			playerStateSorted[numRankedPlayers] = &playerState[i];
+// jmarshall end
 		}
 		numRankedPlayers++;
 	}
+
+// jmarshall
+	// Check for rank changes.
+	if (gameLocal.gameType == GAME_DM && gameState >= GAMEON && leadFragCount > 0) {
+		for (j = 0; j < gameLocal.numClients; j++) {
+			if (playerStateSorted[j] == NULL)
+				continue;
+
+			if (!tiedScore && (playerStateSorted[j]->currentLeader == LEAD_STATUS_NOLEAD || playerStateSorted[j]->currentLeader == LEAD_STATUS_NOTSET) && j == 0) {
+				PlayGlobalSound(playerStateSorted[j]->clientnum, SND_LEADGAINED, NULL);
+				playerStateSorted[j]->currentLeader = LEAD_STATUS_INLEAD;
+				playerStateSorted[j]->tiednotified = false;
+			}
+			else if ((playerStateSorted[j]->currentLeader == LEAD_STATUS_INLEAD || playerStateSorted[j]->currentLeader == LEAD_STATUS_NOTSET) && j > 0) {
+				PlayGlobalSound(playerStateSorted[j]->clientnum, SND_LEADLOST, NULL);
+				playerStateSorted[j]->currentLeader = LEAD_STATUS_NOLEAD;
+				playerStateSorted[j]->tiednotified = false;
+			}
+			else if (tiedScore && playerStateSorted[j]->fragCount == leadFragCount) {
+				if (!playerStateSorted[j]->tiednotified)
+				{
+					playerStateSorted[j]->currentLeader = LEAD_STATUS_NOLEAD;
+					PlayGlobalSound(playerStateSorted[j]->clientnum, SND_LEADTIED, NULL);
+					playerStateSorted[j]->tiednotified = true;
+				}
+			}
+			else if (playerStateSorted[j]->currentLeader == LEAD_STATUS_NOLEAD)
+			{
+				playerStateSorted[j]->tiednotified = false;
+			}
+		}
+	}
+// jmarshall end
 
 	memcpy( rankedPlayers, players, sizeof( players ) );
 }
