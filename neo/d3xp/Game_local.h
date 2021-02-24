@@ -469,6 +469,7 @@ public:
 	int						TravelTimeToGoal(const idVec3& origin, const idVec3& goal);
 	int						GetBotItemEntry(const char* name);
 	void					Trace(trace_t& results, const idVec3& start, const idVec3& end, int contentMask, int passEntity);
+	void					AlertBots(idPlayer* player, idVec3 alert_position);
 // jmarshall end
 	float					Random(float range);
 	float					RandomDelay(float min, float max);

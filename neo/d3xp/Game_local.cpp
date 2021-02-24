@@ -4448,6 +4448,19 @@ void idGameLocal::AlertAI( idEntity* ent )
 		// alert them for the next frame
 		lastAIAlertTime = time + 1;
 		lastAIAlertEntity = static_cast<idActor*>( ent );
+
+// jmarshall
+		// Alert any bots near were we just exploded.
+		if (common->IsMultiplayer() && common->IsServer())
+		{
+			idPlayer* player = ent->Cast<idPlayer>();
+			if (player)
+			{
+				AlertBots(player, ent->GetOrigin());
+			}
+			
+		}
+// jmarshall end
 	}
 }
 
@@ -6354,5 +6367,29 @@ void idGameLocal::Trace(trace_t& results, const idVec3& start, const idVec3& end
 	}
 }
 
+/*
+===================
+idGameLocal::AlertBots
+===================
+*/
+void idGameLocal::AlertBots(idPlayer * player, idVec3 alert_position) {
+	for (int i = 0; i < MAX_CLIENTS; i++) {
+		rvmBot* bot = NULL;
+
+		if (entities[i] == NULL)
+			continue;
+
+		bot = entities[i]->Cast<rvmBot>();
+		if (bot == NULL)
+			continue;
+
+		trace_t tr;
+		Trace(tr, alert_position, bot->GetRenderEntity()->origin, CONTENTS_SOLID, 0);
+
+		if (tr.fraction == 1.0f) {
+			bot->SetEnemy(player);
+		}
+	}
+}
 // jmarshall end
 

@@ -1026,6 +1026,13 @@ void idProjectile::Explode( const trace_t& collision, idEntity* ignore )
 	{
 		return;
 	}
+// jmarshall
+	if (common->IsMultiplayer() && common->IsServer())
+	{
+		// Alert any bots near were we just exploded.
+		gameLocal.AlertBots(owner->Cast<idPlayer>(), collision.endpos);
+	}
+// jmarshall end
 
 	// activate rumble for player
 	idPlayer* player = gameLocal.GetLocalPlayer();
