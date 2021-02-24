@@ -184,12 +184,7 @@ void idAASLocal::DrawArea( int areaNum ) const
 	for( i = 0; i < numFaces; i++ )
 	{
 		DrawFace( abs( file->GetFaceIndex( firstFace + i ) ), file->GetFaceIndex( firstFace + i ) < 0 );
-	}
-
-	for( reach = area->reach; reach; reach = reach->next )
-	{
-		DrawReachability( reach );
-	}
+	}	
 }
 
 /*
@@ -201,6 +196,31 @@ const idBounds& idAASLocal::DefaultSearchBounds() const
 {
 	return file->GetSettings().boundingBoxes[0];
 }
+
+/*
+============
+idAASLocal::DrawAreas
+============
+*/
+// jmarshall
+void idAASLocal::DrawAreas(void) const {
+	int viewAreaNum = PointReachableAreaNum(gameLocal.GetLocalPlayer()->GetOrigin(), DefaultSearchBounds(), (AREA_REACHABLE_WALK | AREA_REACHABLE_FLY));
+
+	DrawArea(viewAreaNum);
+
+	aasArea_t area = file->GetArea(viewAreaNum);
+	idReachability* reach = area.reach;
+
+	int numRenderedAreas = 0;
+	while (reach != NULL && numRenderedAreas < 230) {		
+		int areaNum = reach->toAreaNum;
+		DrawArea(areaNum);
+
+		reach = reach->next;
+		numRenderedAreas++;
+	}
+}
+// jmarshall end
 
 /*
 ============
@@ -570,10 +590,12 @@ void idAASLocal::Test( const idVec3& origin )
 	{
 		ShowHideArea( origin, aas_showHideArea.GetInteger() );
 	}
-	if( aas_showAreas.GetBool() )
-	{
-		ShowArea( origin );
-	}
+// jmarshall - expanded on this.
+	//if( aas_showAreas.GetBool() )
+	//{
+	//	ShowArea( origin );
+	//}
+// jmarshall end
 	if( aas_showWallEdges.GetBool() )
 	{
 		ShowWallEdges( origin );
