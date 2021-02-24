@@ -153,10 +153,7 @@ void rvmBot::Spawn(void) {
 
 		hasSpawned = true;
 
-		if (gameLocal.mpGame.GetGameState() != idMultiplayerGame::GAMEON)
-		{
-			gameLocal.mpGame.NewState(idMultiplayerGame::GAMEON, this);
-		}
+		bs.botinput.respawn = true;
 	}
 }
 
