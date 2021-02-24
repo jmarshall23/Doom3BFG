@@ -2878,6 +2878,7 @@ static classVariableInfo_t mpChatLine_t_typeInfo[] = {
 static classVariableInfo_t idMultiplayerGame_typeInfo[] = {
 	{ "int", "player_red_flag", (intptr_t)(&((idMultiplayerGame *)0)->player_red_flag), sizeof( ((idMultiplayerGame *)0)->player_red_flag ) },
 	{ "int", "player_blue_flag", (intptr_t)(&((idMultiplayerGame *)0)->player_blue_flag), sizeof( ((idMultiplayerGame *)0)->player_blue_flag ) },
+	{ "int", "killsRemainingMessageState", (intptr_t)(&((idMultiplayerGame *)0)->killsRemainingMessageState), sizeof( ((idMultiplayerGame *)0)->killsRemainingMessageState ) },
 	{ "gameState_t", "gameState", (intptr_t)(&((idMultiplayerGame *)0)->gameState), sizeof( ((idMultiplayerGame *)0)->gameState ) },
 	{ "gameState_t", "nextState", (intptr_t)(&((idMultiplayerGame *)0)->nextState), sizeof( ((idMultiplayerGame *)0)->nextState ) },
 	{ "mpPlayerState_t[1]", "playerState", (intptr_t)(&((idMultiplayerGame *)0)->playerState), sizeof( ((idMultiplayerGame *)0)->playerState ) },

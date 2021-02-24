@@ -257,6 +257,10 @@ private:
 	static const char* skinNames[];
 	static const idVec3 skinColors[];
 	static const int	numSkins;
+	
+// jmarshall
+	int					killsRemainingMessageState;
+// jmarshall end
 
 	// state vars
 	gameState_t		gameState;				// what state the current game is in

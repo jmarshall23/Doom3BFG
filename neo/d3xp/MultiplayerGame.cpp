@@ -424,6 +424,8 @@ void idMultiplayerGame::UpdatePlayerRanks()
 	}
 
 // jmarshall
+	bool clientFeedbackList[MAX_CLIENTS] = { };
+
 	// Check for rank changes.
 	if( gameLocal.gameType == GAME_DM && gameState >= GAMEON && leadFragCount > 0 )
 	{
@@ -437,12 +439,14 @@ void idMultiplayerGame::UpdatePlayerRanks()
 			if( !tiedScore && ( playerStateSorted[j]->currentLeader == LEAD_STATUS_NOLEAD || playerStateSorted[j]->currentLeader == LEAD_STATUS_NOTSET ) && j == 0 )
 			{
 				PlayGlobalSound( playerStateSorted[j]->clientnum, SND_LEADGAINED, NULL );
+				clientFeedbackList[playerStateSorted[j]->clientnum] = true;
 				playerStateSorted[j]->currentLeader = LEAD_STATUS_INLEAD;
 				playerStateSorted[j]->tiednotified = false;
 			}
 			else if( ( playerStateSorted[j]->currentLeader == LEAD_STATUS_INLEAD || playerStateSorted[j]->currentLeader == LEAD_STATUS_NOTSET ) && j > 0 )
 			{
 				PlayGlobalSound( playerStateSorted[j]->clientnum, SND_LEADLOST, NULL );
+				clientFeedbackList[playerStateSorted[j]->clientnum] = true;
 				playerStateSorted[j]->currentLeader = LEAD_STATUS_NOLEAD;
 				playerStateSorted[j]->tiednotified = false;
 			}
@@ -452,6 +456,7 @@ void idMultiplayerGame::UpdatePlayerRanks()
 				{
 					playerStateSorted[j]->currentLeader = LEAD_STATUS_NOLEAD;
 					PlayGlobalSound( playerStateSorted[j]->clientnum, SND_LEADTIED, NULL );
+					clientFeedbackList[playerStateSorted[j]->clientnum] = true;
 					playerStateSorted[j]->tiednotified = true;
 				}
 			}
@@ -461,6 +466,40 @@ void idMultiplayerGame::UpdatePlayerRanks()
 			}
 		}
 	}
+
+	if (common->IsServer())
+	{
+		if ((si_fragLimit.GetInteger() - leadFragCount) == killsRemainingMessageState)
+		{
+			for (j = 0; j < gameLocal.numClients; j++)
+			{
+				if (playerStateSorted[j] == NULL)
+				{
+					continue;
+				}
+
+				if (!clientFeedbackList[j])
+				{
+					switch (killsRemainingMessageState)
+					{
+						case 3:
+							PlayGlobalSound(playerStateSorted[j]->clientnum, SND_THREEFRAG, NULL);
+							break;
+
+						case 2:
+							PlayGlobalSound(playerStateSorted[j]->clientnum, SND_TWOFRAG, NULL);
+							break;
+
+						case 1:
+							PlayGlobalSound(playerStateSorted[j]->clientnum, SND_ONEFRAG, NULL);
+							break;
+					}
+				}
+			}
+			killsRemainingMessageState--;
+		}
+	}
+
 // jmarshall end
 
 	memcpy( rankedPlayers, players, sizeof( players ) );
@@ -1445,7 +1484,9 @@ void idMultiplayerGame::NewState( gameState_t news, idPlayer* player )
 
 			teamPoints[0] = 0;
 			teamPoints[1] = 0;
-
+// jmarshall
+			killsRemainingMessageState = 3;
+// jmarshall end
 			PlayGlobalSound( -1, SND_FIGHT );
 			matchStartedTime = gameLocal.serverTime;
 
