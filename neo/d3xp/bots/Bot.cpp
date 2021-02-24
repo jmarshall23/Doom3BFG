@@ -110,7 +110,7 @@ void rvmBot::Spawn(void) {
 
 		botName = spawnArgs.GetString("botname");
 
-		aas = gameLocal.GetAAS("aas48");
+		aas = gameLocal.GetBotAAS();
 		if (aas == NULL) {
 			gameLocal.Error("Missing AAS\n");
 			return;
@@ -253,6 +253,8 @@ void rvmBot::ServerThink(void) {
 	if (bot_debug.GetBool())
 	{
 		aas->ShowWalkPath(GetOrigin(), goalArea, bs.currentGoal.origin);
+
+		aas->ShowArea(GetOrigin());
 	}
 
 	aas->WalkPathToGoal(path, curAreaNum, org, goalArea, bs.currentGoal.origin, TFL_WALK | TFL_AIR);

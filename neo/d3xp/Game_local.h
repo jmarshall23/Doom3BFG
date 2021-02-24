@@ -609,6 +609,8 @@ public:
 		return nextGibTime;
 	};
 // jmarshall
+	idAAS*					GetBotAAS(void) { return bot_aas; }
+
 	void					RegisterBot(rvmBot* bot) { registeredBots.AddUnique(bot); }
 	void					UnRegisterBot(rvmBot* bot) { registeredBots.Remove(bot); }
 // jmarshall end
@@ -775,6 +777,8 @@ private:
 
 	idList<rvmBot*> registeredBots;
 	idList<rvmGameDelayRemoveEntry_t> delayRemoveEntities;
+
+	idAAS*					bot_aas;
 // jmarshall end
 };
 

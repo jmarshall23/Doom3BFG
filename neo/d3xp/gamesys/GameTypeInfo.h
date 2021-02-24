@@ -3019,6 +3019,7 @@ static classVariableInfo_t idGameLocal_typeInfo[] = {
 	{ "const idDeclEntityDef *", "botItemTable", (intptr_t)(&((idGameLocal *)0)->botItemTable), sizeof( ((idGameLocal *)0)->botItemTable ) },
 	{ "idList < rvmBot * >", "registeredBots", (intptr_t)(&((idGameLocal *)0)->registeredBots), sizeof( ((idGameLocal *)0)->registeredBots ) },
 	{ "idList < rvmGameDelayRemoveEntry_t >", "delayRemoveEntities", (intptr_t)(&((idGameLocal *)0)->delayRemoveEntities), sizeof( ((idGameLocal *)0)->delayRemoveEntities ) },
+	{ "idAAS *", "bot_aas", (intptr_t)(&((idGameLocal *)0)->bot_aas), sizeof( ((idGameLocal *)0)->bot_aas ) },
 	{ NULL, 0 }
 };
 

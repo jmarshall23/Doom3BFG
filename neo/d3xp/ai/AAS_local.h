@@ -125,6 +125,8 @@ public:
 // jmarshall
 	virtual const idBounds&		DefaultSearchBounds() const;
 	virtual int					AdjustPositionAndGetArea(idVec3& origin);
+	virtual void				ShowArea(const idVec3& origin) const;
+	virtual void				DrawAreas(void) const;
 // jmarshall end
 private:
 	idAASFile* 					file;
@@ -184,7 +186,6 @@ private:	// debug
 	void						DrawFace( int faceNum, bool side ) const;
 	void						DrawEdge( int edgeNum, bool arrow ) const;
 	void						DrawReachability( const idReachability* reach ) const;
-	void						ShowArea( const idVec3& origin ) const;
 	void						ShowWallEdges( const idVec3& origin ) const;
 	void						ShowHideArea( const idVec3& origin, int targerAreaNum ) const;
 	bool						PullPlayer( const idVec3& origin, int toAreaNum ) const;

@@ -105,6 +105,10 @@ public:
 	virtual const idBounds&		DefaultSearchBounds() const = 0;
 
 	virtual int					AdjustPositionAndGetArea(idVec3& origin) = 0;
+
+	virtual void				ShowArea(const idVec3& origin) const = 0;
+
+	virtual void				DrawAreas(void) const = 0;
 // jmarshall end
 	// Returns the area flags.
 	virtual int					AreaFlags( int areaNum ) const = 0;

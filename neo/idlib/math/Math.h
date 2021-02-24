@@ -364,6 +364,7 @@ public:
 	static void					Init();
 
 	static float				AngleMod(float a);
+	static float				RSqrt(float x);
 
 	static idVec3				CrossProduct(const idVec3& a, const idVec3& b);
 	static float				DistanceSquared(idVec3 p1, idVec3 p2);
@@ -1614,6 +1615,19 @@ idMath::Ftob
 ID_INLINE float idMath::AngleMod(float a) {
 	a = (360.0 / 65536) * ((int)(a * (65536 / 360.0)) & 65535);
 	return a;
+}
+
+ID_INLINE float idMath::RSqrt(float x) {
+
+	long i;
+	float y, r;
+
+	y = x * 0.5f;
+	i = *reinterpret_cast<long*>(&x);
+	i = 0x5f3759df - (i >> 1);
+	r = *reinterpret_cast<float*>(&i);
+	r = r * (1.5f - r * r * y);
+	return r;
 }
 
 #endif /* !__MATH_MATH_H__ */

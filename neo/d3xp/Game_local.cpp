@@ -1078,6 +1078,8 @@ void idGameLocal::LoadMap( const char* mapName, int randseed )
 		aasList[ i ]->Init( idStr( mapFileName ).SetFileExtension( aasNames[ i ] ).c_str(), mapFile->GetGeometryCRC() );
 	}
 
+	bot_aas = GetAAS("aas48");
+
 	// clear the smoke particle free list
 	smokeParticles->Init();
 
@@ -3377,6 +3379,13 @@ void idGameLocal::RunDebugInfo()
 	{
 		return;
 	}
+// jmarshall 
+	if (aas_showAreas.GetBool()) {
+		idAAS* aas = bot_aas;
+
+		aas->DrawAreas();
+	}
+// jmarshall end
 
 	const idVec3& origin = player->GetPhysics()->GetOrigin();
 
@@ -6287,7 +6296,7 @@ idGameLocal::TravelTimeToGoal
 ================
 */
 int idGameLocal::TravelTimeToGoal(const idVec3& origin, const idVec3& goal) {
-	idAAS* aas = GetAAS("aas48");
+	idAAS* aas = bot_aas;
 
 	if (aas == NULL) {
 		gameLocal.Error("idGameLocal::TraveTimeToGoal: No AAS loaded...\n");
