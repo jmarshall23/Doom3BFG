@@ -11,9 +11,6 @@ option(COMPILE_COMMANDS
 
 option(USE_MFC_TOOLS
 		"Compile the built-in MFC based tools" OFF)
-		
-option(MONOLITH
-		"Embed game logic into main executable" ON)
 
 option(USE_PRECOMPILED_HEADERS
 		"Use precompiled headers during build" ON)
@@ -464,6 +461,16 @@ file(GLOB RENDERER_VULKAN_INCLUDES renderer/Vulkan/*.h)
 file(GLOB RENDERER_VULKAN_SOURCES renderer/Vulkan/*.cpp)
 
 file(GLOB SHADERS ../base/renderprogs/*.hlsl ../base/renderprogs/*.inc )
+file(GLOB SHADERS_BUILTIN ../base/renderprogs/builtin/*.hlsl )
+file(GLOB SHADERS_BUILTIN_DEBUG ../base/renderprogs/builtin/debug/*.hlsl )
+file(GLOB SHADERS_BUILTIN_FOG ../base/renderprogs/builtin/fog/*.hlsl )
+file(GLOB SHADERS_BUILTIN_LEGACY ../base/renderprogs/builtin/legacy/*.hlsl )
+file(GLOB SHADERS_BUILTIN_LIGHTING ../base/renderprogs/builtin/lighting/*.hlsl )
+file(GLOB SHADERS_BUILTIN_POST ../base/renderprogs/builtin/post/*.hlsl )
+file(GLOB SHADERS_BUILTIN_SSAO ../base/renderprogs/builtin/SSAO/*.hlsl )
+file(GLOB SHADERS_BUILTIN_SSGI ../base/renderprogs/builtin/SSGI/*.hlsl )
+file(GLOB SHADERS_BUILTIN_VIDEO ../base/renderprogs/builtin/video/*.hlsl )
+file(GLOB SHADERS_BUILTIN_VR ../base/renderprogs/builtin/VR/*.hlsl )
 
 file(GLOB IRRXML_INCLUDES libs/irrxml/src/*.h)
 file(GLOB IRRXML_SOURCES libs/irrxml/src/*.cpp)
@@ -806,7 +813,6 @@ file(GLOB GAMED3XP_PHYSICS_SOURCES d3xp/physics/*.cpp)
 file(GLOB GAMED3XP_SCRIPT_INCLUDES d3xp/script/*.h)
 file(GLOB GAMED3XP_SCRIPT_SOURCES d3xp/script/*.cpp)
 
-
 file(GLOB COMPILER_INCLUDES tools/compilers/*.h)
 
 file(GLOB COMPILER_AAS_INCLUDES tools/compilers/aas/*.h)
@@ -1080,6 +1086,16 @@ source_group("renderer\\Vulkan" FILES ${RENDERER_VULKAN_SOURCES})
 source_group("renderer\\SMAA" FILES ${RENDERER_SMAA_INCLUDES})
 
 source_group("renderer\\Shaders" FILES ${SHADERS})
+source_group("renderer\\Shaders\\builtin" FILES ${SHADERS_BUILTIN})
+source_group("renderer\\Shaders\\builtin\\debug" FILES ${SHADERS_BUILTIN_DEBUG})
+source_group("renderer\\Shaders\\builtin\\fog" FILES ${SHADERS_BUILTIN_FOG})
+source_group("renderer\\Shaders\\builtin\\legacy" FILES ${SHADERS_BUILTIN_LEGACY})
+source_group("renderer\\Shaders\\builtin\\lighting" FILES ${SHADERS_BUILTIN_LIGHTING})
+source_group("renderer\\Shaders\\builtin\\post" FILES ${SHADERS_BUILTIN_POST})
+source_group("renderer\\Shaders\\builtin\\SSAO" FILES ${SHADERS_BUILTIN_SSAO})
+source_group("renderer\\Shaders\\builtin\\SSGI" FILES ${SHADERS_BUILTIN_SSGI})
+source_group("renderer\\Shaders\\builtin\\video" FILES ${SHADERS_BUILTIN_VIDEO})
+source_group("renderer\\Shaders\\builtin\\VR" FILES ${SHADERS_BUILTIN_VR})
 
 source_group("libs\\irrxml" FILES ${IRRXML_INCLUDES})
 source_group("libs\\irrxml" FILES ${IRRXML_SOURCES})
@@ -1269,6 +1285,17 @@ set(RBDOOM3_INCLUDES
 			${RENDERER_DXT_INCLUDES}
 			
 			${SHADERS}
+			${SHADERS_BUILTIN}
+			${SHADERS_BUILTIN_DEBUG}
+			${SHADERS_BUILTIN_FOG}
+			${SHADERS_BUILTIN_LEGACY}
+			${SHADERS_BUILTIN_LIGHTING}
+			${SHADERS_BUILTIN_POST}
+			${SHADERS_BUILTIN_SSAO}
+			${SHADERS_BUILTIN_SSGI}
+			${SHADERS_BUILTIN_VIDEO}
+			${SHADERS_BUILTIN_VR}
+			
 			${RENDERER_SMAA_INCLUDES}
 			${IRRXML_INCLUDES}
 			${FRAMEWORK_IMGUI_INCLUDES}
@@ -1299,6 +1326,17 @@ set(RBDOOM3_INCLUDES
 			${TOOLS_INCLUDES}
 			${IMGUI_EDITOR_INCLUDES}
 			${IMGUI_EDITOR_LIGHT_INCLUDES}
+			
+			${GAMED3XP_INCLUDES}
+			${GAMED3XP_AI_INCLUDES} 
+			${GAMED3XP_ANIM_INCLUDES} 
+			${GAMED3XP_GAMESYS_INCLUDES} 
+			${GAMED3XP_BOTS_INCLUDES}
+			${GAMED3XP_MENUS_INCLUDES}
+			${GAMED3XP_MONSTER_INCLUDES}
+			${GAMED3XP_WEAPON_INCLUDES}
+			${GAMED3XP_PHYSICS_INCLUDES}
+			${GAMED3XP_SCRIPT_INCLUDES}
 			)
 			
 set(RBDOOM3_SOURCES
@@ -1335,6 +1373,17 @@ set(RBDOOM3_SOURCES
 			
 			${IMGUI_EDITOR_SOURCES}
 			${IMGUI_EDITOR_LIGHT_SOURCES}
+			
+			${GAMED3XP_SOURCES}
+			${GAMED3XP_AI_SOURCES}
+			${GAMED3XP_MONSTER_SOURCES}
+			${GAMED3XP_BOTS_SOURCES}
+			${GAMED3XP_WEAPON_SOURCES}
+			${GAMED3XP_ANIM_SOURCES}
+			${GAMED3XP_GAMESYS_SOURCES}
+			${GAMED3XP_MENUS_SOURCES}
+			${GAMED3XP_PHYSICS_SOURCES}
+			${GAMED3XP_SCRIPT_SOURCES}
 			)
 
 add_definitions(-DUSE_DOOMCLASSIC)
@@ -1344,33 +1393,6 @@ add_definitions(-D__DOOM__
 				#-DFT2_BUILD_LIBRARY
 				)
 				
-if(MONOLITH)
-	list(APPEND RBDOOM3_INCLUDES
-		${GAMED3XP_INCLUDES}
-		${GAMED3XP_AI_INCLUDES} 
-		${GAMED3XP_ANIM_INCLUDES} 
-		${GAMED3XP_GAMESYS_INCLUDES} 
-		${GAMED3XP_BOTS_INCLUDES}
-		${GAMED3XP_MENUS_INCLUDES}
-		${GAMED3XP_MONSTER_INCLUDES}
-		${GAMED3XP_WEAPON_INCLUDES}
-		${GAMED3XP_PHYSICS_INCLUDES}
-		${GAMED3XP_SCRIPT_INCLUDES})
-		
-	list(APPEND RBDOOM3_SOURCES
-		${GAMED3XP_SOURCES}
-		${GAMED3XP_AI_SOURCES}
-		${GAMED3XP_MONSTER_SOURCES}
-		${GAMED3XP_BOTS_SOURCES}
-		${GAMED3XP_WEAPON_SOURCES}
-		${GAMED3XP_ANIM_SOURCES}
-		${GAMED3XP_GAMESYS_SOURCES}
-		${GAMED3XP_MENUS_SOURCES}
-		${GAMED3XP_PHYSICS_SOURCES}
-		${GAMED3XP_SCRIPT_SOURCES})
-else()
-	add_definitions(-D__DOOM_DLL__)
-endif()
 
 include_directories(
 			.
@@ -1540,7 +1562,6 @@ if(MSVC)
 		PROPERTIES
 		COMPILE_FLAGS "/Yuprecompiled.h"
 		OBJECT_DEPENDS "precompiled.pch"
-
 		)
 		
 		set_source_files_properties(framework/precompiled.cpp
@@ -1551,6 +1572,16 @@ if(MSVC)
 	endif()
 	
 	set_source_files_properties( ${SHADERS} PROPERTIES VS_TOOL_OVERRIDE "None" )
+	set_source_files_properties( ${SHADERS_BUILTIN} PROPERTIES VS_TOOL_OVERRIDE "None" )
+	set_source_files_properties( ${SHADERS_BUILTIN_DEBUG} PROPERTIES VS_TOOL_OVERRIDE "None" )
+	set_source_files_properties( ${SHADERS_BUILTIN_FOG} PROPERTIES VS_TOOL_OVERRIDE "None" )
+	set_source_files_properties( ${SHADERS_BUILTIN_LEGACY} PROPERTIES VS_TOOL_OVERRIDE "None" )
+	set_source_files_properties( ${SHADERS_BUILTIN_LIGHTING} PROPERTIES VS_TOOL_OVERRIDE "None" )
+	set_source_files_properties( ${SHADERS_BUILTIN_POST} PROPERTIES VS_TOOL_OVERRIDE "None" )
+	set_source_files_properties( ${SHADERS_BUILTIN_SSAO} PROPERTIES VS_TOOL_OVERRIDE "None" )
+	set_source_files_properties( ${SHADERS_BUILTIN_SSGI} PROPERTIES VS_TOOL_OVERRIDE "None" )
+	set_source_files_properties( ${SHADERS_BUILTIN_VIDEO} PROPERTIES VS_TOOL_OVERRIDE "None" )
+	set_source_files_properties( ${SHADERS_BUILTIN_VR} PROPERTIES VS_TOOL_OVERRIDE "None" )
 	
 	list(APPEND RBDOOM3_SOURCES ${WIN32_RESOURCES})
 	
