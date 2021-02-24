@@ -57,12 +57,18 @@ bot_character_t* idBotCharacterStatsManager::AllocBotCharacter( void )
 
 	if( default_char_profile == NULL )
 	{
-		memset( ch, 0, sizeof( bot_character_t ) + MAX_CHARACTERISTICS * sizeof( bot_characteristic_t ) );
+		memset( &ch->c[0], 0, MAX_CHARACTERISTICS * sizeof( bot_characteristic_t ) );
+		ch->filename = "";
+		ch->inUse = false;
+		ch->skill = 0;
 	}
 	else
 	{
-		memcpy( ch, default_char_profile, sizeof( bot_character_t ) + MAX_CHARACTERISTICS * sizeof( bot_characteristic_t ) );
+		//memcpy( ch, default_char_profile, sizeof( bot_character_t ) + MAX_CHARACTERISTICS * sizeof( bot_characteristic_t ) );
+		*ch = *default_char_profile;
 	}
+
+	
 
 	return ch;
 }
@@ -95,7 +101,7 @@ bot_character_t* idBotCharacterStatsManager::BotLoadCharacterFromFile( const cha
 	// Check to see if we already loaded this bot file.
 	for( int i = 0; i < MAX_CHAR_STATS; i++ )
 	{
-		if( charStatsList[i].inUse && charStatsList[i].filename == charfile )
+		if(charStatsList[i].inUse && charStatsList[i].filename == charfile )
 		{
 			return &charStatsList[i];
 		}
