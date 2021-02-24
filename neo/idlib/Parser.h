@@ -94,6 +94,9 @@ public:
 	int				LoadMemory( const char* ptr, int length, const char* name );
 	// free the current source
 	void			FreeSource( bool keepDefines = false );
+
+	int				Parse1DMatrixLegacy( int x, float* m );
+
 	// returns true if a source is loaded
 	int				IsLoaded() const
 	{

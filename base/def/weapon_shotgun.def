@@ -51,6 +51,8 @@ entityDef weapon_shotgun {
 	"model_world" 				"worldmodel_shotgun"
 	"joint_attach"				"SHOTGUN_ATTACHER"
 	"def_dropItem"				"moveable_item_shotgun"
+	
+	"modelindex"				"MODELINDEX_SHOTGUN"
 
 	"inv_name"					"Shotgun"
 	"inv_weapon"				"weapon_shotgun"

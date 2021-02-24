@@ -338,6 +338,8 @@ public:
 	// create trace model from a collision model, returns true if succesfull
 	bool			TrmFromModel( const char* modelName, idTraceModel& trm );
 
+	virtual int		PointContents( const idVec3 p, cmHandle_t model );
+
 	// name of the model
 	const char* 	GetModelName( cmHandle_t model ) const;
 	// bounds of the model
@@ -421,7 +423,6 @@ private:			// CollisionMap_contents.cpp
 	bool			TestTrmVertsInBrush( cm_traceWork_t* tw, cm_brush_t* b );
 	bool			TestTrmInPolygon( cm_traceWork_t* tw, cm_polygon_t* p );
 	cm_node_t* 		PointNode( const idVec3& p, cm_model_t* model );
-	int				PointContents( const idVec3 p, cmHandle_t model );
 	int				TransformedPointContents( const idVec3& p, cmHandle_t model, const idVec3& origin, const idMat3& modelAxis );
 	int				ContentsTrm( trace_t* results, const idVec3& start,
 								 const idTraceModel* trm, const idMat3& trmAxis, int contentMask,

@@ -40,7 +40,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "doomlib.h"
 #include "Main.h"
-#include "d3xp/Game_local.h"
+//#include "d3xp/Game_local.h"
 
 
 void I_GetEvents( controller_t * );

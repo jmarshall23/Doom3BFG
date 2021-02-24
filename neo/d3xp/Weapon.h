@@ -309,7 +309,7 @@ public:
 
 	bool					IsLinked()
 	{
-		return isLinked;
+		return currentWeaponObject != NULL;
 	}
 private:
 	int						animBlendFrames;

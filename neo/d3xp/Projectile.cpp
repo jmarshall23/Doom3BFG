@@ -765,7 +765,14 @@ bool idProjectile::Collide( const trace_t& collision, const idVec3& velocity )
 
 			// Only handle the server's own attacks here. Attacks by other players on the server occur through
 			// reliable messages.
-			if( !common->IsMultiplayer() || common->IsClient() || ( common->IsServer() && owner.GetEntityNum() == gameLocal.GetLocalClientNum() ) || ( common->IsServer() && !isHitscan ) )
+// jmarshall - server also handles bot attacks.
+			bool isBot = false;
+			if( owner->IsType( rvmBot::Type ) && common->IsServer() && common->IsMultiplayer() )
+			{
+				isBot = true;
+			}
+			if( isBot || !common->IsMultiplayer() || common->IsClient() || ( common->IsServer() && owner.GetEntityNum() == gameLocal.GetLocalClientNum() ) || ( common->IsServer() && !isHitscan ) )
+// jmarshall end
 			{
 				ent->Damage( this, owner.GetEntity(), dir, damageDefName, damageScale, CLIPMODEL_ID_TO_JOINT_HANDLE( collision.c.id ) );
 			}
@@ -1019,6 +1026,13 @@ void idProjectile::Explode( const trace_t& collision, idEntity* ignore )
 	{
 		return;
 	}
+// jmarshall
+	if( common->IsMultiplayer() && common->IsServer() )
+	{
+		// Alert any bots near were we just exploded.
+		gameLocal.AlertBots( owner->Cast<idPlayer>(), collision.endpos );
+	}
+// jmarshall end
 
 	// activate rumble for player
 	idPlayer* player = gameLocal.GetLocalPlayer();

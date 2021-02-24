@@ -51,6 +51,8 @@ entityDef weapon_plasmagun {
 	"model_world" 				"worldmodel_plasmagun"
 	"joint_attach"				"pgATTACHER"
 	"def_dropItem"				"moveable_item_plasmagun"
+	
+	"modelindex"				"MODELINDEX_PLASMAGUN"
 
 	"inv_name"					"Plasma Gun"
 	"inv_weapon"				"weapon_plasmagun"

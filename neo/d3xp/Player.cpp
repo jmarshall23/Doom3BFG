@@ -9060,18 +9060,21 @@ void idPlayer::Think()
 	}
 
 	// Make sure voice groups are set to the right team
-	if( common->IsMultiplayer() && session->GetState() >= idSession::INGAME && entityNumber < MAX_CLIENTS )  		// The entityNumber < MAX_CLIENTS seems to quiet the static analyzer
+	if( !IsBot() )
 	{
-		// Make sure we're on the right team (at the lobby level)
-		const int voiceTeam = spectating ? LOBBY_SPECTATE_TEAM_FOR_VOICE_CHAT : team;
+		if( common->IsMultiplayer() && session->GetState() >= idSession::INGAME && entityNumber < MAX_CLIENTS )  		// The entityNumber < MAX_CLIENTS seems to quiet the static analyzer
+		{
+			// Make sure we're on the right team (at the lobby level)
+			const int voiceTeam = spectating ? LOBBY_SPECTATE_TEAM_FOR_VOICE_CHAT : team;
 
-		//idLib::Printf( "SERVER: Sending voice %i / %i\n", entityNumber, voiceTeam );
+			//idLib::Printf( "SERVER: Sending voice %i / %i\n", entityNumber, voiceTeam );
 
-		// Update lobby team
-		session->GetActingGameStateLobbyBase().SetLobbyUserTeam( gameLocal.lobbyUserIDs[ entityNumber ], voiceTeam );
+			// Update lobby team
+			session->GetActingGameStateLobbyBase().SetLobbyUserTeam( gameLocal.lobbyUserIDs[entityNumber], voiceTeam );
 
-		// Update voice groups to match in case something changed
-		session->SetVoiceGroupsToTeams();
+			// Update voice groups to match in case something changed
+			session->SetVoiceGroupsToTeams();
+		}
 	}
 }
 
@@ -12530,4 +12533,47 @@ gameExpansionType_t idPlayer::GetExpansionType() const
 		return GAME_D3LE;
 	}
 	return GAME_UNKNOWN;
+}
+
+/*
+===============
+idPlayer::IsShooting
+==============
+*/
+bool idPlayer::IsShooting( void )
+{
+	return AI_ATTACK_HELD;
+}
+
+/*
+===============
+idPlayer::GetViewHeight
+==============
+*/
+float idPlayer::GetViewHeight( void )
+{
+	float newEyeOffset = 0;
+
+	if( spectating )
+	{
+		newEyeOffset = 0.0f;
+	}
+	else if( health <= 0 )
+	{
+		newEyeOffset = pm_deadviewheight.GetFloat();
+	}
+	else if( physicsObj.IsCrouching() )
+	{
+		newEyeOffset = pm_crouchviewheight.GetFloat();
+	}
+	else if( GetBindMaster() && GetBindMaster()->IsType( idAFEntity_Vehicle::Type ) )
+	{
+		newEyeOffset = 0.0f;
+	}
+	else
+	{
+		newEyeOffset = pm_normalviewheight.GetFloat();
+	}
+
+	return newEyeOffset;
 }

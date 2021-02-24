@@ -71,6 +71,7 @@ class idThread;
 class idEditEntities;
 class idLocationEntity;
 class idMenuHandler_Shell;
+class rvmBot;
 
 const int MAX_CLIENTS			= MAX_PLAYERS;
 const int MAX_CLIENTS_IN_PVS	= MAX_CLIENTS >> 3;
@@ -469,7 +470,13 @@ public:
 
 	bool					InfluenceActive( void ) const;
 	idEntity*				GetEntity( const char* name );
-
+// jmarshall - bots
+	void					AddBot( const char* name );
+	int						TravelTimeToGoal( const idVec3& origin, const idVec3& goal );
+	int						GetBotItemEntry( const char* name );
+	void					Trace( trace_t& results, const idVec3& start, const idVec3& end, int contentMask, int passEntity );
+	void					AlertBots( idPlayer* player, idVec3 alert_position );
+// jmarshall end
 	float					Random( float range );
 	float					RandomDelay( float min, float max );
 	float					RandomTime( float delay );
@@ -608,6 +615,21 @@ public:
 	{
 		return nextGibTime;
 	};
+// jmarshall
+	idAAS*					GetBotAAS( void )
+	{
+		return bot_aas;
+	}
+
+	void					RegisterBot( rvmBot* bot )
+	{
+		registeredBots.AddUnique( bot );
+	}
+	void					UnRegisterBot( rvmBot* bot )
+	{
+		registeredBots.Remove( bot );
+	}
+// jmarshall end
 
 	virtual bool				InhibitControls();
 	virtual bool				IsPDAOpen() const;
@@ -746,7 +768,10 @@ private:
 
 	void					InitScriptForMap();
 	void					SetScriptFPS( const float com_engineHz );
-	void					SpawnPlayer( int clientNum );
+// jmarshall - bots
+	void					RunBotFrame( idUserCmdMgr& cmdMgr );
+	void					SpawnPlayer( int clientNum, bool isBot, const char* botName );
+// jmarshall end
 
 	void					InitConsoleCommands();
 	void					ShutdownConsoleCommands();
@@ -764,7 +789,12 @@ private:
 	bool					SimulateProjectiles();
 
 // jmarshall
+	const idDeclEntityDef* botItemTable;;
+
+	idList<rvmBot*> registeredBots;
 	idList<rvmGameDelayRemoveEntry_t> delayRemoveEntities;
+
+	idAAS*					bot_aas;
 // jmarshall end
 };
 
@@ -901,6 +931,7 @@ typedef enum
 #define	MASK_OPAQUE					(CONTENTS_OPAQUE)
 #define	MASK_SHOT_RENDERMODEL		(CONTENTS_SOLID|CONTENTS_RENDERMODEL)
 #define	MASK_SHOT_BOUNDINGBOX		(CONTENTS_SOLID|CONTENTS_BODY)
+#define	MASK_SHOT		(CONTENTS_SOLID|CONTENTS_BODY|CONTENTS_CORPSE)
 
 const float DEFAULT_GRAVITY			= 1066.0f;
 #define DEFAULT_GRAVITY_STRING		"1066"

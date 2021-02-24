@@ -30,7 +30,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "globaldata.h"
 #include "Main.h"
 #include "sys/sys_signin.h"
-#include "d3xp/Game_local.h"
+//#include "d3xp/Game_local.h"
 
 
 #include <string.h>

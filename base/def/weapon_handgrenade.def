@@ -41,6 +41,8 @@ entityDef weapon_handgrenade {
 	"model_world" 				"worldmodel_handgrenade"
 	"joint_attach"				"NADE_ATTACHER"
 	"def_dropItem"				"moveable_item_grenades"
+	
+	"modelindex"				"MODELINDEX_GRENADELAUNCHER"
 
 	"inv_name"					"#str_07013"
 	"inv_weapon"				"weapon_handgrenade"

@@ -125,7 +125,6 @@ struct drawSurf_t
 	drawSurf_t** 			linkChain;			// defer linking to lights to a serial section to avoid a mutex
 	idScreenRect			scissorRect;		// for scissor clipping, local inside renderView viewport
 	int						renderZFail;
-	volatile shadowVolumeState_t shadowVolumeState;
 };
 
 // areas have references to hold all the lights and entities in them
@@ -409,9 +408,6 @@ struct viewLight_t
 	drawSurf_t* 			localShadows;				// don't shadow local surfaces
 	drawSurf_t* 			globalInteractions;			// get shadows from everything
 	drawSurf_t* 			translucentInteractions;	// translucent interactions don't get shadows
-
-	// R_AddSingleLight will build a chain of parameters here to setup shadow volumes
-	preLightShadowVolumeParms_t* 	preLightShadowVolumes;
 };
 
 // a viewEntity is created whenever a idRenderEntityLocal is considered for inclusion
@@ -449,10 +445,6 @@ struct viewEntity_t
 	// parallelAddModels will build a chain of surfaces here that will need to
 	// be linked to the lights or added to the drawsurf list in a serial code section
 	drawSurf_t* 			drawSurfs;
-
-	// R_AddSingleModel will build a chain of parameters here to setup shadow volumes
-	staticShadowVolumeParms_t* 		staticShadowVolumes;
-	dynamicShadowVolumeParms_t* 	dynamicShadowVolumes;
 };
 
 // RB: viewEnvprobes are allocated on the frame temporary stack memory
@@ -1427,10 +1419,8 @@ TR_TRISURF
 srfTriangles_t* 	R_AllocStaticTriSurf();
 void				R_AllocStaticTriSurfVerts( srfTriangles_t* tri, int numVerts );
 void				R_AllocStaticTriSurfIndexes( srfTriangles_t* tri, int numIndexes );
-void				R_AllocStaticTriSurfPreLightShadowVerts( srfTriangles_t* tri, int numVerts );
 void				R_AllocStaticTriSurfSilIndexes( srfTriangles_t* tri, int numIndexes );
 void				R_AllocStaticTriSurfDominantTris( srfTriangles_t* tri, int numVerts );
-void				R_AllocStaticTriSurfSilEdges( srfTriangles_t* tri, int numSilEdges );
 void				R_AllocStaticTriSurfMirroredVerts( srfTriangles_t* tri, int numMirroredVerts );
 void				R_AllocStaticTriSurfDupVerts( srfTriangles_t* tri, int numDupVerts );
 
@@ -1495,9 +1485,6 @@ struct deformInfo_t
 
 	int					numDupVerts;			// number of duplicate vertexes
 	int* 				dupVerts;				// pairs of the number of the first vertex and the number of the duplicate vertex
-
-	int					numSilEdges;			// number of silhouette edges
-	silEdge_t* 			silEdges;				// silhouette edges
 
 	vertCacheHandle_t	staticIndexCache;		// GL_INDEX_TYPE
 	vertCacheHandle_t	staticAmbientCache;		// idDrawVert
@@ -1566,13 +1553,7 @@ void RB_SetVertexColorParms( stageVertexColor_t svc );
 
 #include "ResolutionScale.h"
 #include "RenderLog.h"
-#include "jobs/ShadowShared.h"
-#include "jobs/prelightshadowvolume/PreLightShadowVolume.h"
-#include "jobs/staticshadowvolume/StaticShadowVolume.h"
-#include "jobs/dynamicshadowvolume/DynamicShadowVolume.h"
 #include "GLMatrix.h"
-
-
 
 #include "BufferObject.h"
 #include "RenderProgs.h"

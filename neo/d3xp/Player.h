@@ -243,7 +243,7 @@ public:
 	void					RechargeAmmo( idPlayer* owner );
 	bool					CanGive( idPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value );
 
-private:
+public:
 	idArray< idPredictedValue< int >, AMMO_NUMTYPES >		ammo;
 	idArray< idPredictedValue< int >, MAX_WEAPONS >			clip;
 };
@@ -451,6 +451,9 @@ public:
 	virtual void			Hide();
 	virtual void			Show();
 
+	bool					IsShooting( void );
+	float					GetViewHeight( void );
+
 	void					Init();
 	void					PrepareForRestart();
 	virtual void			Restart();
@@ -458,7 +461,7 @@ public:
 	void					SetupWeaponEntity();
 	void					SelectInitialSpawnPoint( idVec3& origin, idAngles& angles );
 	void					SpawnFromSpawnSpot();
-	void					SpawnToPoint( const idVec3&	spawn_origin, const idAngles& spawn_angles );
+	virtual void			SpawnToPoint( const idVec3&	spawn_origin, const idAngles& spawn_angles );
 	void					SetClipModel();	// spectator mode uses a different bbox size
 
 	void					SavePersistantInfo();
@@ -472,6 +475,11 @@ public:
 
 	void					UpdateConditions();
 	void					SetViewAngles( const idAngles& angles );
+
+	virtual bool			IsBot( void )
+	{
+		return false;
+	}
 
 	// Controller Shake
 	void					ControllerShakeFromDamage( int damage );

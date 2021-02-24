@@ -2,6 +2,8 @@
 #include "precompiled.h"
 
 #include "../Game_local.h"
+#include "AASCallback_FindAreaOutOfRange.h"
+#include "AASCallback_FindCoverArea.h"
 
 
 static const char* moveCommandString[NUM_MOVE_COMMANDS] =
@@ -13,7 +15,6 @@ static const char* moveCommandString[NUM_MOVE_COMMANDS] =
 	"MOVE_TO_ENEMYHEIGHT",
 	"MOVE_TO_ENTITY",
 	"MOVE_OUT_OF_RANGE",
-	"MOVE_TO_ATTACK_POSITION",
 	"MOVE_TO_COVER",
 	"MOVE_TO_POSITION",
 	"MOVE_TO_POSITION_DIRECT",
@@ -188,10 +189,6 @@ void idAI::Event_RestoreMove()
 
 		case MOVE_OUT_OF_RANGE:
 			MoveOutOfRange( savedMove.goalEntity.GetEntity(), savedMove.range );
-			break;
-
-		case MOVE_TO_ATTACK_POSITION:
-			MoveToAttackPosition( savedMove.goalEntity.GetEntity(), savedMove.anim );
 			break;
 
 		case MOVE_TO_COVER:
@@ -920,7 +917,7 @@ bool idAI::MoveOutOfRange( idEntity* ent, float range )
 		pos = ent->GetPhysics()->GetOrigin();
 	}
 
-	idAASFindAreaOutOfRange findGoal( pos, range );
+	idAASCallback_FindAreaOutOfRange findGoal( pos, range );
 	if( !aas->FindNearestGoal( goal, areaNum, org, pos, travelFlags, &obstacle, 1, findGoal ) )
 	{
 		StopMove( MOVE_STATUS_DEST_UNREACHABLE );
@@ -942,64 +939,6 @@ bool idAI::MoveOutOfRange( idEntity* ent, float range )
 	move.range = range;
 	move.speed = fly_speed;
 	move.startTime = gameLocal.time;
-	AI_MOVE_DONE = false;
-	AI_DEST_UNREACHABLE = false;
-	AI_FORWARD = true;
-
-	return true;
-}
-
-/*
-=====================
-idAI::MoveToAttackPosition
-=====================
-*/
-bool idAI::MoveToAttackPosition( idEntity* ent, int attack_anim )
-{
-	int				areaNum;
-	aasObstacle_t	obstacle;
-	aasGoal_t		goal;
-	idBounds		bounds;
-	idVec3			pos;
-
-	if( !aas || !ent )
-	{
-		StopMove( MOVE_STATUS_DEST_UNREACHABLE );
-		AI_DEST_UNREACHABLE = true;
-		return false;
-	}
-
-	const idVec3& org = physicsObj.GetOrigin();
-	areaNum = PointReachableAreaNum( org );
-
-	// consider the entity the monster is getting close to as an obstacle
-	obstacle.absBounds = ent->GetPhysics()->GetAbsBounds();
-
-	if( ent == enemy.GetEntity() )
-	{
-		pos = lastVisibleEnemyPos;
-	}
-	else
-	{
-		pos = ent->GetPhysics()->GetOrigin();
-	}
-
-	idAASFindAttackPosition findGoal( this, physicsObj.GetGravityAxis(), ent, pos, missileLaunchOffset[attack_anim] );
-	if( !aas->FindNearestGoal( goal, areaNum, org, pos, travelFlags, &obstacle, 1, findGoal ) )
-	{
-		StopMove( MOVE_STATUS_DEST_UNREACHABLE );
-		AI_DEST_UNREACHABLE = true;
-		return false;
-	}
-
-	move.moveDest = goal.origin;
-	move.toAreaNum = goal.areaNum;
-	move.goalEntity = ent;
-	move.moveCommand = MOVE_TO_ATTACK_POSITION;
-	move.moveStatus = MOVE_STATUS_MOVING;
-	move.speed = fly_speed;
-	move.startTime = gameLocal.time;
-	move.anim = attack_anim;
 	AI_MOVE_DONE = false;
 	AI_DEST_UNREACHABLE = false;
 	AI_FORWARD = true;
@@ -1085,7 +1024,7 @@ bool idAI::MoveToCover( idEntity* entity, const idVec3& hideFromPos )
 	// consider the entity the monster tries to hide from as an obstacle
 	obstacle.absBounds = entity->GetPhysics()->GetAbsBounds();
 
-	idAASFindCover findCover( hideFromPos );
+	idAASCallback_FindCoverArea findCover( hideFromPos );
 	if( !aas->FindNearestGoal( hideGoal, areaNum, org, hideFromPos, travelFlags, &obstacle, 1, findCover ) )
 	{
 		StopMove( MOVE_STATUS_DEST_UNREACHABLE );

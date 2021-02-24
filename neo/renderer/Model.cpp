@@ -469,11 +469,17 @@ bool idRenderModelStatic::LoadBinaryModel( idFile* file, const ID_TIME_T sourceT
 			}
 			else
 			{
-				R_AllocStaticTriSurfPreLightShadowVerts( &tri, numInFile );
-				for( int j = 0; j < numInFile; j++ )
-				{
-					file->ReadVec4( tri.preLightShadowVertexes[ j ].xyzw );
+// jmarshall - keep compatibility.
+				//R_AllocStaticTriSurfPreLightShadowVerts( &tri, numInFile );
+				//for( int j = 0; j < numInFile; j++ )
+				//{
+				//	file->ReadVec4( tri.preLightShadowVertexes[ j ].xyzw );
+				//}
+				for (int j = 0; j < numInFile; j++) {
+					idVec4 stub;
+					file->ReadVec4(stub);
 				}
+// jmarshall end
 			}
 
 			file->ReadBig( tri.numIndexes );
@@ -506,21 +512,21 @@ bool idRenderModelStatic::LoadBinaryModel( idFile* file, const ID_TIME_T sourceT
 				R_AllocStaticTriSurfDupVerts( &tri, tri.numDupVerts );
 				file->ReadBigArray( tri.dupVerts, tri.numDupVerts * 2 );
 			}
-
-			file->ReadBig( tri.numSilEdges );
-			tri.silEdges = NULL;
-			if( tri.numSilEdges > 0 )
-			{
-				R_AllocStaticTriSurfSilEdges( &tri, tri.numSilEdges );
-				assert( tri.silEdges != NULL );
-				for( int j = 0; j < tri.numSilEdges; j++ )
+// jmarshall - keep compatibility.
+			int numSilEdges = 0;
+			file->ReadBig( numSilEdges );
+			if( numSilEdges > 0 )
+			{				
+				for( int j = 0; j < numSilEdges; j++ )
 				{
-					file->ReadBig( tri.silEdges[j].p1 );
-					file->ReadBig( tri.silEdges[j].p2 );
-					file->ReadBig( tri.silEdges[j].v1 );
-					file->ReadBig( tri.silEdges[j].v2 );
+					triIndex_t stub;
+					file->ReadBig( stub );
+					file->ReadBig( stub );
+					file->ReadBig( stub );
+					file->ReadBig( stub );
 				}
 			}
+// jmarshall end
 
 			file->ReadBig( temp );
 			tri.dominantTris = NULL;
@@ -537,9 +543,11 @@ bool idRenderModelStatic::LoadBinaryModel( idFile* file, const ID_TIME_T sourceT
 					file->ReadFloat( tri.dominantTris[j].normalizationScale[2] );
 				}
 			}
-
-			file->ReadBig( tri.numShadowIndexesNoFrontCaps );
-			file->ReadBig( tri.numShadowIndexesNoCaps );
+// jmarshall - keep compatibility.
+			int stub;
+			file->ReadBig( stub );
+			file->ReadBig( stub );
+// jmarshall end
 			file->ReadBig( tri.shadowCapPlaneBits );
 
 			tri.ambientSurface = NULL;
@@ -646,18 +654,19 @@ void idRenderModelStatic::WriteBinaryModel( idFile* file, ID_TIME_T* _timeStamp 
 				}
 			}
 
-			if( tri.preLightShadowVertexes != NULL )
-			{
-				file->WriteBig( tri.numVerts * 2 );
-				for( int j = 0; j < tri.numVerts * 2; j++ )
-				{
-					file->WriteVec4( tri.preLightShadowVertexes[ j ].xyzw );
-				}
-			}
-			else
-			{
-				file->WriteBig( ( int ) 0 );
-			}
+			//if( tri.preLightShadowVertexes != NULL )
+			//{
+			//	file->WriteBig( tri.numVerts * 2 );
+			//	for( int j = 0; j < tri.numVerts * 2; j++ )
+			//	{
+			//		file->WriteVec4( tri.preLightShadowVertexes[ j ].xyzw );
+			//	}
+			//}
+			//else
+			//{
+			//	file->WriteBig( ( int ) 0 );
+			//}
+			file->WriteBig((int)0);
 
 			file->WriteBig( tri.numIndexes );
 
@@ -692,17 +701,17 @@ void idRenderModelStatic::WriteBinaryModel( idFile* file, ID_TIME_T* _timeStamp 
 				file->WriteBigArray( tri.dupVerts, tri.numDupVerts * 2 );
 			}
 
-			file->WriteBig( tri.numSilEdges );
-			if( tri.numSilEdges > 0 )
-			{
-				for( int j = 0; j < tri.numSilEdges; j++ )
-				{
-					file->WriteBig( tri.silEdges[j].p1 );
-					file->WriteBig( tri.silEdges[j].p2 );
-					file->WriteBig( tri.silEdges[j].v1 );
-					file->WriteBig( tri.silEdges[j].v2 );
-				}
-			}
+			file->WriteBig( 0 );
+			//if( tri.numSilEdges > 0 )
+			//{
+			//	for( int j = 0; j < tri.numSilEdges; j++ )
+			//	{
+			//		file->WriteBig( tri.silEdges[j].p1 );
+			//		file->WriteBig( tri.silEdges[j].p2 );
+			//		file->WriteBig( tri.silEdges[j].v1 );
+			//		file->WriteBig( tri.silEdges[j].v2 );
+			//	}
+			//}
 
 			file->WriteBig( tri.dominantTris != NULL );
 			if( tri.dominantTris != NULL )
@@ -717,8 +726,8 @@ void idRenderModelStatic::WriteBinaryModel( idFile* file, ID_TIME_T* _timeStamp 
 				}
 			}
 
-			file->WriteBig( tri.numShadowIndexesNoFrontCaps );
-			file->WriteBig( tri.numShadowIndexesNoCaps );
+			file->WriteBig( 0 ); // tri.numShadowIndexesNoFrontCaps
+			file->WriteBig( 0 ); // tri.numShadowIndexesNoCaps
 			file->WriteBig( tri.shadowCapPlaneBits );
 		}
 	}

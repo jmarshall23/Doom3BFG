@@ -31,7 +31,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "AAS_local.h"
 #include "../Game_local.h"		// for cvars and debug drawing
-
+#include "AASCallback_FindCoverArea.h"
 
 /*
 ============
@@ -185,11 +185,6 @@ void idAASLocal::DrawArea( int areaNum ) const
 	{
 		DrawFace( abs( file->GetFaceIndex( firstFace + i ) ), file->GetFaceIndex( firstFace + i ) < 0 );
 	}
-
-	for( reach = area->reach; reach; reach = reach->next )
-	{
-		DrawReachability( reach );
-	}
 }
 
 /*
@@ -201,6 +196,33 @@ const idBounds& idAASLocal::DefaultSearchBounds() const
 {
 	return file->GetSettings().boundingBoxes[0];
 }
+
+/*
+============
+idAASLocal::DrawAreas
+============
+*/
+// jmarshall
+void idAASLocal::DrawAreas( void ) const
+{
+	int viewAreaNum = PointReachableAreaNum( gameLocal.GetLocalPlayer()->GetOrigin(), DefaultSearchBounds(), ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) );
+
+	DrawArea( viewAreaNum );
+
+	aasArea_t area = file->GetArea( viewAreaNum );
+	idReachability* reach = area.reach;
+
+	int numRenderedAreas = 0;
+	while( reach != NULL && numRenderedAreas < 230 )
+	{
+		int areaNum = reach->toAreaNum;
+		DrawArea( areaNum );
+
+		reach = reach->next;
+		numRenderedAreas++;
+	}
+}
+// jmarshall end
 
 /*
 ============
@@ -424,7 +446,7 @@ void idAASLocal::ShowHideArea( const idVec3& origin, int targetAreaNum ) const
 
 	DrawCone( target, idVec3( 0, 0, 1 ), 16.0f, colorYellow );
 
-	idAASFindCover findCover( target );
+	idAASCallback_FindCoverArea findCover( target );
 	if( FindNearestGoal( goal, areaNum, origin, target, TFL_WALK | TFL_AIR, obstacles, numObstacles, findCover ) )
 	{
 		DrawArea( goal.areaNum );
@@ -570,10 +592,12 @@ void idAASLocal::Test( const idVec3& origin )
 	{
 		ShowHideArea( origin, aas_showHideArea.GetInteger() );
 	}
-	if( aas_showAreas.GetBool() )
-	{
-		ShowArea( origin );
-	}
+// jmarshall - expanded on this.
+	//if( aas_showAreas.GetBool() )
+	//{
+	//	ShowArea( origin );
+	//}
+// jmarshall end
 	if( aas_showWallEdges.GetBool() )
 	{
 		ShowWallEdges( origin );

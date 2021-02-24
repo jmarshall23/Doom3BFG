@@ -191,10 +191,6 @@ int R_TriSurfMemory( const srfTriangles_t* tri )
 	{
 		total += tri->numIndexes * sizeof( tri->silIndexes[0] );
 	}
-	if( tri->silEdges != NULL )
-	{
-		total += tri->numSilEdges * sizeof( tri->silEdges[0] );
-	}
 	if( tri->dominantTris != NULL )
 	{
 		total += tri->numVerts * sizeof( tri->dominantTris[0] );
@@ -266,10 +262,6 @@ void R_FreeStaticTriSurf( srfTriangles_t* tri )
 		if( tri->silIndexes != NULL )
 		{
 			Mem_Free( tri->silIndexes );
-		}
-		if( tri->silEdges != NULL )
-		{
-			Mem_Free( tri->silEdges );
 		}
 		if( tri->dominantTris != NULL )
 		{
@@ -418,28 +410,6 @@ void R_AllocStaticTriSurfDupVerts( srfTriangles_t* tri, int numDupVerts )
 {
 	assert( tri->dupVerts == NULL );
 	tri->dupVerts = ( int* )Mem_Alloc16( numDupVerts * 2 * sizeof( *tri->dupVerts ), TAG_TRI_DUP_VERT );
-}
-
-/*
-=================
-R_AllocStaticTriSurfSilEdges
-=================
-*/
-void R_AllocStaticTriSurfSilEdges( srfTriangles_t* tri, int numSilEdges )
-{
-	assert( tri->silEdges == NULL );
-	tri->silEdges = ( silEdge_t* )Mem_Alloc16( numSilEdges * sizeof( silEdge_t ), TAG_TRI_SIL_EDGE );
-}
-
-/*
-=================
-R_AllocStaticTriSurfPreLightShadowVerts
-=================
-*/
-void R_AllocStaticTriSurfPreLightShadowVerts( srfTriangles_t* tri, int numVerts )
-{
-	assert( tri->preLightShadowVertexes == NULL );
-	tri->preLightShadowVertexes = ( idShadowVert* )Mem_Alloc16( numVerts * sizeof( idShadowVert ), TAG_TRI_SHADOW );
 }
 
 /*
@@ -684,236 +654,6 @@ void R_CreateDupVerts( srfTriangles_t* tri )
 
 	R_AllocStaticTriSurfDupVerts( tri, tri->numDupVerts );
 	memcpy( tri->dupVerts, tempDupVerts.Ptr(), tri->numDupVerts * 2 * sizeof( tri->dupVerts[0] ) );
-}
-
-/*
-===============
-R_DefineEdge
-===============
-*/
-static int c_duplicatedEdges, c_tripledEdges;
-static const int MAX_SIL_EDGES			= 0x7ffff;
-
-static void R_DefineEdge( const int v1, const int v2, const int planeNum, const int numPlanes,
-						  idList<silEdge_t>& silEdges, idHashIndex&	 silEdgeHash )
-{
-	int		i, hashKey;
-
-	// check for degenerate edge
-	if( v1 == v2 )
-	{
-		return;
-	}
-	hashKey = silEdgeHash.GenerateKey( v1, v2 );
-	// search for a matching other side
-	for( i = silEdgeHash.First( hashKey ); i >= 0 && i < MAX_SIL_EDGES; i = silEdgeHash.Next( i ) )
-	{
-		if( silEdges[i].v1 == v1 && silEdges[i].v2 == v2 )
-		{
-			c_duplicatedEdges++;
-			// allow it to still create a new edge
-			continue;
-		}
-		if( silEdges[i].v2 == v1 && silEdges[i].v1 == v2 )
-		{
-			if( silEdges[i].p2 != numPlanes )
-			{
-				c_tripledEdges++;
-				// allow it to still create a new edge
-				continue;
-			}
-			// this is a matching back side
-			silEdges[i].p2 = planeNum;
-			return;
-		}
-
-	}
-
-	// define the new edge
-	silEdgeHash.Add( hashKey, silEdges.Num() );
-
-	silEdge_t silEdge;
-
-	silEdge.p1 = planeNum;
-	silEdge.p2 = numPlanes;
-	silEdge.v1 = v1;
-	silEdge.v2 = v2;
-
-	silEdges.Append( silEdge );
-}
-
-/*
-=================
-SilEdgeSort
-=================
-*/
-static int SilEdgeSort( const void* a, const void* b )
-{
-	if( ( ( silEdge_t* )a )->p1 < ( ( silEdge_t* )b )->p1 )
-	{
-		return -1;
-	}
-	if( ( ( silEdge_t* )a )->p1 > ( ( silEdge_t* )b )->p1 )
-	{
-		return 1;
-	}
-	if( ( ( silEdge_t* )a )->p2 < ( ( silEdge_t* )b )->p2 )
-	{
-		return -1;
-	}
-	if( ( ( silEdge_t* )a )->p2 > ( ( silEdge_t* )b )->p2 )
-	{
-		return 1;
-	}
-	return 0;
-}
-
-/*
-=================
-R_IdentifySilEdges
-
-If the surface will not deform, coplanar edges (polygon interiors)
-can never create silhouette plains, and can be omited
-=================
-*/
-int	c_coplanarSilEdges;
-int	c_totalSilEdges;
-
-void R_IdentifySilEdges( srfTriangles_t* tri, bool omitCoplanarEdges )
-{
-	int		i;
-	int		shared, single;
-
-	omitCoplanarEdges = false;	// optimization doesn't work for some reason
-
-	static const int SILEDGE_HASH_SIZE		= 1024;
-
-	const int numTris = tri->numIndexes / 3;
-
-	idList<silEdge_t>	silEdges( MAX_SIL_EDGES );
-	idHashIndex	silEdgeHash( SILEDGE_HASH_SIZE, MAX_SIL_EDGES );
-	int			numPlanes = numTris;
-
-
-	silEdgeHash.Clear();
-
-	c_duplicatedEdges = 0;
-	c_tripledEdges = 0;
-
-	for( i = 0; i < numTris; i++ )
-	{
-		int		i1, i2, i3;
-
-		i1 = tri->silIndexes[ i * 3 + 0 ];
-		i2 = tri->silIndexes[ i * 3 + 1 ];
-		i3 = tri->silIndexes[ i * 3 + 2 ];
-
-		// create the edges
-		R_DefineEdge( i1, i2, i, numPlanes, silEdges, silEdgeHash );
-		R_DefineEdge( i2, i3, i, numPlanes, silEdges, silEdgeHash );
-		R_DefineEdge( i3, i1, i, numPlanes, silEdges, silEdgeHash );
-	}
-
-	if( c_duplicatedEdges || c_tripledEdges )
-	{
-		common->DWarning( "%i duplicated edge directions, %i tripled edges", c_duplicatedEdges, c_tripledEdges );
-	}
-
-	// if we know that the vertexes aren't going
-	// to deform, we can remove interior triangulation edges
-	// on otherwise planar polygons.
-	// I earlier believed that I could also remove concave
-	// edges, because they are never silhouettes in the conventional sense,
-	// but they are still needed to balance out all the true sil edges
-	// for the shadow algorithm to function
-	int		c_coplanarCulled;
-
-	c_coplanarCulled = 0;
-	if( omitCoplanarEdges )
-	{
-		for( i = 0; i < silEdges.Num(); i++ )
-		{
-			int			i1, i2, i3;
-			idPlane		plane;
-			int			base;
-			int			j;
-			float		d;
-
-			if( silEdges[i].p2 == numPlanes )  	// the fake dangling edge
-			{
-				continue;
-			}
-
-			base = silEdges[i].p1 * 3;
-			i1 = tri->silIndexes[ base + 0 ];
-			i2 = tri->silIndexes[ base + 1 ];
-			i3 = tri->silIndexes[ base + 2 ];
-
-			plane.FromPoints( tri->verts[i1].xyz, tri->verts[i2].xyz, tri->verts[i3].xyz );
-
-			// check to see if points of second triangle are not coplanar
-			base = silEdges[i].p2 * 3;
-			for( j = 0; j < 3; j++ )
-			{
-				i1 = tri->silIndexes[ base + j ];
-				d = plane.Distance( tri->verts[i1].xyz );
-				if( d != 0 )  		// even a small epsilon causes problems
-				{
-					break;
-				}
-			}
-
-			if( j == 3 )
-			{
-				// we can cull this sil edge
-				memmove( &silEdges[i], &silEdges[i + 1], ( silEdges.Num() - i - 1 ) * sizeof( silEdges[i] ) );
-				c_coplanarCulled++;
-				silEdges.SetNum( silEdges.Num() - 1 );
-				i--;
-			}
-		}
-		if( c_coplanarCulled )
-		{
-			c_coplanarSilEdges += c_coplanarCulled;
-//			common->Printf( "%i of %i sil edges coplanar culled\n", c_coplanarCulled,
-//				c_coplanarCulled + numSilEdges );
-		}
-	}
-	c_totalSilEdges += silEdges.Num();
-
-	// sort the sil edges based on plane number
-	qsort( silEdges.Ptr(), silEdges.Num(), sizeof( silEdges[0] ), SilEdgeSort );
-
-	// count up the distribution.
-	// a perfectly built model should only have shared
-	// edges, but most models will have some interpenetration
-	// and dangling edges
-	shared = 0;
-	single = 0;
-	for( i = 0; i < silEdges.Num(); i++ )
-	{
-		if( silEdges[i].p2 == numPlanes )
-		{
-			single++;
-		}
-		else
-		{
-			shared++;
-		}
-	}
-
-	if( !single )
-	{
-		tri->perfectHull = true;
-	}
-	else
-	{
-		tri->perfectHull = false;
-	}
-
-	tri->numSilEdges = silEdges.Num();
-	R_AllocStaticTriSurfSilEdges( tri, silEdges.Num() );
-	memcpy( tri->silEdges, silEdges.Ptr(), silEdges.Num() * sizeof( tri->silEdges[0] ) );
 }
 
 /*
@@ -1996,11 +1736,6 @@ void R_CleanupTriangles( srfTriangles_t* tri, bool createNormals, bool identifyS
 
 //	R_RemoveUnusedVerts( tri );
 
-	if( identifySilEdges )
-	{
-		R_IdentifySilEdges( tri, true );	// assume it is non-deformable, and omit coplanar edges
-	}
-
 	// bust vertexes that share a mirrored edge into separate vertexes
 	R_DuplicateMirroredVertexes( tri );
 
@@ -2056,8 +1791,7 @@ deformInfo_t* R_BuildDeformInfo( int numVerts, const idDrawVert* verts, int numI
 	}
 
 	R_RangeCheckIndexes( &tri );
-	R_CreateSilIndexes( &tri );
-	R_IdentifySilEdges( &tri, false );			// we cannot remove coplanar edges, because they can deform to silhouettes
+	R_CreateSilIndexes( &tri );	
 	R_DuplicateMirroredVertexes( &tri );		// split mirror points into multiple points
 	R_CreateDupVerts( &tri );
 	if( useUnsmoothedTangents )
@@ -2076,9 +1810,6 @@ deformInfo_t* R_BuildDeformInfo( int numVerts, const idDrawVert* verts, int numI
 	deform->indexes = tri.indexes;
 
 	deform->silIndexes = tri.silIndexes;
-
-	deform->numSilEdges = tri.numSilEdges;
-	deform->silEdges = tri.silEdges;
 
 	deform->numMirroredVerts = tri.numMirroredVerts;
 	deform->mirroredVerts = tri.mirroredVerts;
@@ -2123,10 +1854,6 @@ void R_FreeDeformInfo( deformInfo_t* deformInfo )
 	{
 		Mem_Free( deformInfo->silIndexes );
 	}
-	if( deformInfo->silEdges != NULL )
-	{
-		Mem_Free( deformInfo->silEdges );
-	}
 	if( deformInfo->mirroredVerts != NULL )
 	{
 		Mem_Free( deformInfo->mirroredVerts );
@@ -2166,10 +1893,6 @@ int R_DeformInfoMemoryUsed( deformInfo_t* deformInfo )
 	if( deformInfo->silIndexes != NULL )
 	{
 		total += deformInfo->numIndexes * sizeof( deformInfo->silIndexes[0] );
-	}
-	if( deformInfo->silEdges != NULL )
-	{
-		total += deformInfo->numSilEdges * sizeof( deformInfo->silEdges[0] );
 	}
 
 	total += sizeof( *deformInfo );

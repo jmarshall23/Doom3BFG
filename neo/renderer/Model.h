@@ -44,11 +44,6 @@ If you have questions concerning this license or the applicable additional terms
 #define MD5_CAMERA_EXT			"md5camera"
 #define MD5_VERSION				10
 
-#include "jobs/ShadowShared.h"
-#include "jobs/prelightshadowvolume/PreLightShadowVolume.h"
-#include "jobs/staticshadowvolume/StaticShadowVolume.h"
-#include "jobs/dynamicshadowvolume/DynamicShadowVolume.h"
-
 // this is used for calculating unsmoothed normals and tangents for deformed models
 struct dominantTri_t
 {
@@ -89,13 +84,10 @@ struct srfTriangles_t
 	int							numDupVerts;			// number of duplicate vertexes
 	int* 						dupVerts;				// pairs of the number of the first vertex and the number of the duplicate vertex
 
-	int							numSilEdges;			// number of silhouette edges
-	silEdge_t* 					silEdges;				// silhouette edges
+	//int							numSilEdges;			// number of silhouette edges
+	//silEdge_t* 					silEdges;				// silhouette edges
 
 	dominantTri_t* 				dominantTris;			// [numVerts] for deformed surface fast tangent calculation
-
-	int							numShadowIndexesNoFrontCaps;	// shadow volumes with front caps omitted
-	int							numShadowIndexesNoCaps;			// shadow volumes with the front and rear caps omitted
 
 	int							shadowCapPlaneBits;		// bits 0-5 are set when that plane of the interacting light has triangles
 	// projected on it, which means that if the view is on the outside of that

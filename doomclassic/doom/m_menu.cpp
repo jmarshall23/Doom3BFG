@@ -71,9 +71,10 @@ If you have questions concerning this license or the applicable additional terms
 //#include "../game/player/PlayerProfileDoom.h"
 #include "sys/sys_session.h"
 #include "sys/sys_signin.h"
-#include "d3xp/Game_local.h"
+//#include "d3xp/Game_local.h"
 
 extern idCVar in_useJoystick;
+extern idCVar r_fullscreen;
 
 //
 // defaulted values

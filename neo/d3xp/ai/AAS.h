@@ -72,7 +72,7 @@ class idAASCallback
 {
 public:
 	virtual						~idAASCallback() {};
-	virtual	bool				TestArea( const class idAAS* aas, int areaNum ) = 0;
+	virtual	bool				AreaIsGoal( const class idAAS* aas, int areaNum ) = 0;
 };
 
 typedef int aasHandle_t;
@@ -100,6 +100,16 @@ public:
 	virtual void				PushPointIntoAreaNum( int areaNum, idVec3& origin ) const = 0;
 	// Returns a reachable point inside the given area.
 	virtual idVec3				AreaCenter( int areaNum ) const = 0;
+// jmarshall
+	// Returns the default search bounds.
+	virtual const idBounds&		DefaultSearchBounds() const = 0;
+
+	virtual int					AdjustPositionAndGetArea( idVec3& origin ) = 0;
+
+	virtual void				ShowArea( const idVec3& origin ) const = 0;
+
+	virtual void				DrawAreas( void ) const = 0;
+// jmarshall end
 	// Returns the area flags.
 	virtual int					AreaFlags( int areaNum ) const = 0;
 	// Returns the travel flags for traveling through the area.

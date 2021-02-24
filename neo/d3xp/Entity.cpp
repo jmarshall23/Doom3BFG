@@ -1738,6 +1738,26 @@ float idEntity::GetFloat( const char* key )
 }
 
 /*
+==============
+idEntity::GetInt
+==============
+*/
+int idEntity::GetInt( const char* key )
+{
+	return spawnArgs.GetInt( key, "0" );
+}
+
+/*
+==============
+idEntity::GetBool
+==============
+*/
+bool idEntity::GetBool( const char* key )
+{
+	return spawnArgs.GetBool( key, "0" );
+}
+
+/*
 ================
 idEntity::GetOrigin
 ================

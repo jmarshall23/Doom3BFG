@@ -63,6 +63,15 @@ typedef enum
 	FLAGSTATUS_NONE   = 3
 } flagStatus_t;
 
+// jmarshall
+enum mpLeaderStatus_t
+{
+	LEAD_STATUS_NOTSET,
+	LEAD_STATUS_NOLEAD,
+	LEAD_STATUS_INLEAD
+};
+// jmarshall end
+
 typedef struct mpPlayerState_s
 {
 	int				ping;			// player ping
@@ -71,6 +80,11 @@ typedef struct mpPlayerState_s
 	int				wins;			// wins
 	bool			scoreBoardUp;	// toggle based on player scoreboard button, used to activate de-activate the scoreboard gui
 	int				deaths;
+// jmarshall
+	int				clientnum;
+	mpLeaderStatus_t currentLeader; // true if is current leader.
+	bool			 tiednotified;  // true if we have already notified the player of tied status.
+// jmarshall end
 } mpPlayerState_t;
 
 const int NUM_CHAT_NOTIFY	= 5;
@@ -105,6 +119,16 @@ typedef enum
 	SND_FLAG_TAKEN_THEIRS,
 	SND_FLAG_DROPPED_YOURS,
 	SND_FLAG_DROPPED_THEIRS,
+// jmarshall
+	SND_LEADGAINED,
+	SND_LEADLOST,
+	SND_LEADTIED,
+	SND_WELCOMEDOM,
+	SND_ONEFRAG,
+	SND_TWOFRAG,
+	SND_THREEFRAG,
+	SND_PREPAREFORBATTLE,
+// jmarshall end
 	SND_COUNT
 } snd_evt_t;
 
@@ -209,7 +233,9 @@ public:
 
 	bool			CanPlay( idPlayer* p );
 	bool			WantRespawn( idPlayer* p );
-
+// jmarshall
+	void			NewState( gameState_t news, idPlayer* player = NULL );
+// jmarshall end
 	void			ServerWriteInitialReliableMessages( int clientNum, lobbyUserID_t lobbyUserID );
 	void			ClientReadStartState( const idBitMsg& msg );
 	void			ClientReadWarmupTime( const idBitMsg& msg );
@@ -295,7 +321,6 @@ private:
 	bool			PointLimitHit();
 	// return team with most points
 	int				WinningTeam();
-	void			NewState( gameState_t news, idPlayer* player = NULL );
 	void			UpdateWinsLosses( idPlayer* winner );
 	// fill any empty tourney slots based on the current tourney ranks
 	void			FillTourneySlots();

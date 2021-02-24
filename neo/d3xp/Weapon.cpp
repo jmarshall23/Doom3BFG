@@ -1991,6 +1991,10 @@ idWeapon::IsReloading
 */
 bool idWeapon::IsReloading() const
 {
+	if( !currentWeaponObject )
+	{
+		return false;
+	}
 	return currentWeaponObject->IsStateRunning( "Reload" );
 }
 
@@ -2001,6 +2005,10 @@ idWeapon::IsHolstered
 */
 bool idWeapon::IsHolstered() const
 {
+	if( !currentWeaponObject )
+	{
+		return false;
+	}
 	return currentWeaponObject->IsStateRunning( "Holstered" );
 }
 

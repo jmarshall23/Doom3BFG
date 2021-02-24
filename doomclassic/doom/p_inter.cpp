@@ -55,7 +55,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "sys/sys_signin.h"
 
-#include "../../neo/d3xp/Game_local.h"
+//#include "../../neo/d3xp/Game_local.h"
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
@@ -624,7 +624,7 @@ P_TouchSpecialThing
 		if ( !common->IsMultiplayer() ) {
 			switch( DoomLib::GetGameSKU() ) {
 				case GAME_SKU_DOOM2_BFG: {
-					idAchievementManager::LocalUser_CompleteAchievement( ACHIEVEMENT_DOOM2_REALLY_BIG_GUN_FIND_BFG_SINGLEPLAYER );
+					//idAchievementManager::LocalUser_CompleteAchievement( ACHIEVEMENT_DOOM2_REALLY_BIG_GUN_FIND_BFG_SINGLEPLAYER );
 				}
 				default: {
 					// No unlocks for other SKUs.

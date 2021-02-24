@@ -57,6 +57,8 @@ entityDef weapon_machinegun {
 	"inv_weapon"				"weapon_machinegun"
 	"inv_ammo_clip"				"10"
 	"inv_item"					"5"
+	
+	"modelindex"				"MODELINDEX_MACHINEGUN"
 
 	"weapon_class"				"rvmWeaponMachineGun"
 	"def_projectile"			"projectile_bullet_machinegun"

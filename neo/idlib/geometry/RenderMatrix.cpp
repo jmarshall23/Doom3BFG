@@ -27,6 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
+#include "../precompiled.h"
 #include "../ParallelJobList_JobHeaders.h"
 #include "../math/Math.h"
 #include "../math/Vector.h"
