@@ -400,7 +400,9 @@ public:
 	int						tourneyRank;		// for tourney cycling - the higher, the more likely to play next - server
 	int						tourneyLine;		// client side - our spot in the wait line. 0 means no info.
 	int						spawnedTime;		// when client first enters the game
-
+// jmarshall
+	idStr					netname;
+// jmarshall end
 	bool					carryingFlag;		// is the player carrying the flag?
 
 	idEntityPtr<idEntity>	teleportEntity;		// while being teleported, this is set to the entity we'll use for exit

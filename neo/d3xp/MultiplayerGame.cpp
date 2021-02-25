@@ -233,6 +233,9 @@ void idMultiplayerGame::SpawnPlayer( int clientNum )
 		{
 			p->tourneyRank++;
 		}
+// jmarshall
+		p->netname = lobby.GetLobbyUserName(lobbyUserID);
+// jmarshall end
 	}
 
 // jmarshall - this goes here so the bot gets the correct clientnum.
@@ -1577,7 +1580,9 @@ void idMultiplayerGame::NewState( gameState_t news, idPlayer* player )
 			outMsg.InitWrite( msgBuf, sizeof( msgBuf ) );
 			outMsg.WriteLong( warmupEndTime );
 			session->GetActingGameStateLobbyBase().SendReliable( GAME_RELIABLE_MESSAGE_WARMUPTIME, outMsg, false );
-
+// jmarshall
+			PlayGlobalSound(-1, SND_PREPAREFORBATTLE);
+// jmarshall end
 			// Reset all the scores.
 			for( i = 0; i < gameLocal.numClients; i++ )
 			{

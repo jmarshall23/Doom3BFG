@@ -326,7 +326,31 @@ void rvmBot::Damage( idEntity* inflictor, idEntity* attacker, const idVec3& dir,
 {
 	idPlayer::Damage( inflictor, attacker, dir, damageDefName, damageScale, location );
 
+	if (health <= 0)
+	{
+		idPlayer* player = attacker->Cast<idPlayer>();
+		if (player)
+		{
+			BotSendChatMessage(DEATH, player->netname );
+		}
+	}
+
 	bs.attackerEntity = attacker;
+}
+
+/*
+=======================
+rvmBot::InflictedDamageEvent
+=======================
+*/
+void rvmBot::InflictedDamageEvent(idEntity* target) {
+	idPlayer* player = target->Cast<idPlayer>();
+
+	// Don't flood the chat with death and insults.
+	if (!player->IsBot() && player->health <= 0)
+	{
+		BotSendChatMessage(KILL, player->netname);
+	}
 }
 
 /*

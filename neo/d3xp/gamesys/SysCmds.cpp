@@ -42,6 +42,17 @@ CONSOLE_COMMAND_SHIP( addBot, "adds a bot to a multiplayer game", NULL )
 	gameLocal.AddBot( args.Argv( 1 ) );
 }
 
+CONSOLE_COMMAND_SHIP(fillbots, "fills the match with bots", NULL)
+{	
+	gameLocal.AddBot("dark");
+	gameLocal.AddBot("major");
+	gameLocal.AddBot("gargoyle");
+	gameLocal.AddBot("skelebot");
+	gameLocal.AddBot("sly");
+	gameLocal.AddBot("neko");
+	gameLocal.AddBot("sarge");
+}
+
 /*
 ==================
 Cmd_GetFloatArg

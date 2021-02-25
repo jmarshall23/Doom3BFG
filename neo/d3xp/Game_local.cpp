@@ -381,13 +381,15 @@ void idGameLocal::Init()
 		aasNames.Append( kv->GetValue() );
 		kv = dict->MatchPrefix( "type", kv );
 	}
-
+// jmarshall
 	// init all the bot systems.
 	botCharacterStatsManager.Init();
 	botFuzzyWeightManager.Init();
 	botWeaponInfoManager.Init();
 	botGoalManager.BotSetupGoalAI();
 
+	rvRandom::Init();
+// jmarshall end
 	gamestate = GAMESTATE_NOMAP;
 
 	Printf( "...%d aas types\n", aasList.Num() );

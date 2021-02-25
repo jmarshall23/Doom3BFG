@@ -7,8 +7,8 @@
 
 	This file has been generated with the Type Info Generator v1.1 (c) 2004 id Software
 
-	952 constants
-	91 enums
+	954 constants
+	92 enums
 	482 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
@@ -618,6 +618,8 @@ static constantInfo_t constantInfo[] = {
 	{ "int", "MOVE_RUN2", "3" },
 	{ "int", "MOVE_SPRINT", "4" },
 	{ "int", "MOVE_JUMP", "5" },
+	{ "int", "KILL", "0" },
+	{ "int", "DEATH", "1" },
 	{ "int", "OPTION_INVALID", "-1" },
 	{ "int", "OPTION_BUTTON_TEXT", "0" },
 	{ "int", "OPTION_SLIDER_BAR", "1" },
@@ -1743,6 +1745,12 @@ static enumValueInfo_t botMoveFlags_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
+static enumValueInfo_t botChat_t_typeInfo[] = {
+	{ "KILL", 0 },
+	{ "DEATH", 1 },
+	{ NULL, 0 }
+};
+
 static enumValueInfo_t menuOption_t_typeInfo[] = {
 	{ "OPTION_INVALID", -1 },
 	{ "OPTION_BUTTON_TEXT", 0 },
@@ -2104,7 +2112,7 @@ static enumValueInfo_t menuSounds_t_typeInfo[] = {
 	{ NULL, 0 }
 };
 
-static enumValueInfo_t enum_90_typeInfo[] = {
+static enumValueInfo_t enum_91_typeInfo[] = {
 	{ "OP_RETURN", 0 },
 	{ "OP_UINC_F", 1 },
 	{ "OP_UINCP_F", 2 },
@@ -2295,6 +2303,7 @@ static enumTypeInfo_t enumTypeInfo[] = {
 	{ "moveStatus_t", moveStatus_t_typeInfo },
 	{ "stopEvent_t", stopEvent_t_typeInfo },
 	{ "botMoveFlags_t", botMoveFlags_t_typeInfo },
+	{ "botChat_t", botChat_t_typeInfo },
 	{ "menuOption_t", menuOption_t_typeInfo },
 	{ "widgetEvent_t", widgetEvent_t_typeInfo },
 	{ "scrollType_t", scrollType_t_typeInfo },
@@ -2323,7 +2332,7 @@ static enumTypeInfo_t enumTypeInfo[] = {
 	{ "pdaHandlerWidgets_t", pdaHandlerWidgets_t_typeInfo },
 	{ "scoreboardHandlerWidgets_t", scoreboardHandlerWidgets_t_typeInfo },
 	{ "menuSounds_t", menuSounds_t_typeInfo },
-	{ "enum_90", enum_90_typeInfo },
+	{ "enum_91", enum_91_typeInfo },
 	{ NULL, NULL }
 };
 
@@ -5070,6 +5079,7 @@ static classVariableInfo_t idPlayer_typeInfo[] = {
 	{ "int", "tourneyRank", (intptr_t)(&((idPlayer *)0)->tourneyRank), sizeof( ((idPlayer *)0)->tourneyRank ) },
 	{ "int", "tourneyLine", (intptr_t)(&((idPlayer *)0)->tourneyLine), sizeof( ((idPlayer *)0)->tourneyLine ) },
 	{ "int", "spawnedTime", (intptr_t)(&((idPlayer *)0)->spawnedTime), sizeof( ((idPlayer *)0)->spawnedTime ) },
+	{ "idStr", "netname", (intptr_t)(&((idPlayer *)0)->netname), sizeof( ((idPlayer *)0)->netname ) },
 	{ "bool", "carryingFlag", (intptr_t)(&((idPlayer *)0)->carryingFlag), sizeof( ((idPlayer *)0)->carryingFlag ) },
 	{ "idEntityPtr < idEntity >", "teleportEntity", (intptr_t)(&((idPlayer *)0)->teleportEntity), sizeof( ((idPlayer *)0)->teleportEntity ) },
 	{ "int", "teleportKiller", (intptr_t)(&((idPlayer *)0)->teleportKiller), sizeof( ((idPlayer *)0)->teleportKiller ) },

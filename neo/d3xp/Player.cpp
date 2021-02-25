@@ -9960,6 +9960,12 @@ void idPlayer::Damage( idEntity* inflictor, idEntity* attacker, const idVec3& di
 	{
 		// Server will deal his damage normally
 		ServerDealDamage( finalDamage, *inflictor, *attacker, dir, damageDefName, location );
+// jmarshall
+		if (attacker->IsType(rvmBot::Type))
+		{
+			attacker->InflictedDamageEvent(this);
+		}
+// jmarshall end
 	}
 	else if( attacker->GetEntityNumber() == gameLocal.GetLocalClientNum() )
 	{

@@ -277,6 +277,9 @@ public:
 	const char*				GetKey( const char* key );
 	int						GetInt( const char* key );
 	bool					GetBool( const char* key );
+// jmarshall
+	virtual void			InflictedDamageEvent(idEntity* target) { }
+// jmarshall end
 
 	// visuals
 	virtual void			Present();

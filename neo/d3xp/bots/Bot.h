@@ -826,6 +826,7 @@ struct bot_state_t
 };
 
 #include "BotAI.h"
+#include "Bot_chat.h"
 
 #define Bot_Time() ((float)gameLocal.time / 1000.0f)
 
@@ -843,9 +844,10 @@ public:
 	~rvmBot();
 
 	void			Spawn( void );
-	virtual void			Think( void ) override;
-	virtual void			SpawnToPoint( const idVec3& spawn_origin, const idAngles& spawn_angles ) override;
-	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const idVec3& dir, const char* damageDefName, const float damageScale, const int location ) override;
+	virtual void	Think( void ) override;
+	virtual void	SpawnToPoint( const idVec3& spawn_origin, const idAngles& spawn_angles ) override;
+	virtual	void	Damage( idEntity* inflictor, idEntity* attacker, const idVec3& dir, const char* damageDefName, const float damageScale, const int location ) override;
+	virtual void	InflictedDamageEvent(idEntity* target) override;
 
 	void			SetEnemy( idPlayer* player );
 
@@ -854,6 +856,8 @@ public:
 
 	static void		PresenceTypeBoundingBox( int presencetype, idVec3& mins, idVec3& maxs );
 private:
+	void			BotSendChatMessage(botChat_t chat, const char *targetName);
+
 	void			BotInputToUserCommand( bot_input_t* bi, usercmd_t* ucmd, int time );
 
 	void			BotMoveToGoalOrigin( void );
