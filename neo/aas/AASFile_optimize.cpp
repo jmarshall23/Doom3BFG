@@ -76,7 +76,10 @@ void idAASFileLocal::Optimize()
 	for( i = 0; i < areas.Num(); i++ )
 	{
 		area = &areas[i];
-
+// jmarshall
+		area->firstEdge = newEdgeIndex.Num();
+		area->numEdges = 0;
+// jmarshall end
 		areaFirstFace = newFaceIndex.Num();
 		for( j = 0; j < area->numFaces; j++ )
 		{
@@ -136,6 +139,9 @@ void idAASFileLocal::Optimize()
 						}
 
 						newEdgeIndex.Append( edgeRemap[ abs( edgeNum ) ] );
+// jmarshall
+						area->numEdges++;
+// jmarshall end
 					}
 
 					newFaces[ newFaces.Num() - 1 ].firstEdge = faceFirstEdge;

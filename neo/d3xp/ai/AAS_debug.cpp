@@ -168,7 +168,8 @@ idAASLocal::DrawArea
 */
 void idAASLocal::DrawArea( int areaNum ) const
 {
-	int i, numFaces, firstFace;
+// jmarshall
+	int i, numEdges, firstEdge;
 	const aasArea_t* area;
 	idReachability* reach;
 
@@ -177,14 +178,20 @@ void idAASLocal::DrawArea( int areaNum ) const
 		return;
 	}
 
-	area = &file->GetArea( areaNum );
-	numFaces = area->numFaces;
-	firstFace = area->firstFace;
-
-	for( i = 0; i < numFaces; i++ )
-	{
-		DrawFace( abs( file->GetFaceIndex( firstFace + i ) ), file->GetFaceIndex( firstFace + i ) < 0 );
+	if (!file->HasNewFeatures()) {
+		idLib::Warning("idAASLocal::DrawArea requires new features!\n");
+		return;
 	}
+
+	area = &file->GetArea( areaNum );
+	numEdges = area->numEdges;
+	firstEdge = area->firstEdge;
+
+	for( i = 0; i < numEdges; i++ )
+	{
+		DrawEdge(abs(file->GetEdgeIndex(firstEdge + i)), false);
+	}
+// jmarshall end
 }
 
 /*
