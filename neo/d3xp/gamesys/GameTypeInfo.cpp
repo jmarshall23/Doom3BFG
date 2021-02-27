@@ -10054,6 +10054,10 @@ intptr_t rvmBot::Invoke(const char *functionName, void *param1) {
 		BotUpdateInventory();
 		return 0;
 	};
+	if(functionNameHash == 207135) { // MoveToCoverPoint
+		MoveToCoverPoint();
+		return 0;
+	};
 	if(functionNameHash == 139244) { // state_Chase
 		state_Chase((stateParms_t *)param1);
 		return 0;
@@ -10098,6 +10102,9 @@ bool rvmBot::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 240097) { // BotUpdateInventory
+		return true;
+	};
+	if(functionNameHash == 207135) { // MoveToCoverPoint
 		return true;
 	};
 	if(functionNameHash == 139244) { // state_Chase

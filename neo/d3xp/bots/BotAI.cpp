@@ -4,6 +4,7 @@
 #pragma hdrstop
 #include "precompiled.h"
 #include "../Game_local.h"
+#include "../ai/AASCallback_FindCoverArea.h"
 
 #define IDEAL_ATTACKDIST			140
 
@@ -1419,6 +1420,34 @@ int rvmBot::BotMoveInRandomDirection( bot_state_t* bs )
 	bs->useRandomPosition = true;
 	bs->botinput.speed = 400; // 200 = walk, 400 = run.
 	return 0;
+}
+
+/*
+============
+rvmBot::ShowHideArea
+============
+*/
+void rvmBot::MoveToCoverPoint(void)
+{
+	int areaNum, numObstacles;
+	idVec3 target;
+	aasGoal_t goal;
+	aasObstacle_t obstacles[10];
+	idVec3 origin = GetOrigin();
+	idAAS* aas = gameLocal.GetBotAAS();
+
+	areaNum = gameLocal.GetBotAAS()->PointReachableAreaNum(origin, aas->DefaultSearchBounds(), (AREA_REACHABLE_WALK | AREA_REACHABLE_FLY));
+	target = aas->AreaCenter(aas->PointAreaNum(gameLocal.GetLocalPlayer()->GetOrigin()));
+
+	// consider the target an obstacle
+	obstacles[0].absBounds = idBounds(target).Expand(16);
+	numObstacles = 1;
+
+	idAASCallback_FindCoverArea findCover(target);
+	if (aas->FindNearestGoal(goal, areaNum, origin, target, TFL_WALK | TFL_AIR, obstacles, numObstacles, findCover))
+	{
+		bs.currentGoal.origin = goal.origin;
+	}
 }
 
 /*

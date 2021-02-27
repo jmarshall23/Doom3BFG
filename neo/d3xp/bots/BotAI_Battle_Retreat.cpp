@@ -126,7 +126,14 @@ stateResult_t rvmBot::state_Retreat(stateParms_t* parms)
 		}
 	}
 
-	BotMoveInRandomDirection( &bs );
+	if (rvRandom::irand(0, 10) < 5)
+	{
+		BotMoveInRandomDirection(&bs);
+	}
+	else
+	{
+		MoveToCoverPoint();
+	}
 
 	BotChooseWeapon( &bs );
 

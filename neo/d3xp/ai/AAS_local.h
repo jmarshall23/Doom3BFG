@@ -131,6 +131,7 @@ public:
 
 // jmarshall
 	virtual idAASFile*			GetAASFile(void) { return file; }
+	virtual void				DrawArea(int areaNum) const;
 // jmarshall end
 private:
 	idAASFile* 					file;
@@ -186,7 +187,6 @@ private:	// pathing
 
 private:	// debug
 	void						DrawCone( const idVec3& origin, const idVec3& dir, float radius, const idVec4& color ) const;
-	void						DrawArea( int areaNum ) const;
 	void						DrawFace( int faceNum, bool side ) const;
 	void						DrawEdge( int edgeNum, bool arrow ) const;
 	void						DrawReachability( const idReachability* reach ) const;

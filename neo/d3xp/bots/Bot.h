@@ -899,6 +899,8 @@ protected:
 	void			BotMoveToGoal(bot_state_t* bs, bot_goal_t* goal);
 	int				BotMoveInDirection(bot_state_t* bs, idVec3 dir, float speed, int type);
 
+	void			MoveToCoverPoint(void);
+
 	static int	WP_MACHINEGUN;
 	static int	WP_SHOTGUN;
 	static int	WP_PLASMAGUN;

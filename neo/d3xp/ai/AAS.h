@@ -155,6 +155,7 @@ public:
 
 // jmarshall
 	virtual idAASFile*			GetAASFile(void) = 0;
+	virtual void				DrawArea(int areaNum) const = 0;
 // jmarshall end
 };
 
