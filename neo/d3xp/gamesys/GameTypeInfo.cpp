@@ -10080,6 +10080,9 @@ intptr_t rvmBot::Invoke(const char *functionName, void *param1) {
 	if(functionNameHash == 157346) { // state_SeekLTG
 		return (intptr_t)state_SeekLTG((stateParms_t *)param1);
 	};
+	if(functionNameHash == 180698) { // state_Attacked
+		return (intptr_t)state_Attacked((stateParms_t *)param1);
+	};
 	return __super::Invoke(functionName, param1);
 
 };
@@ -10126,6 +10129,9 @@ bool rvmBot::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 157346) { // state_SeekLTG
+		return true;
+	};
+	if(functionNameHash == 180698) { // state_Attacked
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);

@@ -810,6 +810,7 @@ struct bot_state_t
 	int enemysuicide;								//true when the enemy of the bot suicides
 	float enemysight_time;							//time before reacting to enemy
 	float enemydeath_time;							//time the enemy died
+	float aggressiveAttackTime;
 	idVec3 origin;
 	idVec3 aimtarget;
 	idVec3 random_move_position;
@@ -847,7 +848,7 @@ public:
 	virtual void	InflictedDamageEvent(idEntity* target) override;
 	virtual void	StateThreadChanged(void) override;
 
-	void			SetEnemy( idPlayer* player );
+	void			SetEnemy( idPlayer* player, idVec3 origin );
 
 	void			BotInputFrame( idUserCmdMgr& cmdMgr );
 	void			Bot_ResetUcmd( usercmd_t& ucmd );
@@ -913,6 +914,7 @@ private:
 	stateResult_t	state_Respawn(stateParms_t* parms);
 	stateResult_t	state_SeekNBG(stateParms_t* parms);
 	stateResult_t	state_SeekLTG(stateParms_t* parms);
+	stateResult_t	state_Attacked(stateParms_t* parms);
 private:
 	idAAS*			aas;
 };

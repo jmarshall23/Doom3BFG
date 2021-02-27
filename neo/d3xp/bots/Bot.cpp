@@ -41,14 +41,15 @@ rvmBot::~rvmBot()
 rvmBot::SetEnemy
 ==================
 */
-void rvmBot::SetEnemy( idPlayer* player )
+void rvmBot::SetEnemy( idPlayer* player, idVec3 origin)
 {
 	if(bs.enemy == -1)
 	{
 		bs.enemy = player->entityNumber;
-		bs.attackchase_time = 0;
+		bs.aggressiveAttackTime = gameLocal.SysScriptTime() + 2.0f;
+		bs.lastenemyorigin = origin;
 		//bs.action = &botAIBattleRetreat;
-		stateThread.SetState("state_Retreat");
+		stateThread.SetState("state_Attacked");
 	}
 }
 
@@ -355,7 +356,7 @@ void rvmBot::Damage( idEntity* inflictor, idEntity* attacker, const idVec3& dir,
 	}
 
 	//bs.attackerEntity = attacker;
-	SetEnemy(player);
+	SetEnemy(player, attacker->GetOrigin());
 }
 
 /*

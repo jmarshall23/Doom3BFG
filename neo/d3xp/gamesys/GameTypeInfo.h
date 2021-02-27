@@ -6337,6 +6337,7 @@ static classVariableInfo_t bot_state_t_typeInfo[] = {
 	{ "int", "enemysuicide", (intptr_t)(&((bot_state_t *)0)->enemysuicide), sizeof( ((bot_state_t *)0)->enemysuicide ) },
 	{ "float", "enemysight_time", (intptr_t)(&((bot_state_t *)0)->enemysight_time), sizeof( ((bot_state_t *)0)->enemysight_time ) },
 	{ "float", "enemydeath_time", (intptr_t)(&((bot_state_t *)0)->enemydeath_time), sizeof( ((bot_state_t *)0)->enemydeath_time ) },
+	{ "float", "aggressiveAttackTime", (intptr_t)(&((bot_state_t *)0)->aggressiveAttackTime), sizeof( ((bot_state_t *)0)->aggressiveAttackTime ) },
 	{ "idVec3", "origin", (intptr_t)(&((bot_state_t *)0)->origin), sizeof( ((bot_state_t *)0)->origin ) },
 	{ "idVec3", "aimtarget", (intptr_t)(&((bot_state_t *)0)->aimtarget), sizeof( ((bot_state_t *)0)->aimtarget ) },
 	{ "idVec3", "random_move_position", (intptr_t)(&((bot_state_t *)0)->random_move_position), sizeof( ((bot_state_t *)0)->random_move_position ) },
