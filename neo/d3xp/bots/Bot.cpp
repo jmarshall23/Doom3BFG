@@ -9,6 +9,7 @@ idCVar bot_goaldist( "bot_goaldist", "20", CVAR_INTEGER | CVAR_CHEAT, "" );
 idCVar bot_debugnav( "bot_debugnav", "0", CVAR_BOOL | CVAR_CHEAT, "draws navmesh paths for the bot" );
 idCVar bot_showstate( "bot_showstate", "0", CVAR_BOOL | CVAR_CHEAT, "draws the bot state above the bot" );
 idCVar bot_debug( "bot_debug", "0", CVAR_BOOL, "shows debug info for the bot" );
+idCVar bot_skill("bot_skill", "3", CVAR_INTEGER, "");
 
 CLASS_DECLARATION( idPlayer, rvmBot )
 END_CLASS

@@ -916,3 +916,5 @@ private:
 private:
 	idAAS*			aas;
 };
+
+extern idCVar bot_skill;

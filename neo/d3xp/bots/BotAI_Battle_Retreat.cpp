@@ -133,6 +133,11 @@ stateResult_t rvmBot::state_Retreat(stateParms_t* parms)
 	else
 	{
 		MoveToCoverPoint();
+
+		if (bot_skill.GetInteger() > 1)
+		{
+			bs.firethrottlewait_time = 0;
+		}
 	}
 
 	BotChooseWeapon( &bs );
