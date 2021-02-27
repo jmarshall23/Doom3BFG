@@ -896,9 +896,7 @@ protected:
 	int				BotNearbyGoal(bot_state_t* bs, int tfl, bot_goal_t* ltg, float range);
 	void			BotGetRandomPointNearPosition(idVec3 point, idVec3& randomPoint, float radius);
 	int				BotMoveInRandomDirection(bot_state_t* bs);
-	void			BotAttackMove(bot_state_t* bs, int tfl);
 	void			BotMoveToGoal(bot_state_t* bs, bot_goal_t* goal);
-	int				BotMoveInDirection(bot_state_t* bs, idVec3 dir, float speed, int type);
 
 	void			MoveToCoverPoint(void);
 

@@ -283,6 +283,7 @@ void rvmBot::ServerThink( void )
 		aas->WalkPathToGoal(path, curAreaNum, org, goalArea, bs.currentGoal.origin, TFL_WALK | TFL_AIR);
 	}
 	
+	idVec3 moveGoal = path.moveGoal;
 	BotMoveToGoalOrigin(path.moveGoal);
 
 	bs.viewangles = bs.botinput.viewangles;

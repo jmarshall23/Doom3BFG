@@ -143,25 +143,15 @@ stateResult_t rvmBot::state_BattleFight(stateParms_t* parms)
 	//}
 	//choose the best weapon to fight with
 	BotChooseWeapon( &bs );
-	//do attack movements
-	BotAttackMove( &bs, 0 );
 
-	//if the movement failed
-	//if (moveresult.failure) {
-	//	//reset the avoid reach, otherwise bot is stuck in current area
-	//	trap_BotResetAvoidReach(bs.ms);
-	//	//BotAI_Print(PRT_MESSAGE, "movement failure %d\n", moveresult.traveltype);
-	//	bs.ltg_time = 0;
-	//}
-	//BotAIBlocked(bs, &moveresult, qfalse);
+	// Move randomly around our AAS area.
+	BotMoveInRandomDirection(&bs);
 
 	//aim at the enemy
 	BotAimAtEnemy( &bs );
 
 	//attack the enemy if possible
-	BotCheckAttack( &bs );
-
-	BotMoveInRandomDirection(&bs);
+	BotCheckAttack( &bs );	
 
 	//if the bot wants to retreat
 	if( !( bs.flags & BFL_FIGHTSUICIDAL ) )
