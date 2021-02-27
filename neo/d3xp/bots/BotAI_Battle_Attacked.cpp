@@ -23,6 +23,21 @@ stateResult_t rvmBot::state_Attacked(stateParms_t* parms) {
 		return SRESULT_DONE;
 	}
 
+	// Ensure the target is a player.
+	idPlayer *entinfo = gameLocal.entities[bs.enemy]->Cast<idPlayer>();
+	if (!entinfo)
+	{
+		stateThread.SetState("state_SeekLTG");
+		return SRESULT_DONE_FRAME;
+	}
+
+	// If our enemy is dead, search for another LTG.
+	if (EntityIsDead(entinfo))
+	{
+		stateThread.SetState("state_SeekLTG");
+		return SRESULT_DONE_FRAME;
+	}
+
 	bs.currentGoal.origin = bs.lastenemyorigin;
 
 	//aim at the enemy
