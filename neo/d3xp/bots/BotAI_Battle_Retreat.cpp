@@ -126,18 +126,11 @@ stateResult_t rvmBot::state_Retreat(stateParms_t* parms)
 		}
 	}
 
-	if (rvRandom::irand(0, 10) < 5)
-	{
-		BotMoveInRandomDirection(&bs);
-	}
-	else
-	{
-		MoveToCoverPoint();
+	MoveToCoverPoint();
 
-		if (bot_skill.GetInteger() > 1)
-		{
-			bs.firethrottlewait_time = 0;
-		}
+	if (bot_skill.GetInteger() > 1)
+	{
+		bs.firethrottlewait_time = 0;
 	}
 
 	BotChooseWeapon( &bs );

@@ -43,11 +43,12 @@ rvmBot::SetEnemy
 */
 void rvmBot::SetEnemy( idPlayer* player )
 {
-	if( bs.enemy == -1 )
+	if(bs.enemy == -1)
 	{
 		bs.enemy = player->entityNumber;
+		bs.attackchase_time = 0;
 		//bs.action = &botAIBattleRetreat;
-		stateThread.SetState("state_BattleFight");
+		stateThread.SetState("state_Retreat");
 	}
 }
 
@@ -191,7 +192,7 @@ void rvmBot::BotMoveToGoalOrigin( void )
 			idVec3 enemyDir = enemy->GetPhysics()->GetOrigin() - GetPhysics()->GetOrigin();
 			enemyDir.Normalize();
 			idAngles angles = enemyDir.ToAngles();
-			angles.pitch = 0;
+			//angles.pitch = 0;
 			angles.roll = 0;
 			bs.botinput.viewangles = angles;
 		}
@@ -344,16 +345,17 @@ void rvmBot::Damage( idEntity* inflictor, idEntity* attacker, const idVec3& dir,
 {
 	idPlayer::Damage( inflictor, attacker, dir, damageDefName, damageScale, location );
 
+	idPlayer* player = attacker->Cast<idPlayer>();
 	if (health <= 0)
-	{
-		idPlayer* player = attacker->Cast<idPlayer>();
+	{		
 		if (player)
 		{
 			BotSendChatMessage(DEATH, player->netname );
 		}
 	}
 
-	bs.attackerEntity = attacker;
+	//bs.attackerEntity = attacker;
+	SetEnemy(player);
 }
 
 /*
@@ -431,9 +433,16 @@ void rvmBot::Think( void )
 
 		if( bot_debug.GetBool() )
 		{
-			idVec4 color = idVec4( 1, 1, 1, 1 );
+			idVec4 color;
+			color = idVec4(1, 1, 1, 1);
+			if (bs.enemy >= 0)
+				color = idVec4(1, 0, 0, 1);
+
 			idBounds bounds = idBounds( idVec3( -10, -10, -10 ), idVec3( 10, 10, 10 ) );
 			common->RW()->DebugBounds( color, bounds, GetOrigin() );
+
+			idMat3 axis = viewAngles.ToMat3();
+			common->RW()->DrawTextA(stateThread.GetState()->state.c_str(), GetOrigin(), 1.0f, color, axis);
 		}
 	}
 

@@ -161,6 +161,8 @@ stateResult_t rvmBot::state_BattleFight(stateParms_t* parms)
 	//attack the enemy if possible
 	BotCheckAttack( &bs );
 
+	BotMoveInRandomDirection(&bs);
+
 	//if the bot wants to retreat
 	if( !( bs.flags & BFL_FIGHTSUICIDAL ) )
 	{
