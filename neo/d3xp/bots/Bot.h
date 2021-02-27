@@ -768,6 +768,7 @@ struct bot_state_t
 		firethrottleshoot_time = 0;
 		chase_time = 0;
 		thinktime = 0;
+		useRandomPosition = false;
 		aimtarget.Zero();
 		lastenemyorigin.Zero();
 		origin.Zero();
@@ -791,6 +792,7 @@ struct bot_state_t
 	int ltg_time;
 	int flags;
 	int weaponnum;
+	bool useRandomPosition;
 	float thinktime;
 	float chase_time;
 	float attackjump_time;

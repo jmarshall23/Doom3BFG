@@ -185,6 +185,13 @@ stateResult_t rvmBot::state_Chase(stateParms_t* parms)
 		// jmarshall end
 //		bs.ideal_viewangles[2] *= 0.5; // jmarshall <-- view angles!
 	}
+
+	if (BotEntityVisible(bs.entitynum, bs.eye, bs.viewangles, 360, bs.enemy))
+	{
+		//attack the enemy if possible
+		BotCheckAttack(&bs);
+	}
+
 	//if the weapon is used for the bot movement
 	//if (moveresult.flags & MOVERESULT_MOVEMENTWEAPON) bs.weaponnum = moveresult.weapon;
 	//if the bot is in the area the enemy was last seen in

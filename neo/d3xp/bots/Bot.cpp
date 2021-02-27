@@ -270,12 +270,27 @@ void rvmBot::ServerThink( void )
 
 	if( bot_debug.GetBool() )
 	{
-		aas->ShowWalkPath( GetOrigin(), goalArea, bs.currentGoal.origin );
+		if (bs.useRandomPosition)
+		{
+			aas->ShowWalkPath(GetOrigin(), goalArea, bs.random_move_position);
+		}
+		else
+		{
+			aas->ShowWalkPath(GetOrigin(), goalArea, bs.currentGoal.origin);
+		}
 
 		aas->ShowArea( GetOrigin() );
 	}
 
-	aas->WalkPathToGoal( path, curAreaNum, org, goalArea, bs.currentGoal.origin, TFL_WALK | TFL_AIR );
+	if (bs.useRandomPosition)
+	{
+		aas->WalkPathToGoal(path, curAreaNum, org, goalArea, bs.random_move_position, TFL_WALK | TFL_AIR);
+	}
+	else
+	{
+		aas->WalkPathToGoal(path, curAreaNum, org, goalArea, bs.currentGoal.origin, TFL_WALK | TFL_AIR);
+	}
+	
 
 	bs.currentGoal.nextMoveOrigin = path.moveGoal;
 
@@ -314,6 +329,7 @@ void rvmBot::ServerThink( void )
 		//gameRenderWorld->DrawTextA( bs.action->GetName(), GetPhysics()->GetOrigin() + idVec3( 0, 0, 100 ), 0.5f, color_white, axis );
 	}
 
+	bs.useRandomPosition = false;
 	bs.attackerEntity = NULL; // Has to be consumed immedaitly.
 	bs.botinput.weapon = bs.weaponnum;
 }

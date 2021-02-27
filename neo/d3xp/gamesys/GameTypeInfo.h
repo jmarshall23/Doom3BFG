@@ -6319,6 +6319,7 @@ static classVariableInfo_t bot_state_t_typeInfo[] = {
 	{ "int", "ltg_time", (intptr_t)(&((bot_state_t *)0)->ltg_time), sizeof( ((bot_state_t *)0)->ltg_time ) },
 	{ "int", "flags", (intptr_t)(&((bot_state_t *)0)->flags), sizeof( ((bot_state_t *)0)->flags ) },
 	{ "int", "weaponnum", (intptr_t)(&((bot_state_t *)0)->weaponnum), sizeof( ((bot_state_t *)0)->weaponnum ) },
+	{ "bool", "useRandomPosition", (intptr_t)(&((bot_state_t *)0)->useRandomPosition), sizeof( ((bot_state_t *)0)->useRandomPosition ) },
 	{ "float", "thinktime", (intptr_t)(&((bot_state_t *)0)->thinktime), sizeof( ((bot_state_t *)0)->thinktime ) },
 	{ "float", "chase_time", (intptr_t)(&((bot_state_t *)0)->chase_time), sizeof( ((bot_state_t *)0)->chase_time ) },
 	{ "float", "attackjump_time", (intptr_t)(&((bot_state_t *)0)->attackjump_time), sizeof( ((bot_state_t *)0)->attackjump_time ) },

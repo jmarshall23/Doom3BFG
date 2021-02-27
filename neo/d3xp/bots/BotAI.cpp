@@ -1375,27 +1375,17 @@ rvmBot::BotGetRandomPointNearPosition
 */
 void rvmBot::BotGetRandomPointNearPosition( idVec3 point, idVec3& randomPoint, float radius )
 {
-//	int index = 0;
-//#define MAX_RANDOM_NAVCHECKS		20
-//
-//	while (index < MAX_RANDOM_NAVCHECKS)
-//	{
-//		trace_t trace;
-//
-//		point.z += pm_normalheight.GetInteger();
-//		gameLocal.GetRandomPointNearPosition(point, randomPoint, radius);
-//		randomPoint.z += pm_normalheight.GetInteger();
-//		gameLocal.Trace(trace, point, randomPoint, CONTENTS_SOLID, 0);
-//
-//		if (trace.fraction == 1.0f) {
-//			randomPoint.z -= pm_normalheight.GetInteger();
-//			return;
-//		}
-//
-//		index++;
-//	}
+	idAAS* aas = gameLocal.GetBotAAS();
+	idAASFile* file = aas->GetAASFile();
 
-	randomPoint = point;
+	int areaNum = aas->PointAreaNum(point);
+	const aasArea_t& area = file->GetArea(areaNum);
+	int firstEdge = area.firstEdge;
+	int i = rvRandom::irand(0, area.numEdges);
+
+	const aasEdge_t &edge = file->GetEdge(abs(file->GetEdgeIndex(firstEdge + i)));
+
+	randomPoint = file->GetVertex(edge.vertexNum[0]);
 }
 
 /*
@@ -1426,7 +1416,7 @@ int rvmBot::BotMoveInRandomDirection( bot_state_t* bs )
 	idAngles ang( 0, bs->botinput.dir.ToYaw(), 0 );
 	bs->botinput.speed = pm_runspeed.GetInteger();
 	bs->botinput.dir.Normalize();
-
+	bs->useRandomPosition = true;
 	bs->botinput.speed = 400; // 200 = walk, 400 = run.
 	return 0;
 }

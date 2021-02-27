@@ -128,6 +128,10 @@ public:
 	virtual void				ShowArea( const idVec3& origin ) const;
 	virtual void				DrawAreas( void ) const;
 // jmarshall end
+
+// jmarshall
+	virtual idAASFile*			GetAASFile(void) { return file; }
+// jmarshall end
 private:
 	idAASFile* 					file;
 	idStr						name;
