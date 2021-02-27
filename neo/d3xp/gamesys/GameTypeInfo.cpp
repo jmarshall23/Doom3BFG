@@ -10042,10 +10042,6 @@ intptr_t rvmBot::Invoke(const char *functionName, void *param1) {
 		StateThreadChanged();
 		return 0;
 	};
-	if(functionNameHash == 243275) { // BotMoveToGoalOrigin
-		BotMoveToGoalOrigin();
-		return 0;
-	};
 	if(functionNameHash == 141568) { // ServerThink
 		ServerThink();
 		return 0;
@@ -10096,9 +10092,6 @@ bool rvmBot::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 228837) { // StateThreadChanged
-		return true;
-	};
-	if(functionNameHash == 243275) { // BotMoveToGoalOrigin
 		return true;
 	};
 	if(functionNameHash == 141568) { // ServerThink

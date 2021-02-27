@@ -859,7 +859,7 @@ private:
 
 	void			BotInputToUserCommand( bot_input_t* bi, usercmd_t* ucmd, int time );
 
-	void			BotMoveToGoalOrigin( void );
+	void			BotMoveToGoalOrigin( idVec3 goalOrigin );
 
 	void			ServerThink( void );
 	void			BotUpdateInventory( void );

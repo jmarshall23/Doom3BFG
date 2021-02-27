@@ -6216,7 +6216,6 @@ static classVariableInfo_t idBotWeaponInfoManager_typeInfo[] = {
 static classVariableInfo_t bot_goal_t_typeInfo[] = {
 	{ "int", "framenum", (intptr_t)(&((bot_goal_t *)0)->framenum), sizeof( ((bot_goal_t *)0)->framenum ) },
 	{ "idVec3", "origin", (intptr_t)(&((bot_goal_t *)0)->origin), sizeof( ((bot_goal_t *)0)->origin ) },
-	{ "idVec3", "nextMoveOrigin", (intptr_t)(&((bot_goal_t *)0)->nextMoveOrigin), sizeof( ((bot_goal_t *)0)->nextMoveOrigin ) },
 	{ "int", "areanum", (intptr_t)(&((bot_goal_t *)0)->areanum), sizeof( ((bot_goal_t *)0)->areanum ) },
 	{ "idVec3", "mins", (intptr_t)(&((bot_goal_t *)0)->mins), sizeof( ((bot_goal_t *)0)->mins ) },
 	{ "idVec3", "maxs", (intptr_t)(&((bot_goal_t *)0)->maxs), sizeof( ((bot_goal_t *)0)->maxs ) },

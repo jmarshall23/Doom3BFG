@@ -36,7 +36,6 @@ struct bot_goal_t
 	void Reset()
 	{
 		origin.Zero();
-		nextMoveOrigin.Zero();
 		areanum = 0;
 		mins.Zero();
 		maxs.Zero();
@@ -49,7 +48,6 @@ struct bot_goal_t
 
 	int framenum;
 	idVec3 origin;				//origin of the goal
-	idVec3 nextMoveOrigin;
 	int areanum;				//area number of the goal
 	idVec3 mins, maxs;			//mins and maxs of the goal
 	int entitynum;				//number of the goal entity

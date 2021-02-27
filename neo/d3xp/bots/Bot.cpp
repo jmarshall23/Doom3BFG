@@ -180,32 +180,21 @@ void rvmBot::Spawn( void )
 rvmBot::Think
 ===================
 */
-void rvmBot::BotMoveToGoalOrigin( void )
+void rvmBot::BotMoveToGoalOrigin(idVec3 goalOrigin)
 {
-	bs.botinput.dir = bs.currentGoal.nextMoveOrigin - GetPhysics()->GetOrigin();
-
-	idAngles ang( 0, bs.botinput.dir.ToYaw(), 0 );
+	bs.botinput.dir = (goalOrigin - firstPersonViewOrigin);
+	idAngles desiredAngles = bs.botinput.dir.ToAngles();
 	if( bs.enemy >= 0 )
 	{
 		idPlayer* enemy = gameLocal.entities[bs.enemy]->Cast<idPlayer>();
 		if( enemy )
-		{
-			idVec3 enemyDir = enemy->GetPhysics()->GetOrigin() - GetPhysics()->GetOrigin();
-			enemyDir.Normalize();
-			idAngles angles = enemyDir.ToAngles();
-			//angles.pitch = 0;
-			angles.roll = 0;
-			bs.botinput.viewangles = angles;
-		}
-		else
-		{
-			bs.botinput.viewangles = ang;
-		}
+		{			
+			desiredAngles = (enemy->firstPersonViewOrigin - firstPersonViewOrigin).ToAngles();
+		}		
 	}
-	else
-	{
-		bs.botinput.viewangles = ang;
-	}
+	
+	bs.botinput.viewangles = desiredAngles;
+
 	bs.botinput.speed = pm_runspeed.GetInteger();
 
 	bs.botinput.dir.Normalize();
@@ -294,43 +283,9 @@ void rvmBot::ServerThink( void )
 		aas->WalkPathToGoal(path, curAreaNum, org, goalArea, bs.currentGoal.origin, TFL_WALK | TFL_AIR);
 	}
 	
-
-	bs.currentGoal.nextMoveOrigin = path.moveGoal;
-
-	BotMoveToGoalOrigin();
+	BotMoveToGoalOrigin(path.moveGoal);
 
 	bs.viewangles = bs.botinput.viewangles;
-
-	//if (bot_debugnav.GetBool() && navWaypoints.Num() > 1)
-	//{
-	//	if (currentWaypoint < navWaypoints.Num())
-	//	{
-	//		for (int i = currentWaypoint + 1; i < navWaypoints.Num(); i++)
-	//		{
-	//			idVec4 color_white(255, 255, 255, 255);
-	//			gameRenderWorld->DebugArrow(color_white, navWaypoints[i - 1], navWaypoints[i], 10);
-	//		}
-	//	}
-	//
-	//	idVec4 color_red(255, 0, 0, 255);
-	//	idVec3 box_debug_extents(20, 20, 20);
-	//	idMat3 rotation;
-	//
-	//	rotation.Identity();
-	//
-	//	idBox start_box(GetPhysics()->GetOrigin(), box_debug_extents, rotation);
-	//	idBox end_box(bs.currentGoal.origin, box_debug_extents, rotation);
-	//
-	//	gameRenderWorld->DebugBox(color_red, start_box);
-	//	gameRenderWorld->DebugBox(color_red, end_box);
-	//}
-
-	if( bot_showstate.GetBool() )
-	{
-		//idMat3 axis = GetPhysics()->GetAxis();
-		//idVec4 color_white( 1, 1, 1, 1 );
-		//gameRenderWorld->DrawTextA( bs.action->GetName(), GetPhysics()->GetOrigin() + idVec3( 0, 0, 100 ), 0.5f, color_white, axis );
-	}
 
 	bs.useRandomPosition = false;
 	bs.attackerEntity = NULL; // Has to be consumed immedaitly.
