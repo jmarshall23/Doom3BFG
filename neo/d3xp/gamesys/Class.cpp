@@ -35,6 +35,7 @@ instancing of objects.
 
 #define private		public
 #define protected	public
+#define TYPEINFO_IGNORE
 #define _ALLOW_KEYWORD_MACROS
 #pragma hdrstop
 #include "../precompiled.h"

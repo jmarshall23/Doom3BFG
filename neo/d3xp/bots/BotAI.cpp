@@ -7,17 +7,17 @@
 
 #define IDEAL_ATTACKDIST			140
 
-int	rvmBotAIBotActionBase::WP_MACHINEGUN = -1;
-int	rvmBotAIBotActionBase::WP_SHOTGUN = -1;
-int	rvmBotAIBotActionBase::WP_PLASMAGUN = -1;
-int	rvmBotAIBotActionBase::WP_ROCKET_LAUNCHER = -1;
+int	rvmBot::WP_MACHINEGUN = -1;
+int	rvmBot::WP_SHOTGUN = -1;
+int	rvmBot::WP_PLASMAGUN = -1;
+int	rvmBot::WP_ROCKET_LAUNCHER = -1;
 
 /*
 =========================
-rvmBotAIBotActionBase::BotIsDead
+rvmBot::BotIsDead
 =========================
 */
-bool rvmBotAIBotActionBase::BotIsDead( bot_state_t* bs )
+bool rvmBot::BotIsDead( bot_state_t* bs )
 {
 	idPlayer* player = gameLocal.GetClientByNum( bs->client );
 	if( player->health <= 0 )
@@ -30,10 +30,10 @@ bool rvmBotAIBotActionBase::BotIsDead( bot_state_t* bs )
 
 /*
 ==================
-rvmBotAIBotActionBase::BotReachedGoal
+rvmBot::BotReachedGoal
 ==================
 */
-bool rvmBotAIBotActionBase::BotReachedGoal( bot_state_t* bs, bot_goal_t* goal )
+bool rvmBot::BotReachedGoal( bot_state_t* bs, bot_goal_t* goal )
 {
 	if( goal->flags & GFL_ITEM )
 	{
@@ -65,10 +65,10 @@ bool rvmBotAIBotActionBase::BotReachedGoal( bot_state_t* bs, bot_goal_t* goal )
 
 /*
 ==================
-rvmBotAIBotActionBase::BotChooseWeapon
+rvmBot::BotChooseWeapon
 ==================
 */
-void rvmBotAIBotActionBase::BotChooseWeapon( bot_state_t* bs )
+void rvmBot::BotChooseWeapon( bot_state_t* bs )
 {
 	int newweaponnum;
 
@@ -93,10 +93,10 @@ void rvmBotAIBotActionBase::BotChooseWeapon( bot_state_t* bs )
 
 /*
 ==================
-rvmBotAIBotActionBase::BotGetItemLongTermGoal
+rvmBot::BotGetItemLongTermGoal
 ==================
 */
-int rvmBotAIBotActionBase::BotGetItemLongTermGoal( bot_state_t* bs, int tfl, bot_goal_t* goal )
+int rvmBot::BotGetItemLongTermGoal( bot_state_t* bs, int tfl, bot_goal_t* goal )
 {
 	//if the bot has no goal
 	if( !botGoalManager.BotGetTopGoal( bs->gs, goal ) )
@@ -172,10 +172,10 @@ int rvmBotAIBotActionBase::BotGetItemLongTermGoal( bot_state_t* bs, int tfl, bot
 
 /*
 ==================
-rvmBotAIBotActionBase::EntityIsDead
+rvmBot::EntityIsDead
 ==================
 */
-bool rvmBotAIBotActionBase::EntityIsDead( idEntity* entity )
+bool rvmBot::EntityIsDead( idEntity* entity )
 {
 	{
 		idPlayer* player = entity->Cast<idPlayer>();
@@ -194,7 +194,7 @@ BotEntityVisibleTest
 returns visibility in the range [0, 1] taking fog and water surfaces into account
 ==================
 */
-float rvmBotAIBotActionBase::BotEntityVisibleTest( int viewer, idVec3 eye, idAngles viewangles, float fov, int ent, bool allowHeightTest )
+float rvmBot::BotEntityVisibleTest( int viewer, idVec3 eye, idAngles viewangles, float fov, int ent, bool allowHeightTest )
 {
 	int i, contents_mask, passent, hitent, infog, inwater, otherinfog, pc;
 	float squaredfogdist, waterfactor, vis, bestvis;
@@ -220,7 +220,7 @@ float rvmBotAIBotActionBase::BotEntityVisibleTest( int viewer, idVec3 eye, idAng
 	dir = middle - eye;
 	entangles = dir.ToAngles();
 
-	if( !viewEnt->CheckFOV( entinfo->GetOrigin() ) )
+	if (!viewEnt->CheckFOV(entinfo->GetOrigin()))
 	{
 		return 0;
 	}
@@ -348,20 +348,20 @@ float rvmBotAIBotActionBase::BotEntityVisibleTest( int viewer, idVec3 eye, idAng
 
 /*
 ==================
-rvmBotAIBotActionBase::BotEntityVisible
+rvmBot::BotEntityVisible
 ==================
 */
-float rvmBotAIBotActionBase::BotEntityVisible( int viewer, idVec3 eye, idAngles viewangles, float fov, int ent )
+float rvmBot::BotEntityVisible( int viewer, idVec3 eye, idAngles viewangles, float fov, int ent )
 {
 	return BotEntityVisibleTest( viewer, eye, viewangles, fov, ent, true );
 }
 
 /*
 ==================
-rvmBotAIBotActionBase::BotUpdateBattleInventory
+rvmBot::BotUpdateBattleInventory
 ==================
 */
-void rvmBotAIBotActionBase::BotUpdateBattleInventory( bot_state_t* bs, int enemy )
+void rvmBot::BotUpdateBattleInventory( bot_state_t* bs, int enemy )
 {
 	idVec3 dir;
 	idEntity* entinfo;
@@ -377,10 +377,10 @@ void rvmBotAIBotActionBase::BotUpdateBattleInventory( bot_state_t* bs, int enemy
 
 /*
 ==================
-rvmBotAIBotActionBase::BotAggression
+rvmBot::BotAggression
 ==================
 */
-float rvmBotAIBotActionBase::BotAggression( bot_state_t* bs )
+float rvmBot::BotAggression( bot_state_t* bs )
 {
 	//if the bot has quad
 	if( bs->inventory[INVENTORY_QUAD] )
@@ -466,10 +466,10 @@ float rvmBotAIBotActionBase::BotAggression( bot_state_t* bs )
 
 /*
 ==================
-rvmBotAIBotActionBase::BotWantsToRetreat
+rvmBot::BotWantsToRetreat
 ==================
 */
-int rvmBotAIBotActionBase::BotWantsToRetreat( bot_state_t* bs )
+int rvmBot::BotWantsToRetreat( bot_state_t* bs )
 {
 	if( BotAggression( bs ) < 50 )
 	{
@@ -480,10 +480,10 @@ int rvmBotAIBotActionBase::BotWantsToRetreat( bot_state_t* bs )
 
 /*
 ==================
-rvmBotAIBotActionBase::BotBattleUseItems
+rvmBot::BotBattleUseItems
 ==================
 */
-void rvmBotAIBotActionBase::BotBattleUseItems( bot_state_t* bs )
+void rvmBot::BotBattleUseItems( bot_state_t* bs )
 {
 	if( bs->inventory[INVENTORY_HEALTH] < 40 )
 	{
@@ -504,10 +504,10 @@ void rvmBotAIBotActionBase::BotBattleUseItems( bot_state_t* bs )
 
 /*
 ==================
-rvmBotAIBotActionBase::BotFindEnemy
+rvmBot::BotFindEnemy
 ==================
 */
-int rvmBotAIBotActionBase::BotFindEnemy( bot_state_t* bs, int curenemy )
+int rvmBot::BotFindEnemy( bot_state_t* bs, int curenemy )
 {
 	int i, healthdecrease;
 	float f, alertness, easyfragger, vis;
@@ -681,10 +681,10 @@ int rvmBotAIBotActionBase::BotFindEnemy( bot_state_t* bs, int curenemy )
 
 /*
 ==================
-rvmBotAIBotActionBase::BotMoveToGoal
+rvmBot::BotMoveToGoal
 ==================
 */
-void rvmBotAIBotActionBase::BotMoveToGoal( bot_state_t* bs, bot_goal_t* goal )
+void rvmBot::BotMoveToGoal( bot_state_t* bs, bot_goal_t* goal )
 {
 	bs->currentGoal = *goal;
 	bs->currentGoal.framenum = gameLocal.framenum;
@@ -698,7 +698,7 @@ BotMoveInDirection
 // jmarshall - this doesn't match the original behavior, but basically we get a random point on the navmesh, close to the origin,
 //			   and make that the new move to waypoint. The issue is, because this called gets called almost every frame during battle,
 //			   it will cause performance issues. I need to take a look and figure out the best way forward for this function.
-int rvmBotAIBotActionBase::BotMoveInDirection( bot_state_t* bs, idVec3 dir, float speed, int type )
+int rvmBot::BotMoveInDirection( bot_state_t* bs, idVec3 dir, float speed, int type )
 {
 	rvmBot* ent = gameLocal.entities[bs->client]->Cast<rvmBot>();
 	bot_input_t* bi = &bs->botinput;
@@ -731,10 +731,10 @@ int rvmBotAIBotActionBase::BotMoveInDirection( bot_state_t* bs, idVec3 dir, floa
 
 /*
 ==================
-rvmBotAIBotActionBase::BotAttackMove
+rvmBot::BotAttackMove
 ==================
 */
-void rvmBotAIBotActionBase::BotAttackMove( bot_state_t* bs, int tfl )
+void rvmBot::BotAttackMove( bot_state_t* bs, int tfl )
 {
 	botMoveFlags_t movetype;
 	int i, attackentity;
@@ -935,10 +935,10 @@ void rvmBotAIBotActionBase::BotAttackMove( bot_state_t* bs, int tfl )
 
 /*
 ==================
-rvmBotAIBotActionBase::BotAimAtEnemy
+rvmBot::BotAimAtEnemy
 ==================
 */
-void rvmBotAIBotActionBase::BotAimAtEnemy( bot_state_t* bs )
+void rvmBot::BotAimAtEnemy( bot_state_t* bs )
 {
 	int i, enemyvisible;
 	float dist, f, aim_skill, aim_accuracy, speed, reactiontime;
@@ -1324,10 +1324,10 @@ void rvmBotAIBotActionBase::BotAimAtEnemy( bot_state_t* bs )
 
 /*
 ==================
-rvmBotAIBotActionBase::BotWantsToChase
+rvmBot::BotWantsToChase
 ==================
 */
-bool rvmBotAIBotActionBase::BotWantsToChase( bot_state_t* bs )
+bool rvmBot::BotWantsToChase( bot_state_t* bs )
 {
 	if( BotAggression( bs ) > 50 )
 	{
@@ -1340,10 +1340,10 @@ bool rvmBotAIBotActionBase::BotWantsToChase( bot_state_t* bs )
 
 /*
 ==================
-rvmBotAIBotActionBase::BotNearbyGoal
+rvmBot::BotNearbyGoal
 ==================
 */
-int rvmBotAIBotActionBase::BotNearbyGoal( bot_state_t* bs, int tfl, bot_goal_t* ltg, float range )
+int rvmBot::BotNearbyGoal( bot_state_t* bs, int tfl, bot_goal_t* ltg, float range )
 {
 	int ret;
 
@@ -1370,10 +1370,10 @@ int rvmBotAIBotActionBase::BotNearbyGoal( bot_state_t* bs, int tfl, bot_goal_t* 
 
 /*
 =======================
-rvmBotAIBotActionBase::BotGetRandomPointNearPosition
+rvmBot::BotGetRandomPointNearPosition
 =======================
 */
-void rvmBotAIBotActionBase::BotGetRandomPointNearPosition( idVec3 point, idVec3& randomPoint, float radius )
+void rvmBot::BotGetRandomPointNearPosition( idVec3 point, idVec3& randomPoint, float radius )
 {
 //	int index = 0;
 //#define MAX_RANDOM_NAVCHECKS		20
@@ -1400,10 +1400,10 @@ void rvmBotAIBotActionBase::BotGetRandomPointNearPosition( idVec3 point, idVec3&
 
 /*
 =======================
-rvmBotAIBotActionBase::BotMoveInRandomDirection
+rvmBot::BotMoveInRandomDirection
 =======================
 */
-int rvmBotAIBotActionBase::BotMoveInRandomDirection( bot_state_t* bs )
+int rvmBot::BotMoveInRandomDirection( bot_state_t* bs )
 {
 	rvmBot* ent = gameLocal.entities[bs->client]->Cast<rvmBot>();
 
@@ -1433,10 +1433,10 @@ int rvmBotAIBotActionBase::BotMoveInRandomDirection( bot_state_t* bs )
 
 /*
 ==================
-rvmBotAIBotActionBase::BotCheckAttack
+rvmBot::BotCheckAttack
 ==================
 */
-void rvmBotAIBotActionBase::BotCheckAttack( bot_state_t* bs )
+void rvmBot::BotCheckAttack( bot_state_t* bs )
 {
 	float points, reactiontime, fov, firethrottle;
 	int attackentity;

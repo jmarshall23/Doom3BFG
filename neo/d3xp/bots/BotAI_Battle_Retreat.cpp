@@ -5,14 +5,12 @@
 #include "precompiled.h"
 #include "../Game_local.h"
 
-rvmBotAIBotBattleRetreat botAIBattleRetreat;
-
 /*
 =====================
-rvmBotAIBotBattleRetreat::Think
+rvmBot::state_Retreat
 =====================
 */
-void rvmBotAIBotBattleRetreat::Think( bot_state_t* bs )
+stateResult_t rvmBot::state_Retreat(stateParms_t* parms)
 {
 	bot_goal_t goal;
 	idPlayer* entinfo;
@@ -21,119 +19,121 @@ void rvmBotAIBotBattleRetreat::Think( bot_state_t* bs )
 	float attack_skill, range;
 
 	// respawn if dead.
-	if( BotIsDead( bs ) )
+	if( BotIsDead( &bs ) )
 	{
-		bs->action = &botAIRespawn;
-		return;
+		stateThread.SetState("state_Respawn");
+		return SRESULT_DONE_FRAME;
 	}
 
 	// if no enemy.
-	if( bs->enemy < 0 )
+	if( bs.enemy < 0 )
 	{
-		bs->action = &botAIActionSeekLTG;
-		return;
+		stateThread.SetState("state_SeekLTG");
+		return SRESULT_DONE_FRAME;
 	}
 
 	// Ensure the target is a player.
-	entinfo = gameLocal.entities[bs->enemy]->Cast<idPlayer>();
+	entinfo = gameLocal.entities[bs.enemy]->Cast<idPlayer>();
 	if( !entinfo )
 	{
-		bs->action = &botAIActionSeekLTG;
-		return;
+		stateThread.SetState("state_SeekLTG");
+		return SRESULT_DONE_FRAME;
 	}
 
-	owner = gameLocal.entities[bs->entitynum]->Cast<rvmBot>();
+	owner = gameLocal.entities[bs.entitynum]->Cast<rvmBot>();
 
 	// If our enemy is dead, search for another LTG.
 	if( EntityIsDead( entinfo ) )
 	{
-		bs->action = &botAIActionSeekLTG;
-		return;
+		stateThread.SetState("state_SeekLTG");
+		return SRESULT_DONE_FRAME;
 	}
 
 	//if there is another better enemy
-	if( BotFindEnemy( bs, bs->enemy ) )
+	if( BotFindEnemy( &bs, bs.enemy ) )
 	{
 		common->DPrintf( "found new better enemy\n" );
 	}
 
 	//update the attack inventory values
-	BotUpdateBattleInventory( bs, bs->enemy );
+	BotUpdateBattleInventory( &bs, bs.enemy );
 
 	//if the bot doesn't want to retreat anymore... probably picked up some nice items
-	if( BotWantsToChase( bs ) )
+	if( BotWantsToChase( &bs ) )
 	{
 		//empty the goal stack, when chasing, only the enemy is the goal
-		botGoalManager.BotEmptyGoalStack( bs->gs );
+		botGoalManager.BotEmptyGoalStack( bs.gs );
 
 		//go chase the enemy
 		//AIEnter_Battle_Chase(bs, "battle retreat: wants to chase");
-		bs->action = &botAIBattleChase;
-		return;
+		stateThread.SetState("state_Chase");
+		return SRESULT_DONE_FRAME;
 	}
 
 	//update the last time the enemy was visible
-	if( BotEntityVisible( bs->entitynum, bs->eye, bs->viewangles, 360, bs->enemy ) )
+	if( BotEntityVisible( bs.entitynum, bs.eye, bs.viewangles, 360, bs.enemy ) )
 	{
-		bs->enemyvisible_time = Bot_Time();
+		bs.enemyvisible_time = Bot_Time();
 		target = entinfo->GetOrigin();
-		bs->lastenemyorigin = target;
+		bs.lastenemyorigin = target;
 	}
 
 	//if the enemy is NOT visible for 4 seconds
-	if( bs->enemyvisible_time < Bot_Time() - 4 )
+	if( bs.enemyvisible_time < Bot_Time() - 4 )
 	{
-		bs->action = &botAIActionSeekLTG;
-		return;
+		stateThread.SetState("state_SeekLTG");
+		return SRESULT_DONE_FRAME;
 	}
 	//else if the enemy is NOT visible
-	else if( bs->enemyvisible_time < Bot_Time() )
+	else if( bs.enemyvisible_time < Bot_Time() )
 	{
 		//if there is another enemy
-		if( BotFindEnemy( bs, -1 ) )
+		if( BotFindEnemy( &bs, -1 ) )
 		{
 			//AIEnter_Battle_Fight(bs, "battle retreat: another enemy");
-			bs->action = &botAIBattleFight;
-			return;
+			stateThread.SetState("state_BattleFight");
+			return SRESULT_DONE_FRAME;
 		}
 	}
 
 	//use holdable items
-	BotBattleUseItems( bs );
+	BotBattleUseItems( &bs );
 
 	//get the current long term goal while retreating
-	if( !BotGetItemLongTermGoal( bs, 0, &bs->currentGoal ) )
+	if( !BotGetItemLongTermGoal( &bs, 0, &bs.currentGoal ) )
 	{
 		//AIEnter_Battle_SuicidalFight(bs, "battle retreat: no way out");
-		bs->action = &botAIBattleFight;
-		bs->flags |= BFL_FIGHTSUICIDAL;
-		return;
+		stateThread.SetState("state_BattleFight");
+		bs.flags |= BFL_FIGHTSUICIDAL;
+		return SRESULT_DONE_FRAME;
 	}
 
 	//check for nearby goals periodicly
-	if( bs->check_time < Bot_Time() )
+	if( bs.check_time < Bot_Time() )
 	{
-		bs->check_time = Bot_Time() + 1;
+		bs.check_time = Bot_Time() + 1;
 		range = 150;
 
 		//
-		if( BotNearbyGoal( bs, 0, &goal, range ) )
+		if( BotNearbyGoal( &bs, 0, &goal, range ) )
 		{
-			//trap_BotResetLastAvoidReach(bs->ms);
+			//trap_BotResetLastAvoidReach(bs.ms);
 			//time the bot gets to pick up the nearby goal item
-			bs->nbg_time = Bot_Time() + range / 100 + 1;
+			bs.nbg_time = Bot_Time() + range / 100 + 1;
 			//AIEnter_Battle_NBG(bs, "battle retreat: nbg");
-			bs->action = &botAIBattleNBG;
-			return;
+			stateThread.SetState("state_BattleNBG");
+			return SRESULT_DONE_FRAME;
 		}
 	}
 
-	BotMoveInRandomDirection( bs );
+	BotMoveInRandomDirection( &bs );
 
-	BotChooseWeapon( bs );
+	BotChooseWeapon( &bs );
 
-	BotAimAtEnemy( bs );
+	BotAimAtEnemy( &bs );
 
 	//attack the enemy if possible
-	BotCheckAttack( bs );
+	BotCheckAttack( &bs );
+
+	return SRESULT_WAIT;
 }

@@ -20,7 +20,7 @@ rvmBot::rvmBot
 */
 rvmBot::rvmBot()
 {
-	bs.action = NULL;
+	//bs.action = NULL;
 	hasSpawned = false;
 	gameLocal.RegisterBot( this );
 }
@@ -45,7 +45,8 @@ void rvmBot::SetEnemy( idPlayer* player )
 	if( bs.enemy == -1 )
 	{
 		bs.enemy = player->entityNumber;
-		bs.action = &botAIBattleRetreat;
+		//bs.action = &botAIBattleRetreat;
+		stateThread.SetState("state_BattleFight");
 	}
 }
 
@@ -100,6 +101,8 @@ void rvmBot::Spawn( void )
 	char filename[256];
 	int errnum;
 
+	stateThread.SetOwner(this);
+
 	idPlayer::Spawn();
 
 	if( common->IsServer() )
@@ -109,10 +112,10 @@ void rvmBot::Spawn( void )
 		weapon_plasmagun = SlotForWeapon( "weapon_plasmagun" );
 		weapon_rocketlauncher = SlotForWeapon( "weapon_rocketlauncher" );
 
-		rvmBotAIBotActionBase::WP_MACHINEGUN = weapon_machinegun;
-		rvmBotAIBotActionBase::WP_SHOTGUN = weapon_shotgun;
-		rvmBotAIBotActionBase::WP_PLASMAGUN = weapon_plasmagun;
-		rvmBotAIBotActionBase::WP_ROCKET_LAUNCHER = weapon_rocketlauncher;
+		WP_MACHINEGUN = weapon_machinegun;
+		WP_SHOTGUN = weapon_shotgun;
+		WP_PLASMAGUN = weapon_plasmagun;
+		WP_ROCKET_LAUNCHER = weapon_rocketlauncher;
 
 		botName = spawnArgs.GetString( "botname" );
 
@@ -164,6 +167,8 @@ void rvmBot::Spawn( void )
 		hasSpawned = true;
 
 		bs.botinput.respawn = true;
+
+		stateThread.SetState("state_Respawn");
 	}
 }
 
@@ -215,9 +220,17 @@ void rvmBot::SpawnToPoint( const idVec3& spawn_origin, const idAngles& spawn_ang
 	if( common->IsServer() )
 	{
 		bs.ltg_time = 0;
-		bs.action = NULL;
-		bs.lastaction = NULL;
+		stateThread.SetState("state_SeekLTG");
 	}
+}
+/*
+===================
+rvmBot::StateThreadChanged
+===================
+*/
+void rvmBot::StateThreadChanged(void) {
+	// Ensure if we are switching states, pop the last goal.
+	bs.ltg_time = 0;
 }
 
 /*
@@ -246,19 +259,7 @@ void rvmBot::ServerThink( void )
 		bot_pathdebug.SetBool( false );
 	}
 
-	if( bs.action == NULL )
-	{
-		bs.action = &botAIActionSeekLTG;
-	}
-
-	bs.action->Think( &bs );
-
-	// Ensure if we are switching states, pop the last goal.
-	if( bs.lastaction != NULL && bs.lastaction != &botAIActionSeekLTG && bs.action == &botAIActionSeekLTG )
-	{
-		bs.ltg_time = 0;
-	}
-	bs.lastaction = bs.action;
+	stateThread.Execute();
 
 	// If we are moving along a set of waypoints, let's move along.
 	aasPath_t path;
@@ -308,9 +309,9 @@ void rvmBot::ServerThink( void )
 
 	if( bot_showstate.GetBool() )
 	{
-		idMat3 axis = GetPhysics()->GetAxis();
-		idVec4 color_white( 1, 1, 1, 1 );
-		gameRenderWorld->DrawTextA( bs.action->GetName(), GetPhysics()->GetOrigin() + idVec3( 0, 0, 100 ), 0.5f, color_white, axis );
+		//idMat3 axis = GetPhysics()->GetAxis();
+		//idVec4 color_white( 1, 1, 1, 1 );
+		//gameRenderWorld->DrawTextA( bs.action->GetName(), GetPhysics()->GetOrigin() + idVec3( 0, 0, 100 ), 0.5f, color_white, axis );
 	}
 
 	bs.attackerEntity = NULL; // Has to be consumed immedaitly.

@@ -5283,14 +5283,6 @@ intptr_t idPlayer::Invoke(const char *functionName, void *param1) {
 		PrevWeapon();
 		return 0;
 	};
-	if(functionNameHash == 141364) { // LowerWeapon
-		LowerWeapon();
-		return 0;
-	};
-	if(functionNameHash == 138813) { // RaiseWeapon
-		RaiseWeapon();
-		return 0;
-	};
 	if(functionNameHash == 289786) { // WeaponLoweringCallback
 		WeaponLoweringCallback();
 		return 0;
@@ -5817,12 +5809,6 @@ bool idPlayer::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 127456) { // PrevWeapon
-		return true;
-	};
-	if(functionNameHash == 141364) { // LowerWeapon
-		return true;
-	};
-	if(functionNameHash == 138813) { // RaiseWeapon
 		return true;
 	};
 	if(functionNameHash == 289786) { // WeaponLoweringCallback
@@ -10052,6 +10038,10 @@ intptr_t rvmBot::Invoke(const char *functionName, void *param1) {
 		Think();
 		return 0;
 	};
+	if(functionNameHash == 228837) { // StateThreadChanged
+		StateThreadChanged();
+		return 0;
+	};
 	if(functionNameHash == 243275) { // BotMoveToGoalOrigin
 		BotMoveToGoalOrigin();
 		return 0;
@@ -10063,6 +10053,28 @@ intptr_t rvmBot::Invoke(const char *functionName, void *param1) {
 	if(functionNameHash == 240097) { // BotUpdateInventory
 		BotUpdateInventory();
 		return 0;
+	};
+	if(functionNameHash == 139244) { // state_Chase
+		state_Chase((stateParms_t *)param1);
+		return 0;
+	};
+	if(functionNameHash == 221136) { // state_BattleFight
+		return (intptr_t)state_BattleFight((stateParms_t *)param1);
+	};
+	if(functionNameHash == 183184) { // state_BattleNBG
+		return (intptr_t)state_BattleNBG((stateParms_t *)param1);
+	};
+	if(functionNameHash == 170832) { // state_Retreat
+		return (intptr_t)state_Retreat((stateParms_t *)param1);
+	};
+	if(functionNameHash == 172007) { // state_Respawn
+		return (intptr_t)state_Respawn((stateParms_t *)param1);
+	};
+	if(functionNameHash == 155264) { // state_SeekNBG
+		return (intptr_t)state_SeekNBG((stateParms_t *)param1);
+	};
+	if(functionNameHash == 157346) { // state_SeekLTG
+		return (intptr_t)state_SeekLTG((stateParms_t *)param1);
 	};
 	return __super::Invoke(functionName, param1);
 
@@ -10076,6 +10088,9 @@ bool rvmBot::HasNativeFunction(const char *functionName) {
 	if(functionNameHash == 61762) { // Think
 		return true;
 	};
+	if(functionNameHash == 228837) { // StateThreadChanged
+		return true;
+	};
 	if(functionNameHash == 243275) { // BotMoveToGoalOrigin
 		return true;
 	};
@@ -10083,6 +10098,27 @@ bool rvmBot::HasNativeFunction(const char *functionName) {
 		return true;
 	};
 	if(functionNameHash == 240097) { // BotUpdateInventory
+		return true;
+	};
+	if(functionNameHash == 139244) { // state_Chase
+		return true;
+	};
+	if(functionNameHash == 221136) { // state_BattleFight
+		return true;
+	};
+	if(functionNameHash == 183184) { // state_BattleNBG
+		return true;
+	};
+	if(functionNameHash == 170832) { // state_Retreat
+		return true;
+	};
+	if(functionNameHash == 172007) { // state_Respawn
+		return true;
+	};
+	if(functionNameHash == 155264) { // state_SeekNBG
+		return true;
+	};
+	if(functionNameHash == 157346) { // state_SeekLTG
 		return true;
 	};
 	return __super::HasNativeFunction(functionName);

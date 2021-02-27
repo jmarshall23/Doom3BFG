@@ -9,7 +9,7 @@
 
 	954 constants
 	92 enums
-	482 classes/structs/unions
+	474 classes/structs/unions
 	3 templates
 	8 max inheritance level for 'rvmMonsterZombieSawyer'
 
@@ -6308,8 +6308,6 @@ static classVariableInfo_t idBotGoalManager_typeInfo[] = {
 
 static classVariableInfo_t bot_state_t_typeInfo[] = {
 	{ "bot_character_t *", "character", (intptr_t)(&((bot_state_t *)0)->character), sizeof( ((bot_state_t *)0)->character ) },
-	{ "rvmBotAIBotActionBase *", "action", (intptr_t)(&((bot_state_t *)0)->action), sizeof( ((bot_state_t *)0)->action ) },
-	{ "rvmBotAIBotActionBase *", "lastaction", (intptr_t)(&((bot_state_t *)0)->lastaction), sizeof( ((bot_state_t *)0)->lastaction ) },
 	{ "int", "gs", (intptr_t)(&((bot_state_t *)0)->gs), sizeof( ((bot_state_t *)0)->gs ) },
 	{ "int", "ws", (intptr_t)(&((bot_state_t *)0)->ws), sizeof( ((bot_state_t *)0)->ws ) },
 	{ "int", "enemy", (intptr_t)(&((bot_state_t *)0)->enemy), sizeof( ((bot_state_t *)0)->enemy ) },
@@ -6349,38 +6347,6 @@ static classVariableInfo_t bot_state_t_typeInfo[] = {
 	{ "int[256]", "inventory", (intptr_t)(&((bot_state_t *)0)->inventory), sizeof( ((bot_state_t *)0)->inventory ) },
 	{ "bot_goal_t", "currentGoal", (intptr_t)(&((bot_state_t *)0)->currentGoal), sizeof( ((bot_state_t *)0)->currentGoal ) },
 	{ "bot_input_t", "botinput", (intptr_t)(&((bot_state_t *)0)->botinput), sizeof( ((bot_state_t *)0)->botinput ) },
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t rvmBotAIBotActionBase_typeInfo[] = {
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t rvmBotAIBotSeekLTG_typeInfo[] = {
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t rvmBotAIBotRespawn_typeInfo[] = {
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t rvmBotAIBotBattleRetreat_typeInfo[] = {
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t rvmBotAIBotBattleFight_typeInfo[] = {
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t rvmBotAIBotBattleChase_typeInfo[] = {
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t rvmBotAIBotBattleNBG_typeInfo[] = {
-	{ NULL, 0 }
-};
-
-static classVariableInfo_t rvmBotAIBotSeekNBG_typeInfo[] = {
 	{ NULL, 0 }
 };
 
@@ -7768,14 +7734,6 @@ static classTypeInfo_t classTypeInfo[] = {
 	{ "bot_goalstate_t", "", sizeof(bot_goalstate_t), bot_goalstate_t_typeInfo },
 	{ "idBotGoalManager", "", sizeof(idBotGoalManager), idBotGoalManager_typeInfo },
 	{ "bot_state_t", "", sizeof(bot_state_t), bot_state_t_typeInfo },
-	{ "rvmBotAIBotActionBase", "", sizeof(rvmBotAIBotActionBase), rvmBotAIBotActionBase_typeInfo },
-	{ "rvmBotAIBotSeekLTG", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotSeekLTG), rvmBotAIBotSeekLTG_typeInfo },
-	{ "rvmBotAIBotRespawn", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotRespawn), rvmBotAIBotRespawn_typeInfo },
-	{ "rvmBotAIBotBattleRetreat", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotBattleRetreat), rvmBotAIBotBattleRetreat_typeInfo },
-	{ "rvmBotAIBotBattleFight", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotBattleFight), rvmBotAIBotBattleFight_typeInfo },
-	{ "rvmBotAIBotBattleChase", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotBattleChase), rvmBotAIBotBattleChase_typeInfo },
-	{ "rvmBotAIBotBattleNBG", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotBattleNBG), rvmBotAIBotBattleNBG_typeInfo },
-	{ "rvmBotAIBotSeekNBG", "rvmBotAIBotActionBase", sizeof(rvmBotAIBotSeekNBG), rvmBotAIBotSeekNBG_typeInfo },
 	{ "rvmBot", "idPlayer", sizeof(rvmBot), rvmBot_typeInfo },
 	{ "idTestModel", "idAnimatedEntity", sizeof(idTestModel), idTestModel_typeInfo },
 	{ "rvmWeaponFist", "rvmWeaponObject", sizeof(rvmWeaponFist), rvmWeaponFist_typeInfo },

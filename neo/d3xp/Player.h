@@ -600,8 +600,8 @@ public:
 	void					AddProjectilesFired( int count );
 	void					AddProjectileHits( int count );
 	void					SetLastHitTime( int time );
-	void					LowerWeapon();
-	void					RaiseWeapon();
+	TYPEINFO_IGNORE void	LowerWeapon();
+	TYPEINFO_IGNORE void	RaiseWeapon();
 	void					WeaponLoweringCallback();
 	void					WeaponRisingCallback();
 	void					RemoveWeapon( const char* weap );

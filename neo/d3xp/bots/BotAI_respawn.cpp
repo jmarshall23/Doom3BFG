@@ -5,21 +5,29 @@
 #include "precompiled.h"
 #include "../Game_local.h"
 
-rvmBotAIBotRespawn botAIRespawn;
-
 /*
 =====================
-rvmBotAIBotRespawn::Think
+rvmBot::state_Respawn
 =====================
 */
-void rvmBotAIBotRespawn::Think( bot_state_t* bs )
+stateResult_t rvmBot::state_Respawn(stateParms_t* parms)
 {
-	if( !BotIsDead( bs ) )
+	if (parms->stage == 0)
 	{
-		bs->botinput.respawn = false;
-		bs->action = &botAIActionSeekLTG;
-		return;
+		bs.botinput.respawn = true;
+		parms->stage = 1;
+		return SRESULT_WAIT;
 	}
 
-	bs->botinput.respawn = true;
+	if (parms->stage == 1)
+	{
+		if (spectating)
+		{
+			return SRESULT_WAIT; // Wait until we have moved from spectator back into the game. 
+		}
+	}
+
+	bs.botinput.respawn = false;
+	stateThread.SetState("state_SeekLTG");
+	return SRESULT_DONE_FRAME;
 }

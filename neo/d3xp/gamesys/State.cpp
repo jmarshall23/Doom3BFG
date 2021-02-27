@@ -316,11 +316,11 @@ stateResult_t rvStateThread::Execute( void )
 		{
 			if( call->parms.stage )
 			{
-				gameLocal.Printf( "%s: %s (%d)\n", name.c_str(), call->state.c_str(), call->parms.stage );
+				gameLocal.Printf( "%s: %s (%d)\n", ((idEntity *)owner)->GetClassname(), call->state.c_str(), call->parms.stage );
 			}
 			else
 			{
-				gameLocal.Printf( "%s: %s\n", name.c_str(), call->state.c_str() );
+				gameLocal.Printf( "%s: %s\n", ((idEntity*)owner)->GetClassname(), call->state.c_str() );
 			}
 		}
 
@@ -339,6 +339,10 @@ stateResult_t rvStateThread::Execute( void )
 				gameLocal.Error( "rvStateThread: error reported by state '%s (%d)'", stateName, stateStage );
 				fl.executing = false;
 				return SRESULT_ERROR;
+		}
+
+		if (lastResult == SRESULT_DONE) {
+			owner->StateThreadChanged();
 		}
 
 		// Dont remove the node if it was interrupted or cleared in the last process
