@@ -572,6 +572,10 @@ int rvmBot::BotFindEnemy( bot_state_t* bs, int curenemy )
 			continue;
 		}
 
+		if (entinfo->spectating) {
+			continue;
+		}
+
 		//if the enemy is invisible and not shooting
 // jmarshall - add invis
 		//if (EntityIsInvisible(&entinfo) && !EntityIsShooting(&entinfo)) {
