@@ -160,7 +160,9 @@ model viewmodel_shotgun {
 }
 
 entityDef	damage_shotgun {
-	"damage"			"14"
+	"minDamage"			"4"
+	"maxDamage"			"7"
+
 	"kickDir"			"1 0 0"
 
 	"mtr_blob"			"genericDamage"

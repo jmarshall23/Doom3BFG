@@ -9521,7 +9521,17 @@ void idPlayer::CalcDamagePoints( idEntity* inflictor, idEntity* attacker, const 
 	int		armorSave;
 
 	damageDef->GetInt( "damage", "20", damage );
-	damage = GetDamageForLocation( damage, location );
+// jmarshall
+	//damage = GetDamageForLocation( damage, location );
+	int minDamage = damageDef->GetInt("minDamage", "-1");
+	int maxDamage = damageDef->GetInt("maxDamage", "-1");
+	if (minDamage == -1 || maxDamage == -1) {
+		int damageBase = damageDef->GetInt("damage");
+		minDamage = damageBase - (damageBase * 0.2f);
+		maxDamage = damageBase + (damageBase * 0.2f);
+	}
+	damage = rvRandom::irand(minDamage, maxDamage);
+// jmarshall end
 
 	idPlayer* player = attacker->IsType( idPlayer::Type ) ? static_cast<idPlayer*>( attacker ) : NULL;
 	if( !common->IsMultiplayer() )

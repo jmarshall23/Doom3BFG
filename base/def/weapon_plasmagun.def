@@ -153,7 +153,8 @@ model viewmodel_plasmagun {
 }
 
 entityDef	damage_plasmablast {
-	"damage"					"16"
+	"minDamage"					"19"
+	"maxDamage"					"19"
 	"smoke_wound_flesh"			"bloodwound.prt"
 	"gib"						"1"
 	

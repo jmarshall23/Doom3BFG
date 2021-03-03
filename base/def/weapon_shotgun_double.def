@@ -182,7 +182,9 @@ entityDef moveable_item_shotgun_double {
 }
 
 entityDef	damage_shotgun_double {
-	"damage"			"16"
+	"minDamage"			"12"
+	"maxDamage"			"20"
+
 	"kickDir"			"1 0 0"
 
 	"mtr_blob"			"genericDamage"
