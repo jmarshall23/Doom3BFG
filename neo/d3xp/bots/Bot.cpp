@@ -311,6 +311,10 @@ void rvmBot::Damage( idEntity* inflictor, idEntity* attacker, const idVec3& dir,
 		}
 	}
 
+	if (attacker == NULL) {
+		return;
+	}
+
 	//bs.attackerEntity = attacker;
 	SetEnemy(player, attacker->GetOrigin());
 }
