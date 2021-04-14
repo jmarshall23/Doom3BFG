@@ -1496,7 +1496,7 @@ bool idMapFile::Write( const char* fileName, const char* ext, bool fromBasePath 
 		return false;
 	}
 
-	fp->WriteFloatString( "Version %f\n", ( float ) CURRENT_MAP_VERSION );
+	fp->WriteFloatString( "Version %f\n", ( float ) 2 );
 
 	for( i = 0; i < entities.Num(); i++ )
 	{
