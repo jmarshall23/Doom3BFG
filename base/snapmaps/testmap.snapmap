@@ -1,0 +1,5 @@
+snapversion 1
+
+// x, y, angle
+cell 0 0 180 "snapmaps/templates/test001.map"
+cell 0 1 0 "snapmaps/templates/test001.map"
